@@ -71,7 +71,7 @@ public class EnchantmentRusted extends EnchantmentBase implements IEnchantmentCu
     @Override
     public boolean canApply(ItemStack i)
     {
-    	return super.canApply(i) && !i.getUnlocalizedName().contains("gold");
+    	return super.canApply(i) && !i.getItem().getTranslationKey().contains("gold");
     }
     
     @Override
