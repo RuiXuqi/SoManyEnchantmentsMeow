@@ -3,19 +3,18 @@ package com.shultrea.rin.enchantments;
 import com.shultrea.rin.Interfaces.IPotionDebuffer;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.monster.EntityMagmaCube;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.monster.EntityZombieVillager;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -54,6 +53,16 @@ public class EnchantmentPurification extends EnchantmentBase implements IPotionD
 	@Override
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.purification;
+	}
+	
+	@Override
+	public boolean canApply(ItemStack fTest) {
+		return super.canApply(fTest);
+	}
+	
+	@Override
+	public boolean canApplyTogether(Enchantment fTest) {
+		return super.canApplyTogether(fTest) && !fTest.isCurse();
 	}
 	
 	//TODO

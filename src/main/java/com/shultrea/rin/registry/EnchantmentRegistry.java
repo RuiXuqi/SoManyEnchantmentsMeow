@@ -2,7 +2,7 @@ package com.shultrea.rin.registry;
 
 import com.shultrea.rin.Enum.EnumList;
 import com.shultrea.rin.Main_Sector.ModConfig;
-import com.shultrea.rin.Main_Sector.SoManyEnchantments;
+import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.enchantments.*;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.enchantments.curses.*;
@@ -54,7 +54,6 @@ public class EnchantmentRegistry {
 	public static EnchantmentBase fieryEdge = register(new EnchantmentFieryEdge("fieryedge", Enchantment.Rarity.VERY_RARE, EnumEnchantmentType.WEAPON));
 	public static EnchantmentBase flinging = register(new EnchantmentFlinging("flinging", Enchantment.Rarity.UNCOMMON, EnumEnchantmentType.WEAPON));
 	public static EnchantmentBase freezing = register(new EnchantmentFreezing("freezing", Enchantment.Rarity.RARE, EnumList.SWORD));
-	public static EnchantmentBase heavyWeight = register(new EnchantmentHeavyWeight("heavyweight", Enchantment.Rarity.VERY_RARE, EnumEnchantmentType.WEAPON));
 	public static EnchantmentBase horsDeCombat = register(new EnchantmentHorsDeCombat("horsdecombat", Enchantment.Rarity.RARE, EnumEnchantmentType.WEAPON));
 	public static EnchantmentBase inhumane = register(new EnchantmentInhumane("inhumane", Enchantment.Rarity.RARE, EnumEnchantmentType.WEAPON));
 	public static EnchantmentBase innerBerserk = register(new EnchantmentInnerBerserk("innerberserk", Enchantment.Rarity.VERY_RARE, EnumEnchantmentType.ARMOR_CHEST));
@@ -75,7 +74,7 @@ public class EnchantmentRegistry {
 	public static EnchantmentBase penetratingEdge = register(new EnchantmentPenetratingEdge("penetratingedge", Enchantment.Rarity.RARE, EnumList.COMBAT_AXE));
 	public static EnchantmentBase physicalProtection = register(new EnchantmentPhysicalProtection("physicalprotection", Enchantment.Rarity.RARE, EnumEnchantmentType.ARMOR));
 	public static EnchantmentBase purgingBlade = register(new EnchantmentPurgingBlade("purgingblade", Enchantment.Rarity.UNCOMMON, EnumEnchantmentType.WEAPON));
-	public static EnchantmentBase purification = register(new EnchantmentPurification("purification", Enchantment.Rarity.UNCOMMON, EnumEnchantmentType.WEAPON));
+	public static EnchantmentBase purification = register(new EnchantmentPurification("purification", Enchantment.Rarity.UNCOMMON, EnumList.COMBAT_AXE));
 	public static EnchantmentBase pushing = register(new EnchantmentPushing("pushing", Enchantment.Rarity.VERY_RARE, EnumEnchantmentType.BOW));
 	public static EnchantmentBase quarrying = register(new EnchantmentQuarrying("quarrying", Enchantment.Rarity.VERY_RARE, EnumList.PICKAXE));
 	public static EnchantmentBase rainsBestowment = register(new EnchantmentRainsBestowment("rainsbestowment", Enchantment.Rarity.VERY_RARE, EnumEnchantmentType.WEAPON));
@@ -101,18 +100,19 @@ public class EnchantmentRegistry {
 	public static EnchantmentBase wintersGrace = register(new EnchantmentWintersGrace("wintersgrace", Enchantment.Rarity.VERY_RARE, EnumEnchantmentType.WEAPON));
 	
 	//Curses
-	public static EnchantmentBase bluntness = register(new EnchantmentBluntness("bluntness", Enchantment.Rarity.RARE, EnumEnchantmentType.WEAPON));
+	public static EnchantmentBase bluntness = register(new EnchantmentBluntness("bluntness", Enchantment.Rarity.RARE, EnumList.COMBAT));
 	public static EnchantmentBase cursedEdge = register(new EnchantmentCursedEdge("cursededge", Enchantment.Rarity.RARE, EnumEnchantmentType.WEAPON));
 	public static EnchantmentBase curseOfDecay = register(new EnchantmentCurseofDecay("curseofdecay", Enchantment.Rarity.VERY_RARE, EnumList.ALL));
 	public static EnchantmentBase curseOfHolding = register(new EnchantmentCurseofHolding("curseofholding", Enchantment.Rarity.VERY_RARE, EnumList.ALL));
 	public static EnchantmentBase curseOfInaccuracy = register(new EnchantmentCurseofInaccuracy("curseofinaccuracy", Enchantment.Rarity.VERY_RARE, EnumList.COMBAT_WEAPON));
 	public static EnchantmentBase curseOfPossession = register(new EnchantmentCurseofPossession("curseofpossession", Enchantment.Rarity.VERY_RARE, EnumEnchantmentType.ALL));
 	public static EnchantmentBase curseOfVulnerability = register(new EnchantmentCurseofVulnerability("curseofvulnerability", Enchantment.Rarity.VERY_RARE, EnumEnchantmentType.ARMOR));
+	public static EnchantmentBase heavyWeight = register(new EnchantmentHeavyWeight("heavyweight", Enchantment.Rarity.RARE, EnumEnchantmentType.WEAPON));
 	public static EnchantmentBase inefficient = register(new EnchantmentInefficient("inefficient", Enchantment.Rarity.RARE, EnumEnchantmentType.DIGGER));
 	public static EnchantmentBase instability = register(new EnchantmentInstability("instability", Enchantment.Rarity.VERY_RARE, EnumList.ALL_TOOL));
 	public static EnchantmentBase pandorasCurse = register(new EnchantmentPandorasCurse("pandorascurse", Enchantment.Rarity.VERY_RARE, EnumList.ALL));
 	public static EnchantmentBase powerless = register(new EnchantmentPowerless("powerless", Enchantment.Rarity.RARE, EnumEnchantmentType.BOW));
-	public static EnchantmentBase rusted = register(new EnchantmentRusted("rusted", Enchantment.Rarity.VERY_RARE, EnumEnchantmentType.BREAKABLE));
+	public static EnchantmentBase rusted = register(new EnchantmentRusted("rusted", Enchantment.Rarity.RARE, EnumEnchantmentType.BREAKABLE));
 	
 	//Rune
 	public static EnchantmentBase runeArrowPiercing = register(new EnchantmentRuneArrowPiercing("rune_arrowpiercing", Enchantment.Rarity.VERY_RARE, EnumEnchantmentType.BOW));
@@ -206,7 +206,7 @@ public class EnchantmentRegistry {
 	
 	public static void handleSubscribers() {
 		for(EnchantmentBase enchantment : enchantmentSet) {
-			if(enchantment.isEnabled()) MinecraftForge.EVENT_BUS.register(enchantment);
+			if(enchantment.isEnabled() && enchantment.hasSubscriber()) MinecraftForge.EVENT_BUS.register(enchantment);
 		}
 	}
 	

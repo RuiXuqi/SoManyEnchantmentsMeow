@@ -1,22 +1,27 @@
 package com.shultrea.rin.enchantments.curses;
 
-import com.shultrea.rin.Interfaces.IEnchantmentCurse;
+import bettercombat.mod.event.RLCombatModifyDamageEvent;
 import com.shultrea.rin.Main_Sector.ModConfig;
-import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
+import com.shultrea.rin.Utility_Sector.CompatUtil;
 import com.shultrea.rin.enchantments.EnchantmentTrueStrike;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.enchantments.base.EnchantmentCurse;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentCurseofInaccuracy extends EnchantmentBase implements IEnchantmentCurse {
+/**
+ * Enchantment arrow inaccuracy handled in com.shultrea.rin.mixin.vanilla.ItemBowMixin
+ */
+public class EnchantmentCurseofInaccuracy extends EnchantmentCurse {
 	
 	public EnchantmentCurseofInaccuracy(String name, Rarity rarity, EnumEnchantmentType type) {
 		super(name, rarity, type, new EntityEquipmentSlot[]{
@@ -56,57 +61,32 @@ public class EnchantmentCurseofInaccuracy extends EnchantmentBase implements IEn
 	}
 	
 	@Override
-	public boolean isAllowedOnBooks() {
-		return false;
+	public boolean canApplyTogether(Enchantment ench) {
+		return !(ench instanceof EnchantmentTrueStrike) && super.canApplyTogether(ench);
 	}
 	
-	//TODO
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return !(fTest instanceof EnchantmentTrueStrike) && super.canApplyTogether(fTest);
-	}
-	
-	@Override
-	public boolean isCurse() {
-		return true;
-	}
-	
-	//TODO
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void onAttack(LivingAttackEvent e) {
-		if(!EnchantmentsUtility.checkEventCondition(e, this)) return;
-		EntityLivingBase eb = (EntityLivingBase)e.getSource().getTrueSource();
-		int level = EnchantmentHelper.getEnchantmentLevel(this, eb.getHeldItemMainhand());
-		if(level <= 0) return;
-		if(eb.getRNG().nextInt(10) < level * 2) e.setCanceled(true);
+	public static void onLivingAttackEvent(LivingAttackEvent event) {
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
+		if(event.getSource().getTrueSource() instanceof EntityPlayer && CompatUtil.isRLCombatLoaded()) return;
+		EntityLivingBase entity = (EntityLivingBase)event.getSource().getTrueSource();
+		if(entity == null) return;
+		int level = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.curseOfInaccuracy, entity);
+		if(level > 0 && entity.getRNG().nextFloat() < ((float)level * 0.20F)) {
+			event.setCanceled(true);
+		}
 	}
 	
-	//TODO
+	@Optional.Method(modid = "bettercombatmod")
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void onRangeAttack(EntityJoinWorldEvent e) {
-		if(e.getEntity() instanceof EntityArrow) {
-			EntityArrow arrow = (EntityArrow)e.getEntity();
-			if(arrow.shootingEntity == null) return;
-			if(!(arrow.shootingEntity instanceof EntityLivingBase)) return;
-			EntityLivingBase shooter = (EntityLivingBase)arrow.shootingEntity;
-			float level = EnchantmentHelper.getEnchantmentLevel(this, shooter.getHeldItemMainhand());
-			if(level <= 0) level = EnchantmentHelper.getEnchantmentLevel(this, shooter.getHeldItemOffhand());
-			if(level <= 0) return;
-			/**
-			 if(shooter.getRNG().nextInt(10) < level * 2){
-			 level = 0.99f - level * 0.065f;
-			 double minRandomX = MathHelper.clamp(EnchantmentsUtility.RANDOM.nextDouble() * arrow.motionX, arrow.motionX * level, arrow.motionX);
-			 double minRandomY = MathHelper.clamp(EnchantmentsUtility.RANDOM.nextDouble() * arrow.motionY, arrow.motionY * level, arrow.motionY);
-			 double minRandomZ = MathHelper.clamp(EnchantmentsUtility.RANDOM.nextDouble() * arrow.motionZ, arrow.motionZ * level, arrow.motionZ);
-			 
-			 arrow.motionX *= minRandomX;
-			 arrow.motionY *= minRandomY;
-			 arrow.motionZ *= minRandomZ;
-			 }
-			 */
-			if(shooter.getRNG().nextInt(10) < level * 2) {
-				float velocity = (float)((Math.abs(arrow.motionX) + Math.abs(arrow.motionY) + Math.abs(arrow.motionZ)) / 3);
-				arrow.shoot(shooter, shooter.rotationPitch, shooter.rotationYaw, 0, velocity, level * 10);
+	public static void modifyDamageEventPre(RLCombatModifyDamageEvent.Pre event) {
+		if(event.getEntityPlayer() == null || event.getTarget() == null || event.getStack().isEmpty() || !(event.getTarget() instanceof EntityLivingBase)) return;
+		
+		EntityPlayer player = event.getEntityPlayer();
+		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.curseOfInaccuracy, event.getStack());
+		if(level > 0) {
+			if(player.getRNG().nextFloat() < (float)level * 0.20F) {
+				event.setDamageModifier(Math.min(-1 - event.getBaseDamage(), -1));
 			}
 		}
 	}

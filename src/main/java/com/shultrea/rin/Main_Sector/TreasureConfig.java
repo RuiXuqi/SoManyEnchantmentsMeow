@@ -217,6 +217,7 @@ public class TreasureConfig {
 	@Config.Name("Winter's Grace")
 	@Config.RequiresMcRestart
 	public boolean wintersGrace = false;
+	
 	//TODO recheck curses?
 	//Curses
 	@Config.Name("Bluntness")
@@ -261,6 +262,7 @@ public class TreasureConfig {
 	@Config.Name("Unpredictable")
 	@Config.RequiresMcRestart
 	public boolean unpredictable = true;
+	
 	//Rune
 	@Config.Name("Rune: Arrow Piercing")
 	@Config.RequiresMcRestart
@@ -277,6 +279,7 @@ public class TreasureConfig {
 	@Config.Name("Rune: Revival")
 	@Config.RequiresMcRestart
 	public boolean runeRevival = false;
+	
 	//Subject
 	@Config.Name("Subject English")
 	@Config.RequiresMcRestart
@@ -309,6 +312,7 @@ public class TreasureConfig {
 	@Config.Name("Lesser Smite")
 	@Config.RequiresMcRestart
 	public boolean lesserSmite = false;
+	
 	//Advanced
 	@Config.Name("Advanced Bane of Arthropods")
 	@Config.RequiresMcRestart

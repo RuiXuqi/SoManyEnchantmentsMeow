@@ -1,7 +1,7 @@
 package com.shultrea.rin.Utility_Sector;
 
 import com.google.common.collect.Lists;
-import com.shultrea.rin.Main_Sector.SoManyEnchantments;
+import com.shultrea.rin.SoManyEnchantments;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;

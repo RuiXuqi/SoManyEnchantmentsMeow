@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "com.shultrea.rin.mixin",
+  "refmap": "mixins.somanyenchantments.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "vanilla.EntityArrowMixin",
+    "vanilla.ItemBowMixin",
+    "vanilla.ItemMixin",
+    "vanilla.ItemStackMixin"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}

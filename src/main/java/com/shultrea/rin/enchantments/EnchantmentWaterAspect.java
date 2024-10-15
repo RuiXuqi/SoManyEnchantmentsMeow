@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments;
 
 import com.shultrea.rin.Interfaces.IEnchantmentDamage;
 import com.shultrea.rin.Main_Sector.ModConfig;
-import com.shultrea.rin.Main_Sector.SoManyEnchantments;
+import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.Utility_Sector.UtilityAccessor;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.Enchantment;

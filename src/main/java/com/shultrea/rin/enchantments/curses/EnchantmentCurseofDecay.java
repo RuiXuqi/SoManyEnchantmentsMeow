@@ -1,20 +1,22 @@
 package com.shultrea.rin.enchantments.curses;
 
-import com.shultrea.rin.Interfaces.IEnchantmentCurse;
 import com.shultrea.rin.Main_Sector.ModConfig;
-import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.Smc_040;
+import com.shultrea.rin.enchantments.base.EnchantmentCurse;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraftforge.event.entity.item.ItemTossEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentCurseofDecay extends EnchantmentBase implements IEnchantmentCurse {
+public class EnchantmentCurseofDecay extends EnchantmentCurse {
 	
 	public EnchantmentCurseofDecay(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+		super(name, rarity, type, new EntityEquipmentSlot[]{
+				EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});
 	}
 	
 	@Override
@@ -50,28 +52,17 @@ public class EnchantmentCurseofDecay extends EnchantmentBase implements IEnchant
 	}
 	
 	@Override
-	public boolean isAllowedOnBooks() {
-		return false;
+	public boolean canApplyTogether(Enchantment ench) {
+		return !(ench instanceof EnchantmentCurseofPossession) && super.canApplyTogether(ench);
 	}
 	
-	//TODO
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return super.canApplyTogether(fTest) && !(fTest instanceof EnchantmentCurseofPossession);
-	}
-	
-	@Override
-	public boolean isCurse() {
-		return true;
-	}
-	
-	//TODO
-	@SubscribeEvent
-	public void onThrow(ItemTossEvent fEvent) {
-		if(fEvent.getEntityItem() != null)
-			if(EnchantmentHelper.getEnchantmentLevel(Smc_040.CurseofDecay, fEvent.getEntityItem().getItem()) > 0) {
-				fEvent.getEntityItem().lifespan = 80;
-				fEvent.getEntityItem().setPickupDelay(10);
-			}
+	@SubscribeEvent(priority = EventPriority.LOW)
+	public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
+		if(!(event.getEntity() instanceof EntityItem)) return;
+		EntityItem entity = (EntityItem)event.getEntity();
+		if(EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.curseOfDecay, entity.getItem()) > 0) {
+			entity.lifespan = 80;
+			entity.setPickupDelay(10);
+		}
 	}
 }

@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments.base;
 
 import com.shultrea.rin.Main_Sector.ModConfig;
-import com.shultrea.rin.Main_Sector.SoManyEnchantments;
+import com.shultrea.rin.SoManyEnchantments;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
@@ -9,6 +9,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 
@@ -64,7 +65,6 @@ public abstract class EnchantmentBase extends Enchantment {
 	public String getTranslatedName(int level) {
 		String s = I18n.translateToLocal(this.getName());
 		if(!this.isEnabled()) s = TextFormatting.DARK_RED + "" + TextFormatting.STRIKETHROUGH + s;
-		else if(this.isCurse()) s = TextFormatting.RED + s;
 		else s = getPrefix() + s;
 		return level == 1 && this.getMaxLevel() == 1 ? s :
 			   s + " " + I18n.translateToLocal("enchantment.level." + level);
@@ -113,12 +113,20 @@ public abstract class EnchantmentBase extends Enchantment {
 	public void onEntityDamagedAlt(EntityLivingBase user, Entity target, ItemStack weapon, int level) {}
 	
 	/**
-	 * @return if the given damage sources are allowed for this enchantment
+	 * @return if the given damage source is allowed to trigger this enchantment
 	 */
-	public boolean isDamageSourceAllowed(Entity immediateSource, Entity trueSource) {
-		if(!ModConfig.miscellaneous.enablePetAttacks) {
-			//Disallow indirect damage from players through pets
-			return !(trueSource instanceof EntityPlayer) || immediateSource instanceof EntityPlayer || !(immediateSource instanceof EntityLivingBase);
+	public static boolean isDamageSourceAllowed(DamageSource source) {
+		if(source == null) {
+			return false;
+		}
+		if(!(source.getTrueSource() instanceof EntityLivingBase)) {
+			return false;
+		}
+		if(!ModConfig.miscellaneous.enablePetAttacks && source.getTrueSource() instanceof EntityPlayer && !(source.getImmediateSource() instanceof EntityPlayer) && source.getImmediateSource() instanceof EntityLivingBase) {
+			return false;
+		}
+		if(!"player".equals(source.damageType) && !"mob".equals(source.damageType)) {
+			return false;
 		}
 		return true;
 	}

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 
 import com.shultrea.rin.registry.Smc_030;
-import com.shultrea.rin.Main_Sector.SoManyEnchantments;
+import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 
 import net.minecraft.enchantment.Enchantment;

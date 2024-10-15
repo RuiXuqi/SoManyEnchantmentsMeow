@@ -2,7 +2,7 @@ package com.shultrea.rin.Utility_Sector;
 
 import com.google.common.collect.Lists;
 import com.shultrea.rin.Main_Sector.ModConfig;
-import com.shultrea.rin.Main_Sector.SoManyEnchantments;
+import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.registry.Smc_030;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;

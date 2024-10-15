@@ -1,7 +1,7 @@
 package com.shultrea.rin.Utility_Sector;
 
 import com.shultrea.rin.Main_Sector.ModConfig;
-import com.shultrea.rin.Main_Sector.SoManyEnchantments;
+import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.Prop_Sector.ArrowPropertiesProvider;
 import com.shultrea.rin.Prop_Sector.IArrowProperties;
 import com.shultrea.rin.Prop_Sector.PlayerPropertiesProvider;

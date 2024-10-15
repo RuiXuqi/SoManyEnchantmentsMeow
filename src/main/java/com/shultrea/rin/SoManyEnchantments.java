@@ -1,4 +1,4 @@
-package com.shultrea.rin.Main_Sector;
+package com.shultrea.rin;
 
 import com.shultrea.rin.Enum.EnumList;
 import com.shultrea.rin.Prop_Sector.*;

@@ -1,5 +1,6 @@
 package com.shultrea.rin.Main_Sector;
 
+import com.shultrea.rin.SoManyEnchantments;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -32,27 +33,23 @@ public class ModConfig {
 		@Config.Comment("Enables a bug that doubles xp orbs when picked up, present from older versions")
 		@Config.Name("Retain Double XP Orbs Bug")
 		public boolean enableDoubleXPBug = false;
-		@Config.Comment(
-				"Fixes a bug that allows for enchantment effects to still trigger when the initial attack is 0 (Such as while having weakness)")
+		@Config.Comment("Fixes a bug that allows for enchantment effects to still trigger when the initial attack is 0 (Such as while having weakness)")
 		@Config.Name("Fix Weak Attack Effects")
 		public boolean fixWeakAttackEffects = false;
-		@Config.Comment(
-				"Evasion makes the player perform a dodge, disable if you want potentially dangerous forced dodges")
+		@Config.Comment("Evasion makes the player perform a dodge, disable if you want potentially dangerous forced dodges")
 		@Config.Name("Evasion Dodge Effect")
 		public boolean evasionDodgeEffect = true;
 		@Config.Comment("Restricts Quarry enchant to ore only")
 		@Config.Name("Quarry Ore Only")
 		public boolean quarryOreOnly = true;
-		@Config.Comment(
-				"Allow Quarry enchant to work on blocks that are tile entities, not recommended as it may cause bugs")
+		@Config.Comment("Allow Quarry enchant to work on blocks that are tile entities, not recommended as it may cause bugs")
 		@Config.Name("Quarry Allow Tile Entities")
 		public boolean quarryAllowTileEntities = false;
 		@Config.Comment("Ignores registering enabled enchantments so they do not show up in game")
 		@Config.Name("Don't Register Disabled Enchants")
 		@Config.RequiresMcRestart
 		public boolean dontRegisterDisabledEnchants = true;
-		@Config.Comment(
-				"List of potion effects blacklisted from being applied by enchantments, in the format modname:potionid")
+		@Config.Comment("List of potion effects blacklisted from being applied by enchantments, in the format modname:potionid")
 		@Config.Name("Potion Blacklist")
 		@Config.RequiresMcRestart
 		public String[] potionBlacklist = new String[]{};
@@ -66,6 +63,16 @@ public class ModConfig {
 		@Config.Comment("Enables extra protection effects")
 		@Config.Name("Extra Protection Effects")
 		public boolean extraProtectionEffects = true;
+		@Config.Comment("If curses should be allowed to be applied at enchanting tables")
+		@Config.Name("Curses Apply At Enchanting Table")
+		public boolean canCursesBeAppliedAtEnchantingTable = false;
+		@Config.Comment("If curses should be allowed to apply to books")
+		@Config.Name("Curses Apply To Books")
+		public boolean canCursesBeAppliedToBooks = false;
+		@Config.Comment("Tick interval that Pandora's Curse will check a players inventory")
+		@Config.Name("Pandora's Curse Interval")
+		@Config.RangeInt(min = 200)
+		public int pandorasCurseInterval = 600;
 	}
 	
 	@Mod.EventBusSubscriber(modid = SoManyEnchantments.MODID)

@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments;
 
 import com.shultrea.rin.Main_Sector.ModConfig;
-import com.shultrea.rin.Main_Sector.SoManyEnchantments;
+import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.Smc_040;
 import net.minecraft.enchantment.EnchantmentHelper;
