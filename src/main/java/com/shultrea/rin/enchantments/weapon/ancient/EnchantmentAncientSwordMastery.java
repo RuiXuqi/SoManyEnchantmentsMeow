@@ -1,6 +1,7 @@
 package com.shultrea.rin.enchantments.weapon.ancient;
 
 import com.shultrea.rin.Interfaces.IAncientEnchantment;
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -42,15 +43,15 @@ public class EnchantmentAncientSwordMastery extends EnchantmentBase implements I
 	public int getMaxLevel() {
 		return ModConfig.level.ancientSwordMastery;
 	}
-	
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 80 + 80 * (par1 - 1);
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.ancientSwordMastery, level);
 	}
-	
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return super.getMinEnchantability(par1) + par1 * 80;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.ancientSwordMastery, level);
 	}
 	
 	@Override

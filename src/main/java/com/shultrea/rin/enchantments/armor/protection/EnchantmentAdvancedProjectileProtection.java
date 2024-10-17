@@ -2,6 +2,7 @@ package com.shultrea.rin.enchantments.armor.protection;
 
 import com.shultrea.rin.Interfaces.IEnchantmentProtection;
 import com.shultrea.rin.Interfaces.IEnhancedEnchantment;
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.Enchantment;
@@ -29,17 +30,15 @@ public class EnchantmentAdvancedProjectileProtection extends EnchantmentBase imp
 	public int getMaxLevel() {
 		return ModConfig.level.advancedProjectileProtection;
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 27 + (par1 - 1) * 11;
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.advancedProjectileProtection, level);
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return this.getMinEnchantability(par1) + 40;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.advancedProjectileProtection, level);
 	}
 	
 	@Override

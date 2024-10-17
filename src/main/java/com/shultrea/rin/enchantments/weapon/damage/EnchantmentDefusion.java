@@ -1,6 +1,7 @@
 package com.shultrea.rin.enchantments.weapon.damage;
 
 import com.shultrea.rin.Interfaces.IEnchantmentDamage;
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.Utility_Sector.UtilityAccessor;
@@ -40,17 +41,15 @@ public class EnchantmentDefusion extends EnchantmentBase implements IEnchantment
 	public int getMaxLevel() {
 		return ModConfig.level.defusion;
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 10 + 12 * (par1 - 1);
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.defusion, level);
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return super.getMinEnchantability(par1) + 30;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.defusion, level);
 	}
 	
 	//TODO

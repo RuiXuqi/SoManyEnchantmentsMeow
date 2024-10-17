@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.weapon;
 
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -30,17 +31,15 @@ public class EnchantmentCombatVeterancy extends EnchantmentBase {
 	public int getMaxLevel() {
 		return ModConfig.level.combatVeterancy;
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 25 + 15 * (par1 - 1);
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.combatVeterancy, level);
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return this.getMinEnchantability(par1) + 25;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.combatVeterancy, level);
 	}
 	
 	@Override

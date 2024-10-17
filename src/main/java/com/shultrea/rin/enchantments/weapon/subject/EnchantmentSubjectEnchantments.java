@@ -2,6 +2,7 @@ package com.shultrea.rin.enchantments.weapon.subject;
 
 import com.shultrea.rin.Enum.EnumList;
 import com.shultrea.rin.Interfaces.ISubjectEnchantment;
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.Enchantment;
@@ -19,12 +20,6 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase implements I
 	
 	private static final String[] DAMAGE_NAMES = new String[]{
 			"Mathematics", "Science", "History", "Physics", "English", "PE"};
-	/**
-	 * Holds the base factor of enchantability needed to be able to use the enchant.
-	 */
-	private static final int[] MIN_COST = new int[]{8, 9, 7, 11, 5, 6};
-	private static final int[] LEVEL_COST = new int[]{13, 14, 10, 15, 9, 10};
-	private static final int[] LEVEL_COST_SPAN = new int[]{25, 28, 23, 30, 21, 20};
 	/**
 	 * Defines the type of damage of the enchantment, 0 = Math, 1 = Science, 2 = History, 3 = Physics, 4 = English, 5 =
 	 * PE
@@ -76,15 +71,45 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase implements I
 				return 4;
 		}
 	}
-	
+
 	@Override
-	public int getMinEnchantability(int enchantmentLevel) {
-		return MIN_COST[this.damageType] + (enchantmentLevel - 1) * LEVEL_COST[this.damageType];
+	public int getMinEnchantability(int level) {
+		switch(this.damageType) {
+			case 0:
+				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.subjectMathematics, level);
+			case 1:
+				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.subjectScience, level);
+			case 2:
+				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.subjectHistory, level);
+			case 3:
+				return 0;
+			case 4:
+				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.subjectEnglish, level);
+			case 5:
+				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.subjectPE, level);
+			default:
+				return 0;
+		}
 	}
-	
+
 	@Override
-	public int getMaxEnchantability(int enchantmentLevel) {
-		return this.getMinEnchantability(enchantmentLevel) + LEVEL_COST_SPAN[this.damageType];
+	public int getMaxEnchantability(int level) {
+		switch(this.damageType) {
+			case 0:
+				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.subjectMathematics, level);
+			case 1:
+				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.subjectScience, level);
+			case 2:
+				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.subjectHistory, level);
+			case 3:
+				return 0;
+			case 4:
+				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.subjectEnglish, level);
+			case 5:
+				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.subjectPE, level);
+			default:
+				return 0;
+		}
 	}
 	
 	@Override

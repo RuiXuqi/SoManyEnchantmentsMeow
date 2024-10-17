@@ -1,6 +1,7 @@
 package com.shultrea.rin.enchantments.weapon.potiondebuffer;
 
 import com.shultrea.rin.Interfaces.IPotionDebuffer;
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -43,17 +44,15 @@ public class EnchantmentFreezing extends EnchantmentBase implements IPotionDebuf
 	public int getMaxLevel() {
 		return ModConfig.level.freezing;
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 24 + 13 * (par1 - 1);
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.freezing, level);
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return this.getMinEnchantability(par1) + 40;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.freezing, level);
 	}
 	
 	@Override

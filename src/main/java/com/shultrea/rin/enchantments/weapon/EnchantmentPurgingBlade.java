@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.weapon;
 
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.Utility_Sector.UtilityAccessor;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -37,15 +38,15 @@ public class EnchantmentPurgingBlade extends EnchantmentBase {
 	public int getMaxLevel() {
 		return ModConfig.level.purgingBlade;
 	}
-	
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 15 + (par1 - 1) * 8;
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.purgingBlade, level);
 	}
-	
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return this.getMinEnchantability(par1) + 40;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.purgingBlade, level);
 	}
 	
 	@Override

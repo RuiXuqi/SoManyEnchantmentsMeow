@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.weapon;
 
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
@@ -14,18 +15,6 @@ import net.minecraft.item.ItemStack;
 public class EnchantmentTierFA extends EnchantmentBase {
 	
 	private static final String[] DAMAGE_NAMES = new String[]{"lfa", "afa", "sfa"};
-	/**
-	 * Holds the base factor of enchantability needed to be able to use the enchant.
-	 */
-	private static final int[] MIN_COST = new int[]{5, 20, 160};
-	/**
-	 * None
-	 */
-	private static final int[] LEVEL_COST = new int[]{4, 10, 60};
-	/**
-	 * None
-	 */
-	private static final int[] LEVEL_COST_SPAN = new int[]{15, 30, 140};
 	/**
 	 * Defines the type of damage of the enchantment, 0 = lesserfasp, 1 = advfasp, 2 = supfasp
 	 */
@@ -64,17 +53,33 @@ public class EnchantmentTierFA extends EnchantmentBase {
 				return 2;
 		}
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int enchantmentLevel) {
-		return MIN_COST[this.damageType] + (enchantmentLevel - 1) * LEVEL_COST[this.damageType];
+	public int getMinEnchantability(int level) {
+		switch(this.damageType) {
+			case 0:
+				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.lesserFireAspect, level);
+			case 1:
+				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.advancedFireAspect, level);
+			case 2:
+				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.supremeFireAspect, level);
+			default:
+				return 0;
+		}
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int enchantmentLevel) {
-		return this.getMinEnchantability(enchantmentLevel) + LEVEL_COST_SPAN[this.damageType];
+	public int getMaxEnchantability(int level) {
+		switch(this.damageType) {
+			case 0:
+				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.lesserFireAspect, level);
+			case 1:
+				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.advancedFireAspect, level);
+			case 2:
+				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.supremeFireAspect, level);
+			default:
+				return 0;
+		}
 	}
 	
 	@Override

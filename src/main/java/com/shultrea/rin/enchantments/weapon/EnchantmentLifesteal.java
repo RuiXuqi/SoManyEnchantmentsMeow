@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.weapon;
 
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.Utility_Sector.UtilityAccessor;
@@ -35,17 +36,15 @@ public class EnchantmentLifesteal extends EnchantmentBase {
 	public int getMaxLevel() {
 		return ModConfig.level.lifesteal;
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 6 + 8 * (par1 - 1);
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.lifesteal, level);
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return super.getMinEnchantability(par1) + 30;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.lifesteal, level);
 	}
 	
 	@Override

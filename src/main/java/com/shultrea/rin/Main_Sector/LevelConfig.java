@@ -218,10 +218,10 @@ public class LevelConfig {
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
 	public int reviledBlade = 4;
-	@Config.Name("Sharper Edge")
+	@Config.Name("Reinforced Sharpness")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
-	public int sharperEdge = 5;
+	public int reinforcedsharpness = 5;
 	@Config.Name("Smelter")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
@@ -282,10 +282,10 @@ public class LevelConfig {
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
 	public int waterAspect = 5;
-	@Config.Name("Well Tilled")
+	@Config.Name("Plowing")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
-	public int wellTilled = 1;
+	public int plowing = 1;
 	@Config.Name("Winter's Grace")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)

@@ -1,6 +1,7 @@
 package com.shultrea.rin.enchantments.curses;
 
 import bettercombat.mod.event.RLCombatModifyDamageEvent;
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.Utility_Sector.CompatUtil;
 import com.shultrea.rin.enchantments.weapon.EnchantmentTrueStrike;
@@ -42,17 +43,15 @@ public class EnchantmentCurseofInaccuracy extends EnchantmentCurse {
 	public int getMaxLevel() {
 		return ModConfig.level.curseOfInaccuracy;
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int ench) {
-		return 15 + (ench - 1) * 15;
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.curseOfInaccuracy, level);
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int ench) {
-		return this.getMinEnchantability(ench) + 30;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.curseOfInaccuracy, level);
 	}
 	
 	@Override

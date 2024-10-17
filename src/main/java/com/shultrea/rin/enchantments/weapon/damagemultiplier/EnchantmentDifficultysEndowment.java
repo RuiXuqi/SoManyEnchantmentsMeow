@@ -1,6 +1,7 @@
 package com.shultrea.rin.enchantments.weapon.damagemultiplier;
 
 import com.shultrea.rin.Interfaces.IDamageMultiplier;
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -37,17 +38,15 @@ public class EnchantmentDifficultysEndowment extends EnchantmentBase implements 
 	public int getMaxLevel() {
 		return ModConfig.level.difficultysEndowment;
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 10 + 10 * (par1 - 1);
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.difficultysEndowment, level);
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return super.getMinEnchantability(par1) + 20;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.difficultysEndowment, level);
 	}
 	
 	//TODO

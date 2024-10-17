@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments;
 
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.Enchantment;
@@ -35,17 +36,15 @@ public class EnchantmentAdvancedMending extends EnchantmentBase {
 	public int getMaxLevel() {
 		return ModConfig.level.advancedMending;
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 40 * par1;
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.advancedMending, level);
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return this.getMinEnchantability(par1) + 65;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.advancedMending, level);
 	}
 	
 	@Override

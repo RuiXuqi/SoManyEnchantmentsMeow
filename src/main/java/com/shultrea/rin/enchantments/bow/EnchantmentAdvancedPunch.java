@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.bow;
 
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
@@ -38,17 +39,15 @@ public class EnchantmentAdvancedPunch extends EnchantmentBase {
 	public int getMaxLevel() {
 		return ModConfig.level.advancedPunch;
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 10 + (par1 - 1) * 8;
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.advancedPunch, level);
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return this.getMinEnchantability(par1) + 30;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.advancedPunch, level);
 	}
 	
 	@Override

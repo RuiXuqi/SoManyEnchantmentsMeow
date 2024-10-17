@@ -1,6 +1,7 @@
 package com.shultrea.rin.enchantments.weapon.damage;
 
 import com.shultrea.rin.Interfaces.IEnchantmentDamage;
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
@@ -23,32 +24,32 @@ public class EnchantmentSharperEdge extends EnchantmentBase implements IEnchantm
 	
 	@Override
 	public boolean isEnabled() {
-		return ModConfig.enabled.sharperEdge;
+		return ModConfig.enabled.reinforcedsharpness;
 	}
 	
 	@Override
 	public int getMaxLevel() {
-		return ModConfig.level.sharperEdge;
+		return ModConfig.level.reinforcedsharpness;
 	}
-	
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 18 + 16 * (par1 - 1);
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.reinforcedsharpness, level);
 	}
-	
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return super.getMinEnchantability(par1) + 40;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.reinforcedsharpness, level);
 	}
 	
 	@Override
 	public boolean isTreasureEnchantment() {
-		return ModConfig.treasure.sharperEdge;
+		return ModConfig.treasure.reinforcedsharpness;
 	}
 	
 	@Override
 	public void onEntityDamagedAlt(EntityLivingBase user, Entity target, ItemStack stack, int level) {
-		if(ModConfig.enabled.sharperEdge && target instanceof EntityLivingBase && user instanceof EntityPlayer) {
+		if(ModConfig.enabled.reinforcedsharpness && target instanceof EntityLivingBase && user instanceof EntityPlayer) {
 			EntityLivingBase victim = (EntityLivingBase)target;
 			int x = victim.getTotalArmorValue();
 			if(x > 20) x = 20;
@@ -65,7 +66,7 @@ public class EnchantmentSharperEdge extends EnchantmentBase implements IEnchantm
 	
 	@Override
 	public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType) {
-		if(ModConfig.enabled.sharperEdge) return (0.75f * level + 0.5f);
+		if(ModConfig.enabled.reinforcedsharpness) return (0.75f * level + 0.5f);
 		return 0;
 	}
 	

@@ -1,6 +1,7 @@
 package com.shultrea.rin.enchantments.weapon.weather;
 
 import com.shultrea.rin.Interfaces.IWeatherEnchantment;
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -39,15 +40,15 @@ public class EnchantmentThunderstormsBestowment extends EnchantmentBase implemen
 	public int getMaxLevel() {
 		return ModConfig.level.thunderstormsBestowment;
 	}
-	
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 20 + (par1 - 1) * 15;
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.thunderstormsBestowment, level);
 	}
-	
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return this.getMinEnchantability(par1) + 40;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.thunderstormsBestowment, level);
 	}
 	
 	@Override

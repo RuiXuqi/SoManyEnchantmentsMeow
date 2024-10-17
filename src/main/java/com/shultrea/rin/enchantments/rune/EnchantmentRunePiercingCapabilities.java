@@ -1,6 +1,7 @@
 package com.shultrea.rin.enchantments.rune;
 
 import com.shultrea.rin.Interfaces.IEnchantmentRune;
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.Utility_Sector.UtilityAccessor;
@@ -38,17 +39,15 @@ public class EnchantmentRunePiercingCapabilities extends EnchantmentBase impleme
 	public int getMaxLevel() {
 		return ModConfig.level.runePiercingCapabilities;
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 20 + 10 * (par1 - 1);
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.runePiercingCapabilities, level);
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return super.getMinEnchantability(par1) + 50;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.runePiercingCapabilities, level);
 	}
 	
 	@Override

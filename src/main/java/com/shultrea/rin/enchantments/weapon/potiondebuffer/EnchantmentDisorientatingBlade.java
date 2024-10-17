@@ -1,6 +1,7 @@
 package com.shultrea.rin.enchantments.weapon.potiondebuffer;
 
 import com.shultrea.rin.Interfaces.IPotionDebuffer;
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.Enchantment;
@@ -35,17 +36,15 @@ public class EnchantmentDisorientatingBlade extends EnchantmentBase implements I
 	public int getMaxLevel() {
 		return ModConfig.level.disorientatingBlade;
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 20 + 10 * (par1 - 1);
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.disorientatingBlade, level);
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return super.getMinEnchantability(par1) + 50;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.disorientatingBlade, level);
 	}
 	
 	@Override

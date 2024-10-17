@@ -2,6 +2,7 @@ package com.shultrea.rin.enchantments.weapon.damagemultiplier;
 
 import bettercombat.mod.event.RLCombatModifyDamageEvent;
 import com.shultrea.rin.Interfaces.IDamageMultiplier;
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.Utility_Sector.CompatUtil;
 import com.shultrea.rin.enchantments.weapon.EnchantmentBlessedEdge;
@@ -42,17 +43,15 @@ public class EnchantmentCursedEdge extends EnchantmentCurse implements IDamageMu
 	public int getMaxLevel() {
 		return ModConfig.level.cursedEdge;
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 20 + 12 * (par1 - 1);
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.cursedEdge, level);
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return super.getMinEnchantability(par1) + 40;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.cursedEdge, level);
 	}
 	
 	@Override

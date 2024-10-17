@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.hoe;
 
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
@@ -34,7 +35,7 @@ public class EnchantmentPlowing extends EnchantmentBase {
 	
 	@Override
 	public boolean isEnabled() {
-		return ModConfig.enabled.wellTilled;
+		return ModConfig.enabled.plowing;
 	}
 	
 	@Override
@@ -44,22 +45,22 @@ public class EnchantmentPlowing extends EnchantmentBase {
 	
 	@Override
 	public int getMaxLevel() {
-		return ModConfig.level.wellTilled;
+		return ModConfig.level.plowing;
 	}
-	
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 25 * (par1 - 1) * 15;
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.plowing, level);
 	}
-	
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return super.getMinEnchantability(par1) + 30;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.plowing, level);
 	}
 	
 	@Override
 	public boolean isTreasureEnchantment() {
-		return ModConfig.treasure.wellTilled;
+		return ModConfig.treasure.plowing;
 	}
 	
 	private void setFarmland(World worldIn, BlockPos pos, Block block, int level) {

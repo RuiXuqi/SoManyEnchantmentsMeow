@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.curses;
 
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -30,17 +31,15 @@ public class EnchantmentRusted extends EnchantmentCurse {
 	public int getMaxLevel() {
 		return ModConfig.level.rusted;
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 25 + 25 * (par1 - 1);
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.rusted, level);
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return super.getMinEnchantability(par1) + 50;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.rusted, level);
 	}
 	
 	//TODO better way of handling this

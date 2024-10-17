@@ -1,6 +1,7 @@
 package com.shultrea.rin.enchantments.armor.protection;
 
 import com.shultrea.rin.Interfaces.IEnchantmentProtection;
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.Enchantment;
@@ -26,15 +27,15 @@ public class EnchantmentMagicProtection extends EnchantmentBase implements IEnch
 	public int getMaxLevel() {
 		return ModConfig.level.magicProtection;
 	}
-	
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 12 + (par1 - 1) * 14;
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.magicProtection, level);
 	}
-	
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return this.getMinEnchantability(par1) + 45;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.magicProtection, level);
 	}
 	
 	@Override

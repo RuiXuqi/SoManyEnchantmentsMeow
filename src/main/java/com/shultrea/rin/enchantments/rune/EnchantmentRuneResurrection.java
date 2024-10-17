@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.rune;
 
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.Prop_Sector.IPlayerProperties;
 import com.shultrea.rin.Prop_Sector.PlayerPropertiesProvider;
@@ -50,15 +51,15 @@ public class EnchantmentRuneResurrection extends EnchantmentBase {
 	public int getMaxLevel() {
 		return ModConfig.level.runeResurrection;
 	}
-	
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 30 * par1;
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.runeResurrection, level);
 	}
-	
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return super.getMinEnchantability(par1) + 50;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.runeResurrection, level);
 	}
 	
 	@Override

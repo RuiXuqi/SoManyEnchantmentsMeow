@@ -1,6 +1,7 @@
 package com.shultrea.rin.enchantments.weapon.ancient;
 
 import com.shultrea.rin.Interfaces.IAncientEnchantment;
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentLister;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -32,17 +33,15 @@ public class EnchantmentAncientSealedCurses extends EnchantmentBase implements I
 	public int getMaxLevel() {
 		return ModConfig.level.ancientSealedCurses;
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int ench) {
-		return 240 * ench;
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.ancientSealedCurses, level);
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int ench) {
-		return 720 * ench;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.ancientSealedCurses, level);
 	}
 	
 	@Override

@@ -163,9 +163,9 @@ public class EnabledConfig {
 	@Config.Name("Reviled Blade")
 	@Config.RequiresMcRestart
 	public boolean reviledBlade = true;
-	@Config.Name("Sharper Edge")
+	@Config.Name("Reinforced Sharpness")
 	@Config.RequiresMcRestart
-	public boolean sharperEdge = true;
+	public boolean reinforcedsharpness = true;
 	@Config.Name("Smelter")
 	@Config.RequiresMcRestart
 	public boolean smelter = true;
@@ -211,9 +211,9 @@ public class EnabledConfig {
 	@Config.Name("Water Aspect")
 	@Config.RequiresMcRestart
 	public boolean waterAspect = true;
-	@Config.Name("Well Tilled")
+	@Config.Name("Plowing")
 	@Config.RequiresMcRestart
-	public boolean wellTilled = true;
+	public boolean plowing = true;
 	@Config.Name("Winter's Grace")
 	@Config.RequiresMcRestart
 	public boolean wintersGrace = true;

@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.bow;
 
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.Prop_Sector.ArrowPropertiesProvider;
 import com.shultrea.rin.Prop_Sector.IArrowProperties;
@@ -38,15 +39,15 @@ public class EnchantmentDrag extends EnchantmentBase {
 	public int getMaxLevel() {
 		return ModConfig.level.drag;
 	}
-	
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 10 + (par1 - 1) * 8;
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.drag, level);
 	}
-	
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return this.getMinEnchantability(par1) + 30;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.drag, level);
 	}
 	
 	@Override

@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.curses;
 
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.Utility_Sector.EnchantmentLister;
@@ -44,17 +45,15 @@ public class EnchantmentPandorasCurse extends EnchantmentCurse {
 	public int getMaxLevel() {
 		return ModConfig.level.pandorasCurse;
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 100 + 50 * (par1 - 1);
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.pandorasCurse, level);
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return super.getMinEnchantability(par1) + 100;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.pandorasCurse, level);
 	}
 	
 	@Override

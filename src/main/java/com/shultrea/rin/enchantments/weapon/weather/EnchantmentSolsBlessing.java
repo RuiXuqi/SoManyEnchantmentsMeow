@@ -1,6 +1,7 @@
 package com.shultrea.rin.enchantments.weapon.weather;
 
 import com.shultrea.rin.Interfaces.IWeatherEnchantment;
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -36,15 +37,15 @@ public class EnchantmentSolsBlessing extends EnchantmentBase implements IWeather
 	public int getMaxLevel() {
 		return ModConfig.level.solsBlessing;
 	}
-	
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 16 + (par1 - 1) * 12;
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.solsBlessing, level);
 	}
-	
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return this.getMinEnchantability(par1) + 40;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.solsBlessing, level);
 	}
 	
 	@Override

@@ -2,6 +2,7 @@ package com.shultrea.rin.enchantments.weapon.damage;
 
 import com.shultrea.rin.Interfaces.IEnchantmentDamage;
 import com.shultrea.rin.Interfaces.IEnhancedEnchantment;
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.Enchantment;
@@ -21,9 +22,6 @@ public class EnchantmentTierDamage extends EnchantmentBase implements IEnchantme
 	private static final String[] DAMAGE_NAMES = new String[]{
 			"LesserSharpness", "SupremeSharpness", "LesserSmite", "SupremeSmite", "LesserBaneOfArthropods",
 			"SupremeBaneOfArthropods"};
-	private static final int[] MIN_COST = new int[]{1, 120, 1, 120, 1, 120};
-	private static final int[] LEVEL_COST = new int[]{4, 80, 5, 80, 4, 80};
-	private static final int[] LEVEL_COST_SPAN = new int[]{20, 180, 20, 180, 20, 180};
 	/**
 	 * Defines the type of damage of the enchantment, 0 = LesserSharpness, 1 = SupremeSharpness, 2 = LesserSmite, 3 =
 	 * SupremeSmite, 4 = LesserBaneOfArthropods, 5 = SupremeBaneOfArthropods
@@ -75,15 +73,45 @@ public class EnchantmentTierDamage extends EnchantmentBase implements IEnchantme
 				return 5;
 		}
 	}
-	
+
 	@Override
-	public int getMinEnchantability(int enchantmentLevel) {
-		return MIN_COST[this.damageType] + (enchantmentLevel - 1) * LEVEL_COST[this.damageType];
+	public int getMinEnchantability(int level) {
+		switch(this.damageType) {
+			case 0:
+				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.lesserSharpness, level);
+			case 1:
+				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.supremeSharpness, level);
+			case 2:
+				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.lesserSmite, level);
+			case 3:
+				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.supremeSmite, level);
+			case 4:
+				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.lesserBaneOfArthropods, level);
+			case 5:
+				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.supremeBaneOfArthropods, level);
+			default:
+				return 0;
+		}
 	}
-	
+
 	@Override
-	public int getMaxEnchantability(int enchantmentLevel) {
-		return this.getMinEnchantability(enchantmentLevel) + LEVEL_COST_SPAN[this.damageType];
+	public int getMaxEnchantability(int level) {
+		switch(this.damageType) {
+			case 0:
+				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.lesserSharpness, level);
+			case 1:
+				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.supremeSharpness, level);
+			case 2:
+				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.lesserSmite, level);
+			case 3:
+				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.supremeSmite, level);
+			case 4:
+				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.lesserBaneOfArthropods, level);
+			case 5:
+				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.supremeBaneOfArthropods, level);
+			default:
+				return 0;
+		}
 	}
 	
 	@Override

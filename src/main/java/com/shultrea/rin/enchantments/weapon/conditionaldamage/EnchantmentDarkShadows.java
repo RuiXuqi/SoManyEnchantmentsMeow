@@ -1,6 +1,7 @@
 package com.shultrea.rin.enchantments.weapon.conditionaldamage;
 
 import com.shultrea.rin.Interfaces.IConditionalDamage;
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -37,17 +38,15 @@ public class EnchantmentDarkShadows extends EnchantmentBase implements IConditio
 	public int getMaxLevel() {
 		return ModConfig.level.darkShadows;
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 16 + (par1 - 1) * 12;
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.darkShadows, level);
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return this.getMinEnchantability(par1) + 40;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.darkShadows, level);
 	}
 	
 	@Override

@@ -21,6 +21,9 @@ public class ModConfig {
 	@Config.Comment("Maximum levels of each enchantment")
 	@Config.Name("Enchantment Levels")
 	public static LevelConfig level = new LevelConfig();
+	@Config.Comment("Enchantabilities of each enchantment: {start, lvlspan, range, max_mode} with max_mode 0 being normal, 1,2,3 legacy mistakes (1=super using max = super.min+range, 2=fixed using max = range, 3=linear using max = range*lvl)")
+	@Config.Name("Enchantabilities")
+	public static EnchantabilityConfig enchantability = new EnchantabilityConfig();
 	@Config.Comment("Miscellaneous")
 	@Config.Name("Miscellaneous")
 	public static MiscellaneousConfig miscellaneous = new MiscellaneousConfig();

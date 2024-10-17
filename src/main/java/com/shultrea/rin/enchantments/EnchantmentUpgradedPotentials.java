@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments;
 
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.Enchantment;
@@ -33,15 +34,15 @@ public class EnchantmentUpgradedPotentials extends EnchantmentBase {
 	public int getMaxLevel() {
 		return ModConfig.level.upgradedPotentials;
 	}
-	
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 35;
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.upgradedPotentials, level);
 	}
-	
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return super.getMinEnchantability(par1) + 45;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.upgradedPotentials, level);
 	}
 	
 	@Override

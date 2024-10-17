@@ -2,6 +2,7 @@ package com.shultrea.rin.enchantments.weapon.conditionaldamage;
 
 import com.shultrea.rin.Interfaces.IConditionalDamage;
 import com.shultrea.rin.Interfaces.IDamageMultiplier;
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
@@ -39,15 +40,15 @@ public class EnchantmentMortalitas extends EnchantmentBase {
 	public int getMaxLevel() {
 		return ModConfig.level.mortalitas;
 	}
-	
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 18 + 9 * (par1 - 1);
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.mortalitas, level);
 	}
-	
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return this.getMinEnchantability(par1) + 40;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.mortalitas, level);
 	}
 	
 	@Override

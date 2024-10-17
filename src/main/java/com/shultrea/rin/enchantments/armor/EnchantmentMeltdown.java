@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.armor;
 
+import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
@@ -29,15 +30,15 @@ public class EnchantmentMeltdown extends EnchantmentBase {
 	public int getMaxLevel() {
 		return ModConfig.level.meltdown;
 	}
-	
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 20 + 20 * (par1 - 1);
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.meltdown, level);
 	}
-	
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return this.getMinEnchantability(par1) + 40;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.meltdown, level);
 	}
 	
 	@Override
