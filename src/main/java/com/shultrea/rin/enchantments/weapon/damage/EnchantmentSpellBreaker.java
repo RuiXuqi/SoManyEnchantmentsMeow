@@ -5,6 +5,7 @@ import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,8 +19,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentSpellBreaker extends EnchantmentBase implements IEnchantmentDamage {
 	
-	public EnchantmentSpellBreaker(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentSpellBreaker(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -57,7 +58,7 @@ public class EnchantmentSpellBreaker extends EnchantmentBase implements IEnchant
 	public void onHurt(LivingHurtEvent e) {
 		if(!EnchantmentBase.isDamageSourceAllowed(e.getSource())) return;
 		ItemStack stack = ((EntityLivingBase)e.getSource().getTrueSource()).getHeldItemMainhand();
-		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
+		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.spellBreaker, stack);
 		if(level <= 0) return;
 		if(!e.getEntityLiving().getActivePotionEffects().isEmpty())
 			e.setAmount(e.getAmount() + (0.625f * level) * e.getEntityLiving().getActivePotionEffects().size());

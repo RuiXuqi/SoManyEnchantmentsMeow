@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.weapon;
 
+import com.shultrea.rin.Interfaces.IEnchantmentFire;
 import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -12,7 +13,7 @@ import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
-public class EnchantmentTierFA extends EnchantmentBase {
+public class EnchantmentTierFA extends EnchantmentBase implements IEnchantmentFire {
 	
 	private static final String[] DAMAGE_NAMES = new String[]{"lfa", "afa", "sfa"};
 	/**
@@ -103,26 +104,12 @@ public class EnchantmentTierFA extends EnchantmentBase {
 	@Override
 	public void onEntityDamagedAlt(EntityLivingBase user, Entity target, ItemStack stack, int level) {
 		if(!isEnabled()) return;
-		//Check if target is EntityLivingBase
 		if(target instanceof EntityLivingBase) {
-			if(this.damageType == 2) {
-				if(level > 0) target.setFire(16 * level);
-			}
-			else if(this.damageType == 1) {
-				if(level > 0) target.setFire(8 * level);
-			}
-			else if(this.damageType == 0) {
-				if(level > 0) target.setFire(2 * level);
-			}
+			if(level > 0)
+				target.setFire(getFireTicks(this.damageType) * level);
 		}
 	}
-	
-	//TODO
-	@Override
-	public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType) {
-		return 0.0f;
-	}
-	
+
 	//TODO
 	@Override
 	public boolean canApplyTogether(Enchantment ench) {
@@ -133,5 +120,14 @@ public class EnchantmentTierFA extends EnchantmentBase {
 	@Override
 	public String getName() {
 		return "enchantment." + DAMAGE_NAMES[this.damageType];
+	}
+
+	public static int getFireTicks(int tier) {
+		switch(tier){
+			case 0: return 2;
+			case 1: return 8;
+			case 2: return 16;
+		}
+		return 0;
 	}
 }

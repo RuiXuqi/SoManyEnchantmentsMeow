@@ -16,9 +16,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 public class EnchantmentCurseofHolding extends EnchantmentCurse {
 	
-	public EnchantmentCurseofHolding(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{
-				EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});
+	public EnchantmentCurseofHolding(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

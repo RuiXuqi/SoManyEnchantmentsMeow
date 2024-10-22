@@ -18,8 +18,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentPenetratingEdge extends EnchantmentBase implements IEnchantmentDamage {
 	
-	public EnchantmentPenetratingEdge(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentPenetratingEdge(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -56,22 +56,6 @@ public class EnchantmentPenetratingEdge extends EnchantmentBase implements IEnch
 	public boolean canApplyTogether(Enchantment fTest) {
 		return super.canApplyTogether(fTest) && !(fTest instanceof IEnchantmentRune);
 	}
-	//@Override
-	//public boolean canApply(ItemStack fTest)
-	//{
-	//System.out.println(fTest.getItem() instanceof ItemAxe);
-	//	return fTest.getItem() instanceof ItemAxe ? true : false;
-	//}
-	//@Override
-	//public boolean canApplyAtEnchantingTable(ItemStack stack)
-	//{
-	//	return stack.getItem() instanceof ItemAxe;
-	//}
-	//@Override
-	//public boolean canApply(ItemStack fTest)
-	//{
-	//	return fTest.getItem() instanceof ItemAxe;
-	//}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void HandleEnchant(LivingHurtEvent fEvent) {

@@ -19,8 +19,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentViper extends EnchantmentBase implements IConditionalDamage {
 	
-	public EnchantmentViper(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentViper(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -74,7 +74,9 @@ public class EnchantmentViper extends EnchantmentBase implements IConditionalDam
 			FDamage += 0.5f + 0.5f * enchantmentLevel;
 		}
 		//System.out.println(FDamage + " - Additional Damage Viper");
-		forgeDamage = EnchantmentsUtility.CalculateDamageIgnoreSwipe(forgeDamage + FDamage, 0.0f, 1.00f, 1.0f, attacker, null);
+
+		//This only adds +1 dmg flat, could just do forgeDamage += 1;
+		forgeDamage += EnchantmentsUtility.modifyDamage(forgeDamage + FDamage, 0.0f, 1.00f, 1.0f, 1);
 		fEvent.setAmount(forgeDamage);
 	}
 }

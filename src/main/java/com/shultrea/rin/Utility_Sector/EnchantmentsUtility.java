@@ -2,7 +2,6 @@ package com.shultrea.rin.Utility_Sector;
 
 import com.google.common.collect.Lists;
 import com.shultrea.rin.Main_Sector.ModConfig;
-import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
@@ -11,9 +10,6 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.*;
 import net.minecraft.potion.Potion;
@@ -39,38 +35,6 @@ import java.util.*;
 public class EnchantmentsUtility {
 	
 	public static final Random RANDOM = new Random();
-	
-	public static int getFood(EntityPlayer player) {
-		return player.getFoodStats().getFoodLevel();
-	}
-	
-	public static float getSat(EntityPlayer player) {
-		return player.getFoodStats().getSaturationLevel();
-	}
-	
-	public static void setFood(EntityPlayer player, int foodLevel, float saturationLevel) {
-		player.getFoodStats().addStats(foodLevel, saturationLevel);
-	}
-	
-	public static boolean tryPercentage(double percent) {
-		return Math.random() < percent;
-	}
-	
-	public static boolean seeSky(EntityPlayer player) {
-		BlockPos pos = new BlockPos(player.posX, player.posY, player.posZ);
-		return player.world.canBlockSeeSky(pos);
-	}
-	
-	public static ItemStack[] getTools(EntityPlayer player) {
-		List<ItemStack> tools = new ArrayList();
-		for(int i = 0; i < (SoManyEnchantments.hotbarOnly ? 9 : 36); i++) {
-			ItemStack stack = player.inventory.getStackInSlot(i);
-			if((stack != null) && (stack.getItem() instanceof ItemTool || stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemBow)) {
-				tools.add(stack);
-			}
-		}
-		return tools.toArray(new ItemStack[tools.size()]);
-	}
 	
 	public static boolean noBlockLight(EntityLivingBase attacker) {
 		BlockPos pos = new BlockPos(attacker.posX, attacker.posY, attacker.posZ);
@@ -103,17 +67,11 @@ public class EnchantmentsUtility {
 		world.getWorldInfo().setThundering(true);
 	}
 	
-	public static boolean noDayLight(EntityLivingBase attacker) {
-		int light = attacker.world.getSkylightSubtracted();
-		return light > 5;
-	}
-	
 	/**
 	 * Used to calculate damage without intentionally inflicting extra damage fot the sweeping attack around the
 	 * target.
 	 * @param damage - The original damage.
-	 * @param attacker - The attacker.
-	 * @param enchantment - The enchantment used for the calculation of damage based on the level.
+	 * @param level - The enchantment level.
 	 * @param multiplier - Multiplies the given value based on the enchantment's level you want to add in the
 	 * calculation.
 	 * @param constant - The constant damage you want to add in the calculation.
@@ -121,107 +79,9 @@ public class EnchantmentsUtility {
 	 * want to add in the calculation. Avoid using zero as this negates your damage.
 	 * @return The finished calculated damage.
 	 */
-	public static float CalculateDamageIgnoreSwipe(float damage, float constant, float multiplier, float TrueMultiplier, EntityLivingBase attacker, Enchantment enchantment) {
-		float afterCalculated = 0;
-		float Damager = damage;
-		float SecondDamage = damage;
-		float damageReducer = 0;
-		ItemStack weapon = attacker.getHeldItemMainhand();
-		if(!(SecondDamage > 1.0f)) return 1.0f;
-		int level = 1;
-		if(enchantment != null) level = EnchantmentHelper.getEnchantmentLevel(enchantment, weapon);
-		SecondDamage = (SecondDamage + (constant + level * multiplier)) * TrueMultiplier;
-		Damager = (Damager + (constant + multiplier * level) - 2.0f) * TrueMultiplier;
-		if(Damager == 0.0f) {
-			Damager = SecondDamage;
-		}
-		float percentage = SecondDamage / Damager;
-		float newDamage = Damager * percentage;
-		afterCalculated = newDamage;
-		return afterCalculated;
-	}
-	
-	/**
-	 * Used to calculate damage reduction in some enchantments. Forces swipe damage back to 1.0f.
-	 * @param damage - The original damage.
-	 * @param attacker - The attacker.
-	 * @param enchantment - The enchantment used for the calculation of damage based on the level.
-	 * @param multiplier - Multiplies the given value based on the enchantment's level you want to add in the
-	 * calculation.
-	 * @param constant - The constant damage you want to add in the calculation.
-	 * @param TrueMultiplier - Multiplies the damage based on the total damage and not the level of the enchantment you
-	 * want to add in the calculation. Avoid using zero as this negates your damage.
-	 * @return The finished calculated damage.
-	 */
-	public static float CalculateDamageForNegativeSwipe(float damage, float constant, float multiplier, float TrueMultiplier, EntityLivingBase attacker, Enchantment enchantment) {
-		float afterCalculated = 0;
-		float Damager = damage;
-		float SecondDamage = damage;
-		float damageReducer = 0;
-		ItemStack weapon = attacker.getHeldItemMainhand();
-		if(!(SecondDamage > 1.0f)) return 1.0f;
-		int level = EnchantmentHelper.getEnchantmentLevel(enchantment, weapon);
-		SecondDamage = (SecondDamage + (constant + level * multiplier)) * TrueMultiplier;
-		Damager = (Damager + (constant + multiplier * level) - 2.0f) * TrueMultiplier;
-		if(Damager <= 0.0f) {
-			Damager = SecondDamage;
-		}
-		float percentage = SecondDamage / Damager;
-		float newDamage = Damager * percentage;
-		afterCalculated = newDamage;
-		return afterCalculated;
-	}
-	
-	/**
-	 * Used to calculate the final LivingHurtEvent's swipe damage.
-	 */
-	public static float ExclusiveCalculateDamageForNegativeSwipe(float damage, float constant, EntityLivingBase attacker) {
-		float afterCalculated = 0;
-		float returnity = 0;
-		float PrimaryDamage = 0.0f;
-		float safe1 = damage + 1000;
-		//boolean a = false;
-		float Damager = damage;
-		float SecondDamage = damage;
-		float Orig1 = damage;
-		float Orig2 = damage;
-		float damageReducer = 0;
-		float swipeDamageCheck = 2.0f + 1.0f + (EnchantmentHelper.getSweepingDamageRatio(attacker) * damage);
-		//System.out.println(EnchantmentHelper.func_191527_a(attacker));
-		float safe2 = swipeDamageCheck + 1000;
-		if(damage <= 0) return 0.0f;
-		IAttributeInstance attackAttr = attacker.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
-		float genericAtt = (float)attackAttr.getAttributeValue();
-		if(genericAtt <= 1.0f) {
-			return -2.0f;
-		}
-		//System.out.println(firstCheck + " - The First Counter"); ///================================== 1111
-		if(SecondDamage <= 4) {
-			//System.out.println("Beginsssssssssssssss");
-			return -2.0f;
-		}
-		if(SecondDamage == 1.0f) {
-			return 0.0f;
-		}
-		/** if(swipeDamageCheck + constant <= 1.0f && damage <= 4.0f){
-		 System.out.println("1st Argument");
-		 return 1.0f;
-			
-		 }
-		 else if(swipeDamageCheck + constant > 1.0f && damage > 4.0f){
-		 return swipeDamageCheck + constant;
-		 }
-		 */
-		//1.0F - 1.0F / (float)(p_191526_0_ + 1)
-		Orig1 = (Orig1 + (constant));
-		Orig2 = (Orig2 + (constant) - 2.0f);
-		if(Orig2 <= 0.0f) {
-			Orig2 = Orig1;
-		}
-		float percentage = Orig1 / Orig2;
-		float newDamage = Orig2 * percentage;
-		afterCalculated = newDamage;
-		return afterCalculated;
+	public static float modifyDamage(float damage, float constant, float multiplier, float TrueMultiplier, int level) {
+		if(damage <= 1.0f) return 1.0f;
+		return (damage + (constant + level * multiplier)) * TrueMultiplier;
 	}
 	
 	/**
@@ -495,49 +355,25 @@ public class EnchantmentsUtility {
 	
 	//For sunshine and moonlight
 	public static float reduceDamage(EntityLivingBase attacker, boolean mustBeDaytime, ItemStack stack, Enchantment enchantment) {
-		boolean flag = attacker.world.isDaytime();
-		flag = flag == mustBeDaytime;
+		boolean isCorrectDayTime = attacker.world.isDaytime() == mustBeDaytime;
 		int level = EnchantmentHelper.getEnchantmentLevel(enchantment, stack);
 		float damage = level * 0.5f + 1.5f;
-		if(!flag) damage *= -1f;
+		if(!isCorrectDayTime)
+			damage *= -1f;
 		if(!EnchantmentsUtility.noBlockLight(attacker)) {
-			if(flag) damage = damage - 0.75f * level;
-			else damage = damage - 0.5f * level;
+			if(isCorrectDayTime)
+				damage -= 0.75f * level;
+			else
+				damage -= 0.5f * level;
 		}
-		if(attacker.world.isRaining()) damage = damage - 0.5f * level;
+		if(attacker.world.isRaining())
+			damage -= 0.5f * level;
 		return damage;
 	}
 	
 	@Deprecated
 	public static boolean isLevelMax(ItemStack stack, Enchantment ench) {
 		return EnchantmentHelper.getEnchantmentLevel(ench, stack) >= ench.getMaxLevel();
-	}
-	
-	public static boolean checkEventCondition(LivingHurtEvent e, Enchantment ench) {
-		if(!e.getSource().damageType.equals("player") && !e.getSource().damageType.equals("mob")) return false;
-		if(!(e.getSource().getTrueSource() instanceof EntityLivingBase)) return false;
-		EntityLivingBase attacker = (EntityLivingBase)e.getSource().getTrueSource();
-		if(attacker == null) return false;
-		ItemStack dmgSource = attacker.getHeldItemMainhand();
-		return dmgSource != null;
-	}
-	
-	public static boolean checkEventCondition(LivingAttackEvent e, Enchantment ench) {
-		if(!e.getSource().damageType.equals("player") && !e.getSource().damageType.equals("mob")) return false;
-		if(!(e.getSource().getTrueSource() instanceof EntityLivingBase)) return false;
-		EntityLivingBase attacker = (EntityLivingBase)e.getSource().getTrueSource();
-		if(attacker == null) return false;
-		ItemStack dmgSource = ((EntityLivingBase)e.getSource().getTrueSource()).getHeldItemMainhand();
-		return dmgSource != null;
-	}
-	
-	public static boolean checkEventCondition(LivingDamageEvent e, Enchantment ench) {
-		if(!e.getSource().damageType.equals("player") && !e.getSource().damageType.equals("mob")) return false;
-		if(!(e.getSource().getTrueSource() instanceof EntityLivingBase)) return false;
-		EntityLivingBase attacker = (EntityLivingBase)e.getSource().getTrueSource();
-		if(attacker == null) return false;
-		ItemStack dmgSource = ((EntityLivingBase)e.getSource().getTrueSource()).getHeldItemMainhand();
-		return dmgSource != null;
 	}
 	
 	/**

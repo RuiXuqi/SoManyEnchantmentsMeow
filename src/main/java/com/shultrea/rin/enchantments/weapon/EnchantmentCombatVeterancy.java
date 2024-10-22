@@ -3,6 +3,7 @@ package com.shultrea.rin.enchantments.weapon;
 import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,8 +14,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentCombatVeterancy extends EnchantmentBase {
 	
-	public EnchantmentCombatVeterancy(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentCombatVeterancy(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -53,7 +54,7 @@ public class EnchantmentCombatVeterancy extends EnchantmentBase {
 		EntityLivingBase en = e.getEntityLiving();
 		if(en == null) return;
 		if(en.getHeldItemMainhand().isEmpty()) return;
-		int level = EnchantmentHelper.getEnchantmentLevel(this, en.getHeldItemMainhand());
+		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.combatVeterancy, en.getHeldItemMainhand());
 		if(level > 0) e.setAmount(e.getAmount() * (1.05f + 0.15f * level));
 	}
 	/**

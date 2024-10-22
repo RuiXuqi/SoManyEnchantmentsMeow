@@ -22,9 +22,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentStrafe extends EnchantmentBase {
 	
-	public EnchantmentStrafe(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{
-				EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});
+	public EnchantmentStrafe(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

@@ -20,8 +20,8 @@ import java.util.Collection;
 
 public class EnchantmentPurgingBlade extends EnchantmentBase {
 	
-	public EnchantmentPurgingBlade(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentPurgingBlade(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

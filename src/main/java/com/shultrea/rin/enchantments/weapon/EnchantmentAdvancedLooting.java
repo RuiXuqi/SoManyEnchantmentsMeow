@@ -13,10 +13,8 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 
 public class EnchantmentAdvancedLooting extends EnchantmentBase {
 	
-	public EnchantmentAdvancedLooting(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
-		this.setName("AdvancedLooting");
-		this.setRegistryName("AdvancedLooting");
+	public EnchantmentAdvancedLooting(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	//TODO

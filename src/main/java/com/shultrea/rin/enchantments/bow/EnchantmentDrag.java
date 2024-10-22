@@ -5,6 +5,7 @@ import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.Prop_Sector.ArrowPropertiesProvider;
 import com.shultrea.rin.Prop_Sector.IArrowProperties;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -20,9 +21,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentDrag extends EnchantmentBase {
 	
-	public EnchantmentDrag(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{
-				EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});
+	public EnchantmentDrag(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -85,11 +85,11 @@ public class EnchantmentDrag extends EnchantmentBase {
 					return;
 				}
 			}
-			int p = EnchantmentHelper.getEnchantmentLevel(this, bow);
-			if(p > 0) {
+			int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.drag, bow);
+			if(enchantmentLevel > 0) {
 				if(!arrow.hasCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null)) return;
 				IArrowProperties properties = arrow.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
-				properties.setPullPower(1.25f + p * 1.75f);
+				properties.setPullPower(1.25f + enchantmentLevel * 1.75f);
 			}
 		}
 	}

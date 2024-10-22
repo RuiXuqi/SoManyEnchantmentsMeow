@@ -17,8 +17,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentAdept extends EnchantmentBase {
 	
-	public EnchantmentAdept(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentAdept(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -68,21 +68,13 @@ public class EnchantmentAdept extends EnchantmentBase {
 	public void onDeath(LivingExperienceDropEvent fEvent) {
 		EntityPlayer player = fEvent.getAttackingPlayer();
 		if(player == null) return;
-		ItemStack stack = player.getHeldItemMainhand();
-		if(stack == null || stack.isEmpty()) {
-			stack = player.getHeldItemOffhand();
-			if(stack == null || stack.isEmpty()) return;
-		}
-		int lvl = EnchantmentHelper.getEnchantmentLevel(this, stack);
-		if(lvl <= 0) return;
+		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.adept, player);
+		if(enchantmentLevel <= 0) return;
 		//Don't add experience to drops that otherwise would have no experience
 		if(fEvent.getOriginalExperience() <= 0) return;
 		if(fEvent.getEntityLiving() != null && !fEvent.getEntityLiving().isNonBoss())
-			fEvent.setDroppedExperience(2 + lvl + (int)(fEvent.getOriginalExperience() * (0.75f + 0.5f * lvl)));
-		else fEvent.setDroppedExperience(2 + lvl + (int)(fEvent.getOriginalExperience() * (1.05f + 0.15f * lvl)));
-		//System.out.println(fEvent.getDroppedExperience() + " - Altered EXP");
-		//stack.damageItem(1, player);
-		//System.out.println(fEvent.getOriginalExperience() + " - Orig EXP");
-		//System.out.println(fEvent.getDroppedExperience() + " - Orig EXP");
+			fEvent.setDroppedExperience(2 + enchantmentLevel + (int)(fEvent.getOriginalExperience() * (0.75f + 0.5f * enchantmentLevel)));
+		else
+			fEvent.setDroppedExperience(2 + enchantmentLevel + (int)(fEvent.getOriginalExperience() * (1.05f + 0.15f * enchantmentLevel)));
 	}
 }

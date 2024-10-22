@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.bow;
 
+import com.shultrea.rin.Interfaces.IEnchantmentFire;
 import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -7,7 +8,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.inventory.EntityEquipmentSlot;
 
-public class EnchantmentTierFlame extends EnchantmentBase {
+public class EnchantmentTierFlame extends EnchantmentBase implements IEnchantmentFire {
 
 	private static final String[] DAMAGE_NAMES = new String[]{"lfl", "afl", "sfl"};
 	/**
@@ -110,5 +111,14 @@ public class EnchantmentTierFlame extends EnchantmentBase {
 	@Override
 	public String getName() {
 		return "enchantment." + DAMAGE_NAMES[this.damageType];
+	}
+
+	public static int getFireTicks(int tier) {
+		switch(tier){
+			case 0: return 2;
+			case 1: return 15;
+			case 2: return 30;
+		}
+		return 0;
 	}
 }

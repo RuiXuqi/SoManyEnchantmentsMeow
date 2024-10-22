@@ -4,6 +4,7 @@ import com.shultrea.rin.Interfaces.IPotionDebuffer;
 import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -18,8 +19,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentDisorientatingBlade extends EnchantmentBase implements IPotionDebuffer {
 	
-	public EnchantmentDisorientatingBlade(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentDisorientatingBlade(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -84,7 +85,7 @@ public class EnchantmentDisorientatingBlade extends EnchantmentBase implements I
 		EntityLivingBase eb = (EntityLivingBase)e.getTarget();
 		if(eb.isPotionActive(MobEffects.SLOWNESS) && eb.isPotionActive(MobEffects.NAUSEA)) {
 			//if(EnchantmentsUtility.isLevelMax(e.getEntityPlayer().getHeldItemMainhand(), EnchantmentRegistry.Disorientation))
-			if(EnchantmentHelper.getEnchantmentLevel(this, e.getEntityPlayer().getHeldItemMainhand()) >= 4) {
+			if(EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.disorientatingBlade, e.getEntityPlayer().getHeldItemMainhand()) >= 4) {
 				e.setDamageModifier(e.getDamageModifier() + 0.25f);
 			}
 		}

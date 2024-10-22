@@ -3,6 +3,7 @@ package com.shultrea.rin.enchantments;
 import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -16,8 +17,8 @@ import java.util.Map;
 
 public class EnchantmentUpgradedPotentials extends EnchantmentBase {
 	
-	public EnchantmentUpgradedPotentials(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentUpgradedPotentials(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -79,7 +80,7 @@ public class EnchantmentUpgradedPotentials extends EnchantmentBase {
 					event.setOutput(ItemStack.EMPTY);
 					return;
 				}
-				if(EnchantmentHelper.getEnchantmentLevel(this, left) >= 1) {
+				if(EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.upgradedPotentials, left) >= 1) {
 					//Left already has upgraded potentials, set output to empty and return
 					event.setOutput(ItemStack.EMPTY);
 					return;

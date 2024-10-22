@@ -12,10 +12,8 @@ import net.minecraft.util.DamageSource;
 
 public class EnchantmentAdvancedFeatherFalling extends EnchantmentBase implements IEnhancedEnchantment {
 	
-	public EnchantmentAdvancedFeatherFalling(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.FEET});
-		this.setName("AdvancedFeatherFalling");
-		this.setRegistryName("AdvancedFeatherFalling");
+	public EnchantmentAdvancedFeatherFalling(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

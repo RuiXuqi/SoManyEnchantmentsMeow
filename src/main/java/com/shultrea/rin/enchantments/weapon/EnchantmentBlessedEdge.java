@@ -20,8 +20,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentBlessedEdge extends EnchantmentBase {
 	
-	public EnchantmentBlessedEdge(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentBlessedEdge(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -70,7 +70,7 @@ public class EnchantmentBlessedEdge extends EnchantmentBase {
 		if(enchantmentLevel <= 0) return;
 		attacker.heal(fEvent.getAmount() * (enchantmentLevel * 0.03f));
 		if(fEvent.getEntityLiving().getCreatureAttribute() == EnumCreatureAttribute.UNDEAD) {
-			float FDamage = EnchantmentsUtility.CalculateDamageIgnoreSwipe(fEvent.getAmount(), 1.00f, 0.60f, 1 + 0.04f * enchantmentLevel, attacker, EnchantmentRegistry.blessedEdge);
+			float FDamage = EnchantmentsUtility.modifyDamage(fEvent.getAmount(), 1.00f, 0.60f, 1 + 0.04f * enchantmentLevel, enchantmentLevel);
 			//UtilityAccessor.damageEntity(fEvent.getEntityLiving(), somanyenchantments.PhysicalDamage, Damage - 0.001f);
 			fEvent.setAmount(FDamage);
 		}

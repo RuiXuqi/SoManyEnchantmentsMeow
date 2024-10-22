@@ -29,8 +29,8 @@ public class EnchantmentPlowing extends EnchantmentBase {
 	
 	public static final PropertyInteger MOISTURE = PropertyInteger.create("moisture", 0, 7);
 	
-	public EnchantmentPlowing(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentPlowing(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -84,7 +84,7 @@ public class EnchantmentPlowing extends EnchantmentBase {
 			if(state.getBlock() instanceof BlockDirt || state.getBlock() instanceof BlockGrass || state.getBlock() instanceof BlockMycelium) {
 				if(fEvent.getResult() != Result.ALLOW) fEvent.setResult(Result.ALLOW);
 				else fEvent.getCurrent().damageItem(1, fEvent.getEntityPlayer());
-				this.setFarmland(fEvent.getWorld(), m, Blocks.FARMLAND, EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.plowing, fEvent.getCurrent()));
+				this.setFarmland(fEvent.getWorld(), m, Blocks.FARMLAND, EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.moisturized, fEvent.getCurrent()));
 				fEvent.getWorld().scheduleUpdate(blockpos, fEvent.getWorld().getBlockState(blockpos).getBlock(), MathHelper.getInt(fEvent.getEntityLiving().getRNG(), fEvent.getEntityLiving().getRNG().nextInt(4) + 120, fEvent.getEntityLiving().getRNG().nextInt(4) + 240));
 				fEvent.getWorld().playSound(null, fEvent.getEntityLiving().posX, fEvent.getEntityLiving().posY, fEvent.getEntityLiving().posZ, SoundEvents.ITEM_HOE_TILL, SoundCategory.PLAYERS, 1.0f, 1f);
 			}

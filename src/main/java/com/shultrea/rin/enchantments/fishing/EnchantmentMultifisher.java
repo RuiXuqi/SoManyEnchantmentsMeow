@@ -25,8 +25,6 @@ public class EnchantmentMultifisher extends Enchantment {
 	public EnchantmentMultifisher() {
 		super(Rarity.VERY_RARE, EnumEnchantmentType.FISHING_ROD, new EntityEquipmentSlot[]{
 				EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});
-		this.setName("Multifisher");
-		this.setRegistryName("Multifisher");
 	}
 	
 	@Override
@@ -47,11 +45,6 @@ public class EnchantmentMultifisher extends Enchantment {
 	@Override
 	public boolean canApplyTogether(Enchantment fTest) {
 		return super.canApplyTogether(fTest);
-	}
-	
-	@Override
-	public boolean canApply(ItemStack fTest) {
-		return super.canApply(fTest);
 	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -90,7 +83,7 @@ public class EnchantmentMultifisher extends Enchantment {
 			stack = player.getHeldItemOffhand();
 			if(!(stack.getItem() instanceof ItemFishingRod)) return;
 		}
-		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
+		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry, stack);
 		if(level <= 0) return;
 		if(!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
 		stack.getTagCompound().setBoolean("isMultiFishing", player.fishEntity != null);

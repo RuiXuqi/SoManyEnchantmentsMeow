@@ -4,6 +4,8 @@ import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.Prop_Sector.ArrowPropertiesProvider;
 import com.shultrea.rin.Prop_Sector.IArrowProperties;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.enchantments.bow.EnchantmentTierFlame;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -23,13 +25,13 @@ public class ExtraEvent {
 		int flameLevel = properties.getFlameLevel();
 		switch(flameLevel) {
 			case 1:
-				if(ModConfig.enabled.lesserFlame) fEvent.getEntityLiving().setFire(2);
+				if(ModConfig.enabled.lesserFlame) fEvent.getEntityLiving().setFire(EnchantmentTierFlame.getFireTicks(0));
 				break;
 			case 2:
-				if(ModConfig.enabled.advancedFlame) fEvent.getEntityLiving().setFire(15);
+				if(ModConfig.enabled.advancedFlame) fEvent.getEntityLiving().setFire(EnchantmentTierFlame.getFireTicks(1));
 				break;
 			case 3:
-				if(ModConfig.enabled.supremeFlame) fEvent.getEntityLiving().setFire(30);
+				if(ModConfig.enabled.supremeFlame) fEvent.getEntityLiving().setFire(EnchantmentTierFlame.getFireTicks(2));
 				break;
 			default:
 				break;

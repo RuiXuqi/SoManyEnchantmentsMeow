@@ -13,12 +13,8 @@ import net.minecraft.util.DamageSource;
 
 public class EnchantmentAdvancedProjectileProtection extends EnchantmentBase implements IEnchantmentProtection, IEnhancedEnchantment {
 	
-	public EnchantmentAdvancedProjectileProtection(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{
-				EntityEquipmentSlot.HEAD, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.LEGS,
-				EntityEquipmentSlot.FEET});
-		this.setName("AdvancedProjectileProtection");
-		this.setRegistryName("AdvancedProjectileProtection");
+	public EnchantmentAdvancedProjectileProtection(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

@@ -24,8 +24,8 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class EnchantmentMagmaWalker extends EnchantmentBase {
 	
-	public EnchantmentMagmaWalker(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.FEET});
+	public EnchantmentMagmaWalker(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	public static void walkOnMagma(EntityLivingBase living, World worldIn, BlockPos pos, int level) {

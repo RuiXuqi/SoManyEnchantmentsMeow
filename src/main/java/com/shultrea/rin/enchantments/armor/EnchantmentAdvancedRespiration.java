@@ -16,8 +16,6 @@ public class EnchantmentAdvancedRespiration extends Enchantment {
 
 	public EnchantmentAdvancedRespiration() {
 		super(Rarity.VERY_RARE, EnumEnchantmentType.ARMOR_HEAD, new EntityEquipmentSlot[]{EntityEquipmentSlot.HEAD});
-	    this.setName("AdvancedRespiration");
-		this.setRegistryName("AdvancedRespiration");
 	}
 	
 	@Override

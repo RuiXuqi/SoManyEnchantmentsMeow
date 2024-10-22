@@ -23,11 +23,15 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.w3c.dom.Entity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EnchantmentFreezing extends EnchantmentBase implements IPotionDebuffer {
 	
-	public EnchantmentFreezing(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentFreezing(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -72,152 +76,78 @@ public class EnchantmentFreezing extends EnchantmentBase implements IPotionDebuf
 		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
 		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
 		ItemStack stack = attacker.getHeldItemMainhand();
-		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.freezing, stack);
-		if(level <= 0) return;
+		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.freezing, stack);
+		if(enchantmentLevel <= 0) return;
 		EntityLivingBase victim = fEvent.getEntityLiving();
 		int ice = 0;
 		int numb = 0;
+
+		int ampAdd = victim instanceof EntityPlayer ? 0 : 1;
+
 		//Capping at 3 (previously was 7) for Roguelike Dungeons compatibility
 		int numbCap = 3;
 		int iceCap = 7;
-		if(victim.isPotionActive(MobEffects.SLOWNESS)&victim.isPotionActive(MobEffects.MINING_FATIGUE)) {
+		if(victim.isPotionActive(MobEffects.SLOWNESS) & victim.isPotionActive(MobEffects.MINING_FATIGUE)) {
 			PotionEffect pot1 = victim.getActivePotionEffect(MobEffects.SLOWNESS);
 			PotionEffect pot2 = victim.getActivePotionEffect(MobEffects.MINING_FATIGUE);
-			ice = pot1.getAmplifier() + 1;
-			numb = pot2.getAmplifier() + 1;
-			if(ice > iceCap) ice = iceCap;
-			if(numb > numbCap) numb = numbCap;
-			if(victim instanceof EntityPlayer) {
-				victim.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 30 * level + 40, ice));
-				victim.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 30 * level + 40, numb));
-			}
-			else if(victim instanceof EntityLivingBase) {
-				ice += 1;
-				numb += 1;
-				if(ice > iceCap) ice = iceCap;
-				if(numb > numbCap) numb = numbCap;
-				victim.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 30 * level + 40, ice));
-				victim.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 30 * level + 40, numb));
-			}
+			ice = Math.min(iceCap, pot1.getAmplifier() + 1 + ampAdd);
+			numb = Math.min(numbCap, pot2.getAmplifier() + 1 + ampAdd);
+
+			victim.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 30 * enchantmentLevel + 40, ice));
+			victim.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 30 * enchantmentLevel + 40, numb));
 		}
-		else if(victim instanceof EntityPlayer) {
-			victim.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 20 * level + 40, 0));
-			victim.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 20 * level + 40, 0));
+		else {
+			victim.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 20 * enchantmentLevel + 40, ampAdd));
+			victim.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 20 * enchantmentLevel + 40, ampAdd));
 		}
-		else if(victim instanceof EntityLivingBase) {
-			victim.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 20 * level + 40, 1));
-			victim.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 20 * level + 40, 1));
-		}
+
 		if(ice >= iceCap && numb >= numbCap && victim.getEntityWorld().getGameRules().getBoolean("mobGriefing")) {
 			float chance = (float)Math.random() * 100f;
-			if(chance < (level * 10)) {
+			if(chance < (enchantmentLevel * 10)) {
 				victim.extinguish();
-				stack.damageItem(6 - level, attacker);
-				float damage = EnchantmentsUtility.CalculateDamageIgnoreSwipe(fEvent.getAmount(), 2.0f, 0.65f, 1.0f, attacker, EnchantmentRegistry.freezing);
+				stack.damageItem(6 - enchantmentLevel, attacker);
+				float damage = EnchantmentsUtility.modifyDamage(fEvent.getAmount(), 2.0f, 0.65f, 1.0f, enchantmentLevel);
 				if(!(attacker instanceof EntityPlayer)) {
 					EnchantmentsUtility.ImprovedKnockBack(attacker, 0.25f, attacker.posX - victim.posX, attacker.posZ - victim.posZ);
 				}
 				victim.getEntityWorld().playSound(null, victim.posX, victim.posY, victim.posZ, SoundEvents.ENTITY_ZOMBIE_VILLAGER_CURE, SoundCategory.MASTER, 0.8f, -1f);
-				BlockPos pos = new BlockPos(victim.posX, victim.posY, victim.posZ);
-				BlockPos pos1 = new BlockPos(victim.posX, victim.posY + 1, victim.posZ);
-				BlockPos pos2 = new BlockPos(victim.posX, victim.posY + 2, victim.posZ);
-				BlockPos pos3 = new BlockPos(victim.posX + 1, victim.posY, victim.posZ);
-				BlockPos pos4 = new BlockPos(victim.posX, victim.posY, victim.posZ + 1);
-				BlockPos pos5 = new BlockPos(victim.posX - 1, victim.posY, victim.posZ);
-				BlockPos pos6 = new BlockPos(victim.posX, victim.posY, victim.posZ - 1);
-				if(victim.getEntityWorld().mayPlace(Blocks.FROSTED_ICE, pos, true, attacker.getAdjustedHorizontalFacing(), attacker)) {
-					victim.getEntityWorld().setBlockState(pos, Blocks.FROSTED_ICE.getDefaultState());
-					victim.getEntityWorld().scheduleUpdate(pos, Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 120, 240));
+				ArrayList<BlockPos> posList = new ArrayList<>();
+				posList.add(new BlockPos(victim.posX, victim.posY, victim.posZ));
+				posList.add(new BlockPos(victim.posX, victim.posY + 1, victim.posZ));
+				posList.add(new BlockPos(victim.posX, victim.posY + 2, victim.posZ));
+				posList.add(new BlockPos(victim.posX - 1, victim.posY, victim.posZ));
+				posList.add(new BlockPos(victim.posX + 1, victim.posY, victim.posZ));
+				posList.add(new BlockPos(victim.posX, victim.posY, victim.posZ - 1));
+				posList.add(new BlockPos(victim.posX, victim.posY, victim.posZ + 1));
+
+				if(enchantmentLevel >= 3) {
+					damage += EnchantmentsUtility.modifyDamage(fEvent.getAmount(), 0.0f, 0.25f, 1.10f, enchantmentLevel);
+					posList.add(new BlockPos(victim.posX - 1, victim.posY, victim.posZ - 1));
+					posList.add(new BlockPos(victim.posX - 1, victim.posY, victim.posZ + 1));
+					posList.add(new BlockPos(victim.posX + 1, victim.posY, victim.posZ - 1));
+					posList.add(new BlockPos(victim.posX + 1, victim.posY, victim.posZ + 1));
+
+					posList.add(new BlockPos(victim.posX - 2, victim.posY, victim.posZ));
+					posList.add(new BlockPos(victim.posX + 2, victim.posY, victim.posZ));
+
+					posList.add(new BlockPos(victim.posX, victim.posY, victim.posZ - 2));
+					posList.add(new BlockPos(victim.posX, victim.posY, victim.posZ + 2));
+
+					posList.add(new BlockPos(victim.posX - 1, victim.posY + 1, victim.posZ));
+					posList.add(new BlockPos(victim.posX + 1, victim.posY + 1, victim.posZ));
+
+					posList.add(new BlockPos(victim.posX, victim.posY + 1, victim.posZ - 1));
+					posList.add(new BlockPos(victim.posX, victim.posY + 1, victim.posZ + 1));
 				}
-				if(victim.getEntityWorld().mayPlace(Blocks.FROSTED_ICE, pos1, true, attacker.getAdjustedHorizontalFacing(), attacker)) {
-					victim.getEntityWorld().setBlockState(pos1, Blocks.FROSTED_ICE.getDefaultState());
-					victim.getEntityWorld().scheduleUpdate(pos1, Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 120, 240));
-				}
-				if(victim.getEntityWorld().mayPlace(Blocks.FROSTED_ICE, pos2, true, attacker.getAdjustedHorizontalFacing(), attacker)) {
-					victim.getEntityWorld().setBlockState(pos2, Blocks.FROSTED_ICE.getDefaultState());
-					victim.getEntityWorld().scheduleUpdate(pos2, Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 120, 240));
-				}
-				if(victim.getEntityWorld().mayPlace(Blocks.FROSTED_ICE, pos3, true, attacker.getAdjustedHorizontalFacing(), attacker)) {
-					victim.getEntityWorld().setBlockState(pos3, Blocks.FROSTED_ICE.getDefaultState());
-					victim.getEntityWorld().scheduleUpdate(pos3, Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 120, 240));
-				}
-				if(victim.getEntityWorld().mayPlace(Blocks.FROSTED_ICE, pos4, true, attacker.getAdjustedHorizontalFacing(), attacker)) {
-					victim.getEntityWorld().setBlockState(pos4, Blocks.FROSTED_ICE.getDefaultState());
-					victim.getEntityWorld().scheduleUpdate(pos4, Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 120, 240));
-				}
-				if(victim.getEntityWorld().mayPlace(Blocks.FROSTED_ICE, pos5, true, attacker.getAdjustedHorizontalFacing(), attacker)) {
-					victim.getEntityWorld().setBlockState(pos5, Blocks.FROSTED_ICE.getDefaultState());
-					victim.getEntityWorld().scheduleUpdate(pos5, Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 120, 240));
-				}
-				if(victim.getEntityWorld().mayPlace(Blocks.FROSTED_ICE, pos6, true, attacker.getAdjustedHorizontalFacing(), attacker)) {
-					victim.getEntityWorld().setBlockState(pos6, Blocks.FROSTED_ICE.getDefaultState());
-					victim.getEntityWorld().scheduleUpdate(pos6, Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 120, 240));
-				}
-				if(level >= 3) {
-					damage += EnchantmentsUtility.CalculateDamageIgnoreSwipe(fEvent.getAmount(), 0.0f, 0.25f, 1.10f, attacker, EnchantmentRegistry.freezing);
-					fEvent.setAmount(damage);
-					BlockPos pos7 = new BlockPos(victim.posX - 1, victim.posY, victim.posZ - 1);
-					BlockPos pos8 = new BlockPos(victim.posX + 1, victim.posY, victim.posZ + 1);
-					BlockPos pos9 = new BlockPos(victim.posX - 1, victim.posY + 1, victim.posZ);
-					BlockPos pos10 = new BlockPos(victim.posX + 1, victim.posY + 1, victim.posZ);
-					BlockPos pos11 = new BlockPos(victim.posX, victim.posY + 1, victim.posZ - 1);
-					BlockPos pos12 = new BlockPos(victim.posX, victim.posY + 1, victim.posZ + 1);
-					BlockPos pos13 = new BlockPos(victim.posX + 2, victim.posY, victim.posZ);
-					BlockPos pos14 = new BlockPos(victim.posX - 2, victim.posY, victim.posZ);
-					BlockPos pos15 = new BlockPos(victim.posX, victim.posY, victim.posZ - 2);
-					BlockPos pos16 = new BlockPos(victim.posX, victim.posY, victim.posZ + 2);
-					BlockPos pos17 = new BlockPos(victim.posX + 1, victim.posY, victim.posZ - 1);
-					BlockPos pos18 = new BlockPos(victim.posX - 1, victim.posY, victim.posZ + 1);
-					if(victim.getEntityWorld().mayPlace(Blocks.FROSTED_ICE, pos7, true, attacker.getAdjustedHorizontalFacing(), attacker)) {
-						victim.getEntityWorld().setBlockState(pos7, Blocks.FROSTED_ICE.getDefaultState());
-						victim.getEntityWorld().scheduleUpdate(pos7, Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 120, 240));
-					}
-					if(victim.getEntityWorld().mayPlace(Blocks.FROSTED_ICE, pos8, true, attacker.getAdjustedHorizontalFacing(), attacker)) {
-						victim.getEntityWorld().setBlockState(pos8, Blocks.FROSTED_ICE.getDefaultState());
-						victim.getEntityWorld().scheduleUpdate(pos8, Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 120, 240));
-					}
-					if(victim.getEntityWorld().mayPlace(Blocks.FROSTED_ICE, pos9, true, attacker.getAdjustedHorizontalFacing(), attacker)) {
-						victim.getEntityWorld().setBlockState(pos9, Blocks.FROSTED_ICE.getDefaultState());
-						victim.getEntityWorld().scheduleUpdate(pos9, Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 120, 240));
-					}
-					if(victim.getEntityWorld().mayPlace(Blocks.FROSTED_ICE, pos10, true, attacker.getAdjustedHorizontalFacing(), attacker)) {
-						victim.getEntityWorld().setBlockState(pos10, Blocks.FROSTED_ICE.getDefaultState());
-						victim.getEntityWorld().scheduleUpdate(pos10, Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 120, 240));
-					}
-					if(victim.getEntityWorld().mayPlace(Blocks.FROSTED_ICE, pos11, true, attacker.getAdjustedHorizontalFacing(), attacker)) {
-						victim.getEntityWorld().setBlockState(pos11, Blocks.FROSTED_ICE.getDefaultState());
-						victim.getEntityWorld().scheduleUpdate(pos11, Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 120, 240));
-					}
-					if(victim.getEntityWorld().mayPlace(Blocks.FROSTED_ICE, pos12, true, attacker.getAdjustedHorizontalFacing(), attacker)) {
-						victim.getEntityWorld().setBlockState(pos12, Blocks.FROSTED_ICE.getDefaultState());
-						victim.getEntityWorld().scheduleUpdate(pos12, Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 120, 240));
-					}
-					if(victim.getEntityWorld().mayPlace(Blocks.FROSTED_ICE, pos13, true, attacker.getAdjustedHorizontalFacing(), attacker)) {
-						victim.getEntityWorld().setBlockState(pos13, Blocks.FROSTED_ICE.getDefaultState());
-						victim.getEntityWorld().scheduleUpdate(pos13, Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 120, 240));
-					}
-					if(victim.getEntityWorld().mayPlace(Blocks.FROSTED_ICE, pos14, true, attacker.getAdjustedHorizontalFacing(), attacker)) {
-						victim.getEntityWorld().setBlockState(pos14, Blocks.FROSTED_ICE.getDefaultState());
-						victim.getEntityWorld().scheduleUpdate(pos14, Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 120, 240));
-					}
-					if(victim.getEntityWorld().mayPlace(Blocks.FROSTED_ICE, pos15, true, attacker.getAdjustedHorizontalFacing(), attacker)) {
-						victim.getEntityWorld().setBlockState(pos15, Blocks.FROSTED_ICE.getDefaultState());
-						victim.getEntityWorld().scheduleUpdate(pos15, Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 120, 240));
-					}
-					if(victim.getEntityWorld().mayPlace(Blocks.FROSTED_ICE, pos16, true, attacker.getAdjustedHorizontalFacing(), attacker)) {
-						victim.getEntityWorld().setBlockState(pos16, Blocks.FROSTED_ICE.getDefaultState());
-						victim.getEntityWorld().scheduleUpdate(pos16, Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 120, 240));
-					}
-					if(victim.getEntityWorld().mayPlace(Blocks.FROSTED_ICE, pos17, true, attacker.getAdjustedHorizontalFacing(), attacker)) {
-						victim.getEntityWorld().setBlockState(pos17, Blocks.FROSTED_ICE.getDefaultState());
-						victim.getEntityWorld().scheduleUpdate(pos17, Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 120, 240));
-					}
-					if(victim.getEntityWorld().mayPlace(Blocks.FROSTED_ICE, pos18, true, attacker.getAdjustedHorizontalFacing(), attacker)) {
-						victim.getEntityWorld().setBlockState(pos18, Blocks.FROSTED_ICE.getDefaultState());
-						victim.getEntityWorld().scheduleUpdate(pos18, Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 120, 240));
+
+				for(BlockPos pos: posList) {
+					if (victim.getEntityWorld().mayPlace(Blocks.FROSTED_ICE, pos, true, attacker.getAdjustedHorizontalFacing(), attacker)) {
+						victim.getEntityWorld().setBlockState(pos, Blocks.FROSTED_ICE.getDefaultState());
+						victim.getEntityWorld().scheduleUpdate(pos, Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 120, 240));
 					}
 				}
-				else fEvent.setAmount(damage);
+
+				fEvent.setAmount(damage);
 			}
 		}
 	}

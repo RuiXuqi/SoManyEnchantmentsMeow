@@ -16,10 +16,10 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntityDamageSource;
 
-public class EnchantmentSharperEdge extends EnchantmentBase implements IEnchantmentDamage {
+public class EnchantmentReinforcedSharpness extends EnchantmentBase implements IEnchantmentDamage {
 	
-	public EnchantmentSharperEdge(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentReinforcedSharpness(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

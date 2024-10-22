@@ -18,8 +18,8 @@ import net.minecraft.potion.PotionEffect;
 
 public class EnchantmentInhumane extends EnchantmentBase implements IEnchantmentDamage {
 	
-	public EnchantmentInhumane(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentInhumane(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

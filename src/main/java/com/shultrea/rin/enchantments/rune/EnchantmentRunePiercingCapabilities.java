@@ -6,6 +6,7 @@ import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.Utility_Sector.UtilityAccessor;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -21,8 +22,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentRunePiercingCapabilities extends EnchantmentBase implements IEnchantmentRune {
 	
-	public EnchantmentRunePiercingCapabilities(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentRunePiercingCapabilities(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -76,7 +77,7 @@ public class EnchantmentRunePiercingCapabilities extends EnchantmentBase impleme
 		if(fEvent.getSource().isUnblockable()) return;
 		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
 		ItemStack stack = attacker.getHeldItemMainhand();
-		int pierceLevel = EnchantmentHelper.getEnchantmentLevel(this, stack);
+		int pierceLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.runePiercingCapabilities, stack);
 		if(pierceLevel <= 0) return;
 		float damage = fEvent.getAmount() * 0.25f * pierceLevel;
 		fEvent.setAmount(fEvent.getAmount() - (fEvent.getAmount() * pierceLevel * 0.25f));

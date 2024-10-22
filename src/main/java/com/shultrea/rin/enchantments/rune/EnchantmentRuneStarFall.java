@@ -27,8 +27,6 @@ public class EnchantmentRuneStarFall extends Enchantment {
 	public EnchantmentRuneStarFall() {
 		super(Rarity.VERY_RARE, EnumEnchantmentType.BOW, new EntityEquipmentSlot[]{
 				EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});
-		this.setName("rune_starfall");
-		this.setRegistryName("rune_starfall");
 	}
 	
 	@Override

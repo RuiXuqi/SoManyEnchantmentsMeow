@@ -19,8 +19,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentAshDestroyer extends EnchantmentBase implements IDamageMultiplier {
 	
-	public EnchantmentAshDestroyer(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentAshDestroyer(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -70,7 +70,7 @@ public class EnchantmentAshDestroyer extends EnchantmentBase implements IDamageM
 
 		//UtilityEntityDamager.damageEntity(fEvent.getEntityLiving(), somanyenchantments.PhysicalDamage, Damage);
 		//fEvent.setAmount(fEvent.getAmount());
-		float Final = EnchantmentsUtility.CalculateDamageIgnoreSwipe(fEvent.getAmount(), 0f, 0, 1.0f + (enchantmentLevel * 0.2f), attacker, EnchantmentRegistry.ashDestroyer);
+		float Final = EnchantmentsUtility.modifyDamage(fEvent.getAmount(), 0f, 0, 1.0f + (enchantmentLevel * 0.2f), enchantmentLevel);
 		fEvent.setAmount(Final);
 		//System.out.println("2nd");
 		/**float Damager = fEvent.getAmount();

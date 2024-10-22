@@ -19,10 +19,8 @@ import net.minecraft.util.math.MathHelper;
 
 public class EnchantmentAdvancedKnockback extends EnchantmentBase {
 	
-	public EnchantmentAdvancedKnockback(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
-		this.setName("AdvancedKnockback");
-		this.setRegistryName("AdvancedKnockback");
+	public EnchantmentAdvancedKnockback(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

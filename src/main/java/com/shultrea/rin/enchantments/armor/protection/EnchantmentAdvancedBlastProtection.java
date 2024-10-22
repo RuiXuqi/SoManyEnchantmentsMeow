@@ -17,12 +17,8 @@ import net.minecraft.util.math.MathHelper;
 
 public class EnchantmentAdvancedBlastProtection extends EnchantmentBase implements IEnchantmentProtection, IEnhancedEnchantment {
 	
-	public EnchantmentAdvancedBlastProtection(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{
-				EntityEquipmentSlot.HEAD, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.LEGS,
-				EntityEquipmentSlot.FEET});
-		this.setName("AdvancedBlastProtection");
-		this.setRegistryName("AdvancedBlastProtection");
+	public EnchantmentAdvancedBlastProtection(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	//TODO

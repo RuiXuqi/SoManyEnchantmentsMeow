@@ -19,9 +19,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentEmpoweredDefence extends EnchantmentBase {
 	
-	public EnchantmentEmpoweredDefence(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{
-				EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});
+	public EnchantmentEmpoweredDefence(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -48,13 +47,7 @@ public class EnchantmentEmpoweredDefence extends EnchantmentBase {
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.empoweredDefence, level);
 	}
-	
-	//TODO
-	@Override
-	public boolean canApply(ItemStack e) {
-		return super.canApply(e) || e.getItem().isShield(e, null);
-	}
-	
+
 	@Override
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.empoweredDefence;

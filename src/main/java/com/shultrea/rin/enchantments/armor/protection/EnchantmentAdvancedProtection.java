@@ -13,12 +13,8 @@ import net.minecraft.util.DamageSource;
 
 public class EnchantmentAdvancedProtection extends EnchantmentBase implements IEnchantmentProtection, IEnhancedEnchantment {
 	
-	public EnchantmentAdvancedProtection(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{
-				EntityEquipmentSlot.HEAD, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.LEGS,
-				EntityEquipmentSlot.FEET});
-		this.setName("AdvancedProtection");
-		this.setRegistryName("AdvancedProtection");
+	public EnchantmentAdvancedProtection(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

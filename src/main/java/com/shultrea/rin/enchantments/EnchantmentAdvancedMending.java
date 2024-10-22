@@ -16,10 +16,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentAdvancedMending extends EnchantmentBase {
 	
-	public EnchantmentAdvancedMending(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, EntityEquipmentSlot.values());
-		this.setName("advancedmending");
-		this.setRegistryName("advancedmending");
+	public EnchantmentAdvancedMending(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -50,12 +48,6 @@ public class EnchantmentAdvancedMending extends EnchantmentBase {
 	@Override
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.advancedMending;
-	}
-	
-	//TODO
-	@Override
-	public boolean canApplyAtEnchantingTable(ItemStack stack) {
-		return stack.isItemStackDamageable() && super.canApplyAtEnchantingTable(stack);
 	}
 	
 	//TODO

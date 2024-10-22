@@ -4,6 +4,7 @@ import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
@@ -15,8 +16,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentInnerBerserk extends EnchantmentBase {
 	
-	public EnchantmentInnerBerserk(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.CHEST});
+	public EnchantmentInnerBerserk(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -54,7 +55,7 @@ public class EnchantmentInnerBerserk extends EnchantmentBase {
 	public void HandleEnchant(LivingDamageEvent fEvent) {
 		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
 		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
-		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(this, attacker);
+		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.innerBerserk, attacker);
 		if(enchantmentLevel > 0) {
 			float attackerMissingHealthPercent = 1.0f - attacker.getHealth() / attacker.getMaxHealth();
 			float dmgMod = 1.0f + attackerMissingHealthPercent * (1.1f + 0.05f * enchantmentLevel);

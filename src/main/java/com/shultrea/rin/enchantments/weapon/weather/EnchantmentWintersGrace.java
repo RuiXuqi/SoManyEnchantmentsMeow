@@ -21,8 +21,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentWintersGrace extends EnchantmentBase implements IWeatherEnchantment {
 	
-	public EnchantmentWintersGrace(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentWintersGrace(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -76,27 +76,25 @@ public class EnchantmentWintersGrace extends EnchantmentBase implements IWeather
 		if(EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.wintersGrace, dmgSource) <= 0) return;
 		BlockPos blockpos = attacker.getPosition();
 		float Damage = fEvent.getAmount();
-		int levelWinter = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.wintersGrace, dmgSource);
+		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.wintersGrace, dmgSource);
 		if(attacker.world.isRaining() && EnchantmentsUtility.noBlockLight(attacker) && EnchantmentsUtility.isInColdTemperature(attacker, attacker.getEntityWorld().getBiome(blockpos), true)) {
-			//SkyDamage = (2.0f + levelWinter * 1.30f);
-			//fEvent.setAmount(Damage + SkyDamage);
-			{
-				float FDamage = EnchantmentsUtility.CalculateDamageIgnoreSwipe(Damage, 0.10f, 0.90f, 1.15f, attacker, EnchantmentRegistry.wintersGrace);
-				fEvent.setAmount(FDamage);
-			}
-			if(levelWinter >= 2)
-				fEvent.getEntityLiving().addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 60, levelWinter - 2));
-			if(levelWinter >= 4)
-				fEvent.getEntityLiving().addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 60, levelWinter - 4));
-			fEvent.getEntityLiving().addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 60, levelWinter - 3));
+
+			float FDamage = EnchantmentsUtility.modifyDamage(Damage, 0.10f, 0.90f, 1.15f, enchantmentLevel);
+			fEvent.setAmount(FDamage);
+
+			if(enchantmentLevel >= 2)
+				fEvent.getEntityLiving().addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 60, enchantmentLevel - 2));
+			if(enchantmentLevel >= 4)
+				fEvent.getEntityLiving().addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 60, enchantmentLevel - 4));
+			fEvent.getEntityLiving().addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 60, enchantmentLevel - 3));
 		}
 		else if((!attacker.world.isRaining() && EnchantmentsUtility.noBlockLight(attacker)) || !EnchantmentsUtility.isInColdTemperature(attacker, attacker.getEntityWorld().getBiome(blockpos), true)) {
-			float Fin = EnchantmentsUtility.CalculateDamageForNegativeSwipe(Damage, 0.00f, -0.6f, 1.0f, attacker, EnchantmentRegistry.wintersGrace);
+			float Fin = EnchantmentsUtility.modifyDamage(Damage, 0.00f, -0.6f, 1.0f, enchantmentLevel);
 			fEvent.setAmount(Fin);
-			if(Math.random() * 5 < 0.02f + levelWinter) EnchantmentsUtility.Raining(attacker.getEntityWorld());
+			if(Math.random() * 5 < 0.02f + enchantmentLevel) EnchantmentsUtility.Raining(attacker.getEntityWorld());
 		}
 		else if(!EnchantmentsUtility.noBlockLight(attacker)) {
-			float Fid = EnchantmentsUtility.CalculateDamageForNegativeSwipe(Damage, 0.00f, -0.8f, 1.0f, attacker, EnchantmentRegistry.wintersGrace);
+			float Fid = EnchantmentsUtility.modifyDamage(Damage, 0.00f, -0.8f, 1.0f, enchantmentLevel);
 			fEvent.setAmount(Fid);
 		}
 	}

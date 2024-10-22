@@ -20,8 +20,8 @@ import java.util.List;
 
 public class EnchantmentAncientSealedCurses extends EnchantmentBase implements IAncientEnchantment {
 	
-	public EnchantmentAncientSealedCurses(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentAncientSealedCurses(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -50,6 +50,7 @@ public class EnchantmentAncientSealedCurses extends EnchantmentBase implements I
 	}
 	
 	//TODO
+	//Nischi says: this makes it fully not allowed on anything
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack) {
 		return false;

@@ -255,8 +255,8 @@ enchantment.somanyenchantments.curseofpossession.desc=Items are unable to leave 
 enchantment.flinging=Flinging
 enchantment.somanyenchantments.flinging.desc=Similar to Knockback, but the knockback is in a vertical motion.
 
-enchantment.sharperedge=Reinforced Sharpness
-enchantment.somanyenchantments.sharperedge.desc=Increases the damage of tools.
+enchantment.reinforcedsharpness=Reinforced Sharpness
+enchantment.somanyenchantments.reinforcedsharpness.desc=Increases the damage of tools.
 
 enchantment.amplifiedsharpness=Amplified Sharpness
 enchantment.somanyenchantments.amplifiedsharpness=Drastically increases the damage of axe and deals more damage if the target has lower armor.
@@ -273,8 +273,8 @@ enchantment.somanyenchantments.afa.desc=Advanced tier of Fire Aspect.
 enchantment.sfa=Supreme Fire Aspect
 enchantment.somanyenchantments.sfa.desc=Highest tier of Fire Aspect.
 
-enchantment.Swiper=Arc Slash
-enchantment.somanyenchantments.swiper.desc=Variant of sweeping edge that doesn't rely on the attack cooldown to be able to cleave (melee area attack).
+enchantment.ArcSlash=Arc Slash
+enchantment.somanyenchantments.arcslash.desc=Variant of sweeping edge that doesn't rely on the attack cooldown to be able to cleave (melee area attack).
 
 enchantment.freezing=Freezing
 enchantment.somanyenchantments.freezing.desc=Applies a guranteed slowness and mining fatigue potion effect on each hit. Each hit also increases the amplifier of the potion effect and if it reaches VIII, there is a chance that the mob will be encased in frosted ice. Damages the sword if it procs.
@@ -306,11 +306,11 @@ enchantment.somanyenchantments.splitshot.desc=Duplicates the arrow fired by the 
 enchantment.meltdown=Meltdown
 enchantment.somanyenchantments.meltdown.desc=Grants you a chance to explode if you're attacked. The explosion doesn't harm you but damages the armor severely.
 
-enchantment.WellTilled=Moisturized
-enchantment.somanyenchantments.welltilled.desc=Tilling will make the farmland automatically wet.
+enchantment.Moisturized=Moisturized
+enchantment.somanyenchantments.moisturized.desc=Tilling will make the farmland automatically wet.
 
-enchantment.TillingPower=Plowing
-enchantment.somanyenchantments.tillingpower.desc=Tilling area is increased while damages the hoe depending on the number of tilled dirt.
+enchantment.Plowing=Plowing
+enchantment.somanyenchantments.plowing.desc=Tilling area is increased while damages the hoe depending on the number of tilled dirt.
 
 enchantment.ScytheDamage=Jagged Rake
 enchantment.somanyenchantments.scythedamage.desc=Greatly increases hoe damage.

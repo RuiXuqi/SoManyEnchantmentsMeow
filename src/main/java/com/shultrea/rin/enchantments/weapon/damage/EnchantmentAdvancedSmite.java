@@ -20,8 +20,8 @@ import net.minecraft.util.math.MathHelper;
 
 public class EnchantmentAdvancedSmite extends EnchantmentBase implements IEnchantmentDamage, IEnhancedEnchantment {
 	
-	public EnchantmentAdvancedSmite(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentAdvancedSmite(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

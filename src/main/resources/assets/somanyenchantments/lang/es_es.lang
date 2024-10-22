@@ -258,8 +258,8 @@ enchantment.somanyenchantments.fieryshield.desc=Mientras bloqueas, quemas al ata
 enchantment.flinging=Lanzamiento
 enchantment.somanyenchantments.flinging.desc=Similar a Retroceso, pero el movimiento es realizado en vertical.
 
-enchantment.sharperedge=Filo reforzado
-enchantment.somanyenchantments.sharperedge.desc=Aumenta el daño de las herramientas.
+enchantment.reinforcedsharpness=Filo reforzado
+enchantment.somanyenchantments.reinforcedsharpness.desc=Aumenta el daño de las herramientas.
 
 enchantment.amplifiedsharpness=Filo amplificado
 enchantment.somanyenchantments.amplifiedsharpness=Aumenta drásticamente el daño del hacha y causa más daño si el objetivo tiene una armadura más débil.
@@ -276,8 +276,8 @@ enchantment.somanyenchantments.afa.desc=Nivel avanzado de Aspecto ígneo.
 enchantment.sfa=Aspecto ígneo supremo
 enchantment.somanyenchantments.sfa.desc=Versión máxima, el nivel más potente de Aspecto ígneo.
 
-enchantment.Swiper=Corte en arco
-enchantment.somanyenchantments.swiper.desc=Variante de Filo arrasador que no depende del descanso del ataque para poder cortar de nuevo (ataque de área cuerpo a cuerpo).
+enchantment.ArcSlash=Corte en arco
+enchantment.somanyenchantments.arcslash.desc=Variante de Filo arrasador que no depende del descanso del ataque para poder cortar de nuevo (ataque de área cuerpo a cuerpo).
 
 enchantment.freezing=Congelante
 enchantment.somanyenchantments.freezing.desc=Aplica Lentitud garantizada y un efecto de Fatiga al minar en cada golpe. Cada golpe también aumenta el amplificador del efecto y si llega a VIII, existe la posibilidad de que la criatura quede encerrada y congelada en hielo. Daña la espada si se activa.
@@ -309,11 +309,11 @@ enchantment.somanyenchantments.splitshot.desc=Duplica la flecha disparada por el
 enchantment.meltdown=Implosión
 enchantment.somanyenchantments.meltdown.desc=Te da la oportunidad de explotar si eres atacado. La explosión no te hace daño, pero daña la armadura severamente.
 
-enchantment.WellTilled=Hidratación
-enchantment.somanyenchantments.welltilled.desc=Arar hará que las tierras de cultivo se mojen automáticamente.
+enchantment.Moisturized=Hidratación
+enchantment.somanyenchantments.moisturized.desc=Arar hará que las tierras de cultivo se mojen automáticamente.
 
-enchantment.TillingPower=Labranza
-enchantment.somanyenchantments.tillingpower.desc=El área de arado aumenta mientras se daña la azada, dependiendo del número de tierras labradas.
+enchantment.Plowing=Labranza
+enchantment.somanyenchantments.plowing.desc=El área de arado aumenta mientras se daña la azada, dependiendo del número de tierras labradas.
 
 enchantment.ScytheDamage=Rastrillo dentado
 enchantment.somanyenchantments.scythedamage.desc=Aumenta mucho el daño de la azada.

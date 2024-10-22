@@ -15,8 +15,8 @@ import net.minecraft.item.ItemStack;
 
 public class EnchantmentAdvancedSharpness extends EnchantmentBase implements IEnchantmentDamage, IEnhancedEnchantment {
 	
-	public EnchantmentAdvancedSharpness(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentAdvancedSharpness(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

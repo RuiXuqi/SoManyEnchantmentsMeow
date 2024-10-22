@@ -65,20 +65,7 @@ public class EnchantmentBiomePresence extends Enchantment
     {
         return !(ench instanceof EnchantmentBiomePresence);
     }
-    @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack)
-    {
-    	
-        return super.canApplyAtEnchantingTable(stack);
-    	
-    	
-    }
 
-    @Override
-    public boolean canApply(ItemStack stack)
-    {
-        return super.canApply(stack);
-    }
 
     @Override
     public void onUserHurt(EntityLivingBase user, Entity target, int level)

@@ -26,8 +26,8 @@ import net.minecraft.util.math.BlockPos;
 
 public class EnchantmentPurification extends EnchantmentBase implements IPotionDebuffer {
 	
-	public EnchantmentPurification(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentPurification(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -53,11 +53,6 @@ public class EnchantmentPurification extends EnchantmentBase implements IPotionD
 	@Override
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.purification;
-	}
-	
-	@Override
-	public boolean canApply(ItemStack fTest) {
-		return super.canApply(fTest);
 	}
 	
 	@Override

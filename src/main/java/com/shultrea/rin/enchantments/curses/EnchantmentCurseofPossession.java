@@ -18,8 +18,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentCurseofPossession extends EnchantmentCurse {
 	
-	public EnchantmentCurseofPossession(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, EntityEquipmentSlot.values());
+	public EnchantmentCurseofPossession(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

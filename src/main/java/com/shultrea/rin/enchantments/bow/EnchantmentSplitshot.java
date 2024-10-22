@@ -24,9 +24,8 @@ import java.util.Random;
 
 public class EnchantmentSplitshot extends EnchantmentBase {
 	
-	public EnchantmentSplitshot(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{
-				EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});
+	public EnchantmentSplitshot(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

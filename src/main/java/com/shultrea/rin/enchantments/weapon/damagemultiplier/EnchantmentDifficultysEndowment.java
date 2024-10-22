@@ -20,8 +20,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentDifficultysEndowment extends EnchantmentBase implements IDamageMultiplier {
 	
-	public EnchantmentDifficultysEndowment(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentDifficultysEndowment(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -48,13 +48,7 @@ public class EnchantmentDifficultysEndowment extends EnchantmentBase implements 
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.difficultysEndowment, level);
 	}
-	
-	//TODO
-	@Override
-	public boolean canApply(ItemStack fTest) {
-		return fTest.getItem() instanceof ItemSword || super.canApply(fTest);
-	}
-	
+
 	@Override
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.difficultysEndowment;
@@ -63,7 +57,7 @@ public class EnchantmentDifficultysEndowment extends EnchantmentBase implements 
 	//TODO
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void CancelAttack(LivingAttackEvent fEvent) {
-		if(!(EnchantmentsUtility.checkEventCondition(fEvent, this))) return;
+		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
 		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
 		ItemStack dmgSource = attacker.getHeldItemMainhand();
 		if(EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.difficultysEndowment, dmgSource) <= 0) return;
@@ -78,7 +72,7 @@ public class EnchantmentDifficultysEndowment extends EnchantmentBase implements 
 		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
 		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
 		ItemStack dmgSource = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
-		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(this, dmgSource);
+		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.difficultysEndowment, dmgSource);
 		if(enchantmentLevel <= 0) return;
 		if(attacker.getEntityWorld().getDifficulty() == EnumDifficulty.HARD) {
 			fEvent.setAmount(fEvent.getAmount() * (1 + 0.1f * enchantmentLevel));

@@ -19,8 +19,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentSolsBlessing extends EnchantmentBase implements IWeatherEnchantment {
 	
-	public EnchantmentSolsBlessing(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentSolsBlessing(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -57,7 +57,6 @@ public class EnchantmentSolsBlessing extends EnchantmentBase implements IWeather
 	public void onEntityDamagedAlt(EntityLivingBase user, Entity entiti, ItemStack stack, int level) {
 		if(!(entiti instanceof EntityLivingBase)) return;
 		EntityLivingBase entity = (EntityLivingBase)entiti;
-		float damage = EnchantmentsUtility.reduceDamage(user, true, stack, this);
 		if(user.world.isDaytime() && EnchantmentsUtility.noBlockLight(user)) {
 			if(!entity.isPotionActive(MobEffects.GLOWING))
 				entity.addPotionEffect(new PotionEffect(MobEffects.GLOWING, 200, 0, false, false));

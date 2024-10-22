@@ -12,8 +12,8 @@ import net.minecraft.item.ItemStack;
 
 public class EnchantmentBrutality extends EnchantmentBase {
 	
-	public EnchantmentBrutality(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentBrutality(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

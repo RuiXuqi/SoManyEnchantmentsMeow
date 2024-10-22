@@ -3,6 +3,7 @@ package com.shultrea.rin.enchantments.armor;
 import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.Enchantment;
@@ -25,8 +26,8 @@ public class EnchantmentUnderwaterStrider extends EnchantmentBase {
 	
 	public static final UUID CACHED_UUID = UUID.fromString("a612fe81-132f-4c58-a335-13c4ae5cba21");
 	
-	public EnchantmentUnderwaterStrider(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.FEET});
+	public EnchantmentUnderwaterStrider(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -68,9 +69,9 @@ public class EnchantmentUnderwaterStrider extends EnchantmentBase {
 	public void onUnder(PlayerTickEvent e) {
 		if(e.phase == Phase.END) return;
 		EntityPlayer player = e.player;
-		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, player);
+		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.underwaterStrider, player);
 		IAttributeInstance s = player.getEntityAttribute(EntityLivingBase.SWIM_SPEED);
-		if(level <= 0) {
+		if(enchantmentLevel <= 0) {
 			removeSpeed(s, player);
 			return;
 		}
@@ -83,17 +84,17 @@ public class EnchantmentUnderwaterStrider extends EnchantmentBase {
 	}
 	
 	private void addSpeed(IAttributeInstance s, EntityLivingBase p) {
-		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, p);
+		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.underwaterStrider, p);
 		if(s.getModifier(CACHED_UUID) != null) return;
-		AttributeModifier modSpeed = new AttributeModifier(CACHED_UUID, "moveSpeed", 1.30 + ((double)level * 0.4D), 1);
+		AttributeModifier modSpeed = new AttributeModifier(CACHED_UUID, "moveSpeed", 1.30 + ((double)enchantmentLevel * 0.4D), 1);
 		s.removeModifier(modSpeed);
 		s.applyModifier(modSpeed);
 	}
 	
 	private void removeSpeed(IAttributeInstance s, EntityLivingBase p) {
-		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, p);
+		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.underwaterStrider, p);
 		if(s.getModifier(CACHED_UUID) == null) return;
-		AttributeModifier modSpeed = new AttributeModifier(CACHED_UUID, "moveSpeed", 1.30 + ((double)level * 0.4D), 1);
+		AttributeModifier modSpeed = new AttributeModifier(CACHED_UUID, "moveSpeed", 1.30 + ((double)enchantmentLevel * 0.4D), 1);
 		s.removeModifier(modSpeed);
 	}
 }

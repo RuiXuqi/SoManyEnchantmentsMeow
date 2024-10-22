@@ -15,8 +15,8 @@ import net.minecraft.potion.PotionEffect;
 
 public class EnchantmentHorsDeCombat extends EnchantmentBase implements IPotionDebuffer {
 	
-	public EnchantmentHorsDeCombat(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentHorsDeCombat(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

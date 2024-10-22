@@ -256,8 +256,8 @@ enchantment.somanyenchantments.curseofpossession.desc=Les objets ne peuvent pas 
 enchantment.flinging=Vol
 enchantment.somanyenchantments.flinging.desc=Similaire au Recul, mais le recul est dans un mouvement vertical.
 
-enchantment.sharperedge=Tranchant Renforcé
-enchantment.somanyenchantments.sharperedge.desc=Augmente les dégâts des outils.
+enchantment.reinforcedsharpness=Tranchant Renforcé
+enchantment.somanyenchantments.reinforcedsharpness.desc=Augmente les dégâts des outils.
 
 enchantment.amplifiedsharpness=Tranchant Amplifiée
 enchantment.somanyenchantments.amplifiedsharpness=Augmente drastiquement les dégâts de la hache et inflige plus de dégâts si la cible a une armure inférieure.
@@ -274,8 +274,8 @@ enchantment.somanyenchantments.afa.desc=Une version avancé d'aura de feu.
 enchantment.sfa=Aura de Feu Suprême
 enchantment.somanyenchantments.sfa.desc=Version suprême et le niveau le plus puissant d'Aura de Feu.
 
-enchantment.Swiper=Coup d'Arc
-enchantment.somanyenchantments.swiper.desc=Variante d'Affilage qui ne dépend pas du temps de recharge de l'attaque pour pouvoir fendre (attaque de zone en mêlée).
+enchantment.ArcSlash=Coup d'Arc
+enchantment.somanyenchantments.arcslash.desc=Variante d'Affilage qui ne dépend pas du temps de recharge de l'attaque pour pouvoir fendre (attaque de zone en mêlée).
 
 enchantment.freezing=Congélation
 enchantment.somanyenchantments.freezing.desc=Applique un effet garanti de potion de lenteur et de fatigue minière à chaque coup. Chaque coup augmente également l'amplificateur de l'effet de la potion et s'il atteint VIII, il y a une chance que le mob soit encastré dans de la glace givrée. Endommage l'épée si elle se déclenche.
@@ -307,11 +307,11 @@ enchantment.somanyenchantments.splitshot.desc=Duplique la flèche tirée par l'a
 enchantment.meltdown=Auto-Explosion
 enchantment.somanyenchantments.meltdown.desc=Vous donne une chance d'exploser si vous êtes attaqué. L'explosion ne vous fait pas de mal mais endommage gravement votre armure.
 
-enchantment.WellTilled=Hydraté
-enchantment.somanyenchantments.welltilled.desc=Le labourage rendra la terre agricole automatiquement humide.
+enchantment.Moisturized=Hydraté
+enchantment.somanyenchantments.moisturized.desc=Le labourage rendra la terre agricole automatiquement humide.
 
-enchantment.TillingPower=Labourage
-enchantment.somanyenchantments.tillingpower.desc=La surface de travail est augmentée tout en endommageant la houe en fonction du nombre de terre labourée.
+enchantment.Plowing=Labourage
+enchantment.somanyenchantments.plowing.desc=La surface de travail est augmentée tout en endommageant la houe en fonction du nombre de terre labourée.
 
 enchantment.ScytheDamage=Râteau Dentelé
 enchantment.somanyenchantments.scythedamage.desc=Augmente considérablement les dégâts de la houe.

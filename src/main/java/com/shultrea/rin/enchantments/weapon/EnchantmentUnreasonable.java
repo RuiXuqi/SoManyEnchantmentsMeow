@@ -3,6 +3,7 @@ package com.shultrea.rin.enchantments.weapon;
 import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLiving;
@@ -21,8 +22,8 @@ import java.util.Random;
 
 public class EnchantmentUnreasonable extends EnchantmentBase {
 	
-	public EnchantmentUnreasonable(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentUnreasonable(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -66,16 +67,16 @@ public class EnchantmentUnreasonable extends EnchantmentBase {
 				EntityLivingBase victim = event.getEntityLiving();
 				if(attacker.getHeldItemMainhand().isEmpty()) return;
 				if(victim instanceof EntityPlayer) return;
-				//Cap level to 10 to avoid incredibly large AABB checks in the event that someone acquires or cheats in a high level book
-				int level = Math.min(10, EnchantmentHelper.getEnchantmentLevel(this, attacker.getHeldItemMainhand()));
-				boolean roll = random.nextInt(10) < level * 200;
+				//Cap enchantmentLevel to 10 to avoid incredibly large AABB checks in the event that someone acquires or cheats in a high enchantmentLevel book
+				int enchantmentLevel = Math.min(10, EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.unreasonable, attacker.getHeldItemMainhand()));
+				boolean roll = random.nextInt(10) < enchantmentLevel * 200;
 				if(roll) {
-					List list = world.getEntitiesWithinAABBExcludingEntity(attacker, victim.getEntityBoundingBox().grow(5 + level * 5, 5 + level * 5, 5 + level * 5));
+					List list = world.getEntitiesWithinAABBExcludingEntity(attacker, victim.getEntityBoundingBox().grow(5 + enchantmentLevel * 5, 5 + enchantmentLevel * 5, 5 + enchantmentLevel * 5));
 					Collections.shuffle(list);
 					for(int x = 0; x < list.size(); x++) {
 						if(list.get(x) instanceof EntityLivingBase) {
 							EntityLivingBase randomTarget = (EntityLivingBase)list.get(x);
-							if(victim.getDistanceSq(randomTarget) <= 36 + (level - 1) * 28) {
+							if(victim.getDistanceSq(randomTarget) <= 36 + (enchantmentLevel - 1) * 28) {
 								if(victim.getMaxHealth() <= victim.getHealth()) {
 									victim.setRevengeTarget(randomTarget);
 									//Check if the victim has been given a revenge target or already has one

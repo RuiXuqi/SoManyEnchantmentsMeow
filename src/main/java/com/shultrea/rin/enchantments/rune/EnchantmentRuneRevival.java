@@ -22,9 +22,8 @@ import java.util.List;
 
 public class EnchantmentRuneRevival extends EnchantmentBase implements IEnchantmentRune {
 	
-	public EnchantmentRuneRevival(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{
-				EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});
+	public EnchantmentRuneRevival(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -56,7 +55,7 @@ public class EnchantmentRuneRevival extends EnchantmentBase implements IEnchantm
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.runeRevival;
 	}
-	
+
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack) {
 		return super.canApplyAtEnchantingTable(stack) && !(stack.getItem() instanceof ItemArmor);
@@ -78,19 +77,21 @@ public class EnchantmentRuneRevival extends EnchantmentBase implements IEnchantm
 		int amount = 0;
 		EntityPlayer entity = (EntityPlayer)fEvent.getEntityLiving();
 		ItemStack tool = fEvent.getOriginal();
-		int levelR = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.runeRevival, tool);
-		if(levelR <= 0) return;
-		if(levelR >= 3) levelR = 2;
+		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.runeRevival, tool);
+		if(enchantmentLevel <= 0) return;
+		enchantmentLevel = Math.min(enchantmentLevel, 2);
 		int durability = tool.getMaxDamage();
-		float extraChance = durability > 1250 ? 0 : durability > 750 ? 4 : durability > 200 ? 6 : durability > 80 ? 8 :
-																								  durability <= 80 ?
-																								  10 : 0;
+		float extraChance = durability > 1250 ? 0 :
+							durability > 750 ? 4 :
+							durability > 200 ? 6 :
+							durability > 80 ? 8 :
+							10;
 		extraChance = extraChance / 100f;
-		boolean test = EnchantmentsUtility.RANDOM.nextDouble() < (0.15f + (levelR * 0.15f)) + extraChance;
+		boolean test = EnchantmentsUtility.RANDOM.nextDouble() < (0.15f + (enchantmentLevel * 0.15f)) + extraChance;
 		//System.out.println(extraChance + " - Extra Chance");
 		if(test) {
 			ItemStack newTool = tool.copy();
-			newTool.setItemDamage((int)(newTool.getItemDamage() - (newTool.getItemDamage() * (0.5f * levelR))));
+			newTool.setItemDamage((int)(newTool.getItemDamage() - (newTool.getItemDamage() * (0.5f * enchantmentLevel))));
 			List<ItemStack> list = entity.inventory.mainInventory;
 			//boolean flag = entity.inventory.addItemStackToInventory(newTool);
 			int slot = entity.inventory.currentItem;

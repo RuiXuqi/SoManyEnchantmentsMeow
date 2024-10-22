@@ -24,8 +24,8 @@ public class EnchantmentStrengthenedVitality extends EnchantmentBase {
 	
 	public static final UUID CACHED_UUID = UUID.fromString("e681-134f-4c54-a535-29c3ae5c7a21");
 	
-	public EnchantmentStrengthenedVitality(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.CHEST});
+	public EnchantmentStrengthenedVitality(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

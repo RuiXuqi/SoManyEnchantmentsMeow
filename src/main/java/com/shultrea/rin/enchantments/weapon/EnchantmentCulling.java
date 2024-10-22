@@ -30,8 +30,8 @@ import java.util.Random;
 
 public class EnchantmentCulling extends EnchantmentBase {
 	
-	public EnchantmentCulling(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentCulling(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

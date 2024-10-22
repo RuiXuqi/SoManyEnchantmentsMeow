@@ -26,8 +26,8 @@ public class EnchantmentSmelter extends EnchantmentBase {
 	
 	Random random = new Random();
 	
-	public EnchantmentSmelter(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentSmelter(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

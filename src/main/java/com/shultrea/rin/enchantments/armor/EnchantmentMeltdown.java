@@ -17,8 +17,8 @@ import java.util.Random;
 
 public class EnchantmentMeltdown extends EnchantmentBase {
 	
-	public EnchantmentMeltdown(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.CHEST});
+	public EnchantmentMeltdown(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

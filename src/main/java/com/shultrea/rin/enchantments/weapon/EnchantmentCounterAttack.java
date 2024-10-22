@@ -11,8 +11,8 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 
 public class EnchantmentCounterAttack extends EnchantmentBase {
 	
-	public EnchantmentCounterAttack(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentCounterAttack(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

@@ -3,6 +3,7 @@ package com.shultrea.rin.enchantments.tool;
 import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockOre;
@@ -23,8 +24,8 @@ import java.util.List;
 
 public class EnchantmentQuarrying extends EnchantmentBase {
 	
-	public EnchantmentQuarrying(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentQuarrying(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -66,10 +67,10 @@ public class EnchantmentQuarrying extends EnchantmentBase {
 	public void onEvent(HarvestDropsEvent e) {
 		if(e.getHarvester() != null) {
 			ItemStack pick = e.getHarvester().getHeldItemMainhand();
-			if(EnchantmentHelper.getEnchantmentLevel(this, pick) <= 0) return;
+			if(EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.quarrying, pick) <= 0) return;
 			if(e.getFortuneLevel() > 0) return;
 			if(e.isSilkTouching()) return;
-			int quarry = EnchantmentHelper.getEnchantmentLevel(this, pick);
+			int quarry = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.quarrying, pick);
 			List<ItemStack> list = e.getDrops();
 			for(int x = 0; x < list.size(); x++) {
 				ItemStack stack = list.get(x);

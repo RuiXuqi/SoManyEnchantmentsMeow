@@ -27,8 +27,8 @@ import java.util.Map;
 
 public class EnchantmentPandorasCurse extends EnchantmentCurse {
 	
-	public EnchantmentPandorasCurse(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, EntityEquipmentSlot.values());
+	public EnchantmentPandorasCurse(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

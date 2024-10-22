@@ -17,8 +17,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentRainsBestowment extends EnchantmentBase implements IWeatherEnchantment {
 	
-	public EnchantmentRainsBestowment(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentRainsBestowment(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -65,17 +65,17 @@ public class EnchantmentRainsBestowment extends EnchantmentBase implements IWeat
 		if(enchantmentLevel <= 0) return;
 		float Damage = fEvent.getAmount();
 		if(attacker.world.isRaining() && EnchantmentsUtility.noBlockLight(attacker)) {
-			float FDamage = EnchantmentsUtility.CalculateDamageIgnoreSwipe(Damage, 0.2f, 0.80f, 1.0f, attacker, EnchantmentRegistry.rainsBestowment);
+			float FDamage = EnchantmentsUtility.modifyDamage(Damage, 0.2f, 0.80f, 1.0f, enchantmentLevel);
 			fEvent.setAmount(FDamage);
 		}
 		else if(!attacker.world.isRaining() && EnchantmentsUtility.noBlockLight(attacker)) {
-			float Fi = EnchantmentsUtility.CalculateDamageForNegativeSwipe(Damage, -0.2f, -0.3f, 1.0f, attacker, EnchantmentRegistry.rainsBestowment);
+			float Fi = EnchantmentsUtility.modifyDamage(Damage, -0.2f, -0.3f, 1.0f, enchantmentLevel);
 			fEvent.setAmount(Fi);
 			if(fEvent.getEntity().world.rand.nextInt(500) < 3 + enchantmentLevel) {
 				EnchantmentsUtility.Raining(fEvent.getEntityLiving().getEntityWorld());
 			}
 			else if(!EnchantmentsUtility.noBlockLight(attacker)) {
-				float Fin = EnchantmentsUtility.CalculateDamageForNegativeSwipe(Damage, 0.0f, -0.5f, 1.0f, attacker, EnchantmentRegistry.rainsBestowment);
+				float Fin = EnchantmentsUtility.modifyDamage(Damage, 0.0f, -0.5f, 1.0f, enchantmentLevel);
 				fEvent.setAmount(Fin);
 			}
 		}

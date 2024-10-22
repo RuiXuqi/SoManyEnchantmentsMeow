@@ -11,8 +11,8 @@ import net.minecraft.item.ItemStack;
 
 public class EnchantmentJaggedRake extends EnchantmentBase {
 	
-	public EnchantmentJaggedRake(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentJaggedRake(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -38,11 +38,6 @@ public class EnchantmentJaggedRake extends EnchantmentBase {
 	@Override
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.jaggedRake;
-	}
-	
-	@Override
-	public boolean canApplyAtEnchantingTable(ItemStack stack) {
-		return super.canApplyAtEnchantingTable(stack) && stack.getItem() instanceof ItemHoe;
 	}
 	
 	@Override

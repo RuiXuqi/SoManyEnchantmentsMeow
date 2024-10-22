@@ -4,6 +4,7 @@ import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,8 +17,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentUnsheathing extends EnchantmentBase {
 	
-	public EnchantmentUnsheathing(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentUnsheathing(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -58,8 +59,9 @@ public class EnchantmentUnsheathing extends EnchantmentBase {
 				InventoryPlayer inv = victim.inventory;
 				for(int x = 0; x < InventoryPlayer.getHotbarSize(); x++) {
 					ItemStack stack = inv.getStackInSlot(x);
-					if(EnchantmentHelper.getEnchantmentLevel(this, stack) <= 0) continue;
-					if(EnchantmentsUtility.RANDOM.nextInt(2) <= -1 + EnchantmentHelper.getEnchantmentLevel(this, stack))
+					int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.unsheathing, stack);
+					if(enchantmentLevel <= 0) continue;
+					if(EnchantmentsUtility.RANDOM.nextInt(2) <= -1 + enchantmentLevel)
 						continue;
 					if(inv.getStackInSlot(inv.currentItem) == stack) continue;
 					ItemStack s = inv.getStackInSlot(inv.currentItem);

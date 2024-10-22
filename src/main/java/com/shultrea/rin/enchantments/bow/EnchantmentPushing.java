@@ -3,6 +3,7 @@ package com.shultrea.rin.enchantments.bow;
 import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -26,8 +27,8 @@ import java.util.List;
 
 public class EnchantmentPushing extends EnchantmentBase {
 	
-	public EnchantmentPushing(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentPushing(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -71,29 +72,28 @@ public class EnchantmentPushing extends EnchantmentBase {
 		if(entity == null) return;
 		ItemStack bow = event.getItem();
 		if(bow.isEmpty()) return;
-		int level = EnchantmentHelper.getEnchantmentLevel(this, bow);
-		if(level <= 0) return;
-		if(bow.getItem() instanceof ItemBow && (72000 - event.getDuration() <= 20 + level * 10)) {
-			AxisAlignedBB axis = new AxisAlignedBB(entity.getPosition()).grow(4 + level * 2);
-			repelEntitiesInAABBFromPoint(entity.world, axis, entity.posX, entity.posY, entity.posZ, level);
+		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.pushing, bow);
+		if(enchantmentLevel <= 0) return;
+		if(bow.getItem() instanceof ItemBow && (72000 - event.getDuration() <= 20 + enchantmentLevel * 10)) {
+			AxisAlignedBB axis = new AxisAlignedBB(entity.getPosition()).grow(4 + enchantmentLevel * 2);
+			repelEntitiesInAABBFromPoint(entity.world, axis, entity.posX, entity.posY, entity.posZ, enchantmentLevel);
 		}
 	}
-	
-	public void repelEntitiesInAABBFromPoint(World world, AxisAlignedBB effectBounds, double x, double y, double z, int level) {
+
+	//TODO: rewrote the math, only intended change is forcing denominators to be positive, gotta test if i fucked up
+	public void repelEntitiesInAABBFromPoint(World world, AxisAlignedBB effectBounds, double x, double y, double z, int enchantmentLevel) {
 		List<Entity> list = world.getEntitiesWithinAABB(Entity.class, effectBounds);
 		for(Entity ent : list) {
-			if((ent instanceof EntityLiving) || (ent instanceof IProjectile)) {
-				if(ent instanceof EntityArrow && ent.onGround) {
-					continue;
-				}
-				Vec3d p = new Vec3d(x, y, z);
-				Vec3d t = new Vec3d(ent.posX, ent.posY, ent.posZ);
-				double distance = p.distanceTo(t) + 0.1D;
-				distance = 10 / distance;
-				Vec3d r = new Vec3d(t.x - p.x, t.y - p.y, t.z - p.z);
-				ent.motionX += (r.x / ((3.75D - ((level - 1) * 1.5D)) / distance)) / (MathHelper.clamp(50 - level * 10, 1, Integer.MAX_VALUE));
-				ent.motionY += (r.y / ((5D - ((level - 1) * 1.25D)) / distance)) / (MathHelper.clamp(50 - level * 10, 1, Integer.MAX_VALUE));
-				ent.motionZ += (r.z / ((3.75D - ((level - 1) * 1.5D)) / distance)) / (MathHelper.clamp(50 - level * 10, 1, Integer.MAX_VALUE));
+			if(ent instanceof EntityLiving || ent instanceof IProjectile) {
+				if(ent instanceof EntityArrow && ent.onGround) continue;
+				Vec3d bowVec = new Vec3d(x, y, z);
+				Vec3d entVec = new Vec3d(ent.posX, ent.posY, ent.posZ);
+				Vec3d bowToEntVec = new Vec3d(entVec.x - bowVec.x, entVec.y - bowVec.y, entVec.z - bowVec.z);
+				double distance = bowToEntVec.length() + 0.1;
+				double diminishOverDistance = 10 / distance / Math.max(50 - enchantmentLevel * 10, 1);
+				ent.motionX += bowToEntVec.x / Math.max(5.25 - enchantmentLevel * 1.5, 1) * diminishOverDistance;
+				ent.motionY += bowToEntVec.y / Math.max(6.25 - enchantmentLevel * 1.25, 1) * diminishOverDistance;
+				ent.motionZ += bowToEntVec.z / Math.max(5.25 - enchantmentLevel * 1.5, 1) * diminishOverDistance;
 			}
 		}
 	}

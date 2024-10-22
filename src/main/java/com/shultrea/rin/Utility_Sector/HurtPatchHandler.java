@@ -201,7 +201,7 @@ public class HurtPatchHandler {
 			return;
 		}
 
-		float FinalDamage = EnchantmentsUtility.ExclusiveCalculateDamageForNegativeSwipe(fEvent.getAmount(), -6.0f, attacker);
+		float FinalDamage = EnchantmentsUtility.ExclusivemodifyDamage(fEvent.getAmount(), -6.0f, attacker);
 
 
 		fEvent.setAmount(FinalDamage + 2.0f);

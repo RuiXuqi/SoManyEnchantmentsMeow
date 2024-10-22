@@ -22,8 +22,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentThunderstormsBestowment extends EnchantmentBase implements IWeatherEnchantment {
 	
-	public EnchantmentThunderstormsBestowment(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentThunderstormsBestowment(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -103,21 +103,21 @@ public class EnchantmentThunderstormsBestowment extends EnchantmentBase implemen
 		if(attacker.world.isThundering() && EnchantmentsUtility.noBlockLight(attacker)) {
 			//SkyDamage = (enchantmentLevel * 1.30f);
 			//fEvent.setAmount(Damage + SkyDamage);
-			float FDamage = EnchantmentsUtility.CalculateDamageIgnoreSwipe(Damage, 0.0f, 1.25f, 1.00f, attacker, EnchantmentRegistry.thunderstormsBestowment);
+			float FDamage = EnchantmentsUtility.modifyDamage(Damage, 0.0f, 1.25f, 1.00f, enchantmentLevel);
 			fEvent.setAmount(FDamage);
 		}
 		else if(attacker.world.isRaining()) {
 			fEvent.setAmount(Damage);
 		}
 		else if(EnchantmentsUtility.noBlockLight(attacker)) {
-			float Fin = EnchantmentsUtility.CalculateDamageForNegativeSwipe(Damage, 0.00f, -0.5f, 1.0f, attacker, EnchantmentRegistry.thunderstormsBestowment);
+			float Fin = EnchantmentsUtility.modifyDamage(Damage, 0.00f, -0.5f, 1.0f, enchantmentLevel);
 			fEvent.setAmount(Fin);
 			if(fEvent.getEntity().world.rand.nextInt(800) < 2 + (enchantmentLevel * 2)) {
 				EnchantmentsUtility.setThunderstorm(fEvent.getEntityLiving().getEntityWorld());
 			}
 		}
 		else if(!EnchantmentsUtility.noBlockLight(attacker)) {
-			float FI = EnchantmentsUtility.CalculateDamageForNegativeSwipe(Damage, -0.05f, -0.75f, 1.0f, attacker, EnchantmentRegistry.thunderstormsBestowment);
+			float FI = EnchantmentsUtility.modifyDamage(Damage, -0.05f, -0.75f, 1.0f, enchantmentLevel);
 			fEvent.setAmount(FI);
 			if(fEvent.getEntity().world.rand.nextInt(800) < 2 + (enchantmentLevel * 2)) {
 			}

@@ -5,6 +5,7 @@ import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -20,8 +21,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentDarkShadows extends EnchantmentBase implements IConditionalDamage {
 	
-	public EnchantmentDarkShadows(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentDarkShadows(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -76,7 +77,7 @@ public class EnchantmentDarkShadows extends EnchantmentBase implements IConditio
 	public void onEvent(LivingHurtEvent e) {
 		if(!EnchantmentBase.isDamageSourceAllowed(e.getSource())) return;
 		EntityLivingBase attacker = (EntityLivingBase)e.getSource().getTrueSource();
-		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(this, attacker.getHeldItemMainhand());
+		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.darkShadows, attacker.getHeldItemMainhand());
 		if(enchantmentLevel <= 0) return;
 		if(attacker.getBrightness() <= 0.1f && e.getEntityLiving().getBrightness() <= 0.1f)
 			e.setAmount(e.getAmount() + enchantmentLevel * 0.75f);

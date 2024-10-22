@@ -68,44 +68,43 @@ public class OtherHandler {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void enchHand(LivingHurtEvent fEvent) {
-		//System.out.println("EVENT EEEEEEEEEEEEEEE");
-		if(!(fEvent.getSource().damageType.equals("player") || fEvent.getSource().damageType.equals("mob"))) return;
-		if(!(fEvent.getSource().getTrueSource() instanceof EntityLivingBase)) return;
-		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
-		if(attacker == null) return;
-		ItemStack dmgSource = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
-		if(dmgSource == null) return;
-		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource()))
-			return;
-		float levelmath = ModConfig.enabled.subjectMathematics ?
-						  EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.subjectMathematics, dmgSource) : 0;
-		float levelhistory =
-				ModConfig.enabled.subjectHistory ? EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.subjectHistory, dmgSource) :
+	public void subjectHandler(LivingHurtEvent fEvent) {
+		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
+		EntityLivingBase attacker = (EntityLivingBase) fEvent.getSource().getTrueSource();
+		ItemStack stack = ((EntityLivingBase) fEvent.getSource().getTrueSource()).getHeldItemMainhand();
+		if(stack == null) return;
+		int levelMath = ModConfig.enabled.subjectMathematics ?
+						  EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.subjectMathematics, stack) : 0;
+		int levelHistory =
+				ModConfig.enabled.subjectHistory ? EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.subjectHistory, stack) :
 				0;
-		float english =
-				ModConfig.enabled.subjectEnglish ? EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.subjectEnglish, dmgSource) :
+		int levelEnglish =
+				ModConfig.enabled.subjectEnglish ? EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.subjectEnglish, stack) :
 				0;
-		if(levelmath > 0) {
-			//System.out.println("Check");
-			float hp = fEvent.getEntityLiving().getMaxHealth() * (levelmath * 0.003125f);
-			float currentHp = fEvent.getEntityLiving().getHealth() * (0.025f * levelmath + 0.025f);
-			float FD = EnchantmentsUtility.CalculateDamageIgnoreSwipe(fEvent.getAmount(), hp + currentHp, 0.0f, 1.0f, attacker, EnchantmentRegistry.subjectMathematics);
+		if(levelMath > 0) {
+			float hp = fEvent.getEntityLiving().getMaxHealth() * (levelMath * 0.003125f);
+			float currentHp = fEvent.getEntityLiving().getHealth() * (0.025f * levelMath + 0.025f);
+			float FD = EnchantmentsUtility.modifyDamage(fEvent.getAmount(), hp + currentHp, 0.0f, 1.0f, levelMath);
 			fEvent.setAmount(FD);
 		}
-		if(levelhistory > 0) {
-			float history = attacker.getEntityWorld().getTotalWorldTime() / 20;
-			history /= 60;
-			history /= 12;
-			history /= 5;
-			history = history / (6 - levelhistory);
-			if(history >= 5 * (levelhistory * 0.5f)) history = 5 * (levelhistory * 0.5f);
-			float FD = EnchantmentsUtility.CalculateDamageIgnoreSwipe(fEvent.getAmount(), history, 0.0f, 1.0f, attacker, EnchantmentRegistry.subjectHistory);
+		if(levelHistory > 0) {
+			float history = attacker.getEntityWorld().getTotalWorldTime() / 20 / 3600 / (6-levelHistory);
+			history = Math.min(history, 2.5f * levelHistory);
+			float FD = EnchantmentsUtility.modifyDamage(fEvent.getAmount(), history, 0.0f, 1.0f, levelHistory);
 			fEvent.setAmount(FD);
 		}
-		if(english > 0) {
-			if(fEvent.getEntity() instanceof EntityWitch || fEvent.getEntity() instanceof EntityVillager || fEvent.getEntity() instanceof EntityWolf || fEvent.getEntity() instanceof EntitySnowman || fEvent.getEntity() instanceof EntityIronGolem || fEvent.getEntity() instanceof EntityPigZombie || fEvent.getEntity() instanceof EntityVindicator || fEvent.getEntity() instanceof EntityIllusionIllager || fEvent.getEntity() instanceof EntityEvoker) {
-				float FD = EnchantmentsUtility.CalculateDamageIgnoreSwipe(fEvent.getAmount(), 0.0f, 3.0f, 1.0f, attacker, EnchantmentRegistry.subjectEnglish);
+		if(levelEnglish > 0) {
+			if(fEvent.getEntity() instanceof EntityWitch ||
+					fEvent.getEntity() instanceof EntityVillager ||
+					fEvent.getEntity() instanceof EntityWolf ||
+					fEvent.getEntity() instanceof EntitySnowman ||
+					fEvent.getEntity() instanceof EntityIronGolem ||
+					fEvent.getEntity() instanceof EntityPigZombie ||
+					fEvent.getEntity() instanceof EntityVindicator ||
+					fEvent.getEntity() instanceof EntityIllusionIllager ||
+					fEvent.getEntity() instanceof EntityEvoker)
+			{
+				float FD = EnchantmentsUtility.modifyDamage(fEvent.getAmount(), 0.0f, 3.0f, 1.0f, levelEnglish);
 				fEvent.setAmount(FD);
 				if(Math.random() <= 0.4f) fEvent.getEntityLiving().setSilent(true);
 			}

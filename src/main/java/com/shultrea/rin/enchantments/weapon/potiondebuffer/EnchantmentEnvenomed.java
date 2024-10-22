@@ -15,8 +15,8 @@ import net.minecraft.potion.PotionEffect;
 
 public class EnchantmentEnvenomed extends EnchantmentBase implements IPotionDebuffer {
 	
-	public EnchantmentEnvenomed(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentEnvenomed(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

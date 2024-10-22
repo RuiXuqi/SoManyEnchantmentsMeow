@@ -32,9 +32,8 @@ public class EnchantmentRuneResurrection extends EnchantmentBase {
 	
 	private final Map<UUID,InventoryPlayer> INVENTORY_MAP = new HashMap<>();
 	
-	public EnchantmentRuneResurrection(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{
-				EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});
+	public EnchantmentRuneResurrection(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

@@ -9,29 +9,22 @@ import net.minecraftforge.common.util.EnumHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EnumList {
+public class EnumTypes {
 	
 	static final Predicate<Item> a = item -> item instanceof Item;
 	public static final EnumEnchantmentType ALL = EnumHelper.addEnchantmentType("All", a);
 	static final Predicate<Item> ax = item -> item instanceof ItemAxe;
 	public static final EnumEnchantmentType COMBAT_AXE = EnumHelper.addEnchantmentType("Combat Axe", ax);
-	public static final EnumEnchantmentType AXE = EnumHelper.addEnchantmentType("Tool Axe", ax);
 	static final Predicate<Item> pax = item -> item instanceof ItemPickaxe;
 	public static final EnumEnchantmentType PICKAXE = EnumHelper.addEnchantmentType("Tool Pickaxe", pax);
 	static final Predicate<Item> ho = item -> item instanceof ItemHoe;
 	public static final EnumEnchantmentType HOE = EnumHelper.addEnchantmentType("Tool Hoe", ho);
-	static final Predicate<Item> blade = item -> item instanceof ItemSword;
-	public static final EnumEnchantmentType SWORD = EnumHelper.addEnchantmentType("Combat Sword", blade);
 	static final Predicate<Item> shov = item -> item instanceof ItemSpade;
 	public static final EnumEnchantmentType SPADE = EnumHelper.addEnchantmentType("Tool Shovel", shov);
-	static final Predicate<Item> comtool = item -> item instanceof ItemTool;
-	public static final EnumEnchantmentType COMBAT_TOOL = EnumHelper.addEnchantmentType("Combat Tool", comtool);
 	static final Predicate<Item> cons = item -> item instanceof ItemAppleGold;
 	public static final EnumEnchantmentType COMBAT_GOLDEN_APPLE = EnumHelper.addEnchantmentType("Golden Apple", cons);
 	static final Predicate<Item> shie = item -> item instanceof ItemShield;
 	public static final EnumEnchantmentType SHIELD = EnumHelper.addEnchantmentType("Combat Shield", shie);
-	static final Predicate<Item> cb = item -> item.isDamageable();
-	public static final EnumEnchantmentType DAMAGEABLE = EnumHelper.addEnchantmentType("Damageable", cb);
 	static final Predicate<Item> caas = item -> item instanceof ItemSword || item instanceof ItemAxe;
 	public static final EnumEnchantmentType COMBAT = EnumHelper.addEnchantmentType("Combat", caas);
 	static final Predicate<Item> rom = item -> item instanceof ItemSword || item instanceof ItemAxe || item instanceof ItemBow;
@@ -41,7 +34,7 @@ public class EnumList {
 	static final Predicate<Item> n = item -> false;
 	public static final EnumEnchantmentType NONE = EnumHelper.addEnchantmentType("None", n);
 	
-	public EnumList() {
+	public EnumTypes() {
 	}
 	
 	public static void initializeEnchantmentTab() {
@@ -57,19 +50,15 @@ public class EnumList {
 			EnumEnchantmentType[] e = a.getRelevantEnchantmentTypes();
 			toolTypes.add(e[x]);
 		}
-		combatType.add(SWORD);
 		combatType.add(COMBAT_AXE);
-		combatType.add(COMBAT_TOOL);
 		combatType.add(COMBAT_GOLDEN_APPLE);
 		combatType.add(SHIELD);
 		combatType.add(COMBAT);
 		combatType.add(COMBAT_WEAPON);
 		toolTypes.add(ALL_TOOL);
 		toolTypes.add(HOE);
-		toolTypes.add(AXE);
 		toolTypes.add(SPADE);
 		toolTypes.add(PICKAXE);
-		toolTypes.add(DAMAGEABLE);
 		toolTypes.add(ALL);
 		toolTypes.add(NONE);
 		EnumEnchantmentType[] finalCombatEnchantmentType = combatType.toArray(new EnumEnchantmentType[combatType.size()]);

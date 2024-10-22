@@ -4,6 +4,7 @@ import com.shultrea.rin.Interfaces.IDamageMultiplier;
 import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -23,8 +24,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 public class EnchantmentLuckMagnification extends EnchantmentBase implements IDamageMultiplier {
 	
-	public EnchantmentLuckMagnification(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentLuckMagnification(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -71,7 +72,7 @@ public class EnchantmentLuckMagnification extends EnchantmentBase implements IDa
 		//I know this is obsolete but for safety checks hehe.
 		if(amount == 0) return;
 		if(e.getEntityPlayer().getHeldItemMainhand() == null) return;
-		int level = EnchantmentHelper.getEnchantmentLevel(this, e.getEntityPlayer().getHeldItemMainhand());
+		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.luckMagnification, e.getEntityPlayer().getHeldItemMainhand());
 		if(level <= 0) return;
 		if(e.getEntityPlayer().getRNG().nextInt(100) < Math.abs(amount * level)) {
 			e.setDamageModifier(e.getDamageModifier() + amount * level * 0.05f);
@@ -84,7 +85,7 @@ public class EnchantmentLuckMagnification extends EnchantmentBase implements IDa
 		EntityPlayer player = (EntityPlayer)fEvent.getDamageSource().getTrueSource();
 		ItemStack sword = player.getHeldItemMainhand();
 		if(sword == null) return;
-		int level = EnchantmentHelper.getEnchantmentLevel(this, sword);
+		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.luckMagnification, sword);
 		if(level <= 0) return;
 		IAttributeInstance luck = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.LUCK);
 		int modifier = (int)(fEvent.getLootingLevel() + (luck.getAttributeValue() * level / 2));
@@ -96,7 +97,7 @@ public class EnchantmentLuckMagnification extends EnchantmentBase implements IDa
 		if(e.player == null) return;
 		if(e.phase == Phase.START) return;
 		if(e.player.getHeldItemMainhand() == null) return;
-		int level = EnchantmentHelper.getEnchantmentLevel(this, e.player.getHeldItemMainhand());
+		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.luckMagnification, e.player.getHeldItemMainhand());
 		if(level > 0) e.player.addPotionEffect(new PotionEffect(MobEffects.LUCK, 10, level - 1, true, false));
 	}
 }

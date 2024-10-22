@@ -1,6 +1,6 @@
 package com.shultrea.rin;
 
-import com.shultrea.rin.Enum.EnumList;
+import com.shultrea.rin.Enum.EnumTypes;
 import com.shultrea.rin.Prop_Sector.*;
 import com.shultrea.rin.Utility_Sector.*;
 import com.shultrea.rin.registry.EnchantmentRegistry;
@@ -90,7 +90,7 @@ public class SoManyEnchantments {
 	public void postInit(FMLPostInitializationEvent fEvent) {
 		proxy.postInit(fEvent);
 		PotionLister.Cycle();
-		EnumList.initializeEnchantmentTab();
+		EnumTypes.initializeEnchantmentTab();
 		EnchantmentLister.initEnchantmentList();
 	}
 }

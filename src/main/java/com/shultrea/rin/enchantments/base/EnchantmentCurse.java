@@ -16,6 +16,11 @@ public abstract class EnchantmentCurse extends EnchantmentBase {
 	public boolean canApplyAtEnchantingTable(ItemStack stack) {
 		return ModConfig.miscellaneous.canCursesBeAppliedAtEnchantingTable && super.canApplyAtEnchantingTable(stack);
 	}
+
+	@Override
+	public boolean canApply(ItemStack stack) {
+		return stack.getItem().canApplyAtEnchantingTable(stack, this);
+	}
 	
 	@Override
 	public boolean isAllowedOnBooks() {

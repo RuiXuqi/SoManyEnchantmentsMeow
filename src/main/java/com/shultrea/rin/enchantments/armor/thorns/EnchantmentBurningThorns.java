@@ -18,10 +18,8 @@ import java.util.Random;
 
 public class EnchantmentBurningThorns extends EnchantmentBase {
 	
-	public EnchantmentBurningThorns(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{
-				EntityEquipmentSlot.HEAD, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.LEGS,
-				EntityEquipmentSlot.FEET,});
+	public EnchantmentBurningThorns(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	//TODO
@@ -71,26 +69,23 @@ public class EnchantmentBurningThorns extends EnchantmentBase {
 		if(user == null) return;
 		if(attacker == null || attacker.isDead) return;
 		Random random = user.getRNG();
-		ItemStack itemstack = EnchantmentHelper.getEnchantedItem(Enchantments.THORNS, user);
+		ItemStack itemstack = EnchantmentHelper.getEnchantedItem(EnchantmentRegistry.burningThorns, user);
+		if(itemstack.isEmpty()) return;
 		if(shouldHit(level, random)) {
-			if(attacker != null) {
-				attacker.attackEntityFrom(DamageSource.causeThornsDamage(user), (float)getDamage(level, random));
-				attacker.setFire((level) + 2);
-			}
-			if(!itemstack.isEmpty()) {
-				damageArmor(itemstack, 5, user);
-			}
+			attacker.attackEntityFrom(DamageSource.causeThornsDamage(user), (float)getDamage(level, random));
+			attacker.setFire((level) + 2);
+
+			damageArmor(itemstack, 5, user);
 		}
-		else if(!itemstack.isEmpty()) {
+		else
 			damageArmor(itemstack, 2, user);
-		}
 	}
 	
 	//TODO
 	private void damageArmor(ItemStack stack, int amount, EntityLivingBase entity) {
 		int slot = -1;
 		int x = 0;
-		for(ItemStack i : entity.getArmorInventoryList()) {
+		for(ItemStack i : entity.getEquipmentAndArmor()) {	//Swapped from getArmorInventoryList, same comment as Adv Thorns
 			if(i == stack) {
 				slot = x;
 				break;

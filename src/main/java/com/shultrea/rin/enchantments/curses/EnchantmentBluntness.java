@@ -12,9 +12,8 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 
 public class EnchantmentBluntness extends EnchantmentCurse {
 	
-	public EnchantmentBluntness(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{
-				EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});
+	public EnchantmentBluntness(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override

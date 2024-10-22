@@ -5,10 +5,7 @@ import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnchantmentSweepingEdge;
-import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.enchantment.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
@@ -28,12 +25,11 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 public class EnchantmentArcSlash extends EnchantmentBase {
 	
-	public EnchantmentArcSlash(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentArcSlash(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -73,24 +69,22 @@ public class EnchantmentArcSlash extends EnchantmentBase {
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
 	public void HandleEnchant(LivingDamageEvent fEvent) {
-		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource()))
-			return;
+		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
 		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
-		ItemStack dmgSource = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
+		ItemStack stack = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
 		//Cap out cleave level to avoid large AABB checks
-		int levelCleave = Math.min(10, EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.arcSlash, dmgSource));
-		//TODO: stupid way of getting the fire ticks
-		int lf = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.fieryEdge, dmgSource) * 5;
-		lf += EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT, dmgSource) * 3;
-		lf += EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.advancedFireAspect, dmgSource) * 6;
-		lf += EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.supremeFireAspect, dmgSource) * 12;
-		lf += (int)(EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.lesserFireAspect, dmgSource) * 1.5f);
-		if(EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.arcSlash, dmgSource) <= 0) return;
-		int levitationLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.levitator, dmgSource);
+		int enchantmentLevel = Math.min(10, EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.arcSlash, stack));
+		int lf = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.fieryEdge, stack) * EnchantmentFieryEdge.getFireTicks(0)*5/6;
+		lf += EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT, stack) * 3;
+		lf += EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.advancedFireAspect, stack) * EnchantmentTierFA.getFireTicks(1)*3/4;
+		lf += EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.supremeFireAspect, stack) * EnchantmentTierFA.getFireTicks(2)*3/4;
+		lf += EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.lesserFireAspect, stack) * EnchantmentTierFA.getFireTicks(0)*3/4;
+		if(enchantmentLevel <= 0) return;
+		int levitationLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.levitator, stack);
 		// We have a cleaving level, let's figure out our damage value.
-		float splashDamage = fEvent.getAmount() * (levelCleave * 0.25f);
+		float splashDamage = fEvent.getAmount() * (enchantmentLevel * 0.25f);
 		// Next, find our entities to hit.
-		AxisAlignedBB boundBox = new AxisAlignedBB(attacker.posX - 5 - levelCleave, attacker.posY - 5 - levelCleave, attacker.posZ - 5 - levelCleave, attacker.posX + 5 + levelCleave, attacker.posY + 5 + levelCleave, attacker.posZ + 5 + levelCleave);
+		AxisAlignedBB boundBox = new AxisAlignedBB(attacker.posX - 5 - enchantmentLevel, attacker.posY - 5 - enchantmentLevel, attacker.posZ - 5 - enchantmentLevel, attacker.posX + 5 + enchantmentLevel, attacker.posY + 5 + enchantmentLevel, attacker.posZ + 5 + enchantmentLevel);
 		//@SuppressWarnings("unchecked")
 		ArrayList<Entity> targetEntities = new ArrayList<Entity>(attacker.getEntityWorld().getEntitiesWithinAABBExcludingEntity(fEvent.getEntity(), boundBox));
 		// Let's remove all the entries that aren't within range of our attacker
@@ -99,10 +93,10 @@ public class EnchantmentArcSlash extends EnchantmentBase {
             if (target == attacker) continue;
             if (target == fEvent.getEntityLiving()) continue;
             //Old value was 4.00f
-            if (target.getDistance(attacker) > 3.00f + levelCleave * 0.25f) continue;
+            if (target.getDistance(attacker) > 3.00f + enchantmentLevel * 0.25f) continue;
             Vec3d attackerCheck = EnchantmentsUtility.Cleave(target.posX - attacker.posX, target.posY - attacker.posY, target.posZ - attacker.posZ);
             double angle = Math.toDegrees(Math.acos(attackerCheck.normalize().dotProduct(attacker.getLookVec())));
-            if (angle < MathHelper.clamp(60.0D + (levelCleave * 10), 60, 359)) {
+            if (angle < MathHelper.clamp(60.0D + (enchantmentLevel * 10), 60, 359)) {
                 // This is within our arc, let's deal our damage.
                 DamageSource source = null;
                 if (attacker instanceof EntityPlayer) {

@@ -18,8 +18,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentClearSkiesFavor extends EnchantmentBase implements IWeatherEnchantment {
 	
-	public EnchantmentClearSkiesFavor(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentClearSkiesFavor(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -73,7 +73,7 @@ public class EnchantmentClearSkiesFavor extends EnchantmentBase implements IWeat
 			//SkyDamage = (enchantmentLevel * 0.90f);
 			//float Damage = fEvent.getAmount();
 			//fEvent.setAmount(Damage + SkyDamage);
-			float FDamage = EnchantmentsUtility.CalculateDamageIgnoreSwipe(fEvent.getAmount(), 0.5f, 0.75f, 1.00f, attacker, EnchantmentRegistry.clearSkiesFavor);
+			float FDamage = EnchantmentsUtility.modifyDamage(fEvent.getAmount(), 0.5f, 0.75f, 1.00f, enchantmentLevel);
 			fEvent.setAmount(FDamage);
 			//System.out.println(SecondDamage);
 			//System.out.println(Damage);
@@ -82,7 +82,7 @@ public class EnchantmentClearSkiesFavor extends EnchantmentBase implements IWeat
 			if(Math.random() * 2000 < 3 + (enchantmentLevel * 2)) {
 				EnchantmentsUtility.clearSky(fEvent.getEntityLiving().getEntityWorld());
 			}
-			float Fi = EnchantmentsUtility.CalculateDamageForNegativeSwipe(fEvent.getAmount(), 0.0f, -0.6f, 1.0f, attacker, EnchantmentRegistry.clearSkiesFavor);
+			float Fi = EnchantmentsUtility.modifyDamage(fEvent.getAmount(), 0.0f, -0.6f, 1.0f, enchantmentLevel);
 			fEvent.setAmount(Fi);
 		}
 	}

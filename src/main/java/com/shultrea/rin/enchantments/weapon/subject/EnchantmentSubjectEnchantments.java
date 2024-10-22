@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.weapon.subject;
 
-import com.shultrea.rin.Enum.EnumList;
 import com.shultrea.rin.Interfaces.ISubjectEnchantment;
 import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;

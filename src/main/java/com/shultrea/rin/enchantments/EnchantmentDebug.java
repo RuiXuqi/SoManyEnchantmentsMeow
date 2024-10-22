@@ -314,7 +314,7 @@ public class EnchantmentDebug extends Enchantment
     
 		if(Chance.equals("Critical!")){
 		
-			float FDamage = EnchantmentsUtility.CalculateDamageIgnoreSwipe(fEvent.getAmount(), 0.0f, 0.00f, 1.2f + (levelcriticalStrike * 0.2f), attacker, EnchantmentRegistry.CriticalStrike);
+			float FDamage = EnchantmentsUtility.modifyDamage(fEvent.getAmount(), 0.0f, 0.00f, 1.2f + (levelcriticalStrike * 0.2f), attacker, EnchantmentRegistry.CriticalStrike);
 		    fEvent.setAmount(FDamage);
 		
 		double X = fEvent.getEntity().posX;

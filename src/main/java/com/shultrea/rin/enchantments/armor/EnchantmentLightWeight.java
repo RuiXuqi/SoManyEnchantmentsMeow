@@ -3,6 +3,7 @@ package com.shultrea.rin.enchantments.armor;
 import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,8 +19,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 public class EnchantmentLightWeight extends EnchantmentBase {
 	
-	public EnchantmentLightWeight(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.FEET});
+	public EnchantmentLightWeight(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -56,21 +57,21 @@ public class EnchantmentLightWeight extends EnchantmentBase {
 	public void onExist(PlayerTickEvent e) {
 		if(e.phase == Phase.START) return;
 		if(e.player == null) return;
-		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, e.player);
-		if(level > 0 && !e.player.onGround) {
+		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.lightWeight, e.player);
+		if(enchantmentLevel > 0 && !e.player.onGround) {
 			if(e.player.isCreative()) {
 				if(!e.player.capabilities.isFlying) {
-					lightStep(level, e.player);
+					lightStep(enchantmentLevel, e.player);
 				}
 			}
 			else {
-				lightStep(level, e.player);
+				lightStep(enchantmentLevel, e.player);
 			}
 		}
 	}
 	
-	public void lightStep(int level, EntityPlayer player) {
-		float cloud = MathHelper.clamp(level / 3, 0.33f, 1);
+	public void lightStep(int enchantmentLevel, EntityPlayer player) {
+		float cloud = MathHelper.clamp(enchantmentLevel/3f, 0.33f, 1);
 		if(player.fallDistance >= 3.0F) {
 			if(player.world.isRemote) {
 				for(int i = 0; i < 3; i++) {
@@ -83,8 +84,8 @@ public class EnchantmentLightWeight extends EnchantmentBase {
 		}
 		if(!player.onGround) {
 			if(!player.world.isRemote)
-				// player.motionY = player.motionY + MathHelper.clamp(0.005D + 0.005D * level, 0, 0.04D);
-				player.jumpMovementFactor += 0.0075F * level + 0.0025f;
+				// player.motionY = player.motionY + MathHelper.clamp(0.005D + 0.005D * enchantmentLevel, 0, 0.04D);
+				player.jumpMovementFactor += 0.0075F * enchantmentLevel + 0.0025f;
 		}
 		if(player.collidedHorizontally) {
 			player.stepHeight = 1.0F;
@@ -97,15 +98,16 @@ public class EnchantmentLightWeight extends EnchantmentBase {
 	@SubscribeEvent
 	public void onJump(LivingJumpEvent e) {
 		if(e.getEntityLiving() == null) return;
-		if(EnchantmentHelper.getMaxEnchantmentLevel(this, e.getEntityLiving()) > 0)
-			e.getEntityLiving().motionY *= (1.05D + EnchantmentHelper.getMaxEnchantmentLevel(this, e.getEntityLiving()) * 0.15D);
+		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.lightWeight, e.getEntityLiving());
+		if(enchantmentLevel > 0)
+			e.getEntityLiving().motionY *= (1.05D + enchantmentLevel * 0.15D);
 	}
 	
 	@SubscribeEvent
 	public void onEvent(LivingFallEvent e) {
-		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, e.getEntityLiving());
-		if(level > 0) {
-			e.setDistance(MathHelper.clamp(e.getDistance() - 4 - level * 2f, 0, 20));
+		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.lightWeight, e.getEntityLiving());
+		if(enchantmentLevel > 0) {
+			e.setDistance(MathHelper.clamp(e.getDistance() - 4 - enchantmentLevel * 2f, 0, 20));
 		}
 	}
 }

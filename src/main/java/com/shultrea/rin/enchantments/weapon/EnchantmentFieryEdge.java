@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.weapon;
 
+import com.shultrea.rin.Interfaces.IEnchantmentFire;
 import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
 import com.shultrea.rin.Main_Sector.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -14,10 +15,10 @@ import net.minecraft.item.ItemStack;
 
 import java.util.Random;
 
-public class EnchantmentFieryEdge extends EnchantmentBase {
+public class EnchantmentFieryEdge extends EnchantmentBase implements IEnchantmentFire {
 	
-	public EnchantmentFieryEdge(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentFieryEdge(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+		super(name, rarity, type, slots);
 	}
 	
 	@Override
@@ -50,7 +51,7 @@ public class EnchantmentFieryEdge extends EnchantmentBase {
 	public void onEntityDamagedAlt(EntityLivingBase user, Entity target, ItemStack stack, int level) {
 		if(!(target instanceof EntityLivingBase)) return;
 		EntityLivingBase victim = (EntityLivingBase)target;
-		target.setFire(level * 6);
+		target.setFire(level * getFireTicks(0));
 		Random randy = new Random();
 		if(victim.isBurning() && randy.nextInt(10 - level * 2) < 3) {
 			victim.hurtResistantTime = 0;
@@ -61,5 +62,9 @@ public class EnchantmentFieryEdge extends EnchantmentBase {
 	@Override
 	public boolean canApplyTogether(Enchantment fTest) {
 		return super.canApplyTogether(fTest) && fTest != Enchantments.FIRE_ASPECT && !(fTest instanceof EnchantmentWaterAspect);
+	}
+
+	public static int getFireTicks(int tier) {
+		return 6;
 	}
 }
