@@ -1,8 +1,8 @@
 package com.shultrea.rin.enchantments.armor.protection;
 
 import com.shultrea.rin.Interfaces.IEnchantmentProtection;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentProtection;
@@ -12,7 +12,7 @@ import net.minecraft.util.DamageSource;
 
 public class EnchantmentMagicProtection extends EnchantmentBase implements IEnchantmentProtection {
 	
-	public EnchantmentMagicProtection(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentMagicProtection(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -46,14 +46,14 @@ public class EnchantmentMagicProtection extends EnchantmentBase implements IEnch
 		return source.canHarmInCreative() ? 0 : (source.isMagicDamage() ? level * 2 : 0);
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		if(fTest instanceof EnchantmentProtection) {
-			EnchantmentProtection p = (EnchantmentProtection)fTest;
-			if(p.protectionType != EnchantmentProtection.Type.FALL) return false;
-			else return super.canApplyTogether(fTest) && !(fTest instanceof IEnchantmentProtection);
-		}
-		return super.canApplyTogether(fTest) && !(fTest instanceof IEnchantmentProtection);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		if(fTest instanceof EnchantmentProtection) {
+//			EnchantmentProtection p = (EnchantmentProtection)fTest;
+//			if(p.protectionType != EnchantmentProtection.Type.FALL) return false;
+//			else return super.canApplyTogether(fTest) && !(fTest instanceof IEnchantmentProtection);
+//		}
+//		return super.canApplyTogether(fTest) && !(fTest instanceof IEnchantmentProtection);
+//	}
 }
 

@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments.weapon;
 
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
@@ -31,7 +31,7 @@ public class EnchantmentSwifterSlashes extends EnchantmentBase {
 	//TODO
 	public static final UUID CACHED_UUID = UUID.fromString("e6109481-134f-4c54-a535-29c3ae5c7a21");
 	
-	public EnchantmentSwifterSlashes(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentSwifterSlashes(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -66,10 +66,10 @@ public class EnchantmentSwifterSlashes extends EnchantmentBase {
 	}
 	
 	//TODO
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return super.canApplyTogether(fTest) && fTest != EnchantmentRegistry.bluntness && fTest != Enchantments.KNOCKBACK && fTest != EnchantmentRegistry.blessedEdge && fTest != EnchantmentRegistry.reviledBlade && fTest != EnchantmentRegistry.cursedEdge;
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return super.canApplyTogether(fTest) && fTest != EnchantmentRegistry.bluntness && fTest != Enchantments.KNOCKBACK && fTest != EnchantmentRegistry.blessedEdge && fTest != EnchantmentRegistry.reviledBlade && fTest != EnchantmentRegistry.cursedEdge;
+//	}
 	
 	//TODO
 	public boolean isValidPlayer(Entity entity) {

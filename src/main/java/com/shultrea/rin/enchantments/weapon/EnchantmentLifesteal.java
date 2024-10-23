@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments.weapon;
 
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.Utility_Sector.UtilityAccessor;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentLifesteal extends EnchantmentBase {
 	
-	public EnchantmentLifesteal(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentLifesteal(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -53,10 +53,10 @@ public class EnchantmentLifesteal extends EnchantmentBase {
 	}
 	
 	//TODO
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return super.canApplyTogether(fTest) && fTest != EnchantmentRegistry.blessedEdge && fTest != EnchantmentRegistry.cursedEdge;
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return super.canApplyTogether(fTest) && fTest != EnchantmentRegistry.blessedEdge && fTest != EnchantmentRegistry.cursedEdge;
+//	}
 	
 	//TODO
 	@SubscribeEvent(priority = EventPriority.LOW)

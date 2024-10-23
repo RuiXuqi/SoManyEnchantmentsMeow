@@ -1,6 +1,6 @@
 package com.shultrea.rin.Utility_Sector;
 
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.ModConfig;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

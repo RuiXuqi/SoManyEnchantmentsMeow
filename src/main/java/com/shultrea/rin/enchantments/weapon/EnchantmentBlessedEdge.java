@@ -1,8 +1,8 @@
 package com.shultrea.rin.enchantments.weapon;
 
 import com.shultrea.rin.Interfaces.IEnchantmentDamage;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentBlessedEdge extends EnchantmentBase {
 	
-	public EnchantmentBlessedEdge(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentBlessedEdge(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -55,10 +55,10 @@ public class EnchantmentBlessedEdge extends EnchantmentBase {
 	}
 	
 	//TODO
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return super.canApplyTogether(fTest) && fTest != Enchantments.SMITE && fTest != EnchantmentRegistry.cursedEdge && fTest != EnchantmentRegistry.advancedSmite && !(fTest instanceof IEnchantmentDamage);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return super.canApplyTogether(fTest) && fTest != Enchantments.SMITE && fTest != EnchantmentRegistry.cursedEdge && fTest != EnchantmentRegistry.advancedSmite && !(fTest instanceof IEnchantmentDamage);
+//	}
 	
 	//TODO
 	@SubscribeEvent(priority = EventPriority.NORMAL)

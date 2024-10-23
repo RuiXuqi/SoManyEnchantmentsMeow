@@ -92,5 +92,6 @@ public class SoManyEnchantments {
 		PotionLister.Cycle();
 		EnumTypes.initializeEnchantmentTab();
 		EnchantmentLister.initEnchantmentList();
+		EnchantmentRegistry.initIncompatLists();
 	}
 }

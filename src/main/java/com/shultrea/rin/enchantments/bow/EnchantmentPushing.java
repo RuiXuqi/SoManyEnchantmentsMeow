@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments.bow;
 
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
@@ -16,7 +16,6 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
@@ -27,7 +26,7 @@ import java.util.List;
 
 public class EnchantmentPushing extends EnchantmentBase {
 	
-	public EnchantmentPushing(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentPushing(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -61,10 +60,10 @@ public class EnchantmentPushing extends EnchantmentBase {
 		return ModConfig.treasure.pushing;
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return !(fTest instanceof EnchantmentStrafe) && super.canApplyTogether(fTest);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return !(fTest instanceof EnchantmentStrafe) && super.canApplyTogether(fTest);
+//	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
 	public void onEvent(LivingEntityUseItemEvent.Tick event) {

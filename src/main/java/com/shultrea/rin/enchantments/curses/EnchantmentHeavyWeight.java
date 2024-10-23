@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments.curses;
 
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.weapon.EnchantmentSwifterSlashes;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
 import net.minecraft.enchantment.Enchantment;
@@ -13,7 +13,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
  */
 public class EnchantmentHeavyWeight extends EnchantmentCurse {
 	
-	public EnchantmentHeavyWeight(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentHeavyWeight(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -42,8 +42,8 @@ public class EnchantmentHeavyWeight extends EnchantmentCurse {
 		return ModConfig.treasure.heavyWeight;
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment ench) {
-		return !(ench instanceof EnchantmentSwifterSlashes) && super.canApplyTogether(ench);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment ench) {
+//		return !(ench instanceof EnchantmentSwifterSlashes) && super.canApplyTogether(ench);
+//	}
 }

@@ -1,8 +1,8 @@
 package com.shultrea.rin.enchantments.weapon.damage;
 
 import com.shultrea.rin.Interfaces.IEnchantmentDamage;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.Utility_Sector.UtilityAccessor;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -25,7 +25,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentWaterAspect extends EnchantmentBase implements IEnchantmentDamage {
 	
-	public EnchantmentWaterAspect(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentWaterAspect(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -60,10 +60,10 @@ public class EnchantmentWaterAspect extends EnchantmentBase implements IEnchantm
 	}
 	
 	//TODO
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return super.canApplyTogether(fTest) && fTest != EnchantmentRegistry.bluntness && !(fTest instanceof EnchantmentDamage) && !(fTest instanceof IEnchantmentDamage) && fTest != Enchantments.FIRE_ASPECT;
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return super.canApplyTogether(fTest) && fTest != EnchantmentRegistry.bluntness && !(fTest instanceof EnchantmentDamage) && !(fTest instanceof IEnchantmentDamage) && fTest != Enchantments.FIRE_ASPECT;
+//	}
 	
 	//TODO
 	@SubscribeEvent(priority = EventPriority.HIGHEST)

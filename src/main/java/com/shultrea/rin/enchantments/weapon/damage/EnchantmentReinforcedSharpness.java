@@ -1,8 +1,8 @@
 package com.shultrea.rin.enchantments.weapon.damage;
 
 import com.shultrea.rin.Interfaces.IEnchantmentDamage;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
@@ -18,7 +18,7 @@ import net.minecraft.util.EntityDamageSource;
 
 public class EnchantmentReinforcedSharpness extends EnchantmentBase implements IEnchantmentDamage {
 	
-	public EnchantmentReinforcedSharpness(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentReinforcedSharpness(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -70,8 +70,8 @@ public class EnchantmentReinforcedSharpness extends EnchantmentBase implements I
 		return 0;
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return super.canApplyTogether(fTest) && fTest != EnchantmentRegistry.bluntness && !(fTest instanceof IEnchantmentDamage) && !(fTest instanceof EnchantmentDamage);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return super.canApplyTogether(fTest) && fTest != EnchantmentRegistry.bluntness && !(fTest instanceof IEnchantmentDamage) && !(fTest instanceof EnchantmentDamage);
+//	}
 }

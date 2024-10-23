@@ -1,8 +1,8 @@
 package com.shultrea.rin.enchantments.weapon.subject;
 
 import com.shultrea.rin.Interfaces.ISubjectEnchantment;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -196,10 +196,10 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase implements I
 		return 0.80f + level * 0.30f;
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment ench) {
-		return !(ench instanceof EnchantmentSubjectEnchantments);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment ench) {
+//		return !(ench instanceof EnchantmentSubjectEnchantments);
+//	}
 	
 	@Override
 	public String getName() {

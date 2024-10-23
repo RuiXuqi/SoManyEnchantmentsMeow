@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments.hoe;
 
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.block.Block;
@@ -29,7 +29,7 @@ public class EnchantmentMoisturized extends EnchantmentBase {
 	
 	public static final PropertyInteger MOISTURE = PropertyInteger.create("moisture", 0, 7);
 	
-	public EnchantmentMoisturized(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentMoisturized(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	

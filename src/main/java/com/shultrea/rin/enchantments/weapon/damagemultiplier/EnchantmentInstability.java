@@ -2,8 +2,8 @@ package com.shultrea.rin.enchantments.weapon.damagemultiplier;
 
 import bettercombat.mod.event.RLCombatModifyDamageEvent;
 import com.shultrea.rin.Interfaces.IDamageMultiplier;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.CompatUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentInstability extends EnchantmentCurse implements IDamageMultiplier {
 	
-	public EnchantmentInstability(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentInstability(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -57,10 +57,10 @@ public class EnchantmentInstability extends EnchantmentCurse implements IDamageM
 		return ModConfig.treasure.instability;
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment ench) {
-		return !(ench instanceof EnchantmentDurability) && super.canApplyTogether(ench);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment ench) {
+//		return !(ench instanceof EnchantmentDurability) && super.canApplyTogether(ench);
+//	}
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public static void onLivingDamageEvent(LivingDamageEvent event) {

@@ -2,8 +2,8 @@ package com.shultrea.rin.enchantments.armor.protection;
 
 import com.shultrea.rin.Interfaces.IEnchantmentProtection;
 import com.shultrea.rin.Interfaces.IEnhancedEnchantment;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentAdvancedFireProtection extends EnchantmentBase implements IEnchantmentProtection, IEnhancedEnchantment {
 	
-	public EnchantmentAdvancedFireProtection(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentAdvancedFireProtection(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -60,10 +60,10 @@ public class EnchantmentAdvancedFireProtection extends EnchantmentBase implement
 	}
 	
 	//TODO
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return fTest != EnchantmentRegistry.advancedProjectileProtection && fTest != EnchantmentRegistry.advancedBlastProtection && fTest != EnchantmentRegistry.advancedProtection && fTest != EnchantmentRegistry.magicProtection && fTest != Enchantments.FIRE_PROTECTION && fTest != Enchantments.BLAST_PROTECTION && fTest != Enchantments.PROJECTILE_PROTECTION && fTest != Enchantments.PROTECTION && fTest != EnchantmentRegistry.physicalProtection && super.canApplyTogether(fTest);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return fTest != EnchantmentRegistry.advancedProjectileProtection && fTest != EnchantmentRegistry.advancedBlastProtection && fTest != EnchantmentRegistry.advancedProtection && fTest != EnchantmentRegistry.magicProtection && fTest != Enchantments.FIRE_PROTECTION && fTest != Enchantments.BLAST_PROTECTION && fTest != Enchantments.PROJECTILE_PROTECTION && fTest != Enchantments.PROTECTION && fTest != EnchantmentRegistry.physicalProtection && super.canApplyTogether(fTest);
+//	}
 	
 	//TODO
 	@SubscribeEvent(priority = EventPriority.HIGHEST)

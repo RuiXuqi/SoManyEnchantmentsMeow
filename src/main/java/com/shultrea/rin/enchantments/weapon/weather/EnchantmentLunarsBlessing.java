@@ -1,8 +1,8 @@
 package com.shultrea.rin.enchantments.weapon.weather;
 
 import com.shultrea.rin.Interfaces.IWeatherEnchantment;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.Enchantment;
@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentLunarsBlessing extends EnchantmentBase implements IWeatherEnchantment {
 	
-	public EnchantmentLunarsBlessing(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentLunarsBlessing(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -67,10 +67,10 @@ public class EnchantmentLunarsBlessing extends EnchantmentBase implements IWeath
 		}
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return super.canApplyTogether(fTest) && !(fTest instanceof IWeatherEnchantment);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return super.canApplyTogether(fTest) && !(fTest instanceof IWeatherEnchantment);
+//	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onHurtEvent(LivingHurtEvent e) {

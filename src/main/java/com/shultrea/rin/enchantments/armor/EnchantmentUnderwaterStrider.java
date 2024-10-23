@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments.armor;
 
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.block.material.Material;
@@ -26,7 +26,7 @@ public class EnchantmentUnderwaterStrider extends EnchantmentBase {
 	
 	public static final UUID CACHED_UUID = UUID.fromString("a612fe81-132f-4c58-a335-13c4ae5cba21");
 	
-	public EnchantmentUnderwaterStrider(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentUnderwaterStrider(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -60,10 +60,10 @@ public class EnchantmentUnderwaterStrider extends EnchantmentBase {
 		return ModConfig.treasure.underwaterStrider;
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment e) {
-		return super.canApplyTogether(e) && !(e instanceof EnchantmentWaterWalker);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment e) {
+//		return super.canApplyTogether(e) && !(e instanceof EnchantmentWaterWalker);
+//	}
 	
 	@SubscribeEvent
 	public void onUnder(PlayerTickEvent e) {

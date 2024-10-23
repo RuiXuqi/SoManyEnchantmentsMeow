@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments.fishing;
 
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 
 public class EnchantmentAdvancedLure extends EnchantmentBase {
 	
-	public EnchantmentAdvancedLure(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentAdvancedLure(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -53,10 +53,10 @@ public class EnchantmentAdvancedLure extends EnchantmentBase {
 	}
 	
 	//TODO
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return fTest != Enchantments.LURE && super.canApplyTogether(fTest);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return fTest != Enchantments.LURE && super.canApplyTogether(fTest);
+//	}
 	
 	/*
 	@SubscribeEvent(priority=EventPriority.HIGHEST)

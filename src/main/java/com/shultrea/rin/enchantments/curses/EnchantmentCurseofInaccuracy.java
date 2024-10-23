@@ -1,8 +1,8 @@
 package com.shultrea.rin.enchantments.curses;
 
 import bettercombat.mod.event.RLCombatModifyDamageEvent;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.CompatUtil;
 import com.shultrea.rin.enchantments.weapon.EnchantmentTrueStrike;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -24,7 +24,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  */
 public class EnchantmentCurseofInaccuracy extends EnchantmentCurse {
 	
-	public EnchantmentCurseofInaccuracy(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentCurseofInaccuracy(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -58,10 +58,10 @@ public class EnchantmentCurseofInaccuracy extends EnchantmentCurse {
 		return ModConfig.treasure.curseOfInaccuracy;
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment ench) {
-		return !(ench instanceof EnchantmentTrueStrike) && super.canApplyTogether(ench);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment ench) {
+//		return !(ench instanceof EnchantmentTrueStrike) && super.canApplyTogether(ench);
+//	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void onLivingAttackEvent(LivingAttackEvent event) {

@@ -1,8 +1,8 @@
 package com.shultrea.rin.enchantments.weapon.ancient;
 
 import com.shultrea.rin.Interfaces.IAncientEnchantment;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentLister;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.Enchantment;
@@ -20,7 +20,7 @@ import java.util.List;
 
 public class EnchantmentAncientSealedCurses extends EnchantmentBase implements IAncientEnchantment {
 	
-	public EnchantmentAncientSealedCurses(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentAncientSealedCurses(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	

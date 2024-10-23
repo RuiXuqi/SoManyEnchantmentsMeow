@@ -1,8 +1,8 @@
 package com.shultrea.rin.enchantments.weapon.ancient;
 
 import com.shultrea.rin.Interfaces.IAncientEnchantment;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
@@ -26,7 +26,7 @@ public class EnchantmentAncientSwordMastery extends EnchantmentBase implements I
 	
 	public static String nbtFlag = "smeFlag";
 	
-	public EnchantmentAncientSwordMastery(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentAncientSwordMastery(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -65,10 +65,10 @@ public class EnchantmentAncientSwordMastery extends EnchantmentBase implements I
 		return TextFormatting.YELLOW.toString();
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment e) {
-		return super.canApplyTogether(e) && !(e instanceof EnchantmentSweepingEdge);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment e) {
+//		return super.canApplyTogether(e) && !(e instanceof EnchantmentSweepingEdge);
+//	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
 	//public void HandleEnchant(LivingDamageEvent e)

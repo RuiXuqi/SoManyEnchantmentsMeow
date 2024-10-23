@@ -1,8 +1,8 @@
 package com.shultrea.rin.enchantments.weapon.weather;
 
 import com.shultrea.rin.Interfaces.IWeatherEnchantment;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
@@ -22,7 +22,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentThunderstormsBestowment extends EnchantmentBase implements IWeatherEnchantment {
 	
-	public EnchantmentThunderstormsBestowment(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentThunderstormsBestowment(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -56,10 +56,10 @@ public class EnchantmentThunderstormsBestowment extends EnchantmentBase implemen
 		return ModConfig.treasure.thunderstormsBestowment;
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return super.canApplyTogether(fTest) && !(fTest instanceof IWeatherEnchantment);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return super.canApplyTogether(fTest) && !(fTest instanceof IWeatherEnchantment);
+//	}
 	
 	public boolean isValidPlayer(Entity entity) {
 		if(entity instanceof EntityPlayer) {

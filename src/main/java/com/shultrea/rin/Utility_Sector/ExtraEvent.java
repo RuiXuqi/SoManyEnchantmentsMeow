@@ -1,11 +1,10 @@
 package com.shultrea.rin.Utility_Sector;
 
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Prop_Sector.ArrowPropertiesProvider;
 import com.shultrea.rin.Prop_Sector.IArrowProperties;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.enchantments.bow.EnchantmentTierFlame;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;

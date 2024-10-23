@@ -2,8 +2,8 @@ package com.shultrea.rin.enchantments.weapon.damage;
 
 import com.shultrea.rin.Interfaces.IEnchantmentDamage;
 import com.shultrea.rin.Interfaces.IEnhancedEnchantment;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentDamage;
@@ -167,10 +167,10 @@ public class EnchantmentTierDamage extends EnchantmentBase implements IEnchantme
 														 5.0f * level : 0;
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment ench) {
-		return !(ench instanceof EnchantmentTierDamage) && !(ench instanceof EnchantmentDamage) && !(ench instanceof IEnchantmentDamage);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment ench) {
+//		return !(ench instanceof EnchantmentTierDamage) && !(ench instanceof EnchantmentDamage) && !(ench instanceof IEnchantmentDamage);
+//	}
 	
 	@Override
 	public String getName() {

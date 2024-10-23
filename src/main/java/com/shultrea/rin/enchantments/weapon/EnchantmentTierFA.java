@@ -1,15 +1,14 @@
 package com.shultrea.rin.enchantments.weapon;
 
 import com.shultrea.rin.Interfaces.IEnchantmentFire;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
@@ -111,10 +110,10 @@ public class EnchantmentTierFA extends EnchantmentBase implements IEnchantmentFi
 	}
 
 	//TODO
-	@Override
-	public boolean canApplyTogether(Enchantment ench) {
-		return !(ench instanceof EnchantmentTierFA || ench == EnchantmentRegistry.fieryEdge || ench == EnchantmentRegistry.waterAspect);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment ench) {
+//		return !(ench instanceof EnchantmentTierFA || ench == EnchantmentRegistry.fieryEdge || ench == EnchantmentRegistry.waterAspect);
+//	}
 	
 	//TODO
 	@Override

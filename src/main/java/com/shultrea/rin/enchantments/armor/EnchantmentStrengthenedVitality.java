@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments.armor;
 
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
@@ -24,7 +24,7 @@ public class EnchantmentStrengthenedVitality extends EnchantmentBase {
 	
 	public static final UUID CACHED_UUID = UUID.fromString("e681-134f-4c54-a535-29c3ae5c7a21");
 	
-	public EnchantmentStrengthenedVitality(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentStrengthenedVitality(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -58,11 +58,11 @@ public class EnchantmentStrengthenedVitality extends EnchantmentBase {
 		return ModConfig.treasure.strengthenedVitality;
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment e) {
-		return super.canApplyTogether(e);
-		//return super.canApplyTogether(e) && !(e instanceof IEnchantmentProtection) && !(e instanceof EnchantmentProtection);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment e) {
+//		return super.canApplyTogether(e);
+//		//return super.canApplyTogether(e) && !(e instanceof IEnchantmentProtection) && !(e instanceof EnchantmentProtection);
+//	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void updateHealth(PlayerTickEvent fEvent) {
@@ -77,11 +77,11 @@ public class EnchantmentStrengthenedVitality extends EnchantmentBase {
 	
 	private void AddHealth(EntityPlayer fEntity) {
 		int level = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.strengthenedVitality, fEntity);
-		IAttributeInstance speedAttr = fEntity.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
-		AttributeModifier modSpeed = new AttributeModifier(CACHED_UUID, "StrengthenedHealthBoost", 0.1D * level, 2);
-		speedAttr.removeModifier(modSpeed);
-		speedAttr.applyModifier(modSpeed);
-		if(speedAttr.getModifier(CACHED_UUID) != null) {}
+		IAttributeInstance healthAttr = fEntity.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
+		AttributeModifier modHealth = new AttributeModifier(CACHED_UUID, "StrengthenedHealthBoost", 0.1D * level, 2);
+		healthAttr.removeModifier(modHealth);
+		healthAttr.applyModifier(modHealth);
+		if(healthAttr.getModifier(CACHED_UUID) != null) {}
 	}
 	
 	private void RemoveHealth(EntityLivingBase fEntity) {

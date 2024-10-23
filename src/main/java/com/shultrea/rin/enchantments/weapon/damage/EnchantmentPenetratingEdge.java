@@ -2,8 +2,8 @@ package com.shultrea.rin.enchantments.weapon.damage;
 
 import com.shultrea.rin.Interfaces.IEnchantmentDamage;
 import com.shultrea.rin.Interfaces.IEnchantmentRune;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentPenetratingEdge extends EnchantmentBase implements IEnchantmentDamage {
 	
-	public EnchantmentPenetratingEdge(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentPenetratingEdge(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -52,10 +52,10 @@ public class EnchantmentPenetratingEdge extends EnchantmentBase implements IEnch
 		return ModConfig.treasure.penetratingEdge;
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return super.canApplyTogether(fTest) && !(fTest instanceof IEnchantmentRune);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return super.canApplyTogether(fTest) && !(fTest instanceof IEnchantmentRune);
+//	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void HandleEnchant(LivingHurtEvent fEvent) {

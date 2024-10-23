@@ -1,8 +1,8 @@
 package com.shultrea.rin.enchantments.weapon.potiondebuffer;
 
 import com.shultrea.rin.Interfaces.IPotionDebuffer;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
@@ -23,14 +23,12 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.w3c.dom.Entity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class EnchantmentFreezing extends EnchantmentBase implements IPotionDebuffer {
 	
-	public EnchantmentFreezing(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentFreezing(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -65,10 +63,10 @@ public class EnchantmentFreezing extends EnchantmentBase implements IPotionDebuf
 	}
 	
 	//TODO
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return super.canApplyTogether(fTest) && !(fTest instanceof IPotionDebuffer);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return super.canApplyTogether(fTest) && !(fTest instanceof IPotionDebuffer);
+//	}
 	
 	//TODO
 	@SubscribeEvent(priority = EventPriority.HIGHEST)

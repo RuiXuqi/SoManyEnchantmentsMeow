@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments.tool;
 
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.block.Block;
@@ -24,7 +24,7 @@ import java.util.List;
 
 public class EnchantmentQuarrying extends EnchantmentBase {
 	
-	public EnchantmentQuarrying(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentQuarrying(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -58,10 +58,10 @@ public class EnchantmentQuarrying extends EnchantmentBase {
 		return ModConfig.treasure.quarrying;
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return super.canApplyTogether(fTest) && fTest != Enchantments.FORTUNE && fTest != Enchantments.SILK_TOUCH;
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return super.canApplyTogether(fTest) && fTest != Enchantments.FORTUNE && fTest != Enchantments.SILK_TOUCH;
+//	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
 	public void onEvent(HarvestDropsEvent e) {

@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments;
 
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentAdvancedMending extends EnchantmentBase {
 	
-	public EnchantmentAdvancedMending(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentAdvancedMending(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -51,10 +51,10 @@ public class EnchantmentAdvancedMending extends EnchantmentBase {
 	}
 	
 	//TODO
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return fTest != Enchantments.MENDING && super.canApplyTogether(fTest);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return fTest != Enchantments.MENDING && super.canApplyTogether(fTest);
+//	}
 	
 	//TODO
 	@SubscribeEvent

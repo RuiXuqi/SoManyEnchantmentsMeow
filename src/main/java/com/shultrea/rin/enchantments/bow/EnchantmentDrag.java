@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments.bow;
 
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Prop_Sector.ArrowPropertiesProvider;
 import com.shultrea.rin.Prop_Sector.IArrowProperties;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentDrag extends EnchantmentBase {
 	
-	public EnchantmentDrag(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentDrag(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -55,10 +55,10 @@ public class EnchantmentDrag extends EnchantmentBase {
 		return ModConfig.treasure.drag;
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return fTest != Enchantments.PUNCH && !(fTest instanceof EnchantmentAdvancedPunch) && super.canApplyTogether(fTest);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return fTest != Enchantments.PUNCH && !(fTest instanceof EnchantmentAdvancedPunch) && super.canApplyTogether(fTest);
+//	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
 	public void onEvent(EntityJoinWorldEvent event) {

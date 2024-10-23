@@ -7,6 +7,7 @@
 - Renamed EnumList to EnumTypes (additional types of items this enchant can go on, vanilla got EnumEnchantmentType)
 - Merged calcDamageForNegativeSwipe and calcDamageIgnoreSwipe to modifyDamage and changed arguments
 - removed some redundant EnumTypes that are also in vanilla EnumEnchantmentType
+- moved incompatible enchants to config
 
 ## Renames
 - WellTilled = Moisturized

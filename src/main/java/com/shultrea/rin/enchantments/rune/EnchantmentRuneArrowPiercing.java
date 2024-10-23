@@ -1,8 +1,8 @@
 package com.shultrea.rin.enchantments.rune;
 
 import com.shultrea.rin.Interfaces.IEnchantmentRune;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Prop_Sector.ArrowPropertiesProvider;
 import com.shultrea.rin.Prop_Sector.IArrowProperties;
 import com.shultrea.rin.Utility_Sector.UtilityAccessor;
@@ -24,7 +24,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  */
 public class EnchantmentRuneArrowPiercing extends EnchantmentBase implements IEnchantmentRune {
 	
-	public EnchantmentRuneArrowPiercing(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentRuneArrowPiercing(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	

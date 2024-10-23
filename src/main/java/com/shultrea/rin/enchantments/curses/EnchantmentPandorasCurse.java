@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments.curses;
 
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.Utility_Sector.EnchantmentLister;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class EnchantmentPandorasCurse extends EnchantmentCurse {
 	
-	public EnchantmentPandorasCurse(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentPandorasCurse(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	

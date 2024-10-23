@@ -42,10 +42,10 @@ public class EnchantmentMultifisher extends Enchantment {
 		return super.getMinEnchantability(par1) + 30;
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return super.canApplyTogether(fTest);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return super.canApplyTogether(fTest);
+//	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onEvent(EntityJoinWorldEvent fEvent) {

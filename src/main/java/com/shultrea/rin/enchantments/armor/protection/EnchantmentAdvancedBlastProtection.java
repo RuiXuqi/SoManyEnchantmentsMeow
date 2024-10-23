@@ -2,8 +2,8 @@ package com.shultrea.rin.enchantments.armor.protection;
 
 import com.shultrea.rin.Interfaces.IEnchantmentProtection;
 import com.shultrea.rin.Interfaces.IEnhancedEnchantment;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
@@ -17,7 +17,7 @@ import net.minecraft.util.math.MathHelper;
 
 public class EnchantmentAdvancedBlastProtection extends EnchantmentBase implements IEnchantmentProtection, IEnhancedEnchantment {
 	
-	public EnchantmentAdvancedBlastProtection(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentAdvancedBlastProtection(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -66,15 +66,15 @@ public class EnchantmentAdvancedBlastProtection extends EnchantmentBase implemen
 	}
 	
 	//TODO
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		if(fTest instanceof EnchantmentProtection) {
-			EnchantmentProtection p = (EnchantmentProtection)fTest;
-			return p.protectionType == EnchantmentProtection.Type.FALL;
-		}
-		if(fTest instanceof EnchantmentAdvancedFeatherFalling) return true;
-		return super.canApplyTogether(fTest) && !(fTest instanceof IEnchantmentProtection);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		if(fTest instanceof EnchantmentProtection) {
+//			EnchantmentProtection p = (EnchantmentProtection)fTest;
+//			return p.protectionType == EnchantmentProtection.Type.FALL;
+//		}
+//		if(fTest instanceof EnchantmentAdvancedFeatherFalling) return true;
+//		return super.canApplyTogether(fTest) && !(fTest instanceof IEnchantmentProtection);
+//	}
  
 	/* This handler was bugged and was causing damage whenever a detonation happened even if the detonation did not do damage, so this system has been overhauled instead
 	 * Handling is now done in SMEASM and HookHelper

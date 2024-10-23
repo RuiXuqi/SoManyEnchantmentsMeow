@@ -1,8 +1,8 @@
 package com.shultrea.rin.enchantments.weapon;
 
 import com.shultrea.rin.Interfaces.IEnchantmentFire;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.enchantments.weapon.damage.EnchantmentWaterAspect;
 import net.minecraft.enchantment.Enchantment;
@@ -17,7 +17,7 @@ import java.util.Random;
 
 public class EnchantmentFieryEdge extends EnchantmentBase implements IEnchantmentFire {
 	
-	public EnchantmentFieryEdge(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentFieryEdge(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -59,10 +59,10 @@ public class EnchantmentFieryEdge extends EnchantmentBase implements IEnchantmen
 	}
 	
 	//TODO
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return super.canApplyTogether(fTest) && fTest != Enchantments.FIRE_ASPECT && !(fTest instanceof EnchantmentWaterAspect);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return super.canApplyTogether(fTest) && fTest != Enchantments.FIRE_ASPECT && !(fTest instanceof EnchantmentWaterAspect);
+//	}
 
 	public static int getFireTicks(int tier) {
 		return 6;

@@ -2,7 +2,7 @@ package com.shultrea.rin.registry;
 
 import com.shultrea.rin.Enum.EnumSlots;
 import com.shultrea.rin.Enum.EnumTypes;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.enchantments.*;
 import com.shultrea.rin.enchantments.armor.protection.*;
@@ -237,6 +237,11 @@ public class EnchantmentRegistry {
 		for(EnchantmentBase enchantment : enchantmentSet) {
 			if(enchantment.isEnabled() && enchantment.hasSubscriber()) MinecraftForge.EVENT_BUS.register(enchantment);
 		}
+	}
+
+	public static void initIncompatLists(){
+		for(EnchantmentBase e: enchantmentSet)
+			e.incompatibleEnchantments = ModConfig.incompatible.getIncompatibleEnchantmentsString(e.getRegistryName());
 	}
 	
 	@Mod.EventBusSubscriber(modid = SoManyEnchantments.MODID)

@@ -1,8 +1,8 @@
 package com.shultrea.rin.enchantments.weapon.potiondebuffer;
 
 import com.shultrea.rin.Interfaces.IPotionDebuffer;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
@@ -26,7 +26,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class EnchantmentPurification extends EnchantmentBase implements IPotionDebuffer {
 	
-	public EnchantmentPurification(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentPurification(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -54,7 +54,8 @@ public class EnchantmentPurification extends EnchantmentBase implements IPotionD
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.purification;
 	}
-	
+
+	//TODO: this is not yet in incompatible list, would be one group per curse
 	@Override
 	public boolean canApplyTogether(Enchantment fTest) {
 		return super.canApplyTogether(fTest) && !fTest.isCurse();

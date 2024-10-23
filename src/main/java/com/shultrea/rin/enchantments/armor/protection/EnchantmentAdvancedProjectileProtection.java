@@ -2,8 +2,8 @@ package com.shultrea.rin.enchantments.armor.protection;
 
 import com.shultrea.rin.Interfaces.IEnchantmentProtection;
 import com.shultrea.rin.Interfaces.IEnhancedEnchantment;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentProtection;
@@ -13,7 +13,7 @@ import net.minecraft.util.DamageSource;
 
 public class EnchantmentAdvancedProjectileProtection extends EnchantmentBase implements IEnchantmentProtection, IEnhancedEnchantment {
 	
-	public EnchantmentAdvancedProjectileProtection(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentAdvancedProjectileProtection(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -49,12 +49,12 @@ public class EnchantmentAdvancedProjectileProtection extends EnchantmentBase imp
 	}
 	
 	//TODO
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		if(fTest instanceof EnchantmentProtection) {
-			EnchantmentProtection p = (EnchantmentProtection)fTest;
-			return p.protectionType == EnchantmentProtection.Type.FALL;
-		}
-		return super.canApplyTogether(fTest) && !(fTest instanceof IEnchantmentProtection);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		if(fTest instanceof EnchantmentProtection) {
+//			EnchantmentProtection p = (EnchantmentProtection)fTest;
+//			return p.protectionType == EnchantmentProtection.Type.FALL;
+//		}
+//		return super.canApplyTogether(fTest) && !(fTest instanceof IEnchantmentProtection);
+//	}
 }

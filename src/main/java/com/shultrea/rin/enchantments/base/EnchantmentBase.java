@@ -1,6 +1,7 @@
 package com.shultrea.rin.enchantments.base;
 
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.IncompatibleConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.SoManyEnchantments;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -13,11 +14,15 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 
+import java.util.ArrayList;
+
 public abstract class EnchantmentBase extends Enchantment {
 	//TODO canApply from EntityVillager.ListEnchantedBookForEmeralds (grabs from entire registry), might be able to do this with event shenanigans
 	//TODO apply from EnchantRandomly (grabs from entire registry, applies to Items.BOOK or canApply)
-	
-	public EnchantmentBase(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+
+	public ArrayList<Enchantment> incompatibleEnchantments = new ArrayList<>();
+
+	public EnchantmentBase(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(rarity, type, slots);
 		this.name = name;
 		this.setRegistryName(SoManyEnchantments.MODID, name);
@@ -99,7 +104,13 @@ public abstract class EnchantmentBase extends Enchantment {
 	public boolean isAllowedOnBooks() {
 		return this.isEnabled() && super.isAllowedOnBooks();
 	}
-	
+
+	@Override
+	public boolean canApplyTogether(Enchantment ench)
+	{
+		return !incompatibleEnchantments.contains(ench) && super.canApplyTogether(ench);
+	}
+
 	/**
 	 * @return name formatting prefix of the enchantment
 	 */

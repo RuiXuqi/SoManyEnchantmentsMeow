@@ -1,6 +1,6 @@
 package com.shultrea.rin.Utility_Sector;
 
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.ModConfig;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;

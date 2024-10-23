@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments.curses;
 
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
 import com.shultrea.rin.enchantments.tool.EnchantmentAdvancedEfficiency;
 import com.shultrea.rin.registry.EnchantmentRegistry;
@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentInefficient extends EnchantmentCurse {
 	
-	public EnchantmentInefficient(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentInefficient(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -54,10 +54,10 @@ public class EnchantmentInefficient extends EnchantmentCurse {
 		return ModConfig.treasure.inefficient;
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment ench) {
-		return ench != Enchantments.EFFICIENCY && !(ench instanceof EnchantmentAdvancedEfficiency) && super.canApplyTogether(ench);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment ench) {
+//		return ench != Enchantments.EFFICIENCY && !(ench instanceof EnchantmentAdvancedEfficiency) && super.canApplyTogether(ench);
+//	}
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public static void onBreakSpeedEvent(PlayerEvent.BreakSpeed event) {

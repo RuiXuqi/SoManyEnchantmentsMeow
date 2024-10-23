@@ -2,8 +2,8 @@ package com.shultrea.rin.enchantments.weapon.damagemultiplier;
 
 import bettercombat.mod.event.RLCombatModifyDamageEvent;
 import com.shultrea.rin.Interfaces.IDamageMultiplier;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.CompatUtil;
 import com.shultrea.rin.enchantments.weapon.EnchantmentBlessedEdge;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -22,9 +22,9 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentCursedEdge extends EnchantmentCurse implements IDamageMultiplier {
+public class EnchantmentCursedEdge extends EnchantmentCurse {
 	
-	public EnchantmentCursedEdge(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentCursedEdge(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -59,10 +59,10 @@ public class EnchantmentCursedEdge extends EnchantmentCurse implements IDamageMu
 	}
 	
 	//TODO maybe not restrict from other multipliers ?
-	@Override
-	public boolean canApplyTogether(Enchantment ench) {
-		return !(ench instanceof IDamageMultiplier) && !(ench instanceof EnchantmentBlessedEdge) && super.canApplyTogether(ench);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment ench) {
+//		return !(ench instanceof IDamageMultiplier) && !(ench instanceof EnchantmentBlessedEdge) && super.canApplyTogether(ench);
+//	}
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public static void onLivingDamageEvent(LivingDamageEvent event) {

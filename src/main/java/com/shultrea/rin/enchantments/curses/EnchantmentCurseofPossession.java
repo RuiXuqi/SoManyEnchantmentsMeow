@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments.curses;
 
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentCurseofPossession extends EnchantmentCurse {
 	
-	public EnchantmentCurseofPossession(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentCurseofPossession(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -52,10 +52,10 @@ public class EnchantmentCurseofPossession extends EnchantmentCurse {
 		return ModConfig.treasure.curseOfPossession;
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment ench) {
-		return !(ench instanceof EnchantmentCurseofDecay) && super.canApplyTogether(ench);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment ench) {
+//		return !(ench instanceof EnchantmentCurseofDecay) && super.canApplyTogether(ench);
+//	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void onItemTossEvent(ItemTossEvent event) {

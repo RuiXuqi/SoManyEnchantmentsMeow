@@ -1,6 +1,6 @@
 package com.shultrea.rin.Utility_Sector;
 
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;

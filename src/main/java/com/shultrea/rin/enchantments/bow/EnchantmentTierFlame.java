@@ -1,8 +1,8 @@
 package com.shultrea.rin.enchantments.bow;
 
 import com.shultrea.rin.Interfaces.IEnchantmentFire;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -99,10 +99,10 @@ public class EnchantmentTierFlame extends EnchantmentBase implements IEnchantmen
 	/**
 	 * Determines if the enchantment passed can be applyied together with this enchantment.
 	 */
-	@Override
-	public boolean canApplyTogether(Enchantment ench) {
-		return !(ench instanceof EnchantmentTierFlame);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment ench) {
+//		return !(ench instanceof EnchantmentTierFlame);
+//	}
 	//TODO
 
 	/**

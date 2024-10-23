@@ -1,6 +1,6 @@
 package com.shultrea.rin.Utility_Sector;
 
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.ModConfig;
 import net.minecraft.potion.Potion;
 
 import java.util.ArrayList;

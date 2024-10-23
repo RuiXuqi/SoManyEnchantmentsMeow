@@ -1,8 +1,8 @@
 package com.shultrea.rin.enchantments.curses;
 
 import com.shultrea.rin.Interfaces.IEnchantmentDamage;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentDamage;
@@ -12,7 +12,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 
 public class EnchantmentBluntness extends EnchantmentCurse {
 	
-	public EnchantmentBluntness(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentBluntness(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -47,8 +47,8 @@ public class EnchantmentBluntness extends EnchantmentCurse {
 	}
 	
 	//TODO maybe allow on all
-	@Override
-	public boolean canApplyTogether(Enchantment ench) {
-		return !(ench instanceof EnchantmentDamage) && !(ench instanceof IEnchantmentDamage) && super.canApplyTogether(ench);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment ench) {
+//		return !(ench instanceof EnchantmentDamage) && !(ench instanceof IEnchantmentDamage) && super.canApplyTogether(ench);
+//	}
 }

@@ -1,6 +1,6 @@
 package com.shultrea.rin.enchantments.base;
 
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.ModConfig;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -8,7 +8,7 @@ import net.minecraft.util.text.TextFormatting;
 
 public abstract class EnchantmentCurse extends EnchantmentBase {
 	
-	public EnchantmentCurse(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentCurse(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	

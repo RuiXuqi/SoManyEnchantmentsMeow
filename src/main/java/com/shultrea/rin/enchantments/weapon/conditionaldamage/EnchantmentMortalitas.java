@@ -2,8 +2,8 @@ package com.shultrea.rin.enchantments.weapon.conditionaldamage;
 
 import com.shultrea.rin.Interfaces.IConditionalDamage;
 import com.shultrea.rin.Interfaces.IDamageMultiplier;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
@@ -22,7 +22,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentMortalitas extends EnchantmentBase {
 	
-	public EnchantmentMortalitas(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentMortalitas(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -56,10 +56,10 @@ public class EnchantmentMortalitas extends EnchantmentBase {
 		return ModConfig.treasure.mortalitas;
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment e) {
-		return super.canApplyTogether(e) && !(e instanceof IDamageMultiplier) && !(e instanceof IConditionalDamage);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment e) {
+//		return super.canApplyTogether(e) && !(e instanceof IDamageMultiplier) && !(e instanceof IConditionalDamage);
+//	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onDamage(LivingHurtEvent e) {

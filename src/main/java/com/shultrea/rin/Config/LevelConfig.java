@@ -1,4 +1,4 @@
-package com.shultrea.rin.Main_Sector;
+package com.shultrea.rin.Config;
 
 import net.minecraftforge.common.config.Config;
 

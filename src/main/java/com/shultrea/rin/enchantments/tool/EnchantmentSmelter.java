@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments.tool;
 
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.MsgSP_Particle;
 import com.shultrea.rin.Utility_Sector.SMEnetwork;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -26,7 +26,7 @@ public class EnchantmentSmelter extends EnchantmentBase {
 	
 	Random random = new Random();
 	
-	public EnchantmentSmelter(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentSmelter(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -60,10 +60,10 @@ public class EnchantmentSmelter extends EnchantmentBase {
 		return ModConfig.treasure.smelter;
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return fTest != Enchantments.SILK_TOUCH && super.canApplyTogether(fTest);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return fTest != Enchantments.SILK_TOUCH && super.canApplyTogether(fTest);
+//	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onBlockDropSmelt(HarvestDropsEvent fEvent) {

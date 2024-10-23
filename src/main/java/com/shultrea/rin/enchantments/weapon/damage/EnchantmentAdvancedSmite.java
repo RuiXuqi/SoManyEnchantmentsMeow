@@ -2,8 +2,8 @@ package com.shultrea.rin.enchantments.weapon.damage;
 
 import com.shultrea.rin.Interfaces.IEnchantmentDamage;
 import com.shultrea.rin.Interfaces.IEnhancedEnchantment;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentDamage;
@@ -20,7 +20,7 @@ import net.minecraft.util.math.MathHelper;
 
 public class EnchantmentAdvancedSmite extends EnchantmentBase implements IEnchantmentDamage, IEnhancedEnchantment {
 	
-	public EnchantmentAdvancedSmite(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentAdvancedSmite(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -72,8 +72,8 @@ public class EnchantmentAdvancedSmite extends EnchantmentBase implements IEnchan
 	}
 	
 	//TODO
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return super.canApplyTogether(fTest) && !(fTest instanceof EnchantmentDamage) && !(fTest instanceof IEnchantmentDamage);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return super.canApplyTogether(fTest) && !(fTest instanceof EnchantmentDamage) && !(fTest instanceof IEnchantmentDamage);
+//	}
 }

@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments.armor.thorns;
 
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class EnchantmentBurningThorns extends EnchantmentBase {
 	
-	public EnchantmentBurningThorns(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentBurningThorns(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -58,10 +58,10 @@ public class EnchantmentBurningThorns extends EnchantmentBase {
 	}
 	
 	//TODO
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return fTest != EnchantmentRegistry.advancedThorns && fTest != Enchantments.THORNS && super.canApplyTogether(fTest);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return fTest != EnchantmentRegistry.advancedThorns && fTest != Enchantments.THORNS && super.canApplyTogether(fTest);
+//	}
 	
 	//TODO
 	@Override

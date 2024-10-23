@@ -1,8 +1,8 @@
 package com.shultrea.rin.enchantments.weapon.damage;
 
 import com.shultrea.rin.Interfaces.IEnchantmentDamage;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.Utility_Sector.UtilityAccessor;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -22,7 +22,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentButchering extends EnchantmentBase implements IEnchantmentDamage {
 	
-	public EnchantmentButchering(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentButchering(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -63,10 +63,10 @@ public class EnchantmentButchering extends EnchantmentBase implements IEnchantme
 	}
 	
 	//TODO
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return super.canApplyTogether(fTest) && fTest != EnchantmentRegistry.bluntness && fTest != EnchantmentRegistry.waterAspect && fTest != EnchantmentRegistry.spellBreaker && fTest != EnchantmentRegistry.defusion && fTest != Enchantments.SHARPNESS && fTest != Enchantments.SMITE && fTest != Enchantments.BANE_OF_ARTHROPODS && fTest != EnchantmentRegistry.advancedSharpness && fTest != EnchantmentRegistry.advancedBaneOfArthropods && fTest != EnchantmentRegistry.advancedSmite && fTest != EnchantmentRegistry.cursedEdge && fTest != EnchantmentRegistry.blessedEdge && fTest != EnchantmentRegistry.purification;
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return super.canApplyTogether(fTest) && fTest != EnchantmentRegistry.bluntness && fTest != EnchantmentRegistry.waterAspect && fTest != EnchantmentRegistry.spellBreaker && fTest != EnchantmentRegistry.defusion && fTest != Enchantments.SHARPNESS && fTest != Enchantments.SMITE && fTest != Enchantments.BANE_OF_ARTHROPODS && fTest != EnchantmentRegistry.advancedSharpness && fTest != EnchantmentRegistry.advancedBaneOfArthropods && fTest != EnchantmentRegistry.advancedSmite && fTest != EnchantmentRegistry.cursedEdge && fTest != EnchantmentRegistry.blessedEdge && fTest != EnchantmentRegistry.purification;
+//	}
 	
 	//TODO
 	@SubscribeEvent(priority = EventPriority.HIGHEST)

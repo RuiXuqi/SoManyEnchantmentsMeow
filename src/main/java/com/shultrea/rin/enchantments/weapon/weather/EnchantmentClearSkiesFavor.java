@@ -1,8 +1,8 @@
 package com.shultrea.rin.enchantments.weapon.weather;
 
 import com.shultrea.rin.Interfaces.IWeatherEnchantment;
-import com.shultrea.rin.Main_Sector.EnchantabilityConfig;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentClearSkiesFavor extends EnchantmentBase implements IWeatherEnchantment {
 	
-	public EnchantmentClearSkiesFavor(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
+	public EnchantmentClearSkiesFavor(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
@@ -53,10 +53,10 @@ public class EnchantmentClearSkiesFavor extends EnchantmentBase implements IWeat
 	}
 	
 	//TODO
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return super.canApplyTogether(fTest) && !(fTest instanceof IWeatherEnchantment);
-	}
+//	@Override
+//	public boolean canApplyTogether(Enchantment fTest) {
+//		return super.canApplyTogether(fTest) && !(fTest instanceof IWeatherEnchantment);
+//	}
 	
 	//TODO
 	@SubscribeEvent(priority = EventPriority.HIGHEST)

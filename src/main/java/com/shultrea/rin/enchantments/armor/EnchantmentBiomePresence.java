@@ -60,11 +60,11 @@ public class EnchantmentBiomePresence extends Enchantment
         return "enchantment." + PRESENCE_NAMES[this.presenceType];
     }
 
-    @Override
-    public boolean canApplyTogether(Enchantment ench)
-    {
-        return !(ench instanceof EnchantmentBiomePresence);
-    }
+//    @Override
+//    public boolean canApplyTogether(Enchantment ench)
+//    {
+//        return !(ench instanceof EnchantmentBiomePresence);
+//    }
 
 
     @Override
