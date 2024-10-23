@@ -79,6 +79,12 @@ public class ModConfig {
 		@Config.Name("Pandora's Curse Interval")
 		@Config.RangeInt(min = 200)
 		public int pandorasCurseInterval = 600;
+		@Config.Comment("Whether or not Atomic Deconstructor should attempt to replicate /kill damage (More effective, but may cause bugs)")
+		@Config.Name("Atomic Deconstructor /kill")
+		public boolean atomicDeconstructorMaxDamage = false;
+		@Config.Comment("Whether or not Atomic Deconstructor should work on bosses (May cause bugs)")
+		@Config.Name("Atomic Deconstructor Works on Bosses")
+		public boolean atomicDeconstructorBosses = false;
 	}
 	
 	@Mod.EventBusSubscriber(modid = SoManyEnchantments.MODID)

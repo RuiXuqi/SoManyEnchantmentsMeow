@@ -1,17 +1,18 @@
 package com.shultrea.rin.enchantments.weapon;
 
+import bettercombat.mod.event.RLCombatModifyDamageEvent;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
-import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
+import com.shultrea.rin.registry.ModRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundCategory;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentAtomicDeconstructor extends EnchantmentBase {
@@ -51,21 +52,19 @@ public class EnchantmentAtomicDeconstructor extends EnchantmentBase {
 	}
 	
 	//TODO
-	@SubscribeEvent
-	public void HandleEnchant(LivingAttackEvent fEvent) {
-		if(fEvent.getSource().damageType != "player" && fEvent.getSource().damageType != "mob") return;
-		if(!(fEvent.getSource().getTrueSource() instanceof EntityLivingBase)) return;
-		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
-		if(attacker == null) return;
-		ItemStack dmgSource = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
-		if(dmgSource == null) return;
-		if(EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.atomicDeconstructor, dmgSource) <= 0) return;
-		int levelAtomicDeconstructor = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.atomicDeconstructor, dmgSource);
-		if(fEvent.getEntityLiving().getEntityWorld().rand.nextInt(3000) < (levelAtomicDeconstructor * 3)) {
-			float DeadHP = fEvent.getEntityLiving().getMaxHealth();
-			fEvent.getEntityLiving().hurtResistantTime = 0;
-			if(!(fEvent.getEntityLiving() instanceof EntityPlayer)) {
-				fEvent.getEntityLiving().attackEntityFrom(SoManyEnchantments.Deconstruct, DeadHP * 100f);
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public static void modifyAttackDamagePost(RLCombatModifyDamageEvent.Post event) {
+		if(event.getEntityPlayer() == null || event.getStack().isEmpty() || event.getTarget() == null || !(event.getTarget() instanceof EntityLivingBase)) return;
+
+		EntityLivingBase target = (EntityLivingBase)event.getTarget();
+		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.atomicDeconstructor, event.getStack());
+		if(level > 0 && event.getCooledStrength() > 0.9F && (target.isNonBoss() || ModConfig.miscellaneous.atomicDeconstructorBosses)) {
+			if(target.world.rand.nextFloat() < 0.001F*(float)level) {
+				target.hurtResistantTime = 0;
+				if(!ModConfig.miscellaneous.atomicDeconstructorMaxDamage || !target.attackEntityFrom(DamageSource.OUT_OF_WORLD, Float.MAX_VALUE)) {
+					event.setDamageModifier(target.getMaxHealth() * 100.0F);
+				}
+				event.getEntityPlayer().world.playSound(null, event.getEntityPlayer().posX, event.getEntityPlayer().posY, event.getEntityPlayer().posZ, ModRegistry.ATOMIC_DECONSTRUCT, SoundCategory.PLAYERS, 2.0F, 1.0F /(event.getEntityPlayer().world.rand.nextFloat() * 0.4F + 1.2F)* 1.4F);
 			}
 		}
 	}

@@ -6,6 +6,7 @@ import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.Utility_Sector.EnchantmentLister;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
 import com.shultrea.rin.registry.EnchantmentRegistry;
+import com.shultrea.rin.registry.ModRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
