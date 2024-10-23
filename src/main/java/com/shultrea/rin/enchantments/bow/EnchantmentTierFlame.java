@@ -10,7 +10,6 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 
 public class EnchantmentTierFlame extends EnchantmentBase implements IEnchantmentFire {
 
-	private static final String[] DAMAGE_NAMES = new String[]{"lfl", "afl", "sfl"};
 	/**
 	 * Defines the type of damage of the enchantment, 0 = lesserfla, 1 = advfla, 2 = supfla
 	 */
@@ -103,15 +102,6 @@ public class EnchantmentTierFlame extends EnchantmentBase implements IEnchantmen
 //	public boolean canApplyTogether(Enchantment ench) {
 //		return !(ench instanceof EnchantmentTierFlame);
 //	}
-	//TODO
-
-	/**
-	 * Return the name of key in translation table of this enchantment.
-	 */
-	@Override
-	public String getName() {
-		return "enchantment." + DAMAGE_NAMES[this.damageType];
-	}
 
 	public static int getFireTicks(int tier) {
 		switch(tier){

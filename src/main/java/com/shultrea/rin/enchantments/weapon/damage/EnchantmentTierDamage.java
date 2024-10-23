@@ -19,9 +19,6 @@ import net.minecraft.potion.PotionEffect;
 
 public class EnchantmentTierDamage extends EnchantmentBase implements IEnchantmentDamage, IEnhancedEnchantment {
 	
-	private static final String[] DAMAGE_NAMES = new String[]{
-			"LesserSharpness", "SupremeSharpness", "LesserSmite", "SupremeSmite", "LesserBaneOfArthropods",
-			"SupremeBaneOfArthropods"};
 	/**
 	 * Defines the type of damage of the enchantment, 0 = LesserSharpness, 1 = SupremeSharpness, 2 = LesserSmite, 3 =
 	 * SupremeSmite, 4 = LesserBaneOfArthropods, 5 = SupremeBaneOfArthropods
@@ -171,9 +168,4 @@ public class EnchantmentTierDamage extends EnchantmentBase implements IEnchantme
 //	public boolean canApplyTogether(Enchantment ench) {
 //		return !(ench instanceof EnchantmentTierDamage) && !(ench instanceof EnchantmentDamage) && !(ench instanceof IEnchantmentDamage);
 //	}
-	
-	@Override
-	public String getName() {
-		return "enchantment." + DAMAGE_NAMES[this.damageType];
-	}
 }

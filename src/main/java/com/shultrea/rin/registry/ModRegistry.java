@@ -22,6 +22,7 @@ public class ModRegistry {
 
         @SubscribeEvent
         public static void registerSoundEvent(RegistryEvent.Register<SoundEvent> event) {
+                //TODO: move to smesounds?
                 event.getRegistry().register(CRITICAL_STRIKE);
                 event.getRegistry().register(ATOMIC_DECONSTRUCT);
                 event.getRegistry().register(PANDORA_REMOVAL);

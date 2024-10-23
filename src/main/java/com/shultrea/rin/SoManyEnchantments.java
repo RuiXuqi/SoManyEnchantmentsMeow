@@ -4,6 +4,7 @@ import com.shultrea.rin.Enum.EnumTypes;
 import com.shultrea.rin.Prop_Sector.*;
 import com.shultrea.rin.Utility_Sector.*;
 import com.shultrea.rin.registry.EnchantmentRegistry;
+import com.shultrea.rin.registry.ModRegistry;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -71,6 +72,7 @@ public class SoManyEnchantments {
 	public void preInit(FMLPreInitializationEvent fEvent) {
 		CapabilityManager.INSTANCE.register(IArrowProperties.class, new ArrowPropertiesStorage(), ArrowProperties::new);
 		CapabilityManager.INSTANCE.register(IPlayerProperties.class, new PlayerPropertiesStorage(), PlayerProperties::new);
+		ModRegistry.init();
 		proxy.preInit(fEvent);
 		SMEsounds.registerSounds();
 		EnchantmentRegistry.handleSubscribers();

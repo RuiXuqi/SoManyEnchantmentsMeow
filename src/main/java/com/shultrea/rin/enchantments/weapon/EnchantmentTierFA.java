@@ -14,7 +14,6 @@ import net.minecraft.item.ItemStack;
 
 public class EnchantmentTierFA extends EnchantmentBase implements IEnchantmentFire {
 	
-	private static final String[] DAMAGE_NAMES = new String[]{"lfa", "afa", "sfa"};
 	/**
 	 * Defines the type of damage of the enchantment, 0 = lesserfasp, 1 = advfasp, 2 = supfasp
 	 */
@@ -114,12 +113,6 @@ public class EnchantmentTierFA extends EnchantmentBase implements IEnchantmentFi
 //	public boolean canApplyTogether(Enchantment ench) {
 //		return !(ench instanceof EnchantmentTierFA || ench == EnchantmentRegistry.fieryEdge || ench == EnchantmentRegistry.waterAspect);
 //	}
-	
-	//TODO
-	@Override
-	public String getName() {
-		return "enchantment." + DAMAGE_NAMES[this.damageType];
-	}
 
 	public static int getFireTicks(int tier) {
 		switch(tier){

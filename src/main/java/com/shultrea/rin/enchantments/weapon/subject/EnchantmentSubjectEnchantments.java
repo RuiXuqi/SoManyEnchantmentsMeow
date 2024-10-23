@@ -17,11 +17,14 @@ import net.minecraft.potion.PotionEffect;
 
 public class EnchantmentSubjectEnchantments extends EnchantmentBase implements ISubjectEnchantment {
 	
-	private static final String[] DAMAGE_NAMES = new String[]{
-			"Mathematics", "Science", "History", "Physics", "English", "PE"};
 	/**
-	 * Defines the type of damage of the enchantment, 0 = Math, 1 = Science, 2 = History, 3 = Physics, 4 = English, 5 =
-	 * PE
+	 * Defines the type of damage of the enchantment,
+	 * 0 = Math
+	 * 1 = Science
+	 * 2 = History
+	 * 3 = Physics
+	 * 4 = English
+	 * 5 = PE
 	 */
 	public final int damageType;
 	
@@ -200,9 +203,4 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase implements I
 //	public boolean canApplyTogether(Enchantment ench) {
 //		return !(ench instanceof EnchantmentSubjectEnchantments);
 //	}
-	
-	@Override
-	public String getName() {
-		return "enchantment." + DAMAGE_NAMES[this.damageType];
-	}
 }

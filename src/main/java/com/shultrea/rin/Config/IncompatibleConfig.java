@@ -1,5 +1,6 @@
 package com.shultrea.rin.Config;
 
+import com.shultrea.rin.SoManyEnchantments;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Config;
@@ -87,7 +88,7 @@ public class IncompatibleConfig {
 				for (String s1 : enchsInList) {
 					//assumes that the config uses modid:enchantment if its not an SME enchant
 					if(!s1.contains(":"))
-						s1 = "somanyenchantments:" + s1;
+						s1 = SoManyEnchantments.MODID + s1;
 					Enchantment incompatEnch = Enchantment.getEnchantmentByLocation(s1);
 					if (incompatEnch == null)
 						System.out.println("SME: could not find incompatible enchantment "+s1);

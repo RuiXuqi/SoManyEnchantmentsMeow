@@ -53,13 +53,6 @@ public class EnchantmentBiomePresence extends Enchantment
     	return 4;
     }
 
-
-    @Override
-    public String getName()
-    {
-        return "enchantment." + PRESENCE_NAMES[this.presenceType];
-    }
-
 //    @Override
 //    public boolean canApplyTogether(Enchantment ench)
 //    {
