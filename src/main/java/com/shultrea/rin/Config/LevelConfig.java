@@ -50,10 +50,10 @@ public class LevelConfig {
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
 	public int butchering = 5;
-	@Config.Name("Clear Skies' Favor")
+	@Config.Name("Clearskies' Favor")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
-	public int clearSkiesFavor = 6;
+	public int clearskiesFavor = 6;
 	@Config.Name("Combat Veterancy")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
@@ -74,10 +74,10 @@ public class LevelConfig {
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
 	public int darkShadows = 3;
-	@Config.Name("Defusion")
+	@Config.Name("Defusing Edge")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
-	public int defusion = 5;
+	public int defusingEdge = 5;
 	@Config.Name("Desolator")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
@@ -150,7 +150,7 @@ public class LevelConfig {
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
 	public int luckMagnification = 2;
-	@Config.Name("Luna's Blessing")
+	@Config.Name("Lunars Blessing")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
 	public int lunarsBlessing = 5;
@@ -190,10 +190,10 @@ public class LevelConfig {
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
 	public int physicalProtection = 4;
-	@Config.Name("Pulling")
+	@Config.Name("Dragging")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
-	public int drag = 2;
+	public int dragging = 2;
 	@Config.Name("Purging Blade")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)

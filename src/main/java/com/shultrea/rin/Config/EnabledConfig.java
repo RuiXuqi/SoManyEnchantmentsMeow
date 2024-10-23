@@ -37,9 +37,9 @@ public class EnabledConfig {
 	@Config.Name("Butchering")
 	@Config.RequiresMcRestart
 	public boolean butchering = true;
-	@Config.Name("Clear Skies' Favor")
+	@Config.Name("Clearskies' Favor")
 	@Config.RequiresMcRestart
-	public boolean clearSkiesFavor = true;
+	public boolean clearskiesFavor = true;
 	@Config.Name("Combat Veterancy")
 	@Config.RequiresMcRestart
 	public boolean combatVeterancy = true;
@@ -55,9 +55,9 @@ public class EnabledConfig {
 	@Config.Name("Dark Shadows")
 	@Config.RequiresMcRestart
 	public boolean darkShadows = true;
-	@Config.Name("Defusion")
+	@Config.Name("Defusing Edge")
 	@Config.RequiresMcRestart
-	public boolean defusion = true;
+	public boolean defusingEdge = true;
 	@Config.Name("Desolator")
 	@Config.RequiresMcRestart
 	public boolean desolator = true;
@@ -112,7 +112,7 @@ public class EnabledConfig {
 	@Config.Name("Luck Magnification")
 	@Config.RequiresMcRestart
 	public boolean luckMagnification = true;
-	@Config.Name("Luna's Blessing")
+	@Config.Name("Lunars Blessing")
 	@Config.RequiresMcRestart
 	public boolean lunarsBlessing = true;
 	@Config.Name("Magic Protection")
@@ -142,9 +142,9 @@ public class EnabledConfig {
 	@Config.Name("Physical Protection")
 	@Config.RequiresMcRestart
 	public boolean physicalProtection = true;
-	@Config.Name("Pulling")
+	@Config.Name("Dragging")
 	@Config.RequiresMcRestart
-	public boolean drag = true;
+	public boolean dragging = true;
 	@Config.Name("Purging Blade")
 	@Config.RequiresMcRestart
 	public boolean purgingBlade = true;

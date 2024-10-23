@@ -65,7 +65,7 @@ public class EnchantmentButchering extends EnchantmentBase implements IEnchantme
 	//TODO
 //	@Override
 //	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && fTest != EnchantmentRegistry.bluntness && fTest != EnchantmentRegistry.waterAspect && fTest != EnchantmentRegistry.spellBreaker && fTest != EnchantmentRegistry.defusion && fTest != Enchantments.SHARPNESS && fTest != Enchantments.SMITE && fTest != Enchantments.BANE_OF_ARTHROPODS && fTest != EnchantmentRegistry.advancedSharpness && fTest != EnchantmentRegistry.advancedBaneOfArthropods && fTest != EnchantmentRegistry.advancedSmite && fTest != EnchantmentRegistry.cursedEdge && fTest != EnchantmentRegistry.blessedEdge && fTest != EnchantmentRegistry.purification;
+//		return super.canApplyTogether(fTest) && fTest != EnchantmentRegistry.bluntness && fTest != EnchantmentRegistry.waterAspect && fTest != EnchantmentRegistry.spellBreaker && fTest != EnchantmentRegistry.defusingEdge && fTest != Enchantments.SHARPNESS && fTest != Enchantments.SMITE && fTest != Enchantments.BANE_OF_ARTHROPODS && fTest != EnchantmentRegistry.advancedSharpness && fTest != EnchantmentRegistry.advancedBaneOfArthropods && fTest != EnchantmentRegistry.advancedSmite && fTest != EnchantmentRegistry.cursedEdge && fTest != EnchantmentRegistry.blessedEdge && fTest != EnchantmentRegistry.purification;
 //	}
 	
 	//TODO

@@ -42,9 +42,9 @@ public class EnchantabilityConfig {
 	@Config.Name("Butchering")
 	@Config.RequiresMcRestart
 	public int[] butchering = {12, 12, 30, SUPER};
-	@Config.Name("Clear Skies' Favor")
+	@Config.Name("Clearskies' Favor")
 	@Config.RequiresMcRestart
-	public int[] clearSkiesFavor = {15, 15, 30, MIN};
+	public int[] clearskiesFavor = {15, 15, 30, MIN};
 	@Config.Name("Combat Veterancy")
 	@Config.RequiresMcRestart
 	public int[] combatVeterancy = {25,15,25, MIN};
@@ -60,9 +60,9 @@ public class EnchantabilityConfig {
 	@Config.Name("Dark Shadows")
 	@Config.RequiresMcRestart
 	public int[] darkShadows = {16, 12, 40, MIN};
-	@Config.Name("Defusion")
+	@Config.Name("Defusing Edge")
 	@Config.RequiresMcRestart
-	public int[] defusion = {10, 12, 30, SUPER};
+	public int[] defusingEdge = {10, 12, 30, SUPER};
 	@Config.Name("Desolator")
 	@Config.RequiresMcRestart
 	public int[] desolator = {17, 8, 30, SUPER};
@@ -149,7 +149,7 @@ public class EnchantabilityConfig {
 	public int[] physicalProtection = {14, 12, 45, MIN};
 	@Config.Name("Dragging")
 	@Config.RequiresMcRestart
-	public int[] drag = {10, 8, 30, MIN};
+	public int[] dragging = {10, 8, 30, MIN};
 	@Config.Name("Purging Blade")
 	@Config.RequiresMcRestart
 	public int[] purgingBlade = {15, 8, 40, MIN};

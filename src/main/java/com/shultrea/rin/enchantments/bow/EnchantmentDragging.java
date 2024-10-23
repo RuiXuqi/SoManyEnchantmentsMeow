@@ -6,28 +6,26 @@ import com.shultrea.rin.Prop_Sector.ArrowPropertiesProvider;
 import com.shultrea.rin.Prop_Sector.IArrowProperties;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentDrag extends EnchantmentBase {
+public class EnchantmentDragging extends EnchantmentBase {
 	
-	public EnchantmentDrag(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
+	public EnchantmentDragging(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
 	@Override
 	public boolean isEnabled() {
-		return ModConfig.enabled.drag;
+		return ModConfig.enabled.dragging;
 	}
 	
 	@Override
@@ -37,22 +35,22 @@ public class EnchantmentDrag extends EnchantmentBase {
 	
 	@Override
 	public int getMaxLevel() {
-		return ModConfig.level.drag;
+		return ModConfig.level.dragging;
 	}
 
 	@Override
 	public int getMinEnchantability(int level) {
-		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.drag, level);
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.dragging, level);
 	}
 
 	@Override
 	public int getMaxEnchantability(int level) {
-		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.drag, level);
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.dragging, level);
 	}
 	
 	@Override
 	public boolean isTreasureEnchantment() {
-		return ModConfig.treasure.drag;
+		return ModConfig.treasure.dragging;
 	}
 	
 //	@Override
@@ -85,7 +83,7 @@ public class EnchantmentDrag extends EnchantmentBase {
 					return;
 				}
 			}
-			int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.drag, bow);
+			int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.dragging, bow);
 			if(enchantmentLevel > 0) {
 				if(!arrow.hasCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null)) return;
 				IArrowProperties properties = arrow.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);

@@ -6,8 +6,8 @@ enchantment.somanyenchantments.rune_piercingcapabilities.desc=Une des runes. Per
 enchantment.atomicdeconstructor=Déconstructeur Atomique
 enchantment.somanyenchantments.atomicdeconstructor.desc=Vos attaques ont très peu de chances de garantir une mort instantanée de l'ennemis.
 
-enchantment.defusion=Désamorçage de Bordure
-enchantment.somanyenchantments.defusion.sec=Inflige des dégâts supplémentaires aux Creepers
+enchantment.defusingedge=Désamorçage de Bordure
+enchantment.somanyenchantments.defusingedge.sec=Inflige des dégâts supplémentaires aux Creepers
 
 enchantment.inefficient=Inefficacité
 enchantment.somanyenchantments.inefficient.desc=Réduit la vitesse de Minage des ressources.
@@ -393,8 +393,8 @@ enchantment.somanyenchantments.evasion.desc=Donne à l'utilisateur une chance d'
 enchantment.instability=Instabilité
 enchantment.somanyenchantments.instability.desc=Une forme de malédiction qui augmente les dégâts d'un outil plus sa durabilité est faible. L'outil souffre en subissant des dégâts proportionnels à ceux qu'il a infligés.
 
-enchantment.drag=Traînage
-enchantment.somanyenchantments.drag.desc=Version "Hiérarchie inversée" de Punch. En termes simples, l'opposé de Punch.
+enchantment.dragging=Traînage
+enchantment.somanyenchantments.dragging.desc=Version "Hiérarchie inversée" de Punch. En termes simples, l'opposé de Punch.
 
 enchantment.pushing=Poussée
 enchantment.somanyenchantments.pushing.desc=Bénit l'arc avec une capacité à repousser les entités proches pendant la charge.

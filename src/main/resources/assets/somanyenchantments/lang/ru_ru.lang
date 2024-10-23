@@ -6,8 +6,8 @@ enchantment.somanyenchantments.rune_piercingcapabilities.desc=Одна из ру
 enchantment.atomicdeconstructor=Атомный разрушитель
 enchantment.somanyenchantments.atomicdeconstructor.desc=Ваши атаки имеют очень низкий шанс мгновенно убить врага.
 
-enchantment.defusion=Заряженная грань
-enchantment.somanyenchantments.defusion.sec=Наносит увеличенный урон криперам.
+enchantment.defusingedge=Заряженная грань
+enchantment.somanyenchantments.defusingedge.sec=Наносит увеличенный урон криперам.
 
 enchantment.inefficient=Неэффективность
 enchantment.somanyenchantments.inefficient.desc=Уменьшает скорость копания.
@@ -394,8 +394,8 @@ enchantment.somanyenchantments.evasion.desc=Предоставляет игро�
 enchantment.instability=Нестабильность
 enchantment.somanyenchantments.instability.desc=Форма проклятия, которая увеличивает урон инструмента в зависимости от его прочности. Инструмент получает урон, пропорциональный урону, который он нанес.
 
-enchantment.drag=Перетаскивание
-enchantment.somanyenchantments.drag.desc=Противоположность Отбрасывания.
+enchantment.dragging=Перетаскивание
+enchantment.somanyenchantments.dragging.desc=Противоположность Отбрасывания.
 
 enchantment.pushing=Нажатие
 enchantment.somanyenchantments.pushing.desc=Благословляет лук способностью активировать близлежащие объекты во время зарядки.

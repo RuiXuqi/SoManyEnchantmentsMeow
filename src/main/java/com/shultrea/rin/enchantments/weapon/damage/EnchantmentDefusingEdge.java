@@ -21,15 +21,15 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentDefusion extends EnchantmentBase implements IEnchantmentDamage {
+public class EnchantmentDefusingEdge extends EnchantmentBase implements IEnchantmentDamage {
 	
-	public EnchantmentDefusion(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
+	public EnchantmentDefusingEdge(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
 	@Override
 	public boolean isEnabled() {
-		return ModConfig.enabled.defusion;
+		return ModConfig.enabled.defusingEdge;
 	}
 	
 	@Override
@@ -39,17 +39,17 @@ public class EnchantmentDefusion extends EnchantmentBase implements IEnchantment
 	
 	@Override
 	public int getMaxLevel() {
-		return ModConfig.level.defusion;
+		return ModConfig.level.defusingEdge;
 	}
 
 	@Override
 	public int getMinEnchantability(int level) {
-		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.defusion, level);
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.defusingEdge, level);
 	}
 
 	@Override
 	public int getMaxEnchantability(int level) {
-		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.defusion, level);
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.defusingEdge, level);
 	}
 	
 	//TODO
@@ -60,7 +60,7 @@ public class EnchantmentDefusion extends EnchantmentBase implements IEnchantment
 	
 	@Override
 	public boolean isTreasureEnchantment() {
-		return ModConfig.treasure.defusion;
+		return ModConfig.treasure.defusingEdge;
 	}
 	
 	//TODO
@@ -74,7 +74,7 @@ public class EnchantmentDefusion extends EnchantmentBase implements IEnchantment
 	public void HandleEnchant(LivingHurtEvent fEvent) {
 		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
 		ItemStack dmgSource = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
-        int levelDefusing = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.defusion, dmgSource);
+        int levelDefusing = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.defusingEdge, dmgSource);
 		if(levelDefusing <= 0) return;
 		if(fEvent.getEntity() instanceof EntityCreeper) {
 			float Damage = fEvent.getAmount();

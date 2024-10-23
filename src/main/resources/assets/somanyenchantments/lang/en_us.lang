@@ -6,8 +6,8 @@ enchantment.somanyenchantments.rune_piercingcapabilities.desc=One of the runes. 
 enchantment.atomicdeconstructor=Atomic Deconstructor
 enchantment.somanyenchantments.atomicdeconstructor.desc=Your attacks has a very low chance that can gurantee a instant kill.
 
-enchantment.defusion=Defusing Edge
-enchantment.somanyenchantments.defusion.sec=Deals extra damage to creepers and has a chance 
+enchantment.defusingedge=Defusing Edge
+enchantment.somanyenchantments.defusingedge.sec=Deals extra damage to creepers and has a chance
 
 enchantment.inefficient=Inefficient
 enchantment.somanyenchantments.inefficient.desc=Reduces mining speed.
@@ -392,8 +392,8 @@ enchantment.somanyenchantments.evasion.desc=Grants the user a chance to evade at
 enchantment.instability=Instability
 enchantment.somanyenchantments.instability.desc=A form of curse that increases the damage of a tool the lower the durability it has. The tool suffers by taking damage proportional to the damage it inflicted.
 
-enchantment.drag=Dragging
-enchantment.somanyenchantments.drag.desc=Turnabout "Reverse Hierarchy" version of Punch. In layman's term, the opposite of punch.
+enchantment.dragging=Dragging
+enchantment.somanyenchantments.dragging.desc=Turnabout "Reverse Hierarchy" version of Punch. In layman's term, the opposite of punch.
 
 enchantment.pushing=Pushing
 enchantment.somanyenchantments.pushing.desc=Blesses the bow with an ability to repel nearby entities while charging. 

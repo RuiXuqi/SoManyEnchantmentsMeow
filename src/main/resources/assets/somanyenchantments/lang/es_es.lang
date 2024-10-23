@@ -6,8 +6,8 @@ enchantment.somanyenchantments.rune_piercingcapabilities.desc=Una de las runas. 
 enchantment.atomicdeconstructor=Deconstructor atómico
 enchantment.somanyenchantments.atomicdeconstructor.desc=Tus ataques tienen una probabilidad muy baja de provocar una muerte instantánea.
 
-enchantment.defusion=Desactivador
-enchantment.somanyenchantments.defusion.sec=Inflige daño adicional a las enredaderas y tiene una posibilidad de desactivar su explosión
+enchantment.defusingedge=Desactivador
+enchantment.somanyenchantments.defusingedge.sec=Inflige daño adicional a las enredaderas y tiene una posibilidad de desactivar su explosión
 
 enchantment.inefficient=Ineficiente
 enchantment.somanyenchantments.inefficient.desc=Reduce la velocidad de minado.
@@ -393,8 +393,8 @@ enchantment.somanyenchantments.evasion.desc=Otorga al usuario la oportunidad de 
 enchantment.instability=Inestabilidad
 enchantment.somanyenchantments.instability.desc=Una forma de maldición que aumenta el daño de una herramienta cuanto menor es la durabilidad que tiene. La herramienta sufre al recibir daño proporcional al daño que infligió.
 
-enchantment.drag=Arrastrante
-enchantment.somanyenchantments.drag.desc=Vuelta a la versión de "Jerarquía inversa" de Retroceso. En términos simples, lo contrario de Retroceso.
+enchantment.dragging=Arrastrante
+enchantment.somanyenchantments.dragging.desc=Vuelta a la versión de "Jerarquía inversa" de Retroceso. En términos simples, lo contrario de Retroceso.
 
 enchantment.pushing=Emprendedor
 enchantment.somanyenchantments.pushing.desc=Bendice el arco con la capacidad de repeler entidades cercanas mientras carga.

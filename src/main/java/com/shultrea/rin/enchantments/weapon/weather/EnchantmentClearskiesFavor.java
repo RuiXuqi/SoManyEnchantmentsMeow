@@ -6,7 +6,6 @@ import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,15 +15,15 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentClearSkiesFavor extends EnchantmentBase implements IWeatherEnchantment {
+public class EnchantmentClearskiesFavor extends EnchantmentBase implements IWeatherEnchantment {
 	
-	public EnchantmentClearSkiesFavor(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
+	public EnchantmentClearskiesFavor(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}
 	
 	@Override
 	public boolean isEnabled() {
-		return ModConfig.enabled.clearSkiesFavor;
+		return ModConfig.enabled.clearskiesFavor;
 	}
 	
 	@Override
@@ -34,22 +33,22 @@ public class EnchantmentClearSkiesFavor extends EnchantmentBase implements IWeat
 	
 	@Override
 	public int getMaxLevel() {
-		return ModConfig.level.clearSkiesFavor;
+		return ModConfig.level.clearskiesFavor;
 	}
 
 	@Override
 	public int getMinEnchantability(int level) {
-		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.clearSkiesFavor, level);
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.clearskiesFavor, level);
 	}
 
 	@Override
 	public int getMaxEnchantability(int level) {
-		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.clearSkiesFavor, level);
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.clearskiesFavor, level);
 	}
 	
 	@Override
 	public boolean isTreasureEnchantment() {
-		return ModConfig.treasure.clearSkiesFavor;
+		return ModConfig.treasure.clearskiesFavor;
 	}
 	
 	//TODO
@@ -64,7 +63,7 @@ public class EnchantmentClearSkiesFavor extends EnchantmentBase implements IWeat
 		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
 		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
 		ItemStack dmgSource = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
-		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.clearSkiesFavor, dmgSource);
+		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.clearskiesFavor, dmgSource);
 		if(enchantmentLevel <= 0) return;
 		//System.out.println("ClearSky Initiating Damage");
 		//Boolean PrintThis = EnchantmentsUtility.noBlockLight(attacker);

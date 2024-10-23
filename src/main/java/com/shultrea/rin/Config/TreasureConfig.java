@@ -37,9 +37,9 @@ public class TreasureConfig {
 	@Config.Name("Butchering")
 	@Config.RequiresMcRestart
 	public boolean butchering = false;
-	@Config.Name("Clear Skies' Favor")
+	@Config.Name("Clearskies' Favor")
 	@Config.RequiresMcRestart
-	public boolean clearSkiesFavor = false;
+	public boolean clearskiesFavor = false;
 	@Config.Name("Combat Veterancy")
 	@Config.RequiresMcRestart
 	public boolean combatVeterancy = false;
@@ -55,9 +55,9 @@ public class TreasureConfig {
 	@Config.Name("Dark Shadows")
 	@Config.RequiresMcRestart
 	public boolean darkShadows = false;
-	@Config.Name("Defusion")
+	@Config.Name("Defusing Edge")
 	@Config.RequiresMcRestart
-	public boolean defusion = false;
+	public boolean defusingEdge = false;
 	@Config.Name("Desolator")
 	@Config.RequiresMcRestart
 	public boolean desolator = false;
@@ -112,7 +112,7 @@ public class TreasureConfig {
 	@Config.Name("Luck Magnification")
 	@Config.RequiresMcRestart
 	public boolean luckMagnification = false;
-	@Config.Name("Luna's Blessing")
+	@Config.Name("Lunars Blessing")
 	@Config.RequiresMcRestart
 	public boolean lunarsBlessing = false;
 	@Config.Name("Magic Protection")
@@ -142,9 +142,9 @@ public class TreasureConfig {
 	@Config.Name("Physical Protection")
 	@Config.RequiresMcRestart
 	public boolean physicalProtection = false;
-	@Config.Name("Pulling")
+	@Config.Name("Dragging")
 	@Config.RequiresMcRestart
-	public boolean drag = false;
+	public boolean dragging = false;
 	@Config.Name("Purging Blade")
 	@Config.RequiresMcRestart
 	public boolean purgingBlade = false;

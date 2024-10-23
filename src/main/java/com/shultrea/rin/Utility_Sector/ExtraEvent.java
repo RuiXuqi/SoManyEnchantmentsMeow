@@ -36,7 +36,7 @@ public class ExtraEvent {
 				break;
 		}
 		float pullPower = properties.getPullPower();
-		if(pullPower > 0 && ModConfig.enabled.drag) {
+		if(pullPower > 0 && ModConfig.enabled.dragging) {
 			pullPower *= -1;
 			float distance = MathHelper.sqrt(cause.motionX * cause.motionX + cause.motionZ * cause.motionZ);
 			fEvent.getEntityLiving().addVelocity(cause.motionX * pullPower * 0.6000000238418579D / (double)distance, 0.1D, cause.motionZ * pullPower * 0.6000000238418579D / (double)distance);
