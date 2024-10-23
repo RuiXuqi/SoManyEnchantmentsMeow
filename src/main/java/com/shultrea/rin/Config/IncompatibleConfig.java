@@ -1,6 +1,7 @@
 package com.shultrea.rin.Config;
 
 import com.shultrea.rin.SoManyEnchantments;
+import com.shultrea.rin.Utility_Sector.SMElogM;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Config;
@@ -10,9 +11,8 @@ import java.util.ArrayList;
 public class IncompatibleConfig {
 	
 	@Config.Name("Groups of incompatible Enchantments")
-	@Config.Comment("Each line is a group of pairwise incompatible enchantments. Enchantments are separated by comma and optional whitespace. When using enchantments from other modpacks, use modid:enchantmentname.")
 	@Config.RequiresMcRestart
-	String[] incompatibleGroups = {"minecraft:feather_falling, advancedfeatherfalling",
+	public String[] incompatibleGroups = {"minecraft:feather_falling, advancedfeatherfalling",
 			"minecraft:feather_falling, curseofvulnerability",
 			"minecraft:depth_strider, underwaterstrider",
 			"heavyweight, swifterslashes",
@@ -77,21 +77,21 @@ public class IncompatibleConfig {
 
 		Enchantment thisEnch = Enchantment.getEnchantmentByLocation(name.toString());
 		if (thisEnch == null) {
-			System.out.println("SME: could not find incompatible enchantment "+name);
+            SMElogM.logger.info("SME: could not find enchantment to get incompatible list for {}", name.toString());
 			return incompatEnchs;
 		}
 
 		for (String s : incompatibleGroups){
-			if (s.contains(name.toString())) {
+			if (s.contains(name.getPath())) {
 				//Assumes that config lines are enchantments separated by comma before optional whitespaces
 				String[] enchsInList = s.split(", *");
 				for (String s1 : enchsInList) {
 					//assumes that the config uses modid:enchantment if its not an SME enchant
 					if(!s1.contains(":"))
-						s1 = SoManyEnchantments.MODID + s1;
+						s1 = SoManyEnchantments.MODID+ ":" + s1;
 					Enchantment incompatEnch = Enchantment.getEnchantmentByLocation(s1);
 					if (incompatEnch == null)
-						System.out.println("SME: could not find incompatible enchantment "+s1);
+                        SMElogM.logger.info("SME: could not find incompatible enchantment {}", s1);
 					else
 						incompatEnchs.add(incompatEnch);
 				}

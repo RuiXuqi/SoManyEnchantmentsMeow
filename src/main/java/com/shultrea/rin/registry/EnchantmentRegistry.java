@@ -4,6 +4,7 @@ import com.shultrea.rin.Enum.EnumSlots;
 import com.shultrea.rin.Enum.EnumTypes;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.SoManyEnchantments;
+import com.shultrea.rin.Utility_Sector.SMElogM;
 import com.shultrea.rin.enchantments.*;
 import com.shultrea.rin.enchantments.armor.protection.*;
 import com.shultrea.rin.enchantments.armor.thorns.EnchantmentAdvancedThorns;
@@ -178,7 +179,7 @@ public class EnchantmentRegistry {
 	//public static EnchantmentBase lesserPunch;
 	//public static EnchantmentBase lesserRespiration;
 	public static EnchantmentBase lesserSharpness = register(new EnchantmentTierDamage("lessersharpness", Enchantment.Rarity.COMMON,EnumEnchantmentType.WEAPON,0));
-	public static EnchantmentBase lesserSmite = register(new EnchantmentTierDamage("lessermite", Enchantment.Rarity.COMMON,EnumEnchantmentType.WEAPON,2));
+	public static EnchantmentBase lesserSmite = register(new EnchantmentTierDamage("lessersmite", Enchantment.Rarity.COMMON,EnumEnchantmentType.WEAPON,2));
 	//public static EnchantmentBase lesserThorns;
 
 	//Advanced

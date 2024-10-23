@@ -24,8 +24,8 @@ public class ModConfig {
 	@Config.Comment("Enchantabilities of each enchantment: {start, lvlspan, range, max_mode} with max_mode 0 being normal, 1,2,3 legacy mistakes (1=super using max = super.min+range, 2=fixed using max = range, 3=linear using max = range*lvl)")
 	@Config.Name("Enchantabilities")
 	public static EnchantabilityConfig enchantability = new EnchantabilityConfig();
-	@Config.Comment("Incompatible")
-	@Config.Name("Incompatible")
+	@Config.Comment("Each line is a group of pairwise incompatible enchantments. Enchantments are separated by comma and optional whitespace. When using enchantments from other modpacks, use modid:enchantmentname.")
+	@Config.Name("Incompatible Groups")
 	public static IncompatibleConfig incompatible = new IncompatibleConfig();
 	@Config.Comment("Miscellaneous")
 	@Config.Name("Miscellaneous")
