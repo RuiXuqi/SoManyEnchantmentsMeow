@@ -57,11 +57,6 @@ public class EnchantmentInstability extends EnchantmentCurse implements IDamageM
 		return ModConfig.treasure.instability;
 	}
 	
-//	@Override
-//	public boolean canApplyTogether(Enchantment ench) {
-//		return !(ench instanceof EnchantmentDurability) && super.canApplyTogether(ench);
-//	}
-	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public static void onLivingDamageEvent(LivingDamageEvent event) {
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;

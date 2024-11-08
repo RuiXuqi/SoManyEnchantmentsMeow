@@ -54,11 +54,6 @@ public class EnchantmentInefficient extends EnchantmentCurse {
 		return ModConfig.treasure.inefficient;
 	}
 	
-//	@Override
-//	public boolean canApplyTogether(Enchantment ench) {
-//		return ench != Enchantments.EFFICIENCY && !(ench instanceof EnchantmentAdvancedEfficiency) && super.canApplyTogether(ench);
-//	}
-	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public static void onBreakSpeedEvent(PlayerEvent.BreakSpeed event) {
 		EntityPlayer player = event.getEntityPlayer();

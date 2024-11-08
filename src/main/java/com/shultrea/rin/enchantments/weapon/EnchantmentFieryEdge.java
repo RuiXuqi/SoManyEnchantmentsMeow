@@ -57,12 +57,6 @@ public class EnchantmentFieryEdge extends EnchantmentBase implements IEnchantmen
 			victim.hurtResistantTime = 0;
 		}
 	}
-	
-	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && fTest != Enchantments.FIRE_ASPECT && !(fTest instanceof EnchantmentWaterAspect);
-//	}
 
 	public static int getFireTicks(int tier) {
 		return 6;

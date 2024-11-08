@@ -34,7 +34,6 @@ public class EnchantmentTierFlame extends EnchantmentBase implements IEnchantmen
 				return false;
 		}
 	}
-	//TODO
 
 	@Override
 	public int getMaxLevel() {
@@ -92,16 +91,6 @@ public class EnchantmentTierFlame extends EnchantmentBase implements IEnchantmen
 				return false;
 		}
 	}
-
-	//TODO
-
-	/**
-	 * Determines if the enchantment passed can be applyied together with this enchantment.
-	 */
-//	@Override
-//	public boolean canApplyTogether(Enchantment ench) {
-//		return !(ench instanceof EnchantmentTierFlame);
-//	}
 
 	public static int getFireTicks(int tier) {
 		switch(tier){

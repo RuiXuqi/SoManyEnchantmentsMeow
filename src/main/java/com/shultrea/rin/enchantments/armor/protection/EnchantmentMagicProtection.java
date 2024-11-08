@@ -45,15 +45,5 @@ public class EnchantmentMagicProtection extends EnchantmentBase implements IEnch
 	public int calcModifierDamage(int level, DamageSource source) {
 		return source.canHarmInCreative() ? 0 : (source.isMagicDamage() ? level * 2 : 0);
 	}
-	
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		if(fTest instanceof EnchantmentProtection) {
-//			EnchantmentProtection p = (EnchantmentProtection)fTest;
-//			if(p.protectionType != EnchantmentProtection.Type.FALL) return false;
-//			else return super.canApplyTogether(fTest) && !(fTest instanceof IEnchantmentProtection);
-//		}
-//		return super.canApplyTogether(fTest) && !(fTest instanceof IEnchantmentProtection);
-//	}
 }
 

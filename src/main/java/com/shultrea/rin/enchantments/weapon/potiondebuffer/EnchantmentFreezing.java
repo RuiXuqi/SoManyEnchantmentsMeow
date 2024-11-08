@@ -63,12 +63,6 @@ public class EnchantmentFreezing extends EnchantmentBase implements IPotionDebuf
 	}
 	
 	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && !(fTest instanceof IPotionDebuffer);
-//	}
-	
-	//TODO
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onEntityDamaged(LivingDamageEvent fEvent) {
 		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;

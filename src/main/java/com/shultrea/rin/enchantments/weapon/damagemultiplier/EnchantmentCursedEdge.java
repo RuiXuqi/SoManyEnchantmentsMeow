@@ -58,12 +58,6 @@ public class EnchantmentCursedEdge extends EnchantmentCurse {
 		return ModConfig.treasure.cursedEdge;
 	}
 	
-	//TODO maybe not restrict from other multipliers ?
-//	@Override
-//	public boolean canApplyTogether(Enchantment ench) {
-//		return !(ench instanceof IDamageMultiplier) && !(ench instanceof EnchantmentBlessedEdge) && super.canApplyTogether(ench);
-//	}
-	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public static void onLivingDamageEvent(LivingDamageEvent event) {
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;

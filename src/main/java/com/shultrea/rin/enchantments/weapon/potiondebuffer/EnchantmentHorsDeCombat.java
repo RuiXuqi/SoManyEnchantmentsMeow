@@ -63,10 +63,4 @@ public class EnchantmentHorsDeCombat extends EnchantmentBase implements IPotionD
 			}
 		}
 	}
-	
-	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return !(fTest instanceof IPotionDebuffer) && super.canApplyTogether(fTest);
-//	}
 }

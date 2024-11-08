@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.base;
 
-import com.shultrea.rin.Config.IncompatibleConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.SoManyEnchantments;
 import net.minecraft.enchantment.Enchantment;

@@ -56,11 +56,6 @@ public class EnchantmentStrafe extends EnchantmentBase {
 		return ModConfig.treasure.strafe;
 	}
 	
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return fTest != Enchantments.INFINITY && fTest != Enchantments.PUNCH && fTest != EnchantmentRegistry.advancedPunch && super.canApplyTogether(fTest);
-//	}
-	
 	@SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
 	public void onEvent(LivingEntityUseItemEvent.Tick event) {
 		EntityLivingBase entity = event.getEntityLiving();

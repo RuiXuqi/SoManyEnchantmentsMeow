@@ -53,12 +53,6 @@ public class EnchantmentAdvancedPunch extends EnchantmentBase {
 	}
 	
 	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return fTest != Enchantments.PUNCH && super.canApplyTogether(fTest);
-//	}
-	
-	//TODO
 	@SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
 	public void onEvent(EntityJoinWorldEvent event) {
 		if(event.getEntity() instanceof EntityArrow) {

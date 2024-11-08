@@ -56,11 +56,6 @@ public class EnchantmentMortalitas extends EnchantmentBase {
 		return ModConfig.treasure.mortalitas;
 	}
 	
-//	@Override
-//	public boolean canApplyTogether(Enchantment e) {
-//		return super.canApplyTogether(e) && !(e instanceof IDamageMultiplier) && !(e instanceof IConditionalDamage);
-//	}
-	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onDamage(LivingHurtEvent e) {
 		if(e.getSource().getTrueSource() != null && e.getSource().getTrueSource() instanceof EntityPlayer && e.getSource().damageType.equals("player")) {

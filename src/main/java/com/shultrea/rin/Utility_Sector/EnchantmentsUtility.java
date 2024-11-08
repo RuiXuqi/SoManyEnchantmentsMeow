@@ -33,7 +33,7 @@ public class EnchantmentsUtility {
 	
 	public static final Random RANDOM = new Random();
 	
-	public static boolean noBlockLight(EntityLivingBase attacker) {
+	public static boolean entityCanSeeSky(EntityLivingBase attacker) {
 		BlockPos pos = new BlockPos(attacker.posX, attacker.posY, attacker.posZ);
 		return attacker.world.canBlockSeeSky(pos);
 	}
@@ -51,7 +51,7 @@ public class EnchantmentsUtility {
 		}
 	}
 	
-	public static void Raining(World world) {
+	public static void setRaining(World world) {
 		if(!ModConfig.miscellaneous.enableWeatherChanges) return;
 		world.getWorldInfo().setRainTime(0);
 		world.getWorldInfo().setRaining(true);
@@ -167,7 +167,7 @@ public class EnchantmentsUtility {
 	 *
 	 * }
 	 */
-	public static void clearSky(World world) {
+	public static void setClearWeather(World world) {
 		if(!ModConfig.miscellaneous.enableWeatherChanges) return;
 		if(world.getWorldInfo().isRaining()) world.getWorldInfo().setRaining(false);
 		if(world.getWorldInfo().isThundering()) {
@@ -351,13 +351,13 @@ public class EnchantmentsUtility {
 	}
 	
 	//For sunshine and moonlight
-	public static float reduceDamage(EntityLivingBase attacker, boolean mustBeDaytime, ItemStack stack, Enchantment enchantment) {
+	public static float modifyDamageForDaytime(EntityLivingBase attacker, boolean mustBeDaytime, ItemStack stack, Enchantment enchantment) {
 		boolean isCorrectDayTime = attacker.world.isDaytime() == mustBeDaytime;
 		int level = EnchantmentHelper.getEnchantmentLevel(enchantment, stack);
 		float damage = level * 0.5f + 1.5f;
 		if(!isCorrectDayTime)
 			damage *= -1f;
-		if(!EnchantmentsUtility.noBlockLight(attacker)) {
+		if(!EnchantmentsUtility.entityCanSeeSky(attacker)) {
 			if(isCorrectDayTime)
 				damage -= 0.75f * level;
 			else

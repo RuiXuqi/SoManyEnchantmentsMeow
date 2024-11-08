@@ -53,13 +53,6 @@ public class EnchantmentAdvancedPower extends EnchantmentBase {
 	}
 	
 	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		if(fTest == Enchantments.POWER) return false;
-//		return super.canApplyTogether(fTest);
-//	}
-	
-	//TODO
 	@SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
 	public void onEvent(EntityJoinWorldEvent event) {
 		if(event.getEntity() instanceof EntityArrow) {

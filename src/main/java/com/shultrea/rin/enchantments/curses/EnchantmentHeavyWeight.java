@@ -41,9 +41,4 @@ public class EnchantmentHeavyWeight extends EnchantmentCurse {
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.heavyWeight;
 	}
-	
-//	@Override
-//	public boolean canApplyTogether(Enchantment ench) {
-//		return !(ench instanceof EnchantmentSwifterSlashes) && super.canApplyTogether(ench);
-//	}
 }

@@ -47,14 +47,4 @@ public class EnchantmentAdvancedProjectileProtection extends EnchantmentBase imp
 	public int calcModifierDamage(int level, DamageSource source) {
 		return source.canHarmInCreative() ? 0 : source.isProjectile() ? level * 3 : 0;
 	}
-	
-	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		if(fTest instanceof EnchantmentProtection) {
-//			EnchantmentProtection p = (EnchantmentProtection)fTest;
-//			return p.protectionType == EnchantmentProtection.Type.FALL;
-//		}
-//		return super.canApplyTogether(fTest) && !(fTest instanceof IEnchantmentProtection);
-//	}
 }

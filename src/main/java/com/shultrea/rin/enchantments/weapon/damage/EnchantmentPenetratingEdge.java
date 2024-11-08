@@ -52,11 +52,6 @@ public class EnchantmentPenetratingEdge extends EnchantmentBase implements IEnch
 		return ModConfig.treasure.penetratingEdge;
 	}
 	
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && !(fTest instanceof IEnchantmentRune);
-//	}
-	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void HandleEnchant(LivingHurtEvent fEvent) {
 		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;

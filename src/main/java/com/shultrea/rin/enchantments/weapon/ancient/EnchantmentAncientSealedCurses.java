@@ -49,8 +49,7 @@ public class EnchantmentAncientSealedCurses extends EnchantmentBase implements I
 		return ModConfig.treasure.ancientSealedCurses;
 	}
 	
-	//TODO
-	//Nischi says: this makes it fully not allowed on anything
+	//TODO this makes it fully not allowed on anything
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack) {
 		return false;

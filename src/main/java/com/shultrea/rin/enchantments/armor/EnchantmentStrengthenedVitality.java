@@ -58,12 +58,6 @@ public class EnchantmentStrengthenedVitality extends EnchantmentBase {
 		return ModConfig.treasure.strengthenedVitality;
 	}
 	
-//	@Override
-//	public boolean canApplyTogether(Enchantment e) {
-//		return super.canApplyTogether(e);
-//		//return super.canApplyTogether(e) && !(e instanceof IEnchantmentProtection) && !(e instanceof EnchantmentProtection);
-//	}
-	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void updateHealth(PlayerTickEvent fEvent) {
 		if(fEvent.phase != Phase.END) return;

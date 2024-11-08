@@ -69,9 +69,4 @@ public class EnchantmentReinforcedSharpness extends EnchantmentBase implements I
 		if(ModConfig.enabled.reinforcedsharpness) return (0.75f * level + 0.5f);
 		return 0;
 	}
-	
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && fTest != EnchantmentRegistry.bluntness && !(fTest instanceof IEnchantmentDamage) && !(fTest instanceof EnchantmentDamage);
-//	}
 }

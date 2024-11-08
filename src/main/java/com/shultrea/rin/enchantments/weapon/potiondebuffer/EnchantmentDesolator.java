@@ -54,12 +54,6 @@ public class EnchantmentDesolator extends EnchantmentBase implements IPotionDebu
 	}
 	
 	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && !(fTest instanceof IPotionDebuffer);
-//	}
-	
-	//TODO
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void HandleEnchant(LivingHurtEvent fEvent) {
 		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;

@@ -55,12 +55,6 @@ public class EnchantmentBlessedEdge extends EnchantmentBase {
 	}
 	
 	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && fTest != Enchantments.SMITE && fTest != EnchantmentRegistry.cursedEdge && fTest != EnchantmentRegistry.advancedSmite && !(fTest instanceof IEnchantmentDamage);
-//	}
-	
-	//TODO
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void HandleEnchant(LivingHurtEvent fEvent) {
 		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;

@@ -7,8 +7,7 @@ import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.inventory.EntityEquipmentSlot;
 
 public class EnchantmentTrueStrike extends EnchantmentBase {
-	//TODO what is this supposed to do? It's referenced in Parry and Evasion
-	
+
 	public EnchantmentTrueStrike(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 	}

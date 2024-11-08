@@ -51,12 +51,6 @@ public class EnchantmentAdvancedMending extends EnchantmentBase {
 	}
 	
 	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return fTest != Enchantments.MENDING && super.canApplyTogether(fTest);
-//	}
-	
-	//TODO
 	@SubscribeEvent
 	public void onXP(PlayerPickupXpEvent event) {
 		EntityPlayer player = event.getEntityPlayer();

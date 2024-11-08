@@ -73,12 +73,6 @@ public class EnchantmentDisorientatingBlade extends EnchantmentBase implements I
 	}
 	
 	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && !(fTest instanceof IPotionDebuffer);
-//	}
-	
-	//TODO
 	@SubscribeEvent
 	public void criticalWhenDisoriented(CriticalHitEvent e) {
 		if(!(e.getTarget() instanceof EntityLivingBase)) return;

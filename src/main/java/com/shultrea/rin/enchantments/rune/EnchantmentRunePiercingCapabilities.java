@@ -62,20 +62,13 @@ public class EnchantmentRunePiercingCapabilities extends EnchantmentBase impleme
 	}
 	
 	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && !(fTest instanceof IEnchantmentRune);
-//	}
-	
-	//TODO
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void HandleEnchant(LivingHurtEvent fEvent) {
-		//System.out.println("Piercing Capabilities");
-		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource()))
-			return;
+		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
 		if(fEvent.getSource().isUnblockable()) return;
 		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
 		ItemStack stack = attacker.getHeldItemMainhand();
+		//TODO: this should check the attacking hand, not main
 		int pierceLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.runePiercingCapabilities, stack);
 		if(pierceLevel <= 0) return;
 		float damage = fEvent.getAmount() * 0.25f * pierceLevel;

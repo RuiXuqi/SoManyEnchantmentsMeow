@@ -52,10 +52,4 @@ public class EnchantmentEnvenomed extends EnchantmentBase implements IPotionDebu
 		entity.addPotionEffect(new PotionEffect(MobEffects.POISON, 30 + (level * 10), level - 1));
 		entity.addPotionEffect(new PotionEffect(MobEffects.WITHER, 30 + (level * 10), level));
 	}
-	
-	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && !(fTest instanceof IPotionDebuffer);
-//	}
 }

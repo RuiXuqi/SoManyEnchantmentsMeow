@@ -66,12 +66,6 @@ public class EnchantmentDarkShadows extends EnchantmentBase implements IConditio
 	}
 	
 	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && !(fTest instanceof IConditionalDamage);
-//	}
-	
-	//TODO
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onEvent(LivingHurtEvent e) {
 		if(!EnchantmentBase.isDamageSourceAllowed(e.getSource())) return;

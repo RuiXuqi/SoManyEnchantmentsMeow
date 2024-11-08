@@ -52,12 +52,6 @@ public class EnchantmentAdvancedLooting extends EnchantmentBase {
 		return ModConfig.treasure.advancedLooting;
 	}
 	
-	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return fTest != Enchantments.LOOTING && super.canApplyTogether(fTest);
-//	}
-	
 	/*
 	@SubscribeEvent(priority = EventPriority.LOWEST) 
 	public void HandleEnchant(LootingLevelEvent fEvent)

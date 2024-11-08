@@ -56,12 +56,6 @@ public class EnchantmentDebug extends Enchantment
     }
     
     @Override
-    public boolean canApplyTogether(Enchantment fTest)
-    {    			
-    	return super.canApplyTogether(fTest);
-    }
-    
-    @Override
     public boolean canApply(ItemStack fTest)
     {
     	return super.canApply(fTest);

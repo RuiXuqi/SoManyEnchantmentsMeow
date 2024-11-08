@@ -60,11 +60,6 @@ public class EnchantmentUnderwaterStrider extends EnchantmentBase {
 		return ModConfig.treasure.underwaterStrider;
 	}
 	
-//	@Override
-//	public boolean canApplyTogether(Enchantment e) {
-//		return super.canApplyTogether(e) && !(e instanceof EnchantmentWaterWalker);
-//	}
-	
 	@SubscribeEvent
 	public void onUnder(PlayerTickEvent e) {
 		if(e.phase == Phase.END) return;

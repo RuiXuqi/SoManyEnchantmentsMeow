@@ -5,8 +5,6 @@ import com.shultrea.rin.Interfaces.IEnhancedEnchantment;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentDamage;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,11 +17,13 @@ import net.minecraft.potion.PotionEffect;
 
 public class EnchantmentTierDamage extends EnchantmentBase implements IEnchantmentDamage, IEnhancedEnchantment {
 	
-	/**
-	 * Defines the type of damage of the enchantment, 0 = LesserSharpness, 1 = SupremeSharpness, 2 = LesserSmite, 3 =
-	 * SupremeSmite, 4 = LesserBaneOfArthropods, 5 = SupremeBaneOfArthropods
-	 */
 	public final int damageType;
+	public static final int LESSSHARP = 0;
+	public static final int SUPSHARP = 1;
+	public static final int LESSSMITE = 2;
+	public static final int SUPSMITE = 3;
+	public static final int LESSBOA = 4;
+	public static final int SUPBOA = 5;
 	
 	public EnchantmentTierDamage(String name, Rarity rarity, EnumEnchantmentType type, int damageTypeIn, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
@@ -34,17 +34,17 @@ public class EnchantmentTierDamage extends EnchantmentBase implements IEnchantme
 	@Override
 	public boolean isEnabled() {
 		switch(this.damageType) {
-			case 0:
+			case LESSSHARP:
 				return ModConfig.enabled.lesserSharpness;
-			case 1:
+			case SUPSHARP:
 				return ModConfig.enabled.supremeSharpness;
-			case 2:
+			case LESSSMITE:
 				return ModConfig.enabled.lesserSmite;
-			case 3:
+			case SUPSMITE:
 				return ModConfig.enabled.supremeSmite;
-			case 4:
+			case LESSBOA:
 				return ModConfig.enabled.lesserBaneOfArthropods;
-			case 5:
+			case SUPBOA:
 				return ModConfig.enabled.supremeBaneOfArthropods;
 			default:
 				return false;
@@ -54,17 +54,17 @@ public class EnchantmentTierDamage extends EnchantmentBase implements IEnchantme
 	@Override
 	public int getMaxLevel() {
 		switch(this.damageType) {
-			case 0:
+			case LESSSHARP:
 				return ModConfig.level.lesserSharpness;
-			case 1:
+			case SUPSHARP:
 				return ModConfig.level.supremeSharpness;
-			case 2:
+			case LESSSMITE:
 				return ModConfig.level.lesserSmite;
-			case 3:
+			case SUPSMITE:
 				return ModConfig.level.supremeSmite;
-			case 4:
+			case LESSBOA:
 				return ModConfig.level.lesserBaneOfArthropods;
-			case 5:
+			case SUPBOA:
 				return ModConfig.level.supremeBaneOfArthropods;
 			default:
 				return 5;
@@ -74,17 +74,17 @@ public class EnchantmentTierDamage extends EnchantmentBase implements IEnchantme
 	@Override
 	public int getMinEnchantability(int level) {
 		switch(this.damageType) {
-			case 0:
+			case LESSSHARP:
 				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.lesserSharpness, level);
-			case 1:
+			case SUPSHARP:
 				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.supremeSharpness, level);
-			case 2:
+			case LESSSMITE:
 				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.lesserSmite, level);
-			case 3:
+			case SUPSMITE:
 				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.supremeSmite, level);
-			case 4:
+			case LESSBOA:
 				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.lesserBaneOfArthropods, level);
-			case 5:
+			case SUPBOA:
 				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.supremeBaneOfArthropods, level);
 			default:
 				return 0;
@@ -94,17 +94,17 @@ public class EnchantmentTierDamage extends EnchantmentBase implements IEnchantme
 	@Override
 	public int getMaxEnchantability(int level) {
 		switch(this.damageType) {
-			case 0:
+			case LESSSHARP:
 				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.lesserSharpness, level);
-			case 1:
+			case SUPSHARP:
 				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.supremeSharpness, level);
-			case 2:
+			case LESSSMITE:
 				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.lesserSmite, level);
-			case 3:
+			case SUPSMITE:
 				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.supremeSmite, level);
-			case 4:
+			case LESSBOA:
 				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.lesserBaneOfArthropods, level);
-			case 5:
+			case SUPBOA:
 				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.supremeBaneOfArthropods, level);
 			default:
 				return 0;
@@ -119,18 +119,18 @@ public class EnchantmentTierDamage extends EnchantmentBase implements IEnchantme
 	@Override
 	public boolean isTreasureEnchantment() {
 		switch(this.damageType) {
-			case 0:
-				return false;
-			case 1:
-				return true;
-			case 2:
-				return false;
-			case 3:
-				return true;
-			case 4:
-				return false;
-			case 5:
-				return true;
+			case LESSSHARP:
+				return ModConfig.treasure.lesserSharpness;
+			case SUPSHARP:
+				return ModConfig.treasure.supremeSharpness;
+			case LESSSMITE:
+				return ModConfig.treasure.lesserSmite;
+			case SUPSMITE:
+				return ModConfig.treasure.supremeSmite;
+			case LESSBOA:
+				return ModConfig.treasure.lesserBaneOfArthropods;
+			case SUPBOA:
+				return ModConfig.treasure.supremeBaneOfArthropods;
 			default:
 				return false;
 		}
@@ -139,33 +139,30 @@ public class EnchantmentTierDamage extends EnchantmentBase implements IEnchantme
 	@Override
 	public void onEntityDamagedAlt(EntityLivingBase user, Entity target, ItemStack stack, int level) {
 		if(target instanceof EntityLivingBase) {
-			EntityLivingBase entitylivingbase = (EntityLivingBase)target;
-			if(this.damageType == 5 && entitylivingbase.getCreatureAttribute() == EnumCreatureAttribute.ARTHROPOD) {
-				int i = 10 + user.getRNG().nextInt(5 * level);
-				entitylivingbase.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, i, 1));
-			}
-			if(this.damageType == 6 && entitylivingbase.getCreatureAttribute() == EnumCreatureAttribute.ARTHROPOD) {
-				int i = 40 + user.getRNG().nextInt(20 * level);
-				entitylivingbase.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, i, 5));
+			EntityLivingBase entitylivingbase = (EntityLivingBase) target;
+			if (entitylivingbase.getCreatureAttribute() == EnumCreatureAttribute.ARTHROPOD) {
+				if (this.damageType == LESSBOA) {
+					int duration = 10 + user.getRNG().nextInt(5 * level);
+					entitylivingbase.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, duration, 1));
+				}
+				if (this.damageType == SUPBOA) {
+					int duration = 40 + user.getRNG().nextInt(20 * level);
+					entitylivingbase.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, duration, 5));
+				}
 			}
 		}
 	}
 	
 	@Override
 	public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType) {
-		return damageType == 0 ? 0.25f + level * 0.25f : damageType == 1 ? 4.0f + level * 1.6f :
-														 (damageType == 2 && creatureType == EnumCreatureAttribute.UNDEAD) ?
-														 1.25f * level :
-														 (damageType == 3 && creatureType == EnumCreatureAttribute.UNDEAD) ?
-														 5.00f * level :
-														 (damageType == 4 && creatureType == EnumCreatureAttribute.ARTHROPOD) ?
-														 1.25f * level :
-														 (damageType == 5 && creatureType == EnumCreatureAttribute.ARTHROPOD) ?
-														 5.0f * level : 0;
+		switch(damageType) {
+			case LESSSHARP: return 0.25f + level * 0.25f;
+			case SUPSHARP: return 4.0f + level * 1.6f;
+			case LESSSMITE: if(creatureType == EnumCreatureAttribute.UNDEAD) return 1.25f * level;
+			case SUPSMITE: if(creatureType == EnumCreatureAttribute.UNDEAD) return 5.00f * level;
+			case LESSBOA: if(creatureType == EnumCreatureAttribute.ARTHROPOD) return 1.25f * level;
+			case SUPBOA: if(creatureType == EnumCreatureAttribute.ARTHROPOD) return 5.0f * level;
+			default: return 0;
+		}
 	}
-	
-//	@Override
-//	public boolean canApplyTogether(Enchantment ench) {
-//		return !(ench instanceof EnchantmentTierDamage) && !(ench instanceof EnchantmentDamage) && !(ench instanceof IEnchantmentDamage);
-//	}
 }

@@ -58,11 +58,6 @@ public class EnchantmentCurseofInaccuracy extends EnchantmentCurse {
 		return ModConfig.treasure.curseOfInaccuracy;
 	}
 	
-//	@Override
-//	public boolean canApplyTogether(Enchantment ench) {
-//		return !(ench instanceof EnchantmentTrueStrike) && super.canApplyTogether(ench);
-//	}
-	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void onLivingAttackEvent(LivingAttackEvent event) {
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;

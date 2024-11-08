@@ -55,12 +55,6 @@ public class EnchantmentCriticalStrike extends EnchantmentBase implements IDamag
 	}
 	
 	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && !(fTest instanceof IDamageMultiplier);
-//	}
-	
-	//TODO
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public static void onCritical(RLCombatCriticalHitEvent event) {
 		EntityPlayer player = event.getEntityPlayer();

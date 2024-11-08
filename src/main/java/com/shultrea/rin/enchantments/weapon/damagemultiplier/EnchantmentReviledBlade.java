@@ -52,12 +52,6 @@ public class EnchantmentReviledBlade extends EnchantmentBase implements IDamageM
 	}
 	
 	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && !(fTest instanceof IDamageMultiplier);
-//	}
-	
-	//TODO
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void HandleEnchant(LivingDamageEvent fEvent) {
 		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;

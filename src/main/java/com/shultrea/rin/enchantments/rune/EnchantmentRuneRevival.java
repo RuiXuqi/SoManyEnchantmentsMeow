@@ -67,11 +67,6 @@ public class EnchantmentRuneRevival extends EnchantmentBase implements IEnchantm
 		return TextFormatting.GREEN.toString();
 	}
 	
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && !(fTest instanceof IEnchantmentRune);
-//	}
-	
 	@SubscribeEvent
 	public void TriggeredEvent(PlayerDestroyItemEvent fEvent) {
 		int amount = 0;

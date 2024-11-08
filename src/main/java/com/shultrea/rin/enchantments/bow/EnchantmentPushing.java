@@ -60,11 +60,6 @@ public class EnchantmentPushing extends EnchantmentBase {
 		return ModConfig.treasure.pushing;
 	}
 	
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return !(fTest instanceof EnchantmentStrafe) && super.canApplyTogether(fTest);
-//	}
-	
 	@SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
 	public void onEvent(LivingEntityUseItemEvent.Tick event) {
 		EntityLivingBase entity = event.getEntityLiving();

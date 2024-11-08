@@ -60,12 +60,6 @@ public class EnchantmentAdvancedEfficiency extends EnchantmentBase implements IE
 	}
 	
 	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && fTest != Enchantments.EFFICIENCY && fTest != EnchantmentRegistry.inefficient;
-//	}
-	
-	//TODO
 	@SubscribeEvent
 	public void HandleEnchant(PlayerEvent.BreakSpeed fEvent) {
 		ItemStack tool = fEvent.getEntityLiving().getHeldItemMainhand();

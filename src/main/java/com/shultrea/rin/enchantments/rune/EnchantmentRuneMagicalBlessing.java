@@ -71,37 +71,37 @@ public class EnchantmentRuneMagicalBlessing extends EnchantmentBase implements I
 		return (0.75f * level);
 	}
 	
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && !(fTest instanceof IEnchantmentRune);
-//	}
-	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void HandleEnchant(LivingHurtEvent fEvent) {
-		//System.out.println("Magical Blessing");
 		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
 		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
-		EntityLivingBase entity = (EntityLivingBase)fEvent.getEntity();
-		if(entity == null) return;
-		ItemStack stack = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
-		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.runeMagicalBlessing, stack);
-		if(level != 0) return;
-		float LevelDamage = fEvent.getAmount();
-		fEvent.setAmount(fEvent.getAmount() - (fEvent.getAmount() * (level * 0.25f)));
-		LevelDamage = LevelDamage * (level * 0.25f);
-		if(fEvent.getEntityLiving() instanceof EntityWitch) LevelDamage = LevelDamage * 0.15f;
-		UtilityAccessor.damageTargetEvent(fEvent.getEntityLiving(), new EntityDamageSource("player", attacker).setMagicDamage(), LevelDamage);
+		EntityLivingBase victim = fEvent.getEntityLiving();
+		if(victim == null) return;
+
+		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.runeMagicalBlessing, attacker);
+		if(enchantmentLevel <= 0) return;
+
+		float damage = fEvent.getAmount();
+		fEvent.setAmount(fEvent.getAmount() - fEvent.getAmount() * enchantmentLevel * 0.25f);
+		damage *= enchantmentLevel * 0.25f;
+		if(victim instanceof EntityWitch)
+			damage *= 0.15f;
+		UtilityAccessor.damageTargetEvent(victim, new EntityDamageSource("player", attacker).setMagicDamage(), damage);
 		if(EnchantmentsUtility.RANDOM.nextBoolean()) {
 			Potion negaPotion = EnchantmentsUtility.getNonInstantNegativePotion();
-			if(negaPotion != null)
-				fEvent.getEntityLiving().addPotionEffect(new PotionEffect(negaPotion, (MathHelper.clamp(EnchantmentsUtility.RANDOM.nextInt(6), 0, Integer.MAX_VALUE) + 1) * 20 * level, MathHelper.clamp(EnchantmentsUtility.RANDOM.nextInt(level) - 1, 0, Integer.MAX_VALUE)));
+			if(negaPotion != null) {
+				int duration = (EnchantmentsUtility.RANDOM.nextInt(6) + 1) * 20 * enchantmentLevel;
+				int amplifier = EnchantmentsUtility.RANDOM.nextInt(enchantmentLevel) - 1;
+				victim.addPotionEffect(new PotionEffect(negaPotion, duration, amplifier));
+			}
 		}
 		else {
 			Potion negaIPotion = EnchantmentsUtility.getInstantNegativePotion();
 			if(negaIPotion != null) {
 				if(negaIPotion == MobEffects.INSTANT_DAMAGE && fEvent.getEntityLiving().isEntityUndead())
 					negaIPotion = MobEffects.INSTANT_HEALTH;
-				fEvent.getEntityLiving().addPotionEffect(new PotionEffect(negaIPotion, 1, MathHelper.clamp(EnchantmentsUtility.RANDOM.nextInt(level) - 1, 0, Integer.MAX_VALUE)));
+				int amplifier = EnchantmentsUtility.RANDOM.nextInt(enchantmentLevel) - 1;
+				victim.addPotionEffect(new PotionEffect(negaIPotion, 1, amplifier));
 			}
 		}
 	}

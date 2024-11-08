@@ -53,11 +53,6 @@ public class EnchantmentViper extends EnchantmentBase implements IConditionalDam
 		return ModConfig.treasure.viper;
 	}
 	
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && !(fTest instanceof IConditionalDamage);
-//	}
-	
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public void HandleEnchant(LivingHurtEvent fEvent) {
 		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;

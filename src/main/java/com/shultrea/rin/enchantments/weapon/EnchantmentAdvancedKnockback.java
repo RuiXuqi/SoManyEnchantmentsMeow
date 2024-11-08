@@ -76,12 +76,6 @@ public class EnchantmentAdvancedKnockback extends EnchantmentBase {
 	}
 	
 	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && fTest != Enchantments.KNOCKBACK;
-//	}
-	
-	//TODO
 	public boolean isValidPlayer(Entity entity) {
 		if(entity instanceof EntityPlayer) {
 			if(((EntityPlayer)entity).getHeldItemMainhand() != null) {

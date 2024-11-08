@@ -52,11 +52,6 @@ public class EnchantmentCurseofPossession extends EnchantmentCurse {
 		return ModConfig.treasure.curseOfPossession;
 	}
 	
-//	@Override
-//	public boolean canApplyTogether(Enchantment ench) {
-//		return !(ench instanceof EnchantmentCurseofDecay) && super.canApplyTogether(ench);
-//	}
-	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void onItemTossEvent(ItemTossEvent event) {
 		EntityPlayer player = event.getPlayer();

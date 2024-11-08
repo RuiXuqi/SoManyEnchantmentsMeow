@@ -51,10 +51,4 @@ public class EnchantmentLevitator extends EnchantmentBase implements IPotionDebu
 		EntityLivingBase entity = (EntityLivingBase)entiti;
 		entity.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 30 + (level * 12), 1 + level));
 	}
-	
-	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && !(fTest instanceof IPotionDebuffer);
-//	}
 }

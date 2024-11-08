@@ -44,11 +44,6 @@ public class EnchantmentRuneStarFall extends Enchantment {
 		return this.getMinEnchantability(par1) + 50;
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return super.canApplyTogether(fTest);
-	}
-	
 	@SubscribeEvent(priority = EventPriority.HIGH, receiveCanceled = true)
 	public void setDidStarFall(EntityJoinWorldEvent event) {
 		if(event.getEntity() instanceof EntityArrow) {

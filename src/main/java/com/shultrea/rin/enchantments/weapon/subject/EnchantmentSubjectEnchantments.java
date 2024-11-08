@@ -16,38 +16,34 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 
 public class EnchantmentSubjectEnchantments extends EnchantmentBase implements ISubjectEnchantment {
-	
-	/**
-	 * Defines the type of damage of the enchantment,
-	 * 0 = Math
-	 * 1 = Science
-	 * 2 = History
-	 * 3 = Physics
-	 * 4 = English
-	 * 5 = PE
-	 */
+
 	public final int damageType;
+	public final int MATHEMATICS = 0;
+	public final int SCIENCE = 1;
+	public final int HISTORY = 2;
+	public final int PHYSICS = 3;
+	public final int ENGLISH = 4;
+	public final int PE = 5;
 	
 	public EnchantmentSubjectEnchantments(String name, Rarity rarity, EnumEnchantmentType type, int damageTypeIn, EntityEquipmentSlot... slots) {
 		super(name, rarity, type, slots);
 		this.damageType = damageTypeIn;
-		this.type = type;
 	}
 	
 	@Override
 	public boolean isEnabled() {
 		switch(this.damageType) {
-			case 0:
+			case MATHEMATICS:
 				return ModConfig.enabled.subjectMathematics;
-			case 1:
+			case SCIENCE:
 				return ModConfig.enabled.subjectScience;
-			case 2:
+			case HISTORY:
 				return ModConfig.enabled.subjectHistory;
-			case 3:
+			case PHYSICS:
 				return false;
-			case 4:
+			case ENGLISH:
 				return ModConfig.enabled.subjectEnglish;
-			case 5:
+			case PE:
 				return ModConfig.enabled.subjectPE;
 			default:
 				return false;
@@ -57,17 +53,17 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase implements I
 	@Override
 	public int getMaxLevel() {
 		switch(this.damageType) {
-			case 0:
+			case MATHEMATICS:
 				return ModConfig.level.subjectMathematics;
-			case 1:
+			case SCIENCE:
 				return ModConfig.level.subjectScience;
-			case 2:
+			case HISTORY:
 				return ModConfig.level.subjectHistory;
-			case 3:
+			case PHYSICS:
 				return 4;
-			case 4:
+			case ENGLISH:
 				return ModConfig.level.subjectEnglish;
-			case 5:
+			case PE:
 				return ModConfig.level.subjectPE;
 			default:
 				return 4;
@@ -77,17 +73,17 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase implements I
 	@Override
 	public int getMinEnchantability(int level) {
 		switch(this.damageType) {
-			case 0:
+			case MATHEMATICS:
 				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.subjectMathematics, level);
-			case 1:
+			case SCIENCE:
 				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.subjectScience, level);
-			case 2:
+			case HISTORY:
 				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.subjectHistory, level);
-			case 3:
+			case PHYSICS:
 				return 0;
-			case 4:
+			case ENGLISH:
 				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.subjectEnglish, level);
-			case 5:
+			case PE:
 				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.subjectPE, level);
 			default:
 				return 0;
@@ -97,17 +93,17 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase implements I
 	@Override
 	public int getMaxEnchantability(int level) {
 		switch(this.damageType) {
-			case 0:
+			case MATHEMATICS:
 				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.subjectMathematics, level);
-			case 1:
+			case SCIENCE:
 				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.subjectScience, level);
-			case 2:
+			case HISTORY:
 				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.subjectHistory, level);
-			case 3:
+			case PHYSICS:
 				return 0;
-			case 4:
+			case ENGLISH:
 				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.subjectEnglish, level);
-			case 5:
+			case PE:
 				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.subjectPE, level);
 			default:
 				return 0;
@@ -122,17 +118,17 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase implements I
 	@Override
 	public boolean isTreasureEnchantment() {
 		switch(this.damageType) {
-			case 0:
+			case MATHEMATICS:
 				return ModConfig.treasure.subjectMathematics;
-			case 1:
+			case SCIENCE:
 				return ModConfig.treasure.subjectScience;
-			case 2:
+			case HISTORY:
 				return ModConfig.treasure.subjectHistory;
-			case 3:
+			case PHYSICS:
 				return true;
-			case 4:
+			case ENGLISH:
 				return ModConfig.treasure.subjectEnglish;
-			case 5:
+			case PE:
 				return ModConfig.treasure.subjectPE;
 			default:
 				return true;
@@ -142,37 +138,32 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase implements I
 	@Override
 	public void onEntityDamagedAlt(EntityLivingBase user, Entity target, ItemStack stack, int level) {
 		if(target instanceof EntityLivingBase) {
-			EntityLivingBase entitylivingbase = (EntityLivingBase)target;
-			if(this.damageType == 1 && ModConfig.enabled.subjectScience) {
-				if(user.getRNG().nextDouble() * 100D < 20) {
+			if(this.damageType == SCIENCE && ModConfig.enabled.subjectScience) {
+				if(user.getRNG().nextFloat() < 0.2f) {
 					user.getEntityWorld().newExplosion(user, target.posX, target.posY - 1.5D, target.posZ, 1.1f + (level * 0.4f), false, false);
 				}
 			}
-			if(this.damageType == 3) {
-				if(user.getRNG().nextDouble() * 180D < 15D) {
+			if(this.damageType == PHYSICS) {
+				if(user.getRNG().nextFloat() < 0.0833) {
 					user.getEntityWorld().newExplosion(user, target.posX, target.posY - 1.5D, target.posZ, 1.0f + (level * 0.65f), true, false);
 					user.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 60, 0, true, true));
 				}
 			}
-			if(this.damageType == 5 && ModConfig.enabled.subjectPE) {
-				if(user.getRNG().nextDouble() * 100D < 8.5D) {
-					if(level == 1 || level == 2) {
+			if(this.damageType == PE && ModConfig.enabled.subjectPE) {
+				if(user.getRNG().nextFloat() < 0.085f) {
+					if(level <= 2) {
 						user.addPotionEffect(new PotionEffect(MobEffects.HASTE, 150 + (level * 30), level - 1));
 						user.addPotionEffect(new PotionEffect(MobEffects.SPEED, 50 + (level * 5), level - 1));
 					}
-					if(level == 3 || level == 4) {
-						user.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 10 + (level * 5), level - 4));
+					if(level >= 3) {
 						user.addPotionEffect(new PotionEffect(MobEffects.HASTE, 150 + (level * 30), level - 2));
 						user.addPotionEffect(new PotionEffect(MobEffects.SPEED, 50 + (level * 5), level - 2));
+						user.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 10 + (level * 5), level - 4));
 						user.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 20 + (level * 5), level - 3));
 					}
 					if(level >= 5) {
 						user.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 10 + (level * 5), level - 1));
 						user.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 20 + (level * 5), level - 2));
-						user.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 10 + (level * 5), level - 4));
-						user.addPotionEffect(new PotionEffect(MobEffects.HASTE, 150 + (level * 5), level - 2));
-						user.addPotionEffect(new PotionEffect(MobEffects.SPEED, 50 + (level * 5), level - 2));
-						user.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 20 + (level * 5), level - 3));
 					}
 				}
 			}
@@ -181,26 +172,10 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase implements I
 	
 	@Override
 	public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType) {
-		/** if (this.damageType == 0)
-		 {
-		 return 1.0F + (float)Math.max(0, level - 1) * 0.5F;
-		 }
-		 else if (this.damageType == 1 && creatureType == EnumCreatureAttribute.UNDEAD)
-		 {
-		 return (float)level * 2.5F;
-		 }
-		 else
-		 {
-		 return this.damageType == 2 && creatureType == EnumCreatureAttribute.ARTHROPOD ? (float)level * 2.5F : 0.0F;
-		 }
-		 */
-		if(!isEnabled()) return 0.0f;
-		if(damageType == 5) return 0.75f + level * 0.25f;
+		if(!isEnabled())
+			return 0.0f;
+		if(damageType == PE)
+			return 0.75f + level * 0.25f;
 		return 0.80f + level * 0.30f;
 	}
-	
-//	@Override
-//	public boolean canApplyTogether(Enchantment ench) {
-//		return !(ench instanceof EnchantmentSubjectEnchantments);
-//	}
 }

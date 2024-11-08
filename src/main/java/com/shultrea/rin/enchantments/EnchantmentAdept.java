@@ -58,12 +58,6 @@ public class EnchantmentAdept extends EnchantmentBase {
 	}
 	
 	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && fTest != Enchantments.LOOTING && fTest != EnchantmentRegistry.advancedLooting;
-//	}
-	
-	//TODO
 	@SubscribeEvent
 	public void onDeath(LivingExperienceDropEvent fEvent) {
 		EntityPlayer player = fEvent.getAttackingPlayer();

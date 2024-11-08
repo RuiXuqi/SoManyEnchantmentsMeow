@@ -55,10 +55,4 @@ public class EnchantmentAdvancedSharpness extends EnchantmentBase implements IEn
 	public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType) {
 		return (1.25f + 0.95f * level);
 	}
-	
-	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && !(fTest instanceof EnchantmentDamage) && !(fTest instanceof IEnchantmentDamage);
-//	}
 }

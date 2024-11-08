@@ -64,17 +64,6 @@ public class EnchantmentAdvancedBlastProtection extends EnchantmentBase implemen
 	public int calcModifierDamage(int level, DamageSource source) {
 		return source.canHarmInCreative() ? 0 : source.isExplosion() ? level * 3 : 0;
 	}
-	
-	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		if(fTest instanceof EnchantmentProtection) {
-//			EnchantmentProtection p = (EnchantmentProtection)fTest;
-//			return p.protectionType == EnchantmentProtection.Type.FALL;
-//		}
-//		if(fTest instanceof EnchantmentAdvancedFeatherFalling) return true;
-//		return super.canApplyTogether(fTest) && !(fTest instanceof IEnchantmentProtection);
-//	}
  
 	/* This handler was bugged and was causing damage whenever a detonation happened even if the detonation did not do damage, so this system has been overhauled instead
 	 * Handling is now done in SMEASM and HookHelper

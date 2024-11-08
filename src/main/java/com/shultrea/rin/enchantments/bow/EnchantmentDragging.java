@@ -53,11 +53,6 @@ public class EnchantmentDragging extends EnchantmentBase {
 		return ModConfig.treasure.dragging;
 	}
 	
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return fTest != Enchantments.PUNCH && !(fTest instanceof EnchantmentAdvancedPunch) && super.canApplyTogether(fTest);
-//	}
-	
 	@SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
 	public void onEvent(EntityJoinWorldEvent event) {
 		if(event.getEntity() instanceof EntityArrow) {

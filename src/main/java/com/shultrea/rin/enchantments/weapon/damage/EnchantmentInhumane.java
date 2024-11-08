@@ -69,10 +69,4 @@ public class EnchantmentInhumane extends EnchantmentBase implements IEnchantment
 	public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType) {
 		return creatureType == EnumCreatureAttribute.ILLAGER ? (float)level * 2.5F : 0.0f;
 	}
-	
-	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && !(fTest instanceof EnchantmentDamage) && !(fTest instanceof IEnchantmentDamage);
-//	}
 }

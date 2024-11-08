@@ -29,7 +29,7 @@ public class IncompatibleConfig {
 			"minecraft:thorns, advancedthorns, burningthorns",
 			"minecraft:efficiency, advancedefficiency, inefficient",
 			"minecraft:knockback, advancedknockback, flinging",
-			"minecraft:fire_aspect, fieryedge, ashdestroyer",
+			"fieryedge, ashdestroyer",
 			"minecraft:looting, advancedlooting",
 			"blessededge, lifesteal",
 			"rune_piercingcapabilities, rune_arrowpiercing, penetratingedge, rune_magicalblessing, rune_revival, rune_resurrection",

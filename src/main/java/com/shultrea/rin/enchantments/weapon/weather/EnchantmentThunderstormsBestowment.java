@@ -6,7 +6,6 @@ import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
@@ -56,11 +55,6 @@ public class EnchantmentThunderstormsBestowment extends EnchantmentBase implemen
 		return ModConfig.treasure.thunderstormsBestowment;
 	}
 	
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && !(fTest instanceof IWeatherEnchantment);
-//	}
-	
 	public boolean isValidPlayer(Entity entity) {
 		if(entity instanceof EntityPlayer) {
 			if(((EntityPlayer)entity).getHeldItemMainhand() != null) {
@@ -94,33 +88,26 @@ public class EnchantmentThunderstormsBestowment extends EnchantmentBase implemen
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void HandleEnchant(LivingHurtEvent fEvent) {
 		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
-		float SkyDamage = 0.0f;
 		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
 		ItemStack stack = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
 		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.thunderstormsBestowment, stack);
 		if(enchantmentLevel <= 0) return;
-		float Damage = fEvent.getAmount();
-		if(attacker.world.isThundering() && EnchantmentsUtility.noBlockLight(attacker)) {
-			//SkyDamage = (enchantmentLevel * 1.30f);
-			//fEvent.setAmount(Damage + SkyDamage);
-			float FDamage = EnchantmentsUtility.modifyDamage(Damage, 0.0f, 1.25f, 1.00f, enchantmentLevel);
-			fEvent.setAmount(FDamage);
-		}
-		else if(attacker.world.isRaining()) {
-			fEvent.setAmount(Damage);
-		}
-		else if(EnchantmentsUtility.noBlockLight(attacker)) {
-			float Fin = EnchantmentsUtility.modifyDamage(Damage, 0.00f, -0.5f, 1.0f, enchantmentLevel);
-			fEvent.setAmount(Fin);
-			if(fEvent.getEntity().world.rand.nextInt(800) < 2 + (enchantmentLevel * 2)) {
-				EnchantmentsUtility.setThunderstorm(fEvent.getEntityLiving().getEntityWorld());
+		float damage = fEvent.getAmount();
+		if(EnchantmentsUtility.entityCanSeeSky(attacker)) {
+			if(attacker.world.isThundering()) {
+				float modifiedDamage = EnchantmentsUtility.modifyDamage(damage, 0.0f, 1.25f, 1.00f, enchantmentLevel);
+				fEvent.setAmount(modifiedDamage);
+			} else {
+				float modifiedDamage = EnchantmentsUtility.modifyDamage(damage, 0.00f, -0.5f, 1.0f, enchantmentLevel);
+				fEvent.setAmount(modifiedDamage);
+				if(fEvent.getEntity().world.rand.nextInt(800) < 2 + (enchantmentLevel * 2)) {
+					EnchantmentsUtility.setThunderstorm(fEvent.getEntityLiving().getEntityWorld());
+				}
 			}
 		}
-		else if(!EnchantmentsUtility.noBlockLight(attacker)) {
-			float FI = EnchantmentsUtility.modifyDamage(Damage, -0.05f, -0.75f, 1.0f, enchantmentLevel);
-			fEvent.setAmount(FI);
-			if(fEvent.getEntity().world.rand.nextInt(800) < 2 + (enchantmentLevel * 2)) {
-			}
+		else {
+			float modifiedDamage = EnchantmentsUtility.modifyDamage(damage, -0.05f, -0.75f, 1.0f, enchantmentLevel);
+			fEvent.setAmount(modifiedDamage);
 		}
 	}
 }

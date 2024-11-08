@@ -45,10 +45,4 @@ public class EnchantmentBluntness extends EnchantmentCurse {
 	public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType) {
 		return 0.0F - 1.0f * level;
 	}
-	
-	//TODO maybe allow on all
-//	@Override
-//	public boolean canApplyTogether(Enchantment ench) {
-//		return !(ench instanceof EnchantmentDamage) && !(ench instanceof IEnchantmentDamage) && super.canApplyTogether(ench);
-//	}
 }

@@ -71,10 +71,4 @@ public class EnchantmentAdvancedBaneOfArthropods extends EnchantmentBase impleme
 	public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType) {
 		return creatureType == EnumCreatureAttribute.ARTHROPOD ? (float)level * 3.25F : 0.0f;
 	}
-	
-	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && !(fTest instanceof EnchantmentDamage) && !(fTest instanceof IEnchantmentDamage);
-//	}
 }

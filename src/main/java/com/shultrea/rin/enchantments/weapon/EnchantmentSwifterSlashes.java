@@ -66,12 +66,6 @@ public class EnchantmentSwifterSlashes extends EnchantmentBase {
 	}
 	
 	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && fTest != EnchantmentRegistry.bluntness && fTest != Enchantments.KNOCKBACK && fTest != EnchantmentRegistry.blessedEdge && fTest != EnchantmentRegistry.reviledBlade && fTest != EnchantmentRegistry.cursedEdge;
-//	}
-	
-	//TODO
 	public boolean isValidPlayer(Entity entity) {
 		if(entity instanceof EntityPlayer) {
 			if(((EntityPlayer)entity).getHeldItemMainhand() != null) {

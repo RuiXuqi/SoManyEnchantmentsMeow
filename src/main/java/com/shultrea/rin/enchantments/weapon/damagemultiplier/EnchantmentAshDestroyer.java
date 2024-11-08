@@ -54,12 +54,6 @@ public class EnchantmentAshDestroyer extends EnchantmentBase implements IDamageM
 	}
 	
 	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return fTest != Enchantments.FIRE_ASPECT && fTest != EnchantmentRegistry.fieryEdge && !(fTest instanceof IDamageMultiplier) && super.canApplyTogether(fTest);
-//	}
-	
-	//TODO
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void HandleEnchant(LivingDamageEvent fEvent) {
 		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;

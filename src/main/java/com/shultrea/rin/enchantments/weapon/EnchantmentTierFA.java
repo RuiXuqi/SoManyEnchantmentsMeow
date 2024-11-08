@@ -108,12 +108,6 @@ public class EnchantmentTierFA extends EnchantmentBase implements IEnchantmentFi
 		}
 	}
 
-	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment ench) {
-//		return !(ench instanceof EnchantmentTierFA || ench == EnchantmentRegistry.fieryEdge || ench == EnchantmentRegistry.waterAspect);
-//	}
-
 	public static int getFireTicks(int tier) {
 		switch(tier){
 			case 0: return 2;

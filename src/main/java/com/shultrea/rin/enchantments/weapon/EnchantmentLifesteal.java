@@ -53,12 +53,6 @@ public class EnchantmentLifesteal extends EnchantmentBase {
 	}
 	
 	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && fTest != EnchantmentRegistry.blessedEdge && fTest != EnchantmentRegistry.cursedEdge;
-//	}
-	
-	//TODO
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void HandlingFirst(LivingHurtEvent fEvent) {
 		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;

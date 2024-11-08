@@ -164,8 +164,7 @@ public class EnchantmentRegistry {
 	//public static EnchantmentBase lesserFeatherFalling;
 	public static EnchantmentBase lesserFireAspect = register(new EnchantmentTierFA("lesserfireaspect", Enchantment.Rarity.COMMON,EnumEnchantmentType.WEAPON,0));
 	//public static EnchantmentBase lesserFireProtection;
-	//TODO, Nischhelm: why is this and the other Flame tiers WEAPON and not BOW? How does that even work in game? Vanilla Flame got BOW
-	public static EnchantmentBase lesserFlame = register(new EnchantmentTierFlame("lesserflame", Enchantment.Rarity.COMMON,EnumEnchantmentType.WEAPON,0));
+	public static EnchantmentBase lesserFlame = register(new EnchantmentTierFlame("lesserflame", Enchantment.Rarity.COMMON,EnumEnchantmentType.BOW,0));
 	//public static EnchantmentBase lesserFortune;
 	//public static EnchantmentBase lesserKnockback;
 	//public static EnchantmentBase lesserLooting;
@@ -188,7 +187,7 @@ public class EnchantmentRegistry {
 	public static EnchantmentBase advancedFeatherFalling = register(new EnchantmentAdvancedFeatherFalling("advancedfeatherfalling", Enchantment.Rarity.VERY_RARE,EnumEnchantmentType.ARMOR_FEET, EnumSlots.FEET));
 	public static EnchantmentBase advancedFireAspect = register(new EnchantmentTierFA("advancedfireaspect", Enchantment.Rarity.RARE,EnumEnchantmentType.WEAPON,1));
 	public static EnchantmentBase advancedFireProtection = register(new EnchantmentAdvancedFireProtection("advancedfireprotection", Enchantment.Rarity.VERY_RARE, EnumEnchantmentType.ARMOR, EnumSlots.BODY));
-	public static EnchantmentBase advancedFlame = register(new EnchantmentTierFlame("advancedflame", Enchantment.Rarity.VERY_RARE,EnumEnchantmentType.WEAPON,1));
+	public static EnchantmentBase advancedFlame = register(new EnchantmentTierFlame("advancedflame", Enchantment.Rarity.VERY_RARE,EnumEnchantmentType.BOW,1));
 	//public static EnchantmentBase advancedFortune;
 	public static EnchantmentBase advancedKnockback = register(new EnchantmentAdvancedKnockback("advancedknockback", Enchantment.Rarity.VERY_RARE,EnumEnchantmentType.WEAPON, EnumSlots.MAIN));
 	public static EnchantmentBase advancedLooting = register(new EnchantmentAdvancedLooting("advancedlooting", Enchantment.Rarity.VERY_RARE,EnumEnchantmentType.WEAPON, EnumSlots.MAIN));
@@ -210,7 +209,7 @@ public class EnchantmentRegistry {
 	//public static EnchantmentBase supremeFeatherFalling;
 	public static EnchantmentBase supremeFireAspect = register(new EnchantmentTierFA("supremefireaspect", Enchantment.Rarity.VERY_RARE,EnumEnchantmentType.WEAPON,2));
 	//public static EnchantmentBase supremeFireProtection;
-	public static EnchantmentBase supremeFlame = register(new EnchantmentTierFlame("supremeflame", Enchantment.Rarity.VERY_RARE,EnumEnchantmentType.WEAPON,2));
+	public static EnchantmentBase supremeFlame = register(new EnchantmentTierFlame("supremeflame", Enchantment.Rarity.VERY_RARE,EnumEnchantmentType.BOW,2));
 	//public static EnchantmentBase supremeFortune;
 	//public static EnchantmentBase supremeKnockback;
 	//public static EnchantmentBase supremeLooting;

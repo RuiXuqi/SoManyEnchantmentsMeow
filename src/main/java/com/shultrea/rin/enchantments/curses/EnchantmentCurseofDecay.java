@@ -49,11 +49,6 @@ public class EnchantmentCurseofDecay extends EnchantmentCurse {
 		return ModConfig.treasure.curseOfDecay;
 	}
 	
-	@Override
-	public boolean canApplyTogether(Enchantment ench) {
-		return !(ench instanceof EnchantmentCurseofPossession) && super.canApplyTogether(ench);
-	}
-	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
 		if(!(event.getEntity() instanceof EntityItem)) return;

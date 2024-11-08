@@ -47,10 +47,4 @@ public class EnchantmentAdvancedFeatherFalling extends EnchantmentBase implement
 		if(Math.random() < 0.35f) return source.canHarmInCreative() ? 0 : (source == DamageSource.FALL ? level * 5 : 0);
 		else return source.canHarmInCreative() ? 0 : (source == DamageSource.FALL ? level * 4 : 0);
 	}
-	
-//	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return fTest != Enchantments.FEATHER_FALLING && super.canApplyTogether(fTest);
-//	}
 }

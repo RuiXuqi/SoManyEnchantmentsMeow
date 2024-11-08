@@ -58,11 +58,6 @@ public class EnchantmentQuarrying extends EnchantmentBase {
 		return ModConfig.treasure.quarrying;
 	}
 	
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && fTest != Enchantments.FORTUNE && fTest != Enchantments.SILK_TOUCH;
-//	}
-	
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
 	public void onEvent(HarvestDropsEvent e) {
 		if(e.getHarvester() != null) {

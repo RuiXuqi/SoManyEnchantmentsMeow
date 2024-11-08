@@ -52,10 +52,4 @@ public class EnchantmentFlinging extends EnchantmentBase {
 		target.motionY += Y;
 		target.velocityChanged = true;
 	}
-	
-	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return fTest != Enchantments.KNOCKBACK && fTest != EnchantmentRegistry.advancedKnockback && super.canApplyTogether(fTest);
-//	}
 }

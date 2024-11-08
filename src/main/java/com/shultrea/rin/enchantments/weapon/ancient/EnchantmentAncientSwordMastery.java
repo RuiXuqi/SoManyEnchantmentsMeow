@@ -65,11 +65,6 @@ public class EnchantmentAncientSwordMastery extends EnchantmentBase implements I
 		return TextFormatting.YELLOW.toString();
 	}
 	
-//	@Override
-//	public boolean canApplyTogether(Enchantment e) {
-//		return super.canApplyTogether(e) && !(e instanceof EnchantmentSweepingEdge);
-//	}
-	
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
 	//public void HandleEnchant(LivingDamageEvent e)
 	public void HandleEnchant(LivingHurtEvent e) {

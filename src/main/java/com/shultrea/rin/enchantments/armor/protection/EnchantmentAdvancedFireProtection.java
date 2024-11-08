@@ -60,12 +60,6 @@ public class EnchantmentAdvancedFireProtection extends EnchantmentBase implement
 	}
 	
 	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return fTest != EnchantmentRegistry.advancedProjectileProtection && fTest != EnchantmentRegistry.advancedBlastProtection && fTest != EnchantmentRegistry.advancedProtection && fTest != EnchantmentRegistry.magicProtection && fTest != Enchantments.FIRE_PROTECTION && fTest != Enchantments.BLAST_PROTECTION && fTest != Enchantments.PROJECTILE_PROTECTION && fTest != Enchantments.PROTECTION && fTest != EnchantmentRegistry.physicalProtection && super.canApplyTogether(fTest);
-//	}
-	
-	//TODO
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void updateFireEntity(LivingUpdateEvent fEvent) {
 		if(!(fEvent.getEntity() instanceof EntityLivingBase)) return;

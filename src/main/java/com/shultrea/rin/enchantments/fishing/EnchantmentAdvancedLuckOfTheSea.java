@@ -52,12 +52,6 @@ public class EnchantmentAdvancedLuckOfTheSea extends EnchantmentBase {
 		return ModConfig.treasure.advancedLuckOfTheSea;
 	}
 	
-	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return fTest != Enchantments.LUCK_OF_THE_SEA && super.canApplyTogether(fTest);
-//	}
-	
 	/*
 	@SubscribeEvent(priority=EventPriority.HIGHEST)
 	public void onEvent(EntityJoinWorldEvent fEvent)

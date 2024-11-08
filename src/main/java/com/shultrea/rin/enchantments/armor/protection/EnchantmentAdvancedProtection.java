@@ -47,14 +47,4 @@ public class EnchantmentAdvancedProtection extends EnchantmentBase implements IE
 	public int calcModifierDamage(int level, DamageSource source) {
 		return source.canHarmInCreative() ? 0 : level * 2;
 	}
-	
-	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		if(fTest instanceof EnchantmentProtection) {
-//			EnchantmentProtection p = (EnchantmentProtection)fTest;
-//			return p.protectionType == EnchantmentProtection.Type.FALL;
-//		}
-//		return super.canApplyTogether(fTest) && !(fTest instanceof IEnchantmentProtection);
-//	}
 }

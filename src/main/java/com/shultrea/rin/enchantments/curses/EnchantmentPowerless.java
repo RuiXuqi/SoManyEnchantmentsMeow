@@ -44,9 +44,4 @@ public class EnchantmentPowerless extends EnchantmentCurse {
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.powerless;
 	}
-	
-//	@Override
-//	public boolean canApplyTogether(Enchantment ench) {
-//		return ench != Enchantments.POWER && !(ench instanceof EnchantmentAdvancedPower) && super.canApplyTogether(ench);
-//	}
 }

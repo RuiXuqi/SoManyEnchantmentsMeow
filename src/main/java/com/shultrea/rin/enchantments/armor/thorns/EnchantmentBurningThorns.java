@@ -58,12 +58,6 @@ public class EnchantmentBurningThorns extends EnchantmentBase {
 	}
 	
 	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return fTest != EnchantmentRegistry.advancedThorns && fTest != Enchantments.THORNS && super.canApplyTogether(fTest);
-//	}
-	
-	//TODO
 	@Override
 	public void onUserHurt(EntityLivingBase user, Entity attacker, int level) {
 		if(user == null) return;

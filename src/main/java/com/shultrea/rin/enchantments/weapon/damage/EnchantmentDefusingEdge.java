@@ -64,12 +64,6 @@ public class EnchantmentDefusingEdge extends EnchantmentBase implements IEnchant
 	}
 	
 	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && !(fTest instanceof EnchantmentDamage) && !(fTest instanceof IEnchantmentDamage);
-//	}
-	
-	//TODO
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void HandleEnchant(LivingHurtEvent fEvent) {
 		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;

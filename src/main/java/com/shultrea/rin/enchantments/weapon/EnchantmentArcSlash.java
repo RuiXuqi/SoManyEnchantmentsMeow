@@ -62,11 +62,6 @@ public class EnchantmentArcSlash extends EnchantmentBase {
 		return ModConfig.treasure.arcSlash;
 	}
 	
-//	@Override
-//	public boolean canApplyTogether(Enchantment e) {
-//		return super.canApplyTogether(e) && !(e instanceof EnchantmentSweepingEdge);
-//	}
-	
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
 	public void HandleEnchant(LivingDamageEvent fEvent) {
 		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;

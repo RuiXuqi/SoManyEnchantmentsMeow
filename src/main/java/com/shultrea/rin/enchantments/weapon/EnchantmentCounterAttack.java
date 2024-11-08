@@ -49,65 +49,10 @@ public class EnchantmentCounterAttack extends EnchantmentBase {
 			if(user instanceof EntityPlayer) {
 				if(attacker.getRNG().nextInt(100) < 20 + (level * 5)) {
 					EntityPlayer player = (EntityPlayer)user;
-					player.hurtResistantTime = 20;
+					player.hurtResistantTime = player.maxHurtResistantTime;
 					player.attackTargetEntityWithCurrentItem(attacker);
 				}
 			}
 		}
 	}
-    /*
-  @SubscribeEvent(priority = EventPriority.LOW) 
-  public void HandleEnchant(LivingAttackEvent fEvent)
-  {
-	  	if(fEvent.getSource().damageType != "player" && fEvent.getSource().damageType != "mob")
-	  		return;
-  	
-   		if(!(fEvent.getEntityLiving().attackable()))
-   			return;
-  	
-   		if(fEvent.getEntity() == null)
-   			return;
-   		
-  		if(!(fEvent.getEntity() instanceof EntityLivingBase))
-  			return;
-  	
-  		EntityLivingBase victim = (EntityLivingBase)fEvent.getEntity();
-		ItemStack weaponSword = victim.getHeldItemMainhand();
-				
-		if(weaponSword == null)
-			return;
-		
-		Entity attacker = fEvent.getSource().getTrueSource();
-		
-		if(attacker == null || !(attacker instanceof EntityLivingBase))
-			return;
-		
-		if(EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.CounterAttack, weaponSword) <= 0)
-			return;
-		
-		int levelCA = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.CounterAttack, weaponSword);
-		if(victim instanceof EntityPlayer){
-		
-		if(fEvent.getEntity().world.rand.nextInt(100) < 20 + (levelCA * 5)){
-			
-		EntityPlayer player = (EntityPlayer) fEvent.getEntityLiving();
-		
-		player.attackTargetEntityWithCurrentItem(attacker);
-		
-		player.hurtResistantTime = 15;
-		
-		
-  
-		}
-		}
-		else if(!(victim instanceof EntityPlayer)){
-			if(fEvent.getEntity().world.rand.nextInt(100) < 16 + (levelCA * 8)){
-			
-			fEvent.getEntityLiving().attackEntityAsMob(attacker);
-			
-			fEvent.getEntityLiving().hurtResistantTime = 20;
-		}
-}
-  }
-  */
 }

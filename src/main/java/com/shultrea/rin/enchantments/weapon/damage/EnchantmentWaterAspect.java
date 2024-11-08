@@ -60,12 +60,6 @@ public class EnchantmentWaterAspect extends EnchantmentBase implements IEnchantm
 	}
 	
 	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && fTest != EnchantmentRegistry.bluntness && !(fTest instanceof EnchantmentDamage) && !(fTest instanceof IEnchantmentDamage) && fTest != Enchantments.FIRE_ASPECT;
-//	}
-	
-	//TODO
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void HandleEnchant(LivingHurtEvent fEvent) {
 		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;

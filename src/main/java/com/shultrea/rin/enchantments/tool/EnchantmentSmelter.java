@@ -60,11 +60,6 @@ public class EnchantmentSmelter extends EnchantmentBase {
 		return ModConfig.treasure.smelter;
 	}
 	
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return fTest != Enchantments.SILK_TOUCH && super.canApplyTogether(fTest);
-//	}
-	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onBlockDropSmelt(HarvestDropsEvent fEvent) {
 		if(fEvent.getHarvester() != null && ModConfig.enabled.smelter) {

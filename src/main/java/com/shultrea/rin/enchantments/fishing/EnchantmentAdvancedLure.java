@@ -52,12 +52,6 @@ public class EnchantmentAdvancedLure extends EnchantmentBase {
 		return ModConfig.treasure.advancedLure;
 	}
 	
-	//TODO
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return fTest != Enchantments.LURE && super.canApplyTogether(fTest);
-//	}
-	
 	/*
 	@SubscribeEvent(priority=EventPriority.HIGHEST)
 	public void onEvent(EntityJoinWorldEvent fEvent)

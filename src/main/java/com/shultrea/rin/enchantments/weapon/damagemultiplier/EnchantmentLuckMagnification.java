@@ -58,11 +58,6 @@ public class EnchantmentLuckMagnification extends EnchantmentBase implements IDa
 		return ModConfig.treasure.luckMagnification;
 	}
 	
-//	@Override
-//	public boolean canApplyTogether(Enchantment fTest) {
-//		return super.canApplyTogether(fTest) && !(fTest instanceof IDamageMultiplier);
-//	}
-	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onCritical(CriticalHitEvent e) {
 		if(e.getEntityPlayer() == null) return;
