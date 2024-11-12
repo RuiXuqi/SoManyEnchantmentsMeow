@@ -27,6 +27,12 @@ public class ModConfig {
 	@Config.Comment("Each line is a group of pairwise incompatible enchantments. Enchantments are separated by comma and optional whitespace. When using enchantments from other modpacks, use modid:enchantmentname.")
 	@Config.Name("Incompatible Groups")
 	public static IncompatibleConfig incompatible = new IncompatibleConfig();
+	@Config.Comment("Rarity of each enchantment: 0=Common, 1=Uncommon, 2=Rare, 3=Very Rare")
+	@Config.Name("Rarity")
+	public static RarityConfig rarity = new RarityConfig();
+	@Config.Comment("Types of items each enchantment can apply on")
+	@Config.Name("CanApply")
+	public static CanApplyConfig canApply = new CanApplyConfig();
 	@Config.Comment("Miscellaneous")
 	@Config.Name("Miscellaneous")
 	public static MiscellaneousConfig miscellaneous = new MiscellaneousConfig();
