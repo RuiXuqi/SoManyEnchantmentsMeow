@@ -32,8 +32,8 @@ public class EnchantmentRuneResurrection extends EnchantmentBase {
 	
 	private final Map<UUID,InventoryPlayer> INVENTORY_MAP = new HashMap<>();
 	
-	public EnchantmentRuneResurrection(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentRuneResurrection(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -59,6 +59,16 @@ public class EnchantmentRuneResurrection extends EnchantmentBase {
 	@Override
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.runeResurrection, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.runeResurrection, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.runeResurrection, stack) && super.canApply(stack);
 	}
 	
 	@Override

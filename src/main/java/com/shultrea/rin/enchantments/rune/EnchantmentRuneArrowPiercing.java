@@ -11,6 +11,7 @@ import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -24,8 +25,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  */
 public class EnchantmentRuneArrowPiercing extends EnchantmentBase implements IEnchantmentRune {
 	
-	public EnchantmentRuneArrowPiercing(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentRuneArrowPiercing(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -51,6 +52,16 @@ public class EnchantmentRuneArrowPiercing extends EnchantmentBase implements IEn
 	@Override
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.runeArrowPiercing, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.runeArrowPiercing, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.runeArrowPiercing, stack) && super.canApply(stack);
 	}
 	
 	@Override

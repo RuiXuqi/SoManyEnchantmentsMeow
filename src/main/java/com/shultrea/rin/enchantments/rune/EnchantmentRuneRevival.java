@@ -22,8 +22,8 @@ import java.util.List;
 
 public class EnchantmentRuneRevival extends EnchantmentBase implements IEnchantmentRune {
 	
-	public EnchantmentRuneRevival(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentRuneRevival(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -50,16 +50,20 @@ public class EnchantmentRuneRevival extends EnchantmentBase implements IEnchantm
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.runeRevival, level);
 	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.runeRevival, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.runeRevival, stack) && super.canApply(stack);
+	}
 	
 	@Override
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.runeRevival;
-	}
-
-	@Override
-	public boolean canApplyAtEnchantingTable(ItemStack stack) {
-		return super.canApplyAtEnchantingTable(stack) && !(stack.getItem() instanceof ItemArmor);
-		//return !(stack.getItem() instanceof ItemArmor) ? super.canApplyAtEnchantingTable(stack) : false;
 	}
 	
 	@Override

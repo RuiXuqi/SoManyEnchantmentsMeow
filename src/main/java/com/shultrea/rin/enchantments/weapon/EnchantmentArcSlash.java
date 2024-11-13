@@ -28,8 +28,8 @@ import java.util.ArrayList;
 
 public class EnchantmentArcSlash extends EnchantmentBase {
 	
-	public EnchantmentArcSlash(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentArcSlash(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -55,6 +55,16 @@ public class EnchantmentArcSlash extends EnchantmentBase {
 	@Override
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.arcSlash, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.arcSlash, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.arcSlash, stack) && super.canApply(stack);
 	}
 	
 	@Override

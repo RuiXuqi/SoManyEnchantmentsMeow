@@ -17,8 +17,8 @@ import java.util.Random;
 
 public class EnchantmentMeltdown extends EnchantmentBase {
 	
-	public EnchantmentMeltdown(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentMeltdown(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -39,6 +39,16 @@ public class EnchantmentMeltdown extends EnchantmentBase {
 	@Override
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.meltdown, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.meltdown, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.meltdown, stack) && super.canApply(stack);
 	}
 	
 	@Override

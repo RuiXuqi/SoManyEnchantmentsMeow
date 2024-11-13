@@ -25,8 +25,8 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase implements I
 	public final int ENGLISH = 4;
 	public final int PE = 5;
 	
-	public EnchantmentSubjectEnchantments(String name, Rarity rarity, EnumEnchantmentType type, int damageTypeIn, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentSubjectEnchantments(String name, Rarity rarity, int damageTypeIn, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 		this.damageType = damageTypeIn;
 	}
 	
@@ -109,12 +109,35 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase implements I
 				return 0;
 		}
 	}
-	
+
 	@Override
-	public boolean canApply(ItemStack stack) {
-		return stack.getItem() instanceof ItemAxe || super.canApply(stack);
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		switch(this.damageType){
+			case MATHEMATICS: return ModConfig.canApply.isItemValid(ModConfig.canApply.subjectMathematics, stack) && super.canApplyAtEnchantingTable(stack);
+			case SCIENCE: return ModConfig.canApply.isItemValid(ModConfig.canApply.subjectScience, stack) && super.canApplyAtEnchantingTable(stack);
+			case HISTORY: return ModConfig.canApply.isItemValid(ModConfig.canApply.subjectHistory, stack) && super.canApplyAtEnchantingTable(stack);
+			case PHYSICS: return false;
+			case ENGLISH: return ModConfig.canApply.isItemValid(ModConfig.canApply.subjectEnglish, stack) && super.canApplyAtEnchantingTable(stack);
+			case PE: return ModConfig.canApply.isItemValid(ModConfig.canApply.subjectPE, stack) && super.canApplyAtEnchantingTable(stack);
+			default:
+				return false;
+		}
 	}
-	
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		switch(this.damageType){
+			case MATHEMATICS: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.subjectMathematics, stack) && super.canApply(stack);
+			case SCIENCE: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.subjectScience, stack) && super.canApply(stack);
+			case HISTORY: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.subjectHistory, stack) && super.canApply(stack);
+			case PHYSICS: return false;
+			case ENGLISH: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.subjectEnglish, stack) && super.canApply(stack);
+			case PE: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.subjectPE, stack) && super.canApply(stack);
+			default:
+				return false;
+		}
+	}
+
 	@Override
 	public boolean isTreasureEnchantment() {
 		switch(this.damageType) {

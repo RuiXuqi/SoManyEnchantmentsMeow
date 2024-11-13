@@ -15,8 +15,8 @@ import net.minecraft.item.ItemStack;
 
 public class EnchantmentFlinging extends EnchantmentBase {
 	
-	public EnchantmentFlinging(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentFlinging(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -37,6 +37,16 @@ public class EnchantmentFlinging extends EnchantmentBase {
 	@Override
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.flinging, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.flinging, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.flinging, stack) && super.canApply(stack);
 	}
 	
 	@Override

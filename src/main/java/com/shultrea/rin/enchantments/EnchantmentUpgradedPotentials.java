@@ -17,8 +17,8 @@ import java.util.Map;
 
 public class EnchantmentUpgradedPotentials extends EnchantmentBase {
 	
-	public EnchantmentUpgradedPotentials(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentUpgradedPotentials(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -45,10 +45,15 @@ public class EnchantmentUpgradedPotentials extends EnchantmentBase {
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.upgradedPotentials, level);
 	}
-	
+
 	@Override
-	public boolean canApply(ItemStack fTest) {
-		return false;
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.upgradedPotentials, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.upgradedPotentials, stack) && super.canApply(stack);
 	}
 	
 	@Override

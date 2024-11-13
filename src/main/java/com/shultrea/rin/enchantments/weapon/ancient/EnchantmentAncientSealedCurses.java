@@ -20,8 +20,8 @@ import java.util.List;
 
 public class EnchantmentAncientSealedCurses extends EnchantmentBase implements IAncientEnchantment {
 	
-	public EnchantmentAncientSealedCurses(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentAncientSealedCurses(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -43,17 +43,29 @@ public class EnchantmentAncientSealedCurses extends EnchantmentBase implements I
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.ancientSealedCurses, level);
 	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.ancientSealedCurses, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.ancientSealedCurses, stack) && super.canApply(stack);
+	}
 	
 	@Override
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.ancientSealedCurses;
 	}
-	
+
+	/*
 	//TODO this makes it fully not allowed on anything
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack) {
 		return false;
 	}
+	*/
 	
 	//TODO
 	@Override

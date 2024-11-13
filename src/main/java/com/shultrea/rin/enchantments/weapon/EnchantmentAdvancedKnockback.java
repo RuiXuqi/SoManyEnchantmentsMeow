@@ -19,8 +19,8 @@ import net.minecraft.util.math.MathHelper;
 
 public class EnchantmentAdvancedKnockback extends EnchantmentBase {
 	
-	public EnchantmentAdvancedKnockback(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentAdvancedKnockback(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -46,6 +46,16 @@ public class EnchantmentAdvancedKnockback extends EnchantmentBase {
 	@Override
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.advancedKnockback, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.advancedKnockback, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.advancedKnockback, stack) && super.canApply(stack);
 	}
 	
 	@Override

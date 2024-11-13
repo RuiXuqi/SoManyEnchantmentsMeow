@@ -18,8 +18,8 @@ import java.util.Random;
 
 public class EnchantmentBurningThorns extends EnchantmentBase {
 	
-	public EnchantmentBurningThorns(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentBurningThorns(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	//TODO
@@ -50,6 +50,16 @@ public class EnchantmentBurningThorns extends EnchantmentBase {
 	@Override
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.burningThorns, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.burningThorns, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.burningThorns, stack) && super.canApply(stack);
 	}
 	
 	@Override

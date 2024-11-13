@@ -8,8 +8,8 @@ import net.minecraft.util.text.TextFormatting;
 
 public abstract class EnchantmentCurse extends EnchantmentBase {
 	
-	public EnchantmentCurse(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentCurse(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override

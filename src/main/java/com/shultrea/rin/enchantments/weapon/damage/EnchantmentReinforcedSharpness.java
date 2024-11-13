@@ -18,8 +18,8 @@ import net.minecraft.util.EntityDamageSource;
 
 public class EnchantmentReinforcedSharpness extends EnchantmentBase implements IEnchantmentDamage {
 	
-	public EnchantmentReinforcedSharpness(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentReinforcedSharpness(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -40,6 +40,16 @@ public class EnchantmentReinforcedSharpness extends EnchantmentBase implements I
 	@Override
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.reinforcedsharpness, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.reinforcedsharpness, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.reinforcedsharpness, stack) && super.canApply(stack);
 	}
 	
 	@Override

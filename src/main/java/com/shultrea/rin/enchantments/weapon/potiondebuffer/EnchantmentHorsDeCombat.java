@@ -15,8 +15,8 @@ import net.minecraft.potion.PotionEffect;
 
 public class EnchantmentHorsDeCombat extends EnchantmentBase implements IPotionDebuffer {
 	
-	public EnchantmentHorsDeCombat(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentHorsDeCombat(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -37,6 +37,16 @@ public class EnchantmentHorsDeCombat extends EnchantmentBase implements IPotionD
 	@Override
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.horsDeCombat, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.horsDeCombat, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.horsDeCombat, stack) && super.canApply(stack);
 	}
 	
 	@Override

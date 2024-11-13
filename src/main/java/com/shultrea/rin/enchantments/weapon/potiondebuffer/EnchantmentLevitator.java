@@ -15,8 +15,8 @@ import net.minecraft.potion.PotionEffect;
 
 public class EnchantmentLevitator extends EnchantmentBase implements IPotionDebuffer {
 	
-	public EnchantmentLevitator(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentLevitator(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -37,6 +37,16 @@ public class EnchantmentLevitator extends EnchantmentBase implements IPotionDebu
 	@Override
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.levitator, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.levitator, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.levitator, stack) && super.canApply(stack);
 	}
 	
 	@Override

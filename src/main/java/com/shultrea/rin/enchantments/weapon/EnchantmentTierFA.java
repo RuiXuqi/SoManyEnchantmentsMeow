@@ -19,10 +19,9 @@ public class EnchantmentTierFA extends EnchantmentBase implements IEnchantmentFi
 	 */
 	public final int damageType;
 	
-	public EnchantmentTierFA(String name, Rarity rarity, EnumEnchantmentType type, int damageTypeIn, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentTierFA(String name, Rarity rarity, int damageTypeIn, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 		this.damageType = damageTypeIn;
-		this.type = type;
 	}
 	
 	@Override
@@ -78,6 +77,28 @@ public class EnchantmentTierFA extends EnchantmentBase implements IEnchantmentFi
 				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.supremeFireAspect, level);
 			default:
 				return 0;
+		}
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		switch(this.damageType){
+			case 0: return ModConfig.canApply.isItemValid(ModConfig.canApply.lesserFireAspect, stack) && super.canApplyAtEnchantingTable(stack);
+			case 1: return ModConfig.canApply.isItemValid(ModConfig.canApply.advancedFireAspect, stack) && super.canApplyAtEnchantingTable(stack);
+			case 2: return ModConfig.canApply.isItemValid(ModConfig.canApply.supremeFireAspect, stack) && super.canApplyAtEnchantingTable(stack);
+			default:
+				return false;
+		}
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		switch(this.damageType){
+			case 0: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.lesserFireAspect, stack) && super.canApply(stack);
+			case 1: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.advancedFireAspect, stack) && super.canApply(stack);
+			case 2: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.supremeFireAspect, stack) && super.canApply(stack);
+			default:
+				return false;
 		}
 	}
 	

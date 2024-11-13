@@ -27,8 +27,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentRuneMagicalBlessing extends EnchantmentBase implements IEnchantmentRune {
 	
-	public EnchantmentRuneMagicalBlessing(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentRuneMagicalBlessing(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -54,6 +54,16 @@ public class EnchantmentRuneMagicalBlessing extends EnchantmentBase implements I
 	@Override
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.runeMagicalBlessing, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.runeMagicalBlessing, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.runeMagicalBlessing, stack) && super.canApply(stack);
 	}
 	
 	@Override

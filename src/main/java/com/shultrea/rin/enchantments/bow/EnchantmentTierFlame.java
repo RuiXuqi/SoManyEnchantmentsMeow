@@ -7,6 +7,7 @@ import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
 
 public class EnchantmentTierFlame extends EnchantmentBase implements IEnchantmentFire {
 
@@ -15,10 +16,9 @@ public class EnchantmentTierFlame extends EnchantmentBase implements IEnchantmen
 	 */
 	public final int damageType;
 
-	public EnchantmentTierFlame(String name, Rarity rarity, EnumEnchantmentType type, int damageTypeIn, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentTierFlame(String name, Rarity rarity, int damageTypeIn, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 		this.damageType = damageTypeIn;
-		this.type = type;
 	}
 
 	@Override
@@ -75,6 +75,28 @@ public class EnchantmentTierFlame extends EnchantmentBase implements IEnchantmen
 				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.supremeFlame, level);
 			default:
 				return 0;
+		}
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		switch(this.damageType){
+			case 0: return ModConfig.canApply.isItemValid(ModConfig.canApply.lesserFlame, stack) && super.canApplyAtEnchantingTable(stack);
+			case 1: return ModConfig.canApply.isItemValid(ModConfig.canApply.advancedFlame, stack) && super.canApplyAtEnchantingTable(stack);
+			case 2: return ModConfig.canApply.isItemValid(ModConfig.canApply.supremeFlame, stack) && super.canApplyAtEnchantingTable(stack);
+			default:
+				return false;
+		}
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		switch(this.damageType){
+			case 0: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.lesserFlame, stack) && super.canApply(stack);
+			case 1: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.advancedFlame, stack) && super.canApply(stack);
+			case 2: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.supremeFlame, stack) && super.canApply(stack);
+			default:
+				return false;
 		}
 	}
 

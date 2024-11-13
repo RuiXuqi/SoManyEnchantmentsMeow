@@ -25,10 +25,9 @@ public class EnchantmentTierDamage extends EnchantmentBase implements IEnchantme
 	public static final int LESSBOA = 4;
 	public static final int SUPBOA = 5;
 	
-	public EnchantmentTierDamage(String name, Rarity rarity, EnumEnchantmentType type, int damageTypeIn, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentTierDamage(String name, Rarity rarity, int damageTypeIn, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 		this.damageType = damageTypeIn;
-		this.type = type;
 	}
 	
 	@Override
@@ -110,12 +109,35 @@ public class EnchantmentTierDamage extends EnchantmentBase implements IEnchantme
 				return 0;
 		}
 	}
-	
+
 	@Override
-	public boolean canApply(ItemStack stack) {
-		return stack.getItem() instanceof ItemAxe || super.canApply(stack);
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		switch(this.damageType){
+			case LESSSHARP: return ModConfig.canApply.isItemValid(ModConfig.canApply.lesserSharpness, stack) && super.canApplyAtEnchantingTable(stack);
+			case SUPSHARP: return ModConfig.canApply.isItemValid(ModConfig.canApply.supremeSharpness, stack) && super.canApplyAtEnchantingTable(stack);
+			case LESSSMITE: return ModConfig.canApply.isItemValid(ModConfig.canApply.lesserSmite, stack) && super.canApplyAtEnchantingTable(stack);
+			case SUPSMITE: return ModConfig.canApply.isItemValid(ModConfig.canApply.supremeSmite, stack) && super.canApplyAtEnchantingTable(stack);
+			case LESSBOA: return ModConfig.canApply.isItemValid(ModConfig.canApply.lesserBaneOfArthropods, stack) && super.canApplyAtEnchantingTable(stack);
+			case SUPBOA: return ModConfig.canApply.isItemValid(ModConfig.canApply.supremeBaneOfArthropods, stack) && super.canApplyAtEnchantingTable(stack);
+			default:
+				return false;
+		}
 	}
-	
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		switch(this.damageType){
+			case LESSSHARP: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.lesserSharpness, stack) && super.canApply(stack);
+			case SUPSHARP: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.supremeSharpness, stack) && super.canApply(stack);
+			case LESSSMITE: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.lesserSmite, stack) && super.canApply(stack);
+			case SUPSMITE: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.supremeSmite, stack) && super.canApply(stack);
+			case LESSBOA: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.lesserBaneOfArthropods, stack) && super.canApply(stack);
+			case SUPBOA: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.supremeBaneOfArthropods, stack) && super.canApply(stack);
+			default:
+				return false;
+		}
+	}
+
 	@Override
 	public boolean isTreasureEnchantment() {
 		switch(this.damageType) {

@@ -28,8 +28,8 @@ import java.util.ArrayList;
 
 public class EnchantmentFreezing extends EnchantmentBase implements IPotionDebuffer {
 	
-	public EnchantmentFreezing(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentFreezing(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -55,6 +55,16 @@ public class EnchantmentFreezing extends EnchantmentBase implements IPotionDebuf
 	@Override
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.freezing, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.freezing, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.freezing, stack) && super.canApply(stack);
 	}
 	
 	@Override

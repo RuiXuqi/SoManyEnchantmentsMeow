@@ -17,8 +17,8 @@ import java.util.Random;
 
 public class EnchantmentFieryEdge extends EnchantmentBase implements IEnchantmentFire {
 	
-	public EnchantmentFieryEdge(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentFieryEdge(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -39,6 +39,16 @@ public class EnchantmentFieryEdge extends EnchantmentBase implements IEnchantmen
 	@Override
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.fieryEdge, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.fieryEdge, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.fieryEdge, stack) && super.canApply(stack);
 	}
 	
 	@Override

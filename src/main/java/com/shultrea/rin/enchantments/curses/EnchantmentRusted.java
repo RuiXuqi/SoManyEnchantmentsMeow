@@ -12,8 +12,8 @@ import net.minecraft.item.ItemStack;
  */
 public class EnchantmentRusted extends EnchantmentCurse {
 
-	public EnchantmentRusted(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentRusted(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -40,11 +40,15 @@ public class EnchantmentRusted extends EnchantmentCurse {
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.rusted, level);
 	}
-	
-	//TODO better way of handling this
+
 	@Override
-	public boolean canApply(ItemStack stack) {
-		return !stack.getItem().getTranslationKey().contains("gold") && super.canApply(stack);
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.rusted, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.rusted, stack) && super.canApply(stack);
 	}
 	
 	@Override

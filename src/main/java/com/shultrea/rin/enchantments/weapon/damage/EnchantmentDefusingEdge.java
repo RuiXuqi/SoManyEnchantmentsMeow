@@ -23,8 +23,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentDefusingEdge extends EnchantmentBase implements IEnchantmentDamage {
 	
-	public EnchantmentDefusingEdge(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentDefusingEdge(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -51,13 +51,17 @@ public class EnchantmentDefusingEdge extends EnchantmentBase implements IEnchant
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.defusingEdge, level);
 	}
-	
-	//TODO
+
 	@Override
-	public boolean canApply(ItemStack fTest) {
-		return fTest.getItem() instanceof ItemAxe || super.canApply(fTest);
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.defusingEdge, stack) && super.canApplyAtEnchantingTable(stack);
 	}
-	
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.defusingEdge, stack) && super.canApply(stack);
+	}
+
 	@Override
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.defusingEdge;

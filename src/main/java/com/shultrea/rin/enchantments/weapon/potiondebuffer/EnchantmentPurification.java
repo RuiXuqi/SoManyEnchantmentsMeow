@@ -26,8 +26,8 @@ import net.minecraft.util.math.BlockPos;
 
 public class EnchantmentPurification extends EnchantmentBase implements IPotionDebuffer {
 	
-	public EnchantmentPurification(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentPurification(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -48,6 +48,16 @@ public class EnchantmentPurification extends EnchantmentBase implements IPotionD
 	@Override
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.purification, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.purification, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.purification, stack) && super.canApply(stack);
 	}
 	
 	@Override

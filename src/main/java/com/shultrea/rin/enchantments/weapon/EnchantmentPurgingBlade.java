@@ -20,8 +20,8 @@ import java.util.Collection;
 
 public class EnchantmentPurgingBlade extends EnchantmentBase {
 	
-	public EnchantmentPurgingBlade(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentPurgingBlade(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -47,6 +47,16 @@ public class EnchantmentPurgingBlade extends EnchantmentBase {
 	@Override
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.purgingBlade, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.purgingBlade, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.purgingBlade, stack) && super.canApply(stack);
 	}
 	
 	@Override

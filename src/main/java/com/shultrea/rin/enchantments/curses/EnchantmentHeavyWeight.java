@@ -7,14 +7,15 @@ import com.shultrea.rin.enchantments.base.EnchantmentCurse;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
 
 /**
  * Enchantment handled in com.shultrea.rin.mixin.vanilla.ItemMixin
  */
 public class EnchantmentHeavyWeight extends EnchantmentCurse {
 	
-	public EnchantmentHeavyWeight(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentHeavyWeight(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -35,6 +36,16 @@ public class EnchantmentHeavyWeight extends EnchantmentCurse {
 	@Override
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.heavyWeight, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.heavyWeight, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.heavyWeight, stack) && super.canApply(stack);
 	}
 	
 	@Override

@@ -30,8 +30,8 @@ import java.util.Random;
 
 public class EnchantmentCulling extends EnchantmentBase {
 	
-	public EnchantmentCulling(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentCulling(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -58,13 +58,17 @@ public class EnchantmentCulling extends EnchantmentBase {
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.culling, level);
 	}
-	
-	//TODO
+
 	@Override
-	public boolean canApply(ItemStack fTest) {
-		return fTest.getItem() instanceof ItemAxe && super.canApply(fTest);
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.culling, stack) && super.canApplyAtEnchantingTable(stack);
 	}
-	
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.culling, stack) && super.canApply(stack);
+	}
+
 	@Override
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.culling;

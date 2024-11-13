@@ -30,9 +30,12 @@ public class ModConfig {
 	@Config.Comment("Rarity of each enchantment: 0=Common, 1=Uncommon, 2=Rare, 3=Very Rare")
 	@Config.Name("Rarity")
 	public static RarityConfig rarity = new RarityConfig();
-	@Config.Comment("Types of items each enchantment can apply on")
+	@Config.Comment("Types of items each enchantment can apply on at enchantment table+anvil")
 	@Config.Name("CanApply")
 	public static CanApplyConfig canApply = new CanApplyConfig();
+	@Config.Comment("Types of items each enchantment can apply on at the anvil without being appliable at enchantment table")
+	@Config.Name("CanApplyAnvil")
+	public static CanApplyAnvilConfig canApplyAnvil = new CanApplyAnvilConfig();
 	@Config.Comment("Miscellaneous")
 	@Config.Name("Miscellaneous")
 	public static MiscellaneousConfig miscellaneous = new MiscellaneousConfig();

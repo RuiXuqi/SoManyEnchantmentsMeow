@@ -15,8 +15,8 @@ import net.minecraft.potion.PotionEffect;
 
 public class EnchantmentEnvenomed extends EnchantmentBase implements IPotionDebuffer {
 	
-	public EnchantmentEnvenomed(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot... slots) {
-		super(name, rarity, type, slots);
+	public EnchantmentEnvenomed(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -37,6 +37,16 @@ public class EnchantmentEnvenomed extends EnchantmentBase implements IPotionDebu
 	@Override
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.envenomed, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.envenomed, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.envenomed, stack) && super.canApply(stack);
 	}
 	
 	@Override
