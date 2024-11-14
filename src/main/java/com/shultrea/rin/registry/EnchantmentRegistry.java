@@ -221,8 +221,8 @@ public class EnchantmentRegistry {
 	//public static EnchantmentBase supremePunch;
 	//public static EnchantmentBase supremeRespiration;
 	public static EnchantmentBase supremeSharpness = register(new EnchantmentTierDamage("supremesharpness", RarityConfig.get(ModConfig.rarity.supremeSharpness),1));
-	public static EnchantmentBase supremeSmite = register(new EnchantmentTierDamage("supremesmite", RarityConfig.get(ModConfig.rarity.supremeSmite),3));;
-	//public static EnchantmentBase supremeThorns;
+	public static EnchantmentBase supremeSmite = register(new EnchantmentTierDamage("supremesmite", RarityConfig.get(ModConfig.rarity.supremeSmite),3));
+    //public static EnchantmentBase supremeThorns;
 
 	private static EnchantmentBase register(EnchantmentBase enchantment) {
 		if(!ModConfig.miscellaneous.dontRegisterDisabledEnchants || enchantment.isEnabled()) {

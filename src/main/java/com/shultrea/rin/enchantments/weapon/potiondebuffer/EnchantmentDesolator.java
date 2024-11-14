@@ -5,9 +5,7 @@ import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -55,7 +53,7 @@ public class EnchantmentDesolator extends EnchantmentBase implements IPotionDebu
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.desolator, stack) && super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.desolator, stack) || super.canApply(stack);
 	}
 	
 	@Override

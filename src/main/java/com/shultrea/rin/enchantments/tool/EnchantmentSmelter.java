@@ -6,11 +6,8 @@ import com.shultrea.rin.Utility_Sector.MsgSP_Particle;
 import com.shultrea.rin.Utility_Sector.SMEnetwork;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemAir;
 import net.minecraft.item.ItemBlock;
@@ -62,7 +59,7 @@ public class EnchantmentSmelter extends EnchantmentBase {
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.smelter, stack) && super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.smelter, stack) || super.canApply(stack);
 	}
 	
 	@Override
@@ -120,8 +117,7 @@ public class EnchantmentSmelter extends EnchantmentBase {
 					}
 					// cancel the default drops
 					fEvent.setDropChance(0);
-					return;
-				}
+                }
 			}
 		}
 	}

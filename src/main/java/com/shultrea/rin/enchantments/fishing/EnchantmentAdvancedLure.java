@@ -4,10 +4,7 @@ import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnumEnchantmentType;
-import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
@@ -54,7 +51,7 @@ public class EnchantmentAdvancedLure extends EnchantmentBase {
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.advancedLure, stack) && super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.advancedLure, stack) || super.canApply(stack);
 	}
 	
 	@Override

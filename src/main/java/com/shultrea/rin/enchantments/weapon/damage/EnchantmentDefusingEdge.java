@@ -7,14 +7,10 @@ import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.Utility_Sector.UtilityAccessor;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentDamage;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -59,7 +55,7 @@ public class EnchantmentDefusingEdge extends EnchantmentBase implements IEnchant
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.defusingEdge, stack) && super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.defusingEdge, stack) || super.canApply(stack);
 	}
 
 	@Override

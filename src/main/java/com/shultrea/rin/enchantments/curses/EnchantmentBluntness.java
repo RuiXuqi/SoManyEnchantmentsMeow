@@ -1,12 +1,8 @@
 package com.shultrea.rin.enchantments.curses;
 
-import com.shultrea.rin.Interfaces.IEnchantmentDamage;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentDamage;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -44,7 +40,7 @@ public class EnchantmentBluntness extends EnchantmentCurse {
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.bluntness, stack) && super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.bluntness, stack) || super.canApply(stack);
 	}
 	
 	@Override

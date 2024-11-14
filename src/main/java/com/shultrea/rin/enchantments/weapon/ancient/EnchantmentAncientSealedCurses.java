@@ -3,11 +3,10 @@ package com.shultrea.rin.enchantments.weapon.ancient;
 import com.shultrea.rin.Interfaces.IAncientEnchantment;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
-import com.shultrea.rin.Utility_Sector.EnchantmentLister;
+import com.shultrea.rin.Utility_Sector.CurseLister;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -51,7 +50,7 @@ public class EnchantmentAncientSealedCurses extends EnchantmentBase implements I
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.ancientSealedCurses, stack) && super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.ancientSealedCurses, stack) || super.canApply(stack);
 	}
 	
 	@Override
@@ -87,7 +86,7 @@ public class EnchantmentAncientSealedCurses extends EnchantmentBase implements I
 			Iterable<ItemStack> iter = entity.getEquipmentAndArmor();
 			for(ItemStack stack : iter) {
 				if(user.getRNG().nextInt(8) < 1) {
-					List<Enchantment> list = EnchantmentLister.CURSE;
+					List<Enchantment> list = CurseLister.CURSE;
 					int random = user.getRNG().nextInt(list.size());
 					Enchantment ench = list.get(random);
 					int randLevel = user.getRNG().nextInt(ench.getMaxLevel());

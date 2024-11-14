@@ -6,7 +6,6 @@ import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -55,7 +54,7 @@ public class EnchantmentEmpoweredDefence extends EnchantmentBase {
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.empoweredDefence, stack) && super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.empoweredDefence, stack) || super.canApply(stack);
 	}
 
 	@Override
@@ -68,28 +67,22 @@ public class EnchantmentEmpoweredDefence extends EnchantmentBase {
 	public void EmpoweredDefenceEvent(LivingAttackEvent fEvent) {
 		if(!(fEvent.getEntity() instanceof EntityLivingBase)) return;
 		EntityLivingBase victim = (EntityLivingBase)fEvent.getEntity();
-		ItemStack shield = victim.getHeldItemOffhand();
-		if(shield == ItemStack.EMPTY) {
-			shield = victim.getHeldItemMainhand();
-			if(shield == ItemStack.EMPTY) return;
-		}
-		if(EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.empoweredDefence, shield) <= 0) return;
-		int levelED = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.empoweredDefence, shield);
+
+		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.empoweredDefence, victim);
+		if(enchantmentLevel <= 0) return;
+
+		if(!EnchantmentsUtility.canBlockDamageSource(fEvent.getSource(), victim)) return;
+		if(victim.getRNG().nextInt(100) > 20 + (enchantmentLevel * 5)) return;
+
+		fEvent.setCanceled(true);
 		Entity attacker = fEvent.getSource().getImmediateSource();
-		ItemStack shield2 = fEvent.getEntityLiving().getActiveItemStack();
-		if(shield2.getItem().isShield(shield, victim)) {
-			if(fEvent.getEntityLiving().world.rand.nextInt(100) < 20 + (levelED * 5) && EnchantmentsUtility.canBlockDamageSource(fEvent.getSource(), victim)) {
-				fEvent.setCanceled(true);
-				EnchantmentsUtility.ImprovedKnockBack(attacker, 0.4f + 0.2F * levelED, victim.posX - attacker.posX, victim.posZ - attacker.posZ);
-				if(victim instanceof EntityPlayer) {
-					attacker.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)victim), fEvent.getAmount() * (0.225f * levelED));
-				}
-				else {
-					attacker.attackEntityFrom(DamageSource.causeMobDamage(victim), fEvent.getAmount() * (0.225f * levelED));
-				}
-				victim.hurtResistantTime = 15;
-			}
-		}
+		EnchantmentsUtility.ImprovedKnockBack(attacker, 0.4f + 0.2F * enchantmentLevel, victim.posX - attacker.posX, victim.posZ - attacker.posZ);
+		float revengeDamage = fEvent.getAmount() * 0.225f * enchantmentLevel;
+		if(victim instanceof EntityPlayer)
+			attacker.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)victim), revengeDamage);
+		else
+			attacker.attackEntityFrom(DamageSource.causeMobDamage(victim), revengeDamage);
+		victim.hurtResistantTime = victim.maxHurtResistantTime-5;
 	}
 	/** @SubscribeEvent public void OnShieldCooldown(LivingUpdateEvent fEvent){
 	if(!(fEvent.getEntityLiving() instanceof EntityPlayer))

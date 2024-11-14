@@ -1,13 +1,17 @@
 package com.shultrea.rin.enchantments.bow;
 
-import com.shultrea.rin.Interfaces.IEnchantmentFire;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
+import com.shultrea.rin.Interfaces.IEnchantmentFire;
+import com.shultrea.rin.Prop_Sector.ArrowPropertiesProvider;
+import com.shultrea.rin.Prop_Sector.IArrowProperties;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentTierFlame extends EnchantmentBase implements IEnchantmentFire {
 
@@ -23,7 +27,7 @@ public class EnchantmentTierFlame extends EnchantmentBase implements IEnchantmen
 
 	@Override
 	public boolean isEnabled() {
-		switch(this.damageType) {
+		switch (this.damageType) {
 			case 0:
 				return ModConfig.enabled.lesserFlame;
 			case 1:
@@ -36,8 +40,13 @@ public class EnchantmentTierFlame extends EnchantmentBase implements IEnchantmen
 	}
 
 	@Override
+	public boolean hasSubscriber() {
+		return true;
+	}
+
+	@Override
 	public int getMaxLevel() {
-		switch(this.damageType) {
+		switch (this.damageType) {
 			case 0:
 				return ModConfig.level.lesserFlame;
 			case 1:
@@ -52,7 +61,7 @@ public class EnchantmentTierFlame extends EnchantmentBase implements IEnchantmen
 
 	@Override
 	public int getMinEnchantability(int level) {
-		switch(this.damageType) {
+		switch (this.damageType) {
 			case 0:
 				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.lesserFlame, level);
 			case 1:
@@ -66,7 +75,7 @@ public class EnchantmentTierFlame extends EnchantmentBase implements IEnchantmen
 
 	@Override
 	public int getMaxEnchantability(int level) {
-		switch(this.damageType) {
+		switch (this.damageType) {
 			case 0:
 				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.lesserFlame, level);
 			case 1:
@@ -79,22 +88,28 @@ public class EnchantmentTierFlame extends EnchantmentBase implements IEnchantmen
 	}
 
 	@Override
-	public boolean canApplyAtEnchantingTable(ItemStack stack){
-		switch(this.damageType){
-			case 0: return ModConfig.canApply.isItemValid(ModConfig.canApply.lesserFlame, stack) && super.canApplyAtEnchantingTable(stack);
-			case 1: return ModConfig.canApply.isItemValid(ModConfig.canApply.advancedFlame, stack) && super.canApplyAtEnchantingTable(stack);
-			case 2: return ModConfig.canApply.isItemValid(ModConfig.canApply.supremeFlame, stack) && super.canApplyAtEnchantingTable(stack);
+	public boolean canApplyAtEnchantingTable(ItemStack stack) {
+		switch (this.damageType) {
+			case 0:
+				return ModConfig.canApply.isItemValid(ModConfig.canApply.lesserFlame, stack) && super.canApplyAtEnchantingTable(stack);
+			case 1:
+				return ModConfig.canApply.isItemValid(ModConfig.canApply.advancedFlame, stack) && super.canApplyAtEnchantingTable(stack);
+			case 2:
+				return ModConfig.canApply.isItemValid(ModConfig.canApply.supremeFlame, stack) && super.canApplyAtEnchantingTable(stack);
 			default:
 				return false;
 		}
 	}
 
 	@Override
-	public boolean canApply(ItemStack stack){
-		switch(this.damageType){
-			case 0: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.lesserFlame, stack) && super.canApply(stack);
-			case 1: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.advancedFlame, stack) && super.canApply(stack);
-			case 2: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.supremeFlame, stack) && super.canApply(stack);
+	public boolean canApply(ItemStack stack) {
+		switch (this.damageType) {
+			case 0:
+				return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.lesserFlame, stack) || super.canApply(stack);
+			case 1:
+				return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.advancedFlame, stack) || super.canApply(stack);
+			case 2:
+				return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.supremeFlame, stack) || super.canApply(stack);
 			default:
 				return false;
 		}
@@ -102,7 +117,7 @@ public class EnchantmentTierFlame extends EnchantmentBase implements IEnchantmen
 
 	@Override
 	public boolean isTreasureEnchantment() {
-		switch(this.damageType) {
+		switch (this.damageType) {
 			case 0:
 				return ModConfig.treasure.lesserFlame;
 			case 1:
@@ -114,12 +129,30 @@ public class EnchantmentTierFlame extends EnchantmentBase implements IEnchantmen
 		}
 	}
 
-	public static int getFireTicks(int tier) {
-		switch(tier){
-			case 0: return 2;
-			case 1: return 15;
-			case 2: return 30;
+	public static int getFireSeconds(int tier) {
+		switch (tier) {
+			case 0:
+				return 2;
+			case 1:
+				return 15;
+			case 2:
+				return 30;
 		}
 		return 0;
+	}
+
+	@SubscribeEvent
+	public void onArrowHit(LivingDamageEvent fEvent) {
+		if(!"arrow".equals(fEvent.getSource().damageType)) return;
+		if(!(fEvent.getSource().getImmediateSource() instanceof EntityArrow)) return;
+
+		EntityArrow arrow = (EntityArrow) fEvent.getSource().getImmediateSource();
+		EntityLivingBase victim = fEvent.getEntityLiving();
+
+		if(!arrow.hasCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null)) return;
+		IArrowProperties properties = arrow.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
+
+		int flameLevel = properties.getFlameLevel();
+		victim.setFire(getFireSeconds(flameLevel));
 	}
 }

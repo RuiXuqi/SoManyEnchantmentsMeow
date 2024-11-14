@@ -1,7 +1,7 @@
 package com.shultrea.rin.Interfaces;
 
 public interface IEnchantmentFire {
-    static int getFireTicks(int tier) {
+    static int getFireSeconds(int tier) {
         return 0;
     }
 }

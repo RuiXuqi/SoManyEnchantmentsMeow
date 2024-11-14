@@ -4,13 +4,10 @@ import bettercombat.mod.event.RLCombatModifyDamageEvent;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.CompatUtil;
-import com.shultrea.rin.enchantments.weapon.EnchantmentTrueStrike;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
 import com.shultrea.rin.registry.EnchantmentRegistry;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -61,7 +58,7 @@ public class EnchantmentCurseofInaccuracy extends EnchantmentCurse {
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.curseOfInaccuracy, stack) && super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.curseOfInaccuracy, stack) || super.canApply(stack);
 	}
 	
 	@Override

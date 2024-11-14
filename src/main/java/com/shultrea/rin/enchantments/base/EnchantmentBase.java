@@ -75,14 +75,6 @@ public abstract class EnchantmentBase extends Enchantment {
 	}
 	
 	/**
-	 * @return if the enchantment is allowed to be applied to the given stack
-	 */
-	@Override
-	public boolean canApply(ItemStack stack) {
-		return isEnabled() && super.canApply(stack);
-	}
-	
-	/**
 	 * @return if the enchantment is a treasure enchantment as defined in config
 	 */
 	@Override
@@ -93,7 +85,7 @@ public abstract class EnchantmentBase extends Enchantment {
 	 */
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack) {
-		return this.isEnabled() && super.canApplyAtEnchantingTable(stack);
+		return this.isEnabled();
 	}
 	
 	/**
@@ -135,9 +127,6 @@ public abstract class EnchantmentBase extends Enchantment {
 		if(!ModConfig.miscellaneous.enablePetAttacks && source.getTrueSource() instanceof EntityPlayer && !(source.getImmediateSource() instanceof EntityPlayer) && source.getImmediateSource() instanceof EntityLivingBase) {
 			return false;
 		}
-		if(!"player".equals(source.damageType) && !"mob".equals(source.damageType)) {
-			return false;
-		}
-		return true;
-	}
+        return "player".equals(source.damageType) || "mob".equals(source.damageType);
+    }
 }

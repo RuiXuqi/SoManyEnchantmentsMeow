@@ -5,13 +5,11 @@ import com.shultrea.rin.Interfaces.IEnhancedEnchantment;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 
@@ -127,12 +125,12 @@ public class EnchantmentTierDamage extends EnchantmentBase implements IEnchantme
 	@Override
 	public boolean canApply(ItemStack stack){
 		switch(this.damageType){
-			case LESSSHARP: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.lesserSharpness, stack) && super.canApply(stack);
-			case SUPSHARP: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.supremeSharpness, stack) && super.canApply(stack);
-			case LESSSMITE: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.lesserSmite, stack) && super.canApply(stack);
-			case SUPSMITE: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.supremeSmite, stack) && super.canApply(stack);
-			case LESSBOA: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.lesserBaneOfArthropods, stack) && super.canApply(stack);
-			case SUPBOA: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.supremeBaneOfArthropods, stack) && super.canApply(stack);
+			case LESSSHARP: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.lesserSharpness, stack) || super.canApply(stack);
+			case SUPSHARP: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.supremeSharpness, stack) || super.canApply(stack);
+			case LESSSMITE: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.lesserSmite, stack) || super.canApply(stack);
+			case SUPSMITE: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.supremeSmite, stack) || super.canApply(stack);
+			case LESSBOA: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.lesserBaneOfArthropods, stack) || super.canApply(stack);
+			case SUPBOA: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.supremeBaneOfArthropods, stack) || super.canApply(stack);
 			default:
 				return false;
 		}

@@ -6,12 +6,8 @@ import com.shultrea.rin.Prop_Sector.ArrowPropertiesProvider;
 import com.shultrea.rin.Prop_Sector.IArrowProperties;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnumEnchantmentType;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
@@ -58,7 +54,7 @@ public class EnchantmentStrafe extends EnchantmentBase {
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.strafe, stack) && super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.strafe, stack) || super.canApply(stack);
 	}
 	
 	@Override
@@ -67,40 +63,36 @@ public class EnchantmentStrafe extends EnchantmentBase {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
-	public void onEvent(LivingEntityUseItemEvent.Tick event) {
-		EntityLivingBase entity = event.getEntityLiving();
+	public void onBowDraw(LivingEntityUseItemEvent.Tick event) {
 		ItemStack bow = event.getItem();
-		if(bow.isEmpty()) {
-			return;
+		if(bow.isEmpty()) return;
+		if(!(bow.getItem() instanceof ItemBow)) return;
+
+		int levelStrafe = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.strafe, bow);
+		if(levelStrafe <= 0) return;
+
+		int d = event.getDuration();
+		if(levelStrafe <= 4) {
+			if(d % (5 - levelStrafe) == 0)
+				event.setDuration(d - 1);
 		}
-		if(EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.strafe, bow) > 0) if(bow.getItem() instanceof ItemBow) {
-			int d = event.getDuration();
-			if(EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.strafe, entity) <= 4) {
-				if(d % (5 - EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.strafe, entity)) == 0) {
-					event.setDuration(d - 1);
-					if(event.getDuration() < 5000) event.setDuration(20000);
-				}
-			}
-			else if(EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.strafe, entity) == 5) {
-				event.setDuration(d - (EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.strafe, entity)) - 8);
-				if(event.getDuration() < 5000) event.setDuration(20000);
-			}
-			else if(EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.strafe, entity) > 5) {
-				event.setDuration(d - (EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.strafe, entity)) - 1200);
-				if(event.getDuration() < 5000) event.setDuration(20000);
-			}
-		}
+		else if(levelStrafe == 5)
+			event.setDuration(d - levelStrafe - 8);
+		else
+			event.setDuration(d - levelStrafe - 1200);
+
+		if(event.getDuration() < 5000) event.setDuration(20000);
 	}
-	
+
 	@SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
-	public void onEvent(LivingHurtEvent fEvent) {
+	public void onArrowHit(LivingHurtEvent fEvent) {
 		if(!(fEvent.getSource().getDamageType().equals("arrow"))) return;
 		if(!(fEvent.getSource().getImmediateSource() instanceof EntityArrow)) return;
 		EntityArrow arrow = (EntityArrow)fEvent.getSource().getImmediateSource();
-		if(!(arrow.hasCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null))) return;
-		IArrowProperties ar = arrow.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
-		if(ar.isArrowRapidDamage()) {
+
+		IArrowProperties cap = arrow.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
+		if(cap==null) return;
+		if(cap.getArrowResetsIFrames())
 			fEvent.getEntityLiving().hurtResistantTime = 0;
-		}
 	}
 }

@@ -1,14 +1,10 @@
 package com.shultrea.rin.enchantments.weapon.conditionaldamage;
 
-import com.shultrea.rin.Interfaces.IConditionalDamage;
-import com.shultrea.rin.Interfaces.IDamageMultiplier;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -58,7 +54,7 @@ public class EnchantmentMortalitas extends EnchantmentBase {
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.mortalitas, stack) && super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.mortalitas, stack) || super.canApply(stack);
 	}
 	
 	@Override

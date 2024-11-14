@@ -3,13 +3,12 @@ package com.shultrea.rin.enchantments.curses;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.SoManyEnchantments;
-import com.shultrea.rin.Utility_Sector.EnchantmentLister;
+import com.shultrea.rin.Utility_Sector.CurseLister;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import com.shultrea.rin.registry.ModRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -64,7 +63,7 @@ public class EnchantmentPandorasCurse extends EnchantmentCurse {
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.pandorasCurse, stack) && super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.pandorasCurse, stack) || super.canApply(stack);
 	}
 	
 	@Override
@@ -127,7 +126,7 @@ public class EnchantmentPandorasCurse extends EnchantmentCurse {
 			
 			int origCurseLevel = curseLevel;
 			
-			List<Enchantment> curses = EnchantmentLister.CURSE;
+			List<Enchantment> curses = CurseLister.CURSE;
 			for(ItemStack stack : candidates) {
 				if(curseLevel <= 5 && event.player.world.rand.nextInt(8) < 1) {
 					Enchantment curse = curses.get(event.player.world.rand.nextInt(curses.size()));

@@ -4,13 +4,15 @@ import com.shultrea.rin.Interfaces.IEnchantmentProtection;
 import com.shultrea.rin.Interfaces.IEnhancedEnchantment;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
+import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentProtection;
-import net.minecraft.enchantment.EnumEnchantmentType;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentAdvancedProtection extends EnchantmentBase implements IEnchantmentProtection, IEnhancedEnchantment {
 	
@@ -22,7 +24,12 @@ public class EnchantmentAdvancedProtection extends EnchantmentBase implements IE
 	public boolean isEnabled() {
 		return ModConfig.enabled.advancedProtection;
 	}
-	
+
+	@Override
+	public boolean hasSubscriber() {
+		return true;
+	}
+
 	@Override
 	public int getMaxLevel() {
 		return ModConfig.level.advancedProtection;
@@ -45,7 +52,7 @@ public class EnchantmentAdvancedProtection extends EnchantmentBase implements IE
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.advancedProtection, stack) && super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.advancedProtection, stack) || super.canApply(stack);
 	}
 	
 	@Override
@@ -57,5 +64,15 @@ public class EnchantmentAdvancedProtection extends EnchantmentBase implements IE
 	@Override
 	public int calcModifierDamage(int level, DamageSource source) {
 		return source.canHarmInCreative() ? 0 : level * 2;
+	}
+
+	@SubscribeEvent(priority = EventPriority.LOW, receiveCanceled = true)
+	public void protectionOnly(LivingHurtEvent fEvent) {
+		if(!ModConfig.miscellaneous.extraProtectionEffects) return;
+		if(!(ModConfig.enabled.advancedProtection)) return;
+		if(fEvent.getSource().damageType.equals("null")) return;
+		int modifier = EnchantmentsUtility.CalcModgetTotalLevel(4.75f, EnchantmentRegistry.advancedProtection, fEvent.getEntityLiving());
+		float damage = EnchantmentsUtility.getDamageAfterMagicAbsorb(fEvent.getAmount(), modifier);
+		fEvent.setAmount(damage);
 	}
 }

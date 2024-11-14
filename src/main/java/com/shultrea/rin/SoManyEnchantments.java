@@ -76,11 +76,8 @@ public class SoManyEnchantments {
 		proxy.preInit(fEvent);
 		SMEsounds.registerSounds();
 		EnchantmentRegistry.handleSubscribers();
-		MinecraftForge.EVENT_BUS.register(new HurtPatchHandler());
-		MinecraftForge.EVENT_BUS.register(new OtherHandler());
+		MinecraftForge.EVENT_BUS.register(new PlayerPropertiesHandler());
 		MinecraftForge.EVENT_BUS.register(new ArrowPropertiesHandler());
-		MinecraftForge.EVENT_BUS.register(new AdditionalProtectionEnchantmentsEffects());
-		MinecraftForge.EVENT_BUS.register(new ExtraEvent());
 	}
 	
 	@EventHandler
@@ -91,9 +88,9 @@ public class SoManyEnchantments {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent fEvent) {
 		proxy.postInit(fEvent);
-		PotionLister.Cycle();
+		PotionLister.initializePotionLists();
 		EnumTypes.initializeEnchantmentTab();
-		EnchantmentLister.initEnchantmentList();
+		CurseLister.initCursesList();
 		EnchantmentRegistry.initIncompatLists();
 	}
 }

@@ -4,12 +4,8 @@ import com.shultrea.rin.Interfaces.IEnchantmentFire;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.enchantments.weapon.damage.EnchantmentWaterAspect;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
@@ -48,7 +44,7 @@ public class EnchantmentFieryEdge extends EnchantmentBase implements IEnchantmen
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.fieryEdge, stack) && super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.fieryEdge, stack) || super.canApply(stack);
 	}
 	
 	@Override
@@ -61,14 +57,14 @@ public class EnchantmentFieryEdge extends EnchantmentBase implements IEnchantmen
 	public void onEntityDamagedAlt(EntityLivingBase user, Entity target, ItemStack stack, int level) {
 		if(!(target instanceof EntityLivingBase)) return;
 		EntityLivingBase victim = (EntityLivingBase)target;
-		target.setFire(level * getFireTicks(0));
+		target.setFire(level * getFireSeconds(0));
 		Random randy = new Random();
 		if(victim.isBurning() && randy.nextInt(10 - level * 2) < 3) {
 			victim.hurtResistantTime = 0;
 		}
 	}
 
-	public static int getFireTicks(int tier) {
+	public static int getFireSeconds(int tier) {
 		return 6;
 	}
 }

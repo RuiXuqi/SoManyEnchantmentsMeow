@@ -4,17 +4,18 @@ import com.shultrea.rin.Interfaces.IEnchantmentProtection;
 import com.shultrea.rin.Interfaces.IEnhancedEnchantment;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
+import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnchantmentProtection;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentAdvancedBlastProtection extends EnchantmentBase implements IEnchantmentProtection, IEnhancedEnchantment {
 	
@@ -39,7 +40,12 @@ public class EnchantmentAdvancedBlastProtection extends EnchantmentBase implemen
 	public boolean isEnabled() {
 		return ModConfig.enabled.advancedBlastProtection;
 	}
-	
+
+	@Override
+	public boolean hasSubscriber() {
+		return true;
+	}
+
 	@Override
 	public int getMaxLevel() {
 		return ModConfig.level.advancedBlastProtection;
@@ -62,7 +68,7 @@ public class EnchantmentAdvancedBlastProtection extends EnchantmentBase implemen
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.advancedBlastProtection, stack) && super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.advancedBlastProtection, stack) || super.canApply(stack);
 	}
 	
 	@Override
@@ -74,6 +80,17 @@ public class EnchantmentAdvancedBlastProtection extends EnchantmentBase implemen
 	@Override
 	public int calcModifierDamage(int level, DamageSource source) {
 		return source.canHarmInCreative() ? 0 : source.isExplosion() ? level * 3 : 0;
+	}
+
+	@SubscribeEvent(priority = EventPriority.LOW, receiveCanceled = true)
+	public void blastprotection(LivingHurtEvent fEvent) {
+		if(!ModConfig.miscellaneous.extraProtectionEffects) return;
+		//System.out.println("EVENT EEEEEEEEEEEEEEE");
+		if(!(ModConfig.enabled.advancedBlastProtection)) return;
+		if(!(fEvent.getSource().isExplosion())) return;
+		int modifier = EnchantmentsUtility.CalcModgetTotalLevel(7.5f, EnchantmentRegistry.advancedBlastProtection, fEvent.getEntityLiving());
+		float damage = EnchantmentsUtility.getDamageAfterMagicAbsorb(fEvent.getAmount(), modifier);
+		fEvent.setAmount(damage);
 	}
  
 	/* This handler was bugged and was causing damage whenever a detonation happened even if the detonation did not do damage, so this system has been overhauled instead

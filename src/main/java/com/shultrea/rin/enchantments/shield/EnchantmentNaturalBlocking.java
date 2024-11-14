@@ -5,7 +5,6 @@ import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -51,7 +50,7 @@ public class EnchantmentNaturalBlocking extends EnchantmentBase {
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.naturalBlocking, stack) && super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.naturalBlocking, stack) || super.canApply(stack);
 	}
 	
 	@Override
@@ -64,24 +63,24 @@ public class EnchantmentNaturalBlocking extends EnchantmentBase {
 		if(!(fEvent.getEntity() instanceof EntityLivingBase)) return;
 		EntityLivingBase victim = (EntityLivingBase)fEvent.getEntity();
 		if(victim == null) return;
+
+		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.naturalBlocking, victim);
+		if(enchantmentLevel <= 0) return;
+
 		ItemStack shield = victim.getHeldItemMainhand();
 		if(shield.isEmpty() || !shield.getItem().isShield(shield, victim)) {
 			shield = victim.getHeldItemOffhand();
-			if(shield.isEmpty()) return;
+			if(shield.isEmpty() || !shield.getItem().isShield(shield, victim)) return;
 		}
-		if(EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.naturalBlocking, shield) <= 0) return;
-		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.naturalBlocking, shield);
-		float damage = fEvent.getAmount() - fEvent.getAmount() * (level * 0.1f + 0.1f);
-		if(shield.getItem().isShield(shield, victim) && victim.getActiveItemStack() != shield) {
-			float percentage = damage / fEvent.getAmount();
-			percentage = 1 - percentage;
-			fEvent.setAmount(damage);
-			if(level >= 3) {
-				shield.damageItem((int)(1.25f * fEvent.getAmount() * percentage) + 1, victim);
-			}
-			else {
-				shield.damageItem((int)(1.75f * fEvent.getAmount() * percentage) + 1, victim);
-			}
+
+		if(victim.getActiveItemStack() != shield) {
+			float damageReduction = 0.1f + enchantmentLevel * 0.1f;
+			float blockedDamage = fEvent.getAmount() * damageReduction;
+			fEvent.setAmount(fEvent.getAmount() - blockedDamage);
+			if(enchantmentLevel >= 3)
+				shield.damageItem((int) (1 + 1.25f * blockedDamage), victim);
+			else
+				shield.damageItem((int) (1 + 1.75f * blockedDamage), victim);
 		}
 	}
 }

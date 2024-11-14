@@ -21,19 +21,19 @@ public class ModConfig {
 	@Config.Comment("Maximum levels of each enchantment")
 	@Config.Name("Enchantment Levels")
 	public static LevelConfig level = new LevelConfig();
-	@Config.Comment("Enchantabilities of each enchantment: {start, lvlspan, range, max_mode} with max_mode 0 being normal, 1,2,3 legacy mistakes (1=super using max = super.min+range, 2=fixed using max = range, 3=linear using max = range*lvl)")
+	@Config.Comment("Enchantabilities of each enchantment: {start, lvlspan, range, max_mode} with max_mode = 0 being standard behavior and 1,2,3 being legacy oversights. Legacy max_modes: 1=SUPER, using maxench = super.min+range. 2=FIXED, using maxench = range. 3=LINEAR, using maxench = range*lvl")
 	@Config.Name("Enchantabilities")
 	public static EnchantabilityConfig enchantability = new EnchantabilityConfig();
-	@Config.Comment("Each line is a group of pairwise incompatible enchantments. Enchantments are separated by comma and optional whitespace. When using enchantments from other modpacks, use modid:enchantmentname.")
+	@Config.Comment("Each line is a group of pairwise incompatible enchantments. Enchantments are separated by comma and optional whitespace. When using enchantments from other mods, use modid:enchantmentname.")
 	@Config.Name("Incompatible Groups")
 	public static IncompatibleConfig incompatible = new IncompatibleConfig();
 	@Config.Comment("Rarity of each enchantment: 0=Common, 1=Uncommon, 2=Rare, 3=Very Rare")
 	@Config.Name("Rarity")
 	public static RarityConfig rarity = new RarityConfig();
-	@Config.Comment("Types of items each enchantment can apply on at enchantment table+anvil")
+	@Config.Comment("Types of items each enchantment can apply on at enchantment table and anvil. Available types: ALL_TYPES (=any of the following types), ARMOR, ARMOR_HEAD, ARMOR_CHEST, ARMOR_LEGS, ARMOR_FEET, SWORD, TOOL, FISHING_ROD, BREAKABLE, BOW, WEARABLE, ALL_ITEMS (=any Item), AXE, PICKAXE, HOE, SHOVEL, GAPPLE, SHIELD, NONE")
 	@Config.Name("CanApply")
 	public static CanApplyConfig canApply = new CanApplyConfig();
-	@Config.Comment("Types of items each enchantment can apply on at the anvil without being appliable at enchantment table")
+	@Config.Comment("Additional types of items each enchantment can apply on at the anvil. To be able to use miscellaneous.canCursesBeAppliedAtEnchantingTable=false, all valid types of curses have to be named here, not just the additional ones")
 	@Config.Name("CanApplyAnvil")
 	public static CanApplyAnvilConfig canApplyAnvil = new CanApplyAnvilConfig();
 	@Config.Comment("Miscellaneous")

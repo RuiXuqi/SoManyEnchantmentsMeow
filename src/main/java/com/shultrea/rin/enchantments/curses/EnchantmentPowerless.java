@@ -3,10 +3,6 @@ package com.shultrea.rin.enchantments.curses;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
-import com.shultrea.rin.enchantments.bow.EnchantmentAdvancedPower;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnumEnchantmentType;
-import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
@@ -48,11 +44,12 @@ public class EnchantmentPowerless extends EnchantmentCurse {
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.powerless, stack) && super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.powerless, stack) || super.canApply(stack);
 	}
 	
 	@Override
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.powerless;
 	}
+
 }

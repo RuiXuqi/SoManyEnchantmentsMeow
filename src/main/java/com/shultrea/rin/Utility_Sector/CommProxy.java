@@ -22,7 +22,6 @@ public class CommProxy {
 		SMElogM.logger.info("PreInitializing " + SoManyEnchantments.NAME + "...");
 		//SMEsounds.mainRegistry();
 		SMEnetwork.mainRegistry();
-		//MinecraftForge.EVENT_BUS.register(new LivingAttackFixerHandler());
 	}
 	
 	public void onInit(FMLInitializationEvent event) {

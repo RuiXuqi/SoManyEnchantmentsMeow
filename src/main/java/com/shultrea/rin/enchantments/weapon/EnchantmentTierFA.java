@@ -4,9 +4,6 @@ import com.shultrea.rin.Interfaces.IEnchantmentFire;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -94,9 +91,9 @@ public class EnchantmentTierFA extends EnchantmentBase implements IEnchantmentFi
 	@Override
 	public boolean canApply(ItemStack stack){
 		switch(this.damageType){
-			case 0: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.lesserFireAspect, stack) && super.canApply(stack);
-			case 1: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.advancedFireAspect, stack) && super.canApply(stack);
-			case 2: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.supremeFireAspect, stack) && super.canApply(stack);
+			case 0: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.lesserFireAspect, stack) || super.canApply(stack);
+			case 1: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.advancedFireAspect, stack) || super.canApply(stack);
+			case 2: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.supremeFireAspect, stack) || super.canApply(stack);
 			default:
 				return false;
 		}
@@ -125,11 +122,11 @@ public class EnchantmentTierFA extends EnchantmentBase implements IEnchantmentFi
 		if(!isEnabled()) return;
 		if(target instanceof EntityLivingBase) {
 			if(level > 0)
-				target.setFire(getFireTicks(this.damageType) * level);
+				target.setFire(getFireSeconds(this.damageType) * level);
 		}
 	}
 
-	public static int getFireTicks(int tier) {
+	public static int getFireSeconds(int tier) {
 		switch(tier){
 			case 0: return 2;
 			case 1: return 8;

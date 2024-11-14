@@ -2,16 +2,15 @@ package com.shultrea.rin.enchantments.weapon;
 
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
-import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumHand;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -53,7 +52,7 @@ public class EnchantmentDisarmament extends EnchantmentBase {
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.disarmament, stack) && super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.disarmament, stack) || super.canApply(stack);
 	}
 	
 	@Override
@@ -65,15 +64,27 @@ public class EnchantmentDisarmament extends EnchantmentBase {
 	@SubscribeEvent
 	public void HandleEnchant(LivingHurtEvent fEvent) {
 		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
-		ItemStack dmgSource = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
-		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.disarmament, dmgSource);
+		EntityLivingBase victim = fEvent.getEntityLiving();
+		ItemStack stack = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
+		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.disarmament, stack);
 		if(enchantmentLevel <= 0) return;
 		if(Math.random() * 100 < 25) {
-			fEvent.getEntityLiving().addPotionEffect(new PotionEffect(MobEffects.SPEED, 20, 1));
-			fEvent.getEntityLiving().addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 40 + (enchantmentLevel * 20), 254));
+			victim.addPotionEffect(new PotionEffect(MobEffects.SPEED, 20, 1));
+			victim.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 40 + (enchantmentLevel * 20), 254));
 			if(Math.random() * 100 < (enchantmentLevel * 5)) {
-				EnchantmentsUtility.Disarm(fEvent.getEntityLiving());
+				disarm(victim);
 			}
+		}
+	}
+
+	public static void disarm(EntityLivingBase entityLiving) {
+		if(!entityLiving.getHeldItemMainhand().isEmpty()) {
+			entityLiving.entityDropItem(entityLiving.getHeldItemMainhand(), 4.5f);
+			entityLiving.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
+		}
+		else if(!entityLiving.getHeldItemOffhand().isEmpty()) {
+			entityLiving.entityDropItem(entityLiving.getHeldItemOffhand(), 4.5f);
+			entityLiving.setHeldItem(EnumHand.OFF_HAND, ItemStack.EMPTY);
 		}
 	}
 }

@@ -2,8 +2,8 @@ package com.shultrea.rin.enchantments.curses;
 
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
+import com.shultrea.rin.Utility_Sector.SMElogM;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
@@ -43,12 +43,13 @@ public class EnchantmentRusted extends EnchantmentCurse {
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		SMElogM.logger.info("called rusted canapplyatenchtable");
 		return ModConfig.canApply.isItemValid(ModConfig.canApply.rusted, stack) && super.canApplyAtEnchantingTable(stack);
 	}
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.rusted, stack) && super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.rusted, stack) || super.canApply(stack);
 	}
 	
 	@Override

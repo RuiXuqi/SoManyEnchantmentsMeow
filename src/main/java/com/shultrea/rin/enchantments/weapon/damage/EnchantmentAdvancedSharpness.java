@@ -5,12 +5,8 @@ import com.shultrea.rin.Interfaces.IEnhancedEnchantment;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentDamage;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 
 public class EnchantmentAdvancedSharpness extends EnchantmentBase implements IEnchantmentDamage, IEnhancedEnchantment {
@@ -41,12 +37,12 @@ public class EnchantmentAdvancedSharpness extends EnchantmentBase implements IEn
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApply.advancedBlastProtection, stack) && super.canApplyAtEnchantingTable(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.advancedSharpness, stack) && super.canApplyAtEnchantingTable(stack);
 	}
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.advancedBlastProtection, stack) && super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.advancedSharpness, stack) || super.canApply(stack);
 	}
 
 	@Override

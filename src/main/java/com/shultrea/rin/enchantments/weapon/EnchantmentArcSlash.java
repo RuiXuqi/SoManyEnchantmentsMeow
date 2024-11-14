@@ -64,7 +64,7 @@ public class EnchantmentArcSlash extends EnchantmentBase {
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.arcSlash, stack) && super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.arcSlash, stack) || super.canApply(stack);
 	}
 	
 	@Override
@@ -79,11 +79,11 @@ public class EnchantmentArcSlash extends EnchantmentBase {
 		ItemStack stack = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
 		//Cap out cleave level to avoid large AABB checks
 		int enchantmentLevel = Math.min(10, EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.arcSlash, stack));
-		int lf = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.fieryEdge, stack) * EnchantmentFieryEdge.getFireTicks(0)*5/6;
+		int lf = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.fieryEdge, stack) * EnchantmentFieryEdge.getFireSeconds(0)*5/6;
 		lf += EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT, stack) * 3;
-		lf += EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.advancedFireAspect, stack) * EnchantmentTierFA.getFireTicks(1)*3/4;
-		lf += EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.supremeFireAspect, stack) * EnchantmentTierFA.getFireTicks(2)*3/4;
-		lf += EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.lesserFireAspect, stack) * EnchantmentTierFA.getFireTicks(0)*3/4;
+		lf += EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.advancedFireAspect, stack) * EnchantmentTierFA.getFireSeconds(1)*3/4;
+		lf += EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.supremeFireAspect, stack) * EnchantmentTierFA.getFireSeconds(2)*3/4;
+		lf += EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.lesserFireAspect, stack) * EnchantmentTierFA.getFireSeconds(0)*3/4;
 		if(enchantmentLevel <= 0) return;
 		int levitationLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.levitator, stack);
 		// We have a cleaving level, let's figure out our damage value.
@@ -99,7 +99,7 @@ public class EnchantmentArcSlash extends EnchantmentBase {
             if (target == fEvent.getEntityLiving()) continue;
             //Old value was 4.00f
             if (target.getDistance(attacker) > 3.00f + enchantmentLevel * 0.25f) continue;
-            Vec3d attackerCheck = EnchantmentsUtility.Cleave(target.posX - attacker.posX, target.posY - attacker.posY, target.posZ - attacker.posZ);
+            Vec3d attackerCheck = new Vec3d(target.posX - attacker.posX, target.posY - attacker.posY, target.posZ - attacker.posZ);
             double angle = Math.toDegrees(Math.acos(attackerCheck.normalize().dotProduct(attacker.getLookVec())));
             if (angle < MathHelper.clamp(60.0D + (enchantmentLevel * 10), 60, 359)) {
                 // This is within our arc, let's deal our damage.

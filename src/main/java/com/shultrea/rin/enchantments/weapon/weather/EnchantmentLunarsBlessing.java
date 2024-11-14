@@ -5,7 +5,6 @@ import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.MobEffects;
@@ -45,6 +44,16 @@ public class EnchantmentLunarsBlessing extends EnchantmentBase implements IWeath
 	@Override
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.lunarsBlessing, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.lunarsBlessing, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.lunarsBlessing, stack) || super.canApply(stack);
 	}
 	
 	@Override

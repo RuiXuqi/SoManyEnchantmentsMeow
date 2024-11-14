@@ -21,11 +21,11 @@ public class CanApplyConfig {
 
 		CustomType(String in){
 			String[] split = in.split(";");
-			if(split.length>0) {
+			if(split.length>=2) {
 				name = split[0];
 				regex = split[1];
 			}
-			if(split.length>1)
+			if(split.length>=3)
 				inverted = "NOT".equals(split[2]);
 		}
 	}
@@ -51,9 +51,6 @@ public class CanApplyConfig {
 		itemTypes.put("SHOVEL",EnumTypes.SPADE);
 		itemTypes.put("GAPPLE",EnumTypes.COMBAT_GOLDEN_APPLE);
 		itemTypes.put("SHIELD",EnumTypes.SHIELD);
-		//itemTypes.put("SWORD+AXE",EnumTypes.COMBAT);
-		//itemTypes.put("SWORD+AXE+BOW",EnumTypes.COMBAT_WEAPON);
-		//itemTypes.put("SWORD+TOOL",EnumTypes.ALL_TOOL);
 		itemTypes.put("NONE",EnumTypes.NONE);
 
 		for(String s: customTypes){
@@ -65,7 +62,7 @@ public class CanApplyConfig {
 
 	@Config.Name("Custom Item Types")
 	@Config.Comment("Pattern: Name to use;Regex to match item ids to find the item;optional: 'NOT' to invert. If you use the inversion, canApply will use this type as an AND connection instead of an OR connection. So 'NOTGOLD','TOOL','SWORD' will be any sword or tool that is not gold. The custom types can also be used in canApplyAnvil config")
-	public String[] customTypes = {"BS_BATTLEAXE;mujmajnkraft\\:item.*battleaxe", "NOT_GOLD;gold;NOT"};
+	public String[] customTypes = {"BS_BATTLEAXE;mujmajnkraft\\:item.*battleaxe", "NOT_GOLD;.*gold.*;NOT"};
 
 	@Config.Name("Adept")
 	@Config.RequiresMcRestart
@@ -280,8 +277,7 @@ public class CanApplyConfig {
 	@Config.Name("Winter's Grace")
 	@Config.RequiresMcRestart
 	public String[] wintersGrace = {"SWORD"};
-	
-	//TODO recheck curses?
+
 	//Curses
 	@Config.Name("Bluntness")
 	@Config.RequiresMcRestart
@@ -468,7 +464,7 @@ public class CanApplyConfig {
 				else
 					invertedMatches = invertedMatches || matches;
 			} else {
-                SMElogM.logger.info("Could not find given item type{}", s);
+                SMElogM.logger.info("SME: Could not find given item type {}", s);
 			}
 		}
 		return isValid && !invertedMatches;

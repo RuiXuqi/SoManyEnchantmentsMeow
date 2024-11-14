@@ -261,6 +261,44 @@ public class EnchantmentBiomePresence extends Enchantment
               
                 }
     	   }
+	public static boolean isInASpecificBiome(Biome biome, EntityLivingBase attacker) {
+		Biome cB = attacker.world.getBiome(attacker.getPosition());
+		return biome == cB;
+	}
+
+
+	public static boolean IsInMountains(EntityLivingBase attacker) {
+		BlockPos pos = new BlockPos(attacker.posX, attacker.posY, attacker.posZ);
+		if(attacker.world.getBiome(pos) == Biome.getBiome(28)) {return true;}
+		if(attacker.world.getBiome(pos) == Biome.getBiome(31)) {return true;}
+		if(attacker.world.getBiome(pos) == Biome.getBiome(17)) {return true;}
+		if(attacker.world.getBiome(pos) == Biome.getBiome(3)) {return true;}
+		if(attacker.world.getBiome(pos) == Biome.getBiome(34)) {return true;}
+		if(attacker.world.getBiome(pos) == Biome.getBiome(20)) {return true;}
+		if(attacker.world.getBiome(pos) == Biome.getBiome(18)) {return true;}
+		if(attacker.world.getBiome(pos) == Biome.getBiome(22)) {return true;}
+		if(attacker.world.getBiome(pos) == Biome.getBiome(33)) {return true;}
+		if(attacker.world.getBiome(pos) == Biome.getBiome(161)) {return true;}
+		if(attacker.world.getBiome(pos) == Biome.getBiome(19)) {return true;}
+		if(attacker.world.getBiome(pos) == Biome.getBiome(13)) {return true;}
+		if(attacker.world.getBiome(pos) == Biome.getBiome(162)) {return true;}
+		if(attacker.world.getBiome(pos) == Biome.getBiome(156)) {return true;}
+		return attacker.world.getBiome(pos) == Biome.getBiome(131);
+	}
+
+	public static boolean IsInTaiga(EntityLivingBase attacker) {
+		BlockPos pos = new BlockPos(attacker.posX, attacker.posY, attacker.posZ);
+		if(attacker.world.getBiome(pos) == Biome.getBiome(5)) {return true;}
+		if(attacker.world.getBiome(pos) == Biome.getBiome(133)) {return true;}
+		if(attacker.world.getBiome(pos) == Biome.getBiome(19)) {return true;}
+		if(attacker.world.getBiome(pos) == Biome.getBiome(30)) {return true;}
+		if(attacker.world.getBiome(pos) == Biome.getBiome(158)) {return true;}
+		if(attacker.world.getBiome(pos) == Biome.getBiome(31)) {return true;}
+		if(attacker.world.getBiome(pos) == Biome.getBiome(32)) {return true;}
+		if(attacker.world.getBiome(pos) == Biome.getBiome(33)) {return true;}
+		if(attacker.world.getBiome(pos) == Biome.getBiome(160)) {return true;}
+		return attacker.world.getBiome(pos) == Biome.getBiome(161);
+	}
            */
            
     	   

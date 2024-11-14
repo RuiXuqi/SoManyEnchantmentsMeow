@@ -146,4 +146,29 @@ public class EnchantmentRuneStarFall extends Enchantment {
 }
 //}
 
+
  */
+
+/*	int counter = 0;
+
+	@SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
+	public void onEvent(WorldTickEvent event) {
+		if (event.phase != Phase.START) return;
+		counter++;
+		if (counter != 20) return;
+		counter = 0;
+		for (Entity entity : event.world.loadedEntityList) {
+			if (entity instanceof EntityArrow) {
+				if (!entity.hasCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null)) continue;
+				IArrowProperties ar = entity.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
+
+				if (ar.getIsStarFallMade()) {
+					NBTTagCompound life = new NBTTagCompound();
+					entity.writeToNBT(life);
+					short f = life.getShort("life");
+					life.setShort("life", (short) (f + 50));
+					entity.readFromNBT(life);
+				}
+			}
+		}
+	}*/

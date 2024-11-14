@@ -7,7 +7,6 @@ import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -43,6 +42,16 @@ public class EnchantmentRainsBestowment extends EnchantmentBase implements IWeat
 	@Override
 	public int getMaxEnchantability(int level) {
 		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.rainsBestowment, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.rainsBestowment, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.rainsBestowment, stack) || super.canApply(stack);
 	}
 	
 	@Override

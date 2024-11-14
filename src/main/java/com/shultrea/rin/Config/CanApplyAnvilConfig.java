@@ -217,51 +217,50 @@ public class CanApplyAnvilConfig {
 	@Config.Name("Winter's Grace")
 	@Config.RequiresMcRestart
 	public String[] wintersGrace = {};
-	
-	//TODO recheck curses?
+
 	//Curses
 	@Config.Name("Bluntness")
 	@Config.RequiresMcRestart
-	public String[] bluntness = {,};
+	public String[] bluntness = {"SWORD","AXE"};
 	@Config.Name("Cursed Edge")
 	@Config.RequiresMcRestart
-	public String[] cursedEdge = {};
+	public String[] cursedEdge = {"SWORD"};
 	@Config.Name("Curse of Decay")
 	@Config.RequiresMcRestart
-	public String[] curseOfDecay = {};
+	public String[] curseOfDecay = {"ALL_ITEMS"};
 	@Config.Name("Curse of Holding")
 	@Config.RequiresMcRestart
-	public String[] curseOfHolding = {};
+	public String[] curseOfHolding = {"ALL_ITEMS"};
 	@Config.Name("Curse of Inaccuracy")
 	@Config.RequiresMcRestart
-	public String[] curseOfInaccuracy = {};
+	public String[] curseOfInaccuracy = {"SWORD","AXE","BOW"};
 	@Config.Name("Curse of Possession")
 	@Config.RequiresMcRestart
-	public String[] curseOfPossession = {};
+	public String[] curseOfPossession = {"ALL_TYPES"};
 	@Config.Name("Curse of Vulnerability")
 	@Config.RequiresMcRestart
-	public String[] curseOfVulnerability = {};
+	public String[] curseOfVulnerability = {"ARMOR"};
 	@Config.Name("Heavy Weight")
 	@Config.RequiresMcRestart
-	public String[] heavyWeight = {};
+	public String[] heavyWeight = {"SWORD"};
 	@Config.Name("Inefficient")
 	@Config.RequiresMcRestart
-	public String[] inefficient = {};
+	public String[] inefficient = {"TOOL"};
 	@Config.Name("Instability")
 	@Config.RequiresMcRestart
-	public String[] instability = {};
+	public String[] instability = {"SWORD","TOOL"};
 	@Config.Name("Pandora's Curse")
 	@Config.RequiresMcRestart
-	public String[] pandorasCurse = {};
+	public String[] pandorasCurse = {"ALL_ITEMS"};
 	@Config.Name("Powerless")
 	@Config.RequiresMcRestart
-	public String[] powerless = {};
+	public String[] powerless = {"BOW"};
 	@Config.Name("Rusted")
 	@Config.RequiresMcRestart
-	public String[] rusted = {};
+	public String[] rusted = {"BREAKABLE","NOT_GOLD"};
 	@Config.Name("Unpredictable")
 	@Config.RequiresMcRestart
-	public String[] unpredictable = {};
+	public String[] unpredictable = {"SWORD"};
 	
 	//Rune
 	@Config.Name("Rune: Arrow Piercing")

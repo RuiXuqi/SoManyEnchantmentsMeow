@@ -7,7 +7,6 @@ import com.shultrea.rin.Prop_Sector.ArrowPropertiesProvider;
 import com.shultrea.rin.Prop_Sector.IArrowProperties;
 import com.shultrea.rin.Utility_Sector.UtilityAccessor;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -61,7 +60,7 @@ public class EnchantmentRuneArrowPiercing extends EnchantmentBase implements IEn
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.runeArrowPiercing, stack) && super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.runeArrowPiercing, stack) || super.canApply(stack);
 	}
 	
 	@Override
@@ -77,7 +76,6 @@ public class EnchantmentRuneArrowPiercing extends EnchantmentBase implements IEn
 	//TODO piercing compat with spartan weaponry piercing?
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public static void onLivingHurtEvent(LivingHurtEvent event) {
-		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
 		if(!(event.getSource().getImmediateSource() instanceof EntityArrow)) return;
 		EntityArrow arrow = (EntityArrow)event.getSource().getImmediateSource();
 		IArrowProperties cap = arrow.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
