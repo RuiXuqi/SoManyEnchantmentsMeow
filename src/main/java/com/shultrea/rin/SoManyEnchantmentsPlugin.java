@@ -1,8 +1,8 @@
 package com.shultrea.rin;
 
-import fermiumbooter.FermiumRegistryAPI;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.spongepowered.asm.launch.MixinBootstrap;
+import org.spongepowered.asm.mixin.Mixins;
 
 import java.util.Map;
 
@@ -11,7 +11,7 @@ public class SoManyEnchantmentsPlugin implements IFMLLoadingPlugin {
 	
 	public SoManyEnchantmentsPlugin() {
 		MixinBootstrap.init();
-		FermiumRegistryAPI.enqueueMixin(false, "mixins.somanyenchantments.vanilla.json");
+		Mixins.addConfiguration("mixins.somanyenchantments.vanilla.json");
 	}
 	
 	@Override

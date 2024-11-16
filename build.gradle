@@ -1,68 +1,34 @@
-buildscript {
-    repositories {
-        maven {
-            url = 'https://maven.minecraftforge.net/'
-        }
-        maven {
-            url = 'https://repo.spongepowered.org/maven'
-        }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7.+'
-    }
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'net.minecraftforge.gradle' version "${forge_gradle_version}"
+    id 'org.spongepowered.mixin' version "${mixin_gradle_version}"
+    id 'com.github.johnrengelman.shadow' version "${shadow_gradle_version}"
 }
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.spongepowered.mixin'
 
-version = "${mod_version}"
-group = "com.Shultrea.Rin"
-archivesBaseName = "${mod_name}"
+version = mod_version
+group = "com.shultrea.rin"
+archivesBaseName = mod_name
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
 minecraft {
     mappings channel: mappings_channel, version: mappings_version
-
-    runs {
-        client {
-            args "--username=InDev"
-
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-        }
-
-        server {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-        }
-    }
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-    maven {
-        url = "https://www.cursemaven.com"
-    }
-    maven {
-        url = 'https://repo.spongepowered.org/maven'
-    }
+    flatDir { dirs 'libs' }
+    maven { url = 'https://www.cursemaven.com' }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    implementation "org.spongepowered:mixin:0.8.5"
-    annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
-    implementation 'io.github.llamalad7:mixinextras-common:0.3.5'
-
-    implementation fg.deobf("curse.maven:fermiumbooter-${fermiumbooter_version}")
+    shadow "org.spongepowered:mixin:${mixin_version}"
+    annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
+    shadow "io.github.llamalad7:mixinextras-common:${mixin_extras_version}"
 
     implementation fg.deobf("curse.maven:rlcombat-${rlcombat_version}")
 }
@@ -72,30 +38,56 @@ mixin {
 }
 
 processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", minecraft_version
+    var replaceProperties = [
+            'mod_id': mod_id,
+            'mod_name': mod_name,
+            'version': mod_version,
+            'mcversion': minecraft_version,
+            'mod_description': mod_description,
+            'mod_author': mod_author
+    ]
+
+    inputs.properties replaceProperties
 
     filesMatching('mcmod.info') {
-        expand 'mod_id': mod_id, 'mod_name': mod_name, 'version': project.version,
-                'mcversion': minecraft_version, 'mod_description': mod_description,
-                'mod_author': mod_author
+        expand replaceProperties
     }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadow]
+    mergeServiceFiles()
+
+    exclude 'org/spongepowered/asm/launch/MixinLaunchPlugin*'
+    exclude 'org/spongepowered/asm/launch/MixinTransformationService*'
+    exclude 'org/spongepowered/asm/launch/platform/container/ContainerHandleModLauncherEx*'
+
+    archiveClassifier.set('')
+}
+
+reobf {
+    shadowJar {}
 }
 
 jar {
     manifest {
         attributes([
-                "Specification-Title"     : mod_name,
-                "Specification-Version"   : "1",
-                "Implementation-Title"    : mod_name,
-                "Implementation-Version"  : mod_version,
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "FMLCorePlugin": "${mixin_loader_class}",
-                "FMLCorePluginContainsFMLMod": "true",
-                "ForceLoadAsMod": "true",
-                "TweakClass": "org.spongepowered.asm.launch.MixinTweaker"
+                'Specification-Title'     : mod_name,
+                'Specification-Vendor'    : mod_author,
+                'Specification-Version'   : '1',
+                'Implementation-Title'    : mod_name,
+                'Implementation-Vendor'   : mod_author,
+                'Implementation-Version'  : mod_version,
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                'FMLCorePlugin': mixin_loader_class,
+                'FMLCorePluginContainsFMLMod': 'true',
+                'ForceLoadAsMod': 'true',
+                'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker'
         ])
     }
+
+    archiveClassifier.set('THIN')
 }
 
+build.dependsOn(shadowJar)
 jar.finalizedBy('reobfJar')
