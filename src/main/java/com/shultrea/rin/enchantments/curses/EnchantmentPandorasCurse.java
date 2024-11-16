@@ -1,9 +1,9 @@
 package com.shultrea.rin.enchantments.curses;
 
-import com.shultrea.rin.Config.EnchantabilityConfig;
-import com.shultrea.rin.Config.ModConfig;
+import com.shultrea.rin.config.EnchantabilityConfig;
+import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.SoManyEnchantments;
-import com.shultrea.rin.Utility_Sector.CurseLister;
+import com.shultrea.rin.utility_sector.CurseLister;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import com.shultrea.rin.registry.ModRegistry;

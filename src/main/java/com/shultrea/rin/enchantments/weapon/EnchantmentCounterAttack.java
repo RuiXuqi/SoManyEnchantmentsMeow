@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments.weapon;
 
-import com.shultrea.rin.Config.EnchantabilityConfig;
-import com.shultrea.rin.Config.ModConfig;
+import com.shultrea.rin.config.EnchantabilityConfig;
+import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

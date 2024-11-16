@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments.base;
 
-import com.shultrea.rin.Config.ModConfig;
-import com.shultrea.rin.Enum.EnumTypes;
+import com.shultrea.rin.config.ModConfig;
+import com.shultrea.rin.enums.Types;
 import com.shultrea.rin.SoManyEnchantments;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -22,7 +22,7 @@ public abstract class EnchantmentBase extends Enchantment {
 	public ArrayList<Enchantment> incompatibleEnchantments = new ArrayList<>();
 
 	public EnchantmentBase(String name, Rarity rarity, EntityEquipmentSlot... slots) {
-		super(rarity, EnumTypes.NONE, slots);
+		super(rarity, Types.NONE, slots);
 		this.name = name;
 		this.setRegistryName(SoManyEnchantments.MODID, name);
 	}

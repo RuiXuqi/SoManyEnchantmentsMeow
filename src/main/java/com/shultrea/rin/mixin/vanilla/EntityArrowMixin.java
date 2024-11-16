@@ -1,6 +1,6 @@
 package com.shultrea.rin.mixin.vanilla;
 
-import com.shultrea.rin.Prop_Sector.ArrowPropertiesHandler;
+import com.shultrea.rin.properties.ArrowPropertiesHandler;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityArrow;
 import org.spongepowered.asm.mixin.Mixin;

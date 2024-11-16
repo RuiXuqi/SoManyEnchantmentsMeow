@@ -1,8 +1,8 @@
 package com.shultrea.rin.enchantments.weapon.ancient;
 
-import com.shultrea.rin.Config.EnchantabilityConfig;
-import com.shultrea.rin.Config.ModConfig;
-import com.shultrea.rin.Utility_Sector.CurseLister;
+import com.shultrea.rin.config.EnchantabilityConfig;
+import com.shultrea.rin.config.ModConfig;
+import com.shultrea.rin.utility_sector.CurseLister;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;

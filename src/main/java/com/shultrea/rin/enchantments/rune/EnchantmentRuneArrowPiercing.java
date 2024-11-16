@@ -1,10 +1,10 @@
 package com.shultrea.rin.enchantments.rune;
 
-import com.shultrea.rin.Config.EnchantabilityConfig;
-import com.shultrea.rin.Config.ModConfig;
-import com.shultrea.rin.Prop_Sector.ArrowPropertiesProvider;
-import com.shultrea.rin.Prop_Sector.IArrowProperties;
-import com.shultrea.rin.Utility_Sector.UtilityAccessor;
+import com.shultrea.rin.config.EnchantabilityConfig;
+import com.shultrea.rin.config.ModConfig;
+import com.shultrea.rin.properties.ArrowPropertiesProvider;
+import com.shultrea.rin.properties.IArrowProperties;
+import com.shultrea.rin.utility_sector.UtilityAccessor;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityArrow;

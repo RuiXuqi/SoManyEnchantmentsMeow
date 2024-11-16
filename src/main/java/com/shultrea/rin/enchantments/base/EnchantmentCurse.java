@@ -1,6 +1,6 @@
 package com.shultrea.rin.enchantments.base;
 
-import com.shultrea.rin.Config.ModConfig;
+import com.shultrea.rin.config.ModConfig;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;

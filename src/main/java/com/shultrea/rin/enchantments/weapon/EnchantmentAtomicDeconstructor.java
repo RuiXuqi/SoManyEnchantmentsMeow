@@ -1,8 +1,8 @@
 package com.shultrea.rin.enchantments.weapon;
 
 import bettercombat.mod.event.RLCombatModifyDamageEvent;
-import com.shultrea.rin.Config.EnchantabilityConfig;
-import com.shultrea.rin.Config.ModConfig;
+import com.shultrea.rin.config.EnchantabilityConfig;
+import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import com.shultrea.rin.registry.ModRegistry;

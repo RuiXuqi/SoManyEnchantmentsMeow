@@ -1,6 +1,6 @@
 package com.shultrea.rin.mixin.vanilla;
 
-import com.shultrea.rin.Prop_Sector.ArrowPropertiesHandler;
+import com.shultrea.rin.properties.ArrowPropertiesHandler;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;

@@ -1,9 +1,9 @@
 package com.shultrea.rin.enchantments.tool;
 
-import com.shultrea.rin.Config.EnchantabilityConfig;
-import com.shultrea.rin.Config.ModConfig;
-import com.shultrea.rin.Utility_Sector.MsgSP_Particle;
-import com.shultrea.rin.Utility_Sector.SMEnetwork;
+import com.shultrea.rin.config.EnchantabilityConfig;
+import com.shultrea.rin.config.ModConfig;
+import com.shultrea.rin.utility_sector.MsgSP_Particle;
+import com.shultrea.rin.utility_sector.SMEnetwork;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;

@@ -1,8 +1,8 @@
 package com.shultrea.rin;
 
-import com.shultrea.rin.Enum.EnumTypes;
-import com.shultrea.rin.Prop_Sector.*;
-import com.shultrea.rin.Utility_Sector.*;
+import com.shultrea.rin.enums.Types;
+import com.shultrea.rin.properties.*;
+import com.shultrea.rin.utility_sector.*;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import com.shultrea.rin.registry.ModRegistry;
 import net.minecraft.util.DamageSource;
@@ -93,7 +93,7 @@ public class SoManyEnchantments {
 	public void postInit(FMLPostInitializationEvent fEvent) {
 		proxy.postInit(fEvent);
 		PotionLister.initializePotionLists();
-		EnumTypes.initializeEnchantmentTab();
+		Types.initializeEnchantmentTab();
 		CurseLister.initCursesList();
 		EnchantmentRegistry.initIncompatLists();
 	}
