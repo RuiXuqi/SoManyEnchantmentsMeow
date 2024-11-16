@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.weapon.conditionaldamage;
 
-import com.shultrea.rin.Interfaces.IConditionalDamage;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
@@ -15,7 +14,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentViper extends EnchantmentBase implements IConditionalDamage {
+public class EnchantmentViper extends EnchantmentBase {
 	
 	public EnchantmentViper(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);

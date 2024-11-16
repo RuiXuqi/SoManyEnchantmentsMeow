@@ -1,7 +1,6 @@
 package com.shultrea.rin.Config;
 
 import com.shultrea.rin.SoManyEnchantments;
-import com.shultrea.rin.Utility_Sector.SMElogM;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Config;
@@ -56,7 +55,7 @@ public class IncompatibleConfig {
 
 		Enchantment thisEnch = Enchantment.getEnchantmentByLocation(name.toString());
 		if (thisEnch == null) {
-            SMElogM.logger.info("SME: could not find enchantment to get incompatible list for {}", name.toString());
+            SoManyEnchantments.LOGGER.info("SME: could not find enchantment to get incompatible list for {}", name.toString());
 			return incompatEnchs;
 		}
 
@@ -70,7 +69,7 @@ public class IncompatibleConfig {
 						s1 = SoManyEnchantments.MODID+ ":" + s1;
 					Enchantment incompatEnch = Enchantment.getEnchantmentByLocation(s1);
 					if (incompatEnch == null)
-                        SMElogM.logger.info("SME: could not find incompatible enchantment {}", s1);
+                        SoManyEnchantments.LOGGER.info("SME: could not find incompatible enchantment {}", s1);
 					else
 						incompatEnchs.add(incompatEnch);
 				}

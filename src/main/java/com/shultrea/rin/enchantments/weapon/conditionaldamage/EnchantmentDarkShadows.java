@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.weapon.conditionaldamage;
 
-import com.shultrea.rin.Interfaces.IConditionalDamage;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -16,7 +15,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentDarkShadows extends EnchantmentBase implements IConditionalDamage {
+public class EnchantmentDarkShadows extends EnchantmentBase {
 	
 	public EnchantmentDarkShadows(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);

@@ -1,6 +1,5 @@
 package com.shultrea.rin.Utility_Sector;
 
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -22,11 +21,7 @@ public class UtilityAccessor {
 	 * Accessible reference to {@code EnchantmentDurability#negateDamage
 	 */
 	private static Method negateDamage;
-	/**
-	 * Accessible reference to {@code Enchantment#canApplyTogether
-	 */
-	private static Method canApplyTogether;
-	
+
 	/**
 	 * Damages the target for the amount of damage using the vanilla method; posts LivingHurtEvent
 	 */
@@ -119,24 +114,6 @@ public class UtilityAccessor {
 			e.printStackTrace();
 		}
 		return amount;
-	}
-	
-	public static boolean canApplyTogether(Enchantment en1, Enchantment en2) {
-		boolean flag = true;
-		if(canApplyTogether == null) {
-			//public static Method findMethod(Class<?> clazz, String srgName, Class<?> returnType, Class<?>... parameterTypes)
-			canApplyTogether = ObfuscationReflectionHelper.findMethod(Enchantment.class, "func_77326_a", boolean.class, Enchantment.class);
-		}
-		try {
-			canApplyTogether.invoke(en1, en2, flag);
-			//canApplyTogether.
-			//System.out.println(flag);
-			return flag;
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		return flag;
 	}
 }
 	

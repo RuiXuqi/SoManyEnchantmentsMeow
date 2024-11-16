@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.weapon.damage;
 
-import com.shultrea.rin.Interfaces.IEnchantmentDamage;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -12,7 +11,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntityDamageSource;
 
-public class EnchantmentReinforcedSharpness extends EnchantmentBase implements IEnchantmentDamage {
+public class EnchantmentReinforcedSharpness extends EnchantmentBase {
 	
 	public EnchantmentReinforcedSharpness(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);

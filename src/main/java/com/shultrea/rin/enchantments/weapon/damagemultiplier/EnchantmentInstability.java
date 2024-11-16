@@ -1,7 +1,6 @@
 package com.shultrea.rin.enchantments.weapon.damagemultiplier;
 
 import bettercombat.mod.event.RLCombatModifyDamageEvent;
-import com.shultrea.rin.Interfaces.IDamageMultiplier;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.CompatUtil;
@@ -18,7 +17,7 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentInstability extends EnchantmentCurse implements IDamageMultiplier {
+public class EnchantmentInstability extends EnchantmentCurse {
 	
 	public EnchantmentInstability(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);

@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.rune;
 
-import com.shultrea.rin.Interfaces.IEnchantmentRune;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
@@ -22,7 +21,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentRuneMagicalBlessing extends EnchantmentBase implements IEnchantmentRune {
+public class EnchantmentRuneMagicalBlessing extends EnchantmentBase {
 	
 	public EnchantmentRuneMagicalBlessing(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);

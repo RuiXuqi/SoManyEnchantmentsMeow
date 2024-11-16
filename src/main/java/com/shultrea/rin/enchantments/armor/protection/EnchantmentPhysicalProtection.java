@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.armor.protection;
 
-import com.shultrea.rin.Interfaces.IEnchantmentProtection;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -8,7 +7,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 
-public class EnchantmentPhysicalProtection extends EnchantmentBase implements IEnchantmentProtection {
+public class EnchantmentPhysicalProtection extends EnchantmentBase {
 	
 	public EnchantmentPhysicalProtection(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);

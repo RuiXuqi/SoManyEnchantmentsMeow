@@ -79,7 +79,7 @@ public class EnchantmentArcSlash extends EnchantmentBase {
 		ItemStack stack = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
 		//Cap out cleave level to avoid large AABB checks
 		int enchantmentLevel = Math.min(10, EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.arcSlash, stack));
-		int lf = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.fieryEdge, stack) * EnchantmentFieryEdge.getFireSeconds(0)*5/6;
+		int lf = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.fieryEdge, stack) * EnchantmentFieryEdge.getFireSeconds()*5/6;
 		lf += EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT, stack) * 3;
 		lf += EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.advancedFireAspect, stack) * EnchantmentTierFA.getFireSeconds(1)*3/4;
 		lf += EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.supremeFireAspect, stack) * EnchantmentTierFA.getFireSeconds(2)*3/4;
@@ -129,7 +129,7 @@ public class EnchantmentArcSlash extends EnchantmentBase {
                     //Entity victim = fEvent.getEntityLiving();
                     if (modKnockback > 0)
                         //target.setVelocity((double)(-MathHelper.sin(attacker.rotationYaw * (float)Math.PI / 180.0F) * (float)modKnockback * 0.85F), 0.2D, (double)(MathHelper.cos(attacker.rotationYaw * (float)Math.PI / 180.0F) * (float)modKnockback * 0.85F));
-                        EnchantmentsUtility.ImprovedKnockBack(target, 0.3F * modKnockback, attacker.posX - target.posX, attacker.posZ - target.posZ);
+                        EnchantmentsUtility.knockBackIgnoreKBRes(target, 0.3F * modKnockback, attacker.posX - target.posX, attacker.posZ - target.posZ);
                 }
             }
         }

@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.weapon.potiondebuffer;
 
-import com.shultrea.rin.Interfaces.IPotionDebuffer;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -11,7 +10,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 
-public class EnchantmentEnvenomed extends EnchantmentBase implements IPotionDebuffer {
+public class EnchantmentEnvenomed extends EnchantmentBase {
 	
 	public EnchantmentEnvenomed(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);

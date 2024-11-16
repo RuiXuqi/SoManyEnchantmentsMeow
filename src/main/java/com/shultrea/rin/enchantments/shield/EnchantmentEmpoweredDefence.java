@@ -76,7 +76,7 @@ public class EnchantmentEmpoweredDefence extends EnchantmentBase {
 
 		fEvent.setCanceled(true);
 		Entity attacker = fEvent.getSource().getImmediateSource();
-		EnchantmentsUtility.ImprovedKnockBack(attacker, 0.4f + 0.2F * enchantmentLevel, victim.posX - attacker.posX, victim.posZ - attacker.posZ);
+		EnchantmentsUtility.knockBackIgnoreKBRes(attacker, 0.4f + 0.2F * enchantmentLevel, victim.posX - attacker.posX, victim.posZ - attacker.posZ);
 		float revengeDamage = fEvent.getAmount() * 0.225f * enchantmentLevel;
 		if(victim instanceof EntityPlayer)
 			attacker.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)victim), revengeDamage);

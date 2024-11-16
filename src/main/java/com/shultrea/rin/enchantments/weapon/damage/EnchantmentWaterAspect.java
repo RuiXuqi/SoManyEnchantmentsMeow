@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.weapon.damage;
 
-import com.shultrea.rin.Interfaces.IEnchantmentDamage;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.SoManyEnchantments;
@@ -19,7 +18,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentWaterAspect extends EnchantmentBase implements IEnchantmentDamage {
+public class EnchantmentWaterAspect extends EnchantmentBase {
 	
 	public EnchantmentWaterAspect(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);

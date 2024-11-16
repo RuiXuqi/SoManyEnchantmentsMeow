@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.weapon.weather;
 
-import com.shultrea.rin.Interfaces.IWeatherEnchantment;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
@@ -18,7 +17,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentWintersGrace extends EnchantmentBase implements IWeatherEnchantment {
+public class EnchantmentWintersGrace extends EnchantmentBase {
 	
 	public EnchantmentWintersGrace(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);

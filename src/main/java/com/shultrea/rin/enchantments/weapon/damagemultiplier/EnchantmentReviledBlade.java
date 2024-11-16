@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.weapon.damagemultiplier;
 
-import com.shultrea.rin.Interfaces.IDamageMultiplier;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -13,7 +12,7 @@ import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentReviledBlade extends EnchantmentBase implements IDamageMultiplier {
+public class EnchantmentReviledBlade extends EnchantmentBase {
 	
 	public EnchantmentReviledBlade(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);

@@ -1,7 +1,5 @@
 package com.shultrea.rin.enchantments.weapon.damage;
 
-import com.shultrea.rin.Interfaces.IEnchantmentDamage;
-import com.shultrea.rin.Interfaces.IEnhancedEnchantment;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -9,7 +7,7 @@ import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
-public class EnchantmentAdvancedSharpness extends EnchantmentBase implements IEnchantmentDamage, IEnhancedEnchantment {
+public class EnchantmentAdvancedSharpness extends EnchantmentBase {
 	
 	public EnchantmentAdvancedSharpness(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);

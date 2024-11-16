@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.rune;
 
-import com.shultrea.rin.Interfaces.IEnchantmentRune;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Prop_Sector.ArrowPropertiesProvider;
@@ -22,7 +21,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  * com.shultrea.rin.mixin.vanilla.ItemBowMixin
  * com.shultrea.rin.mixin.vanilla.EntityArrowMixin
  */
-public class EnchantmentRuneArrowPiercing extends EnchantmentBase implements IEnchantmentRune {
+public class EnchantmentRuneArrowPiercing extends EnchantmentBase {
 	
 	public EnchantmentRuneArrowPiercing(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
@@ -67,7 +66,7 @@ public class EnchantmentRuneArrowPiercing extends EnchantmentBase implements IEn
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.runeArrowPiercing;
 	}
-	
+
 	@Override
 	public String getPrefix() {
 		return TextFormatting.GREEN.toString();

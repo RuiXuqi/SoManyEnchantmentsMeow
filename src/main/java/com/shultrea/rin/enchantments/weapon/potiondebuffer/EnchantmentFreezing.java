@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.weapon.potiondebuffer;
 
-import com.shultrea.rin.Interfaces.IPotionDebuffer;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
@@ -24,7 +23,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 
-public class EnchantmentFreezing extends EnchantmentBase implements IPotionDebuffer {
+public class EnchantmentFreezing extends EnchantmentBase {
 	
 	public EnchantmentFreezing(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
@@ -108,7 +107,7 @@ public class EnchantmentFreezing extends EnchantmentBase implements IPotionDebuf
 				stack.damageItem(6 - enchantmentLevel, attacker);
 				float damage = EnchantmentsUtility.modifyDamage(fEvent.getAmount(), 2.0f, 0.65f, 1.0f, enchantmentLevel);
 				if(!(attacker instanceof EntityPlayer)) {
-					EnchantmentsUtility.ImprovedKnockBack(attacker, 0.25f, attacker.posX - victim.posX, attacker.posZ - victim.posZ);
+					EnchantmentsUtility.knockBackIgnoreKBRes(attacker, 0.25f, attacker.posX - victim.posX, attacker.posZ - victim.posZ);
 				}
 				victim.getEntityWorld().playSound(null, victim.posX, victim.posY, victim.posZ, SoundEvents.ENTITY_ZOMBIE_VILLAGER_CURE, SoundCategory.MASTER, 0.8f, -1f);
 				ArrayList<BlockPos> posList = new ArrayList<>();

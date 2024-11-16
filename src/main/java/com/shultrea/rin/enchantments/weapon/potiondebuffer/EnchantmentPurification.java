@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.weapon.potiondebuffer;
 
-import com.shultrea.rin.Interfaces.IPotionDebuffer;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -23,7 +22,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 
-public class EnchantmentPurification extends EnchantmentBase implements IPotionDebuffer {
+public class EnchantmentPurification extends EnchantmentBase {
 	
 	public EnchantmentPurification(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);

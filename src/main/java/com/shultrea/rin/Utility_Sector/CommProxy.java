@@ -19,17 +19,17 @@ public class CommProxy {
 	final List<SoundEvent> SOUND_EVENTS = Lists.newArrayList();
 	
 	public void preInit(FMLPreInitializationEvent event) {
-		SMElogM.logger.info("PreInitializing " + SoManyEnchantments.NAME + "...");
+		SoManyEnchantments.LOGGER.info("PreInitializing " + SoManyEnchantments.NAME + "...");
 		//SMEsounds.mainRegistry();
 		SMEnetwork.mainRegistry();
 	}
 	
 	public void onInit(FMLInitializationEvent event) {
-		SMElogM.logger.info("Initializing " + SoManyEnchantments.NAME + "...");
+		SoManyEnchantments.LOGGER.info("Initializing " + SoManyEnchantments.NAME + "...");
 	}
 	
 	public void postInit(FMLPostInitializationEvent event) {
-		SMElogM.logger.info("PostInitializing " + SoManyEnchantments.NAME + "...");
+		SoManyEnchantments.LOGGER.info("PostInitializing " + SoManyEnchantments.NAME + "...");
 	}
 	
 	@Nullable

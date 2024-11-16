@@ -84,7 +84,7 @@ public class EnchantmentParry extends EnchantmentBase {
 		//0.5.1 Rollback, remove canBlockDamageSourceIgnoreUnblockable nerf
 		if(victim.world.rand.nextInt(100) < 16 + (levelParry * 8) /*&& EnchantmentsUtility.canBlockDamageSourceIgnoreUnblockable(e.getSource(), victim)*/) {
 			if(!attacker.world.isRemote)
-				EnchantmentsUtility.ImprovedKnockBack(attacker, 0.3F + (0.15f * levelParry), victim.posX - attacker.posX, victim.posZ - attacker.posZ);
+				EnchantmentsUtility.knockBackIgnoreKBRes(attacker, 0.3F + (0.15f * levelParry), victim.posX - attacker.posX, victim.posZ - attacker.posZ);
 			attacker.getEntityWorld().playSound(null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.3f, 3f);
 			e.setCanceled(true);
 			if(victim instanceof EntityPlayer) {

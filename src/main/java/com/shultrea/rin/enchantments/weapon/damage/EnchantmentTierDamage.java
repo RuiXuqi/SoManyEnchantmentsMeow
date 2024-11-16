@@ -1,7 +1,5 @@
 package com.shultrea.rin.enchantments.weapon.damage;
 
-import com.shultrea.rin.Interfaces.IEnchantmentDamage;
-import com.shultrea.rin.Interfaces.IEnhancedEnchantment;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -13,7 +11,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 
-public class EnchantmentTierDamage extends EnchantmentBase implements IEnchantmentDamage, IEnhancedEnchantment {
+public class EnchantmentTierDamage extends EnchantmentBase {
 	
 	public final int damageType;
 	public static final int LESSSHARP = 0;

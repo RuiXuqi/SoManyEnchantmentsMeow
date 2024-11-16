@@ -1,7 +1,7 @@
 package com.shultrea.rin.Config;
 
 import com.shultrea.rin.Enum.EnumTypes;
-import com.shultrea.rin.Utility_Sector.SMElogM;
+import com.shultrea.rin.SoManyEnchantments;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -464,7 +464,7 @@ public class CanApplyConfig {
 				else
 					invertedMatches = invertedMatches || matches;
 			} else {
-                SMElogM.logger.info("SME: Could not find given item type {}", s);
+                SoManyEnchantments.LOGGER.info("SME: Could not find given item type {}", s);
 			}
 		}
 		return isValid && !invertedMatches;

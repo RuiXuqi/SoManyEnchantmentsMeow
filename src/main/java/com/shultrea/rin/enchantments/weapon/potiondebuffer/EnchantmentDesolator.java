@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.weapon.potiondebuffer;
 
-import com.shultrea.rin.Interfaces.IPotionDebuffer;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -15,7 +14,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentDesolator extends EnchantmentBase implements IPotionDebuffer {
+public class EnchantmentDesolator extends EnchantmentBase {
 	
 	public EnchantmentDesolator(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);

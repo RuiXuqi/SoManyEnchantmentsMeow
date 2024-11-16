@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.weapon.subject;
 
-import com.shultrea.rin.Interfaces.ISubjectEnchantment;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
@@ -21,7 +20,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentSubjectEnchantments extends EnchantmentBase implements ISubjectEnchantment {
+public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 
 	public final int damageType;
 	public final int MATHEMATICS = 0;

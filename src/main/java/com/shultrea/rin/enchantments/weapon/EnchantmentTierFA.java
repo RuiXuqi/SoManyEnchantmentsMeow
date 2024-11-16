@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.weapon;
 
-import com.shultrea.rin.Interfaces.IEnchantmentFire;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -9,7 +8,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
-public class EnchantmentTierFA extends EnchantmentBase implements IEnchantmentFire {
+public class EnchantmentTierFA extends EnchantmentBase {
 	
 	/**
 	 * Defines the type of damage of the enchantment, 0 = lesserfasp, 1 = advfasp, 2 = supfasp

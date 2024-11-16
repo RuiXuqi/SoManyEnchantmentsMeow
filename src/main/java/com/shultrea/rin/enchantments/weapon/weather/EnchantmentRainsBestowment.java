@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.weapon.weather;
 
-import com.shultrea.rin.Interfaces.IWeatherEnchantment;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
@@ -13,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentRainsBestowment extends EnchantmentBase implements IWeatherEnchantment {
+public class EnchantmentRainsBestowment extends EnchantmentBase {
 	
 	public EnchantmentRainsBestowment(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);

@@ -76,21 +76,21 @@ public class EnchantmentsUtility {
 	/**
 	 * An improved vanilla knockback mechanic that ignores the knockback resistance of a mob
 	 */
-	public static void ImprovedKnockBack(Entity entityIn, float strength, double xRatio, double zRatio) {
+	public static void knockBackIgnoreKBRes(Entity entityIn, float strength, double xRatio, double zRatio) {
 		entityIn.isAirBorne = true;
 		float f = MathHelper.sqrt(xRatio * xRatio + zRatio * zRatio);
-		entityIn.motionX /= 2.0D;
-		entityIn.motionZ /= 2.0D;
+		entityIn.motionX /= 2.0;
+		entityIn.motionZ /= 2.0;
 		entityIn.motionX -= xRatio / (double)f * (double)strength;
 		entityIn.motionZ -= zRatio / (double)f * (double)strength;
 		//Protection from non-finite XZ
 		if(!Double.isFinite(entityIn.motionX)) entityIn.motionX = 0;
 		if(!Double.isFinite(entityIn.motionZ)) entityIn.motionZ = 0;
 		if(entityIn.onGround) {
-			entityIn.motionY /= 2.0D;
+			entityIn.motionY /= 2.0;
 			entityIn.motionY += strength;
-			if(entityIn.motionY > 0.4000000059604645D) {
-				entityIn.motionY = 0.4000000059604645D;
+			if(entityIn.motionY > 0.4) {
+				entityIn.motionY = 0.4;
 			}
 		}
 		//Protection from non-finite Y
@@ -112,17 +112,17 @@ public class EnchantmentsUtility {
 	}
 
 	/**
-	 * For armors, similar to calcModifier
+	 * For armors, get total sum of this enchantments levels on equipment
 	 */
-	public static int CalcModgetTotalLevel(float modifier, Enchantment theEnchantment, EntityLivingBase user) {
-		Iterable<ItemStack> iterable = theEnchantment.getEntityEquipment(user);
+	public static int getTotalEnchantmentLevel(Enchantment enchantment, EntityLivingBase user) {
+		Iterable<ItemStack> iterable = enchantment.getEntityEquipment(user);
 		if(iterable == null)
 			return 0;
 		else {
 			int enchantLevelSum = 0;
 			for(ItemStack itemstack : iterable)
-				enchantLevelSum += EnchantmentHelper.getEnchantmentLevel(theEnchantment, itemstack);
-			return (int) (enchantLevelSum*modifier);
+				enchantLevelSum += EnchantmentHelper.getEnchantmentLevel(enchantment, itemstack);
+			return enchantLevelSum;
 		}
 	}
 	

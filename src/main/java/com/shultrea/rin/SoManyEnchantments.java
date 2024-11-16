@@ -15,6 +15,8 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod(
 		modid = SoManyEnchantments.MODID, name = SoManyEnchantments.NAME, version = SoManyEnchantments.VERSION,
@@ -25,6 +27,8 @@ public class SoManyEnchantments {
 	public static final String NAME = "Rin's So Many Enchantments?";
 	public static final String VERSION = "0.5.5";
 	public static boolean hotbarOnly = true;
+	public static final Logger LOGGER = LogManager.getLogger(SoManyEnchantments.NAME);
+
 	@Instance(SoManyEnchantments.MODID)
 	public static SoManyEnchantments instance;
 	@SidedProxy(clientSide = RefStrings.CLIENTSIDE, serverSide = RefStrings.SERVERSIDE)

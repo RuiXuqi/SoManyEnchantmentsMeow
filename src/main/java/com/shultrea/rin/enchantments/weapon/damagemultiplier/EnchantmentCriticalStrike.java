@@ -1,7 +1,6 @@
 package com.shultrea.rin.enchantments.weapon.damagemultiplier;
 
 import bettercombat.mod.event.RLCombatCriticalHitEvent;
-import com.shultrea.rin.Interfaces.IDamageMultiplier;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -17,7 +16,7 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentCriticalStrike extends EnchantmentBase implements IDamageMultiplier {
+public class EnchantmentCriticalStrike extends EnchantmentBase {
 	
 	public EnchantmentCriticalStrike(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);

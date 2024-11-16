@@ -1,7 +1,5 @@
 package com.shultrea.rin.enchantments.armor.protection;
 
-import com.shultrea.rin.Interfaces.IEnchantmentProtection;
-import com.shultrea.rin.Interfaces.IEnhancedEnchantment;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
@@ -14,7 +12,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentAdvancedProjectileProtection extends EnchantmentBase implements IEnchantmentProtection, IEnhancedEnchantment {
+public class EnchantmentAdvancedProjectileProtection extends EnchantmentBase {
 	
 	public EnchantmentAdvancedProjectileProtection(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
@@ -67,11 +65,11 @@ public class EnchantmentAdvancedProjectileProtection extends EnchantmentBase imp
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOW, receiveCanceled = true)
-	public void projprotection(LivingHurtEvent fEvent) {
+	public void extraProtectionEffect(LivingHurtEvent fEvent) {
 		if(!ModConfig.miscellaneous.extraProtectionEffects) return;
 		if(!(ModConfig.enabled.advancedProjectileProtection)) return;
 		if(!(fEvent.getSource().isProjectile())) return;
-		int modifier = EnchantmentsUtility.CalcModgetTotalLevel(7.5f, EnchantmentRegistry.advancedProjectileProtection, fEvent.getEntityLiving());
+		int modifier = (int) (7.5f * EnchantmentsUtility.getTotalEnchantmentLevel(EnchantmentRegistry.advancedProjectileProtection, fEvent.getEntityLiving()));
 		float damage = EnchantmentsUtility.getDamageAfterMagicAbsorb(fEvent.getAmount(), modifier);
 		fEvent.setAmount(damage);
 	}

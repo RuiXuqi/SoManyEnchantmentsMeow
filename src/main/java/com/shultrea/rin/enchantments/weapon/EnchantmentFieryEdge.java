@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.weapon;
 
-import com.shultrea.rin.Interfaces.IEnchantmentFire;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -11,7 +10,7 @@ import net.minecraft.item.ItemStack;
 
 import java.util.Random;
 
-public class EnchantmentFieryEdge extends EnchantmentBase implements IEnchantmentFire {
+public class EnchantmentFieryEdge extends EnchantmentBase {
 	
 	public EnchantmentFieryEdge(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
@@ -57,14 +56,14 @@ public class EnchantmentFieryEdge extends EnchantmentBase implements IEnchantmen
 	public void onEntityDamagedAlt(EntityLivingBase user, Entity target, ItemStack stack, int level) {
 		if(!(target instanceof EntityLivingBase)) return;
 		EntityLivingBase victim = (EntityLivingBase)target;
-		target.setFire(level * getFireSeconds(0));
+		target.setFire(level * getFireSeconds());
 		Random randy = new Random();
 		if(victim.isBurning() && randy.nextInt(10 - level * 2) < 3) {
 			victim.hurtResistantTime = 0;
 		}
 	}
 
-	public static int getFireSeconds(int tier) {
+	public static int getFireSeconds() {
 		return 6;
 	}
 }

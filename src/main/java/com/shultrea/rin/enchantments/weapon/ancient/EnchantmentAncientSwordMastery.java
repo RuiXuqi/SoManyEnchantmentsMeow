@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.weapon.ancient;
 
-import com.shultrea.rin.Interfaces.IAncientEnchantment;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
@@ -20,7 +19,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentAncientSwordMastery extends EnchantmentBase implements IAncientEnchantment {
+public class EnchantmentAncientSwordMastery extends EnchantmentBase {
 	
 	public static String nbtFlag = "smeFlag";
 	

@@ -1,6 +1,7 @@
 package com.shultrea.rin.Utility_Sector;
 
 import com.shultrea.rin.Config.ModConfig;
+import com.shultrea.rin.SoManyEnchantments;
 import net.minecraft.potion.Potion;
 
 import java.util.ArrayList;
@@ -45,14 +46,14 @@ public class PotionLister {
 						debuff_instant_ids.add(id);
 						break;
 				}
-				SMElogM.logger.debug("PotionLister accepting potion : " + potionName);
+				SoManyEnchantments.LOGGER.debug("PotionLister accepting potion : " + potionName);
 			}
 			else {
 				//Potion was skipped
-				SMElogM.logger.debug("PotionLister skipping potion : " + potionName);
+				SoManyEnchantments.LOGGER.debug("PotionLister skipping potion : " + potionName);
 			}
 		}
-		SMElogM.logger.debug("PotionLister Instant Debuffs: " + debuff_instant_ids.size());
-		SMElogM.logger.debug("PotionLister Debuffs: " + debuff_ids.size());
+		SoManyEnchantments.LOGGER.debug("PotionLister Instant Debuffs: " + debuff_instant_ids.size());
+		SoManyEnchantments.LOGGER.debug("PotionLister Debuffs: " + debuff_ids.size());
 	}
 }

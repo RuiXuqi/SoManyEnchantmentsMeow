@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.rune;
 
-import com.shultrea.rin.Interfaces.IEnchantmentRune;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
@@ -17,7 +16,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.List;
 
-public class EnchantmentRuneRevival extends EnchantmentBase implements IEnchantmentRune {
+public class EnchantmentRuneRevival extends EnchantmentBase {
 	
 	public EnchantmentRuneRevival(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);

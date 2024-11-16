@@ -81,7 +81,7 @@ public class EnchantmentEvasion extends EnchantmentBase {
 		randZ = victim.getRNG().nextBoolean() ? randZ * -1 : randZ;
 		if(fEvent.getEntityLiving().world.rand.nextInt(100) < 5 + (enchantmentLevel * 15)) {
 			if(!attacker.world.isRemote && ModConfig.miscellaneous.evasionDodgeEffect)
-				EnchantmentsUtility.ImprovedKnockBack(victim, 0.7f, (attacker.posX - victim.posX) * randX, (attacker.posZ - victim.posZ) * randZ);
+				EnchantmentsUtility.knockBackIgnoreKBRes(victim, 0.7f, (attacker.posX - victim.posX) * randX, (attacker.posZ - victim.posZ) * randZ);
 			victim.getEntityWorld().playSound(null, victim.posX, victim.posY, victim.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.PLAYERS, 0.3f, victim.getRNG().nextFloat() * 2.25f + 0.75f);
 			fEvent.setCanceled(true);
 			victim.hurtResistantTime = 15 + 5 * enchantmentLevel;

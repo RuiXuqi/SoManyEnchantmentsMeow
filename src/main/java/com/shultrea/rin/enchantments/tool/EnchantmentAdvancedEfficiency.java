@@ -1,7 +1,5 @@
 package com.shultrea.rin.enchantments.tool;
 
-import com.shultrea.rin.Interfaces.IEnchantmentDamage;
-import com.shultrea.rin.Interfaces.IEnhancedEnchantment;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -20,7 +18,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentAdvancedEfficiency extends EnchantmentBase implements IEnchantmentDamage, IEnhancedEnchantment {
+public class EnchantmentAdvancedEfficiency extends EnchantmentBase {
 	
 	public EnchantmentAdvancedEfficiency(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);

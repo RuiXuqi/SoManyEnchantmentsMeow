@@ -2,7 +2,6 @@ package com.shultrea.rin.enchantments.bow;
 
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
-import com.shultrea.rin.Interfaces.IEnchantmentFire;
 import com.shultrea.rin.Prop_Sector.ArrowPropertiesProvider;
 import com.shultrea.rin.Prop_Sector.IArrowProperties;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -13,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentTierFlame extends EnchantmentBase implements IEnchantmentFire {
+public class EnchantmentTierFlame extends EnchantmentBase {
 
 	/**
 	 * Defines the type of damage of the enchantment, 0 = lesserfla, 1 = advfla, 2 = supfla

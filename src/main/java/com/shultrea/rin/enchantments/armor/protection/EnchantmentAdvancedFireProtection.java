@@ -1,7 +1,5 @@
 package com.shultrea.rin.enchantments.armor.protection;
 
-import com.shultrea.rin.Interfaces.IEnchantmentProtection;
-import com.shultrea.rin.Interfaces.IEnhancedEnchantment;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
@@ -17,7 +15,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentAdvancedFireProtection extends EnchantmentBase implements IEnchantmentProtection, IEnhancedEnchantment {
+public class EnchantmentAdvancedFireProtection extends EnchantmentBase {
 	
 	public EnchantmentAdvancedFireProtection(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
@@ -83,11 +81,11 @@ public class EnchantmentAdvancedFireProtection extends EnchantmentBase implement
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOW, receiveCanceled = true)
-	public void fireprotection(LivingDamageEvent fEvent) {
+	public void extraProtectionEffect(LivingDamageEvent fEvent) {
 		if(!ModConfig.miscellaneous.extraProtectionEffects) return;
 		if(!(ModConfig.enabled.advancedFireProtection)) return;
 		if(!(fEvent.getSource().isFireDamage())) return;
-		int modifier = EnchantmentsUtility.CalcModgetTotalLevel(7.5f, EnchantmentRegistry.advancedFireProtection, fEvent.getEntityLiving());
+		int modifier = (int) (7.5f * EnchantmentsUtility.getTotalEnchantmentLevel(EnchantmentRegistry.advancedFireProtection, fEvent.getEntityLiving()));
 		float damage = EnchantmentsUtility.getDamageAfterMagicAbsorb(fEvent.getAmount(), modifier);
 		fEvent.setAmount(damage);
 	}

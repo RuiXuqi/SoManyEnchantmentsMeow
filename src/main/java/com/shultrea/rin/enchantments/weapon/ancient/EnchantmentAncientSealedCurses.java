@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.weapon.ancient;
 
-import com.shultrea.rin.Interfaces.IAncientEnchantment;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.CurseLister;
@@ -17,7 +16,7 @@ import net.minecraft.util.text.TextFormatting;
 
 import java.util.List;
 
-public class EnchantmentAncientSealedCurses extends EnchantmentBase implements IAncientEnchantment {
+public class EnchantmentAncientSealedCurses extends EnchantmentBase {
 	
 	public EnchantmentAncientSealedCurses(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);

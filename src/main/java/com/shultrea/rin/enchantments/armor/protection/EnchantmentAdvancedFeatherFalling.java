@@ -1,6 +1,5 @@
 package com.shultrea.rin.enchantments.armor.protection;
 
-import com.shultrea.rin.Interfaces.IEnhancedEnchantment;
 import com.shultrea.rin.Config.EnchantabilityConfig;
 import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
@@ -13,7 +12,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentAdvancedFeatherFalling extends EnchantmentBase implements IEnhancedEnchantment {
+public class EnchantmentAdvancedFeatherFalling extends EnchantmentBase {
 	
 	public EnchantmentAdvancedFeatherFalling(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
@@ -67,11 +66,11 @@ public class EnchantmentAdvancedFeatherFalling extends EnchantmentBase implement
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOW, receiveCanceled = true)
-	public void featherfall(LivingHurtEvent fEvent) {
+	public void extraProtectionEffect(LivingHurtEvent fEvent) {
 		if(!ModConfig.miscellaneous.extraProtectionEffects) return;
 		if(!(ModConfig.enabled.advancedFeatherFalling)) return;
 		if((fEvent.getSource() != DamageSource.FALL)) return;
-		int modifier = EnchantmentsUtility.CalcModgetTotalLevel(9, EnchantmentRegistry.advancedFeatherFalling, fEvent.getEntityLiving());
+		int modifier = 9*EnchantmentsUtility.getTotalEnchantmentLevel(EnchantmentRegistry.advancedFeatherFalling, fEvent.getEntityLiving());
 		float damage = EnchantmentsUtility.getDamageAfterMagicAbsorb(fEvent.getAmount(), modifier);
 		fEvent.setAmount(damage);
 	}
