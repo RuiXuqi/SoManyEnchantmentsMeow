@@ -1,9 +1,9 @@
 package com.shultrea.rin.enchantments.base;
 
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.ModConfig;
+import com.shultrea.rin.Enum.EnumTypes;
 import com.shultrea.rin.SoManyEnchantments;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,12 +13,16 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 
+import java.util.ArrayList;
+
 public abstract class EnchantmentBase extends Enchantment {
 	//TODO canApply from EntityVillager.ListEnchantedBookForEmeralds (grabs from entire registry), might be able to do this with event shenanigans
 	//TODO apply from EnchantRandomly (grabs from entire registry, applies to Items.BOOK or canApply)
-	
-	public EnchantmentBase(String name, Rarity rarity, EnumEnchantmentType type, EntityEquipmentSlot[] slots) {
-		super(rarity, type, slots);
+
+	public ArrayList<Enchantment> incompatibleEnchantments = new ArrayList<>();
+
+	public EnchantmentBase(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(rarity, EnumTypes.NONE, slots);
 		this.name = name;
 		this.setRegistryName(SoManyEnchantments.MODID, name);
 	}
@@ -71,14 +75,6 @@ public abstract class EnchantmentBase extends Enchantment {
 	}
 	
 	/**
-	 * @return if the enchantment is allowed to be applied to the given stack
-	 */
-	@Override
-	public boolean canApply(ItemStack stack) {
-		return isEnabled() && super.canApply(stack);
-	}
-	
-	/**
 	 * @return if the enchantment is a treasure enchantment as defined in config
 	 */
 	@Override
@@ -89,7 +85,7 @@ public abstract class EnchantmentBase extends Enchantment {
 	 */
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack) {
-		return this.isEnabled() && super.canApplyAtEnchantingTable(stack);
+		return this.isEnabled();
 	}
 	
 	/**
@@ -99,7 +95,13 @@ public abstract class EnchantmentBase extends Enchantment {
 	public boolean isAllowedOnBooks() {
 		return this.isEnabled() && super.isAllowedOnBooks();
 	}
-	
+
+	@Override
+	public boolean canApplyTogether(Enchantment ench)
+	{
+		return !incompatibleEnchantments.contains(ench) && super.canApplyTogether(ench);
+	}
+
 	/**
 	 * @return name formatting prefix of the enchantment
 	 */
@@ -125,9 +127,6 @@ public abstract class EnchantmentBase extends Enchantment {
 		if(!ModConfig.miscellaneous.enablePetAttacks && source.getTrueSource() instanceof EntityPlayer && !(source.getImmediateSource() instanceof EntityPlayer) && source.getImmediateSource() instanceof EntityLivingBase) {
 			return false;
 		}
-		if(!"player".equals(source.damageType) && !"mob".equals(source.damageType)) {
-			return false;
-		}
-		return true;
-	}
+        return "player".equals(source.damageType) || "mob".equals(source.damageType);
+    }
 }

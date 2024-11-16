@@ -1,97 +1,80 @@
 package com.shultrea.rin.Prop_Sector;
 
+import com.shultrea.rin.SoManyEnchantments;
+import com.shultrea.rin.registry.EnchantmentRegistry;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
-
-import java.util.ArrayList;
 
 public class ArrowPropertiesHandler {
-	
-	int counter = 0;
-	
+
 	@SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
-	public void onEvent(WorldTickEvent event) {
-		if(event.phase != Phase.START) return;
-		counter++;
-		if(counter % 20 != 0) return;
-		counter = 0;
-		ArrayList<Entity> entities = (ArrayList<Entity>)event.world.loadedEntityList;
-		ArrayList<EntityArrow> arrowstoexplode = new ArrayList<EntityArrow>();
-		for(Entity entity : entities) {
-			if(entity instanceof EntityArrow) {
-				NBTTagCompound nbttagcompound = entity.writeToNBT(new NBTTagCompound());
-				if(entity.hasCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null)) {
-					IArrowProperties ar = entity.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
-					if(ar.getIsStarFallMade()) {
-						NBTTagCompound life = new NBTTagCompound();
-						entity.writeToNBT(life);
-						short f = life.getShort("life");
-						life.setShort("life", (short)(f + 50));
-						entity.readFromNBT(life);
-					}
-				}
-				/**    IArrowProperties cap = entity.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
-				 if (cap.getNoDrag())
-				 {
-				 entity.motionX*=1.01f;
-				 entity.motionY+=0.02f;
-				 entity.motionZ*=1.01f;
-				 }
-				 if (nbttagcompound.getByte("inGround") == 1 && cap.getExplosionPower()>0)
-				 {
-				 arrowstoexplode.add((EntityArrow) entity);
-				 }
-				 } */
+	public void onArrowCapAttach(AttachCapabilitiesEvent<Entity> event) {
+		if (event.getObject() instanceof EntityArrow && !event.getObject().hasCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null)) {
+			event.addCapability(new ResourceLocation(SoManyEnchantments.MODID + ":arrow_capabilities"), new ArrowPropertiesProvider());
+		}
+	}
+
+	public static void setArrowCapabilities(EntityLivingBase shooter, EntityArrow arrow){
+		int powerlessLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.powerless, shooter);
+		if(powerlessLevel > 0) {
+			arrow.setDamage(arrow.getDamage() - 0.5D - powerlessLevel * 0.5D);
+			if(powerlessLevel > 2 || shooter.getRNG().nextFloat() < powerlessLevel * 0.4F) {
+				arrow.setIsCritical(false);
 			}
 		}
-		/**    Iterator<EntityArrow> itr = arrowstoexplode.iterator();
-		 while (itr.hasNext())
-		 {
-		 EntityArrow arrow = itr.next();
-		 IArrowProperties cap = arrow.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
-		 
-		 arrow.world.newExplosion(arrow.shootingEntity, arrow.posX, arrow.posY, arrow.posZ, cap.getExplosionPower(), arrow.isBurning(), cap.getCanDestroyBlocks());
-		 
-		 if (arrow instanceof EntityTippedArrow)
-		 {
-		 NBTTagCompound compound =  arrow.writeToNBT(new NBTTagCompound());
-		 ArrayList<PotionEffect> effects = new ArrayList<>();
-		 if (compound.hasKey("Potion", 8))
-		 {
-		 PotionType potion = PotionUtils.getPotionTypeFromNBT(compound);
-		 for(PotionEffect potioneffect : potion.getEffects())
-		 {
-		 effects.add(new PotionEffect(potioneffect.getPotion(), potioneffect.getDuration()/8, potioneffect.getAmplifier(), potioneffect.getIsAmbient(), potioneffect.doesShowParticles()));
-		 }
-		 }
-		 for (PotionEffect potioneffect : PotionUtils.getFullEffectsFromTag(compound))
-		 {
-		 effects.add(potioneffect);
-		 }
-		 
-		 if (!effects.isEmpty())
-		 {
-		 EntityAreaEffectCloud entityareaeffectcloud = new EntityAreaEffectCloud(arrow.world, arrow.posX, arrow.posY, arrow.posZ);
-		 entityareaeffectcloud.setRadius(2.5f*cap.getExplosionPower());
-		 entityareaeffectcloud.setRadiusOnUse(-0.5F);
-		 entityareaeffectcloud.setWaitTime(10);
-		 entityareaeffectcloud.setDuration(entityareaeffectcloud.getDuration() / 2);
-		 entityareaeffectcloud.setRadiusPerTick(-entityareaeffectcloud.getRadius() / (float)entityareaeffectcloud.getDuration());
-		 
-		 for (PotionEffect potioneffect : effects)
-		 {
-		 entityareaeffectcloud.addEffect(new PotionEffect(potioneffect));
-		 }
-		 
-		 arrow.world.spawnEntity(entityareaeffectcloud);
-		 }
-		 }
-		 arrow.setDead();
-		 } */
+
+		int advPowerLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.advancedPower, shooter);
+		if(advPowerLevel > 0) {
+			arrow.setDamage(arrow.getDamage() + 1.25D + (double)advPowerLevel * 0.75D);
+			if(advPowerLevel >= 4) {
+				arrow.setIsCritical(true);
+			}
+			else if(shooter.getRNG().nextFloat() < advPowerLevel * 0.25f) {
+				arrow.setIsCritical(true);
+			}
+		}
+
+		int advPunchLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.advancedPunch, shooter);
+		if(advPunchLevel > 0)
+			arrow.setKnockbackStrength(1 + advPunchLevel * 2);
+
+		IArrowProperties cap = arrow.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
+		if(cap == null) return;
+
+		int runeArrowPiercingLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.runeArrowPiercing, shooter);
+		if(runeArrowPiercingLevel > 0)
+			 cap.setArmorPiercingLevel(runeArrowPiercingLevel);
+
+		int draggingLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.dragging, shooter);
+		if(draggingLevel > 0)
+			cap.setDraggingPower(1.25f + draggingLevel * 1.75f);
+
+		int levelStrafe = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.strafe, shooter);
+		if (shooter.getRNG().nextFloat() < 0.125f * levelStrafe)
+			cap.setArrowResetsIFrames(true);
+
+		int levelLessFlame = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.lesserFlame, shooter);
+		if (levelLessFlame > 0) {
+			//arrow.setFire(50); //Overrides the 2 seconds with 5 seconds
+			cap.setFlameLevel(0);
+		}
+
+		int levelAdvFlame = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.advancedFlame, shooter);
+		if (levelAdvFlame > 0) {
+			arrow.setFire(200);
+			cap.setFlameLevel(1);
+		}
+
+		int levelSupFlame = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.supremeFlame, shooter);
+		if (levelSupFlame > 0) {
+			arrow.setFire(400);
+			cap.setFlameLevel(2);
+		}
 	}
 }

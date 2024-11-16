@@ -1,18 +1,17 @@
 package com.shultrea.rin.enchantments.curses;
 
 import bettercombat.mod.event.RLCombatModifyDamageEvent;
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.CompatUtil;
-import com.shultrea.rin.enchantments.EnchantmentTrueStrike;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
 import com.shultrea.rin.registry.EnchantmentRegistry;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -23,9 +22,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  */
 public class EnchantmentCurseofInaccuracy extends EnchantmentCurse {
 	
-	public EnchantmentCurseofInaccuracy(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{
-				EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});
+	public EnchantmentCurseofInaccuracy(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -42,27 +40,30 @@ public class EnchantmentCurseofInaccuracy extends EnchantmentCurse {
 	public int getMaxLevel() {
 		return ModConfig.level.curseOfInaccuracy;
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int ench) {
-		return 15 + (ench - 1) * 15;
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.curseOfInaccuracy, level);
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int ench) {
-		return this.getMinEnchantability(ench) + 30;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.curseOfInaccuracy, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.curseOfInaccuracy, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.curseOfInaccuracy, stack) || super.canApply(stack);
 	}
 	
 	@Override
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.curseOfInaccuracy;
-	}
-	
-	@Override
-	public boolean canApplyTogether(Enchantment ench) {
-		return !(ench instanceof EnchantmentTrueStrike) && super.canApplyTogether(ench);
 	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)

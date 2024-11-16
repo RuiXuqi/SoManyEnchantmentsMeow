@@ -2,45 +2,41 @@ package com.shultrea.rin.Prop_Sector;
 
 public interface IArrowProperties {
 	
-	boolean isArrowRapidDamage();
+	boolean getArrowResetsIFrames();
 	
-	void setArrowRapidDamage(boolean flag);
+	void setArrowResetsIFrames(boolean flag);
 	
 	int getFlameLevel();
 	
 	void setFlameLevel(int flameLevel);
 	
-	void setExplosion(float power, boolean canDestroyBlocks);
-	
-	float getExplosionPower();
-	
-	boolean getCanDestroyBlocks();
-	
-	boolean getNoDrag();
-	
-	void setNoDrag(boolean noDrag);
-	
-	boolean getCanRecover();
-	
-	void setCanRecover(boolean canRecover);
-	
-	void setDidStarFall(boolean didStarFall);
-	
-	boolean didStarFall();
-	
-	int setLevel(int level);
-	
-	int getLevel();
-	
-	boolean getIsStarFallMade();
-	
-	void setIsStarFallMade(boolean IsStarFallMade);
+//	void setExplosion(float power, boolean canDestroyBlocks);
+//
+//	float getExplosionPower();
+//
+//	boolean getCanDestroyBlocks();
+//
+//	boolean getCanRecover();
+//
+//	void setCanRecover(boolean canRecover);
+//
+//	void setDidStarFall(boolean didStarFall);
+//
+//	boolean didStarFall();
+//
+//	void setLevel(int level);
+//
+//	int getLevel();
+//
+//	boolean getIsStarFallMade();
+//
+//	void setIsStarFallMade(boolean IsStarFallMade);
 	
 	int getArmorPiercingLevel();
 	
-	void setPiercingLevel(int level);
+	void setArmorPiercingLevel(int level);
 	
-	float getPullPower();
+	float getDraggingPower();
 	
-	void setPullPower(float level);
+	void setDraggingPower(float level);
 }

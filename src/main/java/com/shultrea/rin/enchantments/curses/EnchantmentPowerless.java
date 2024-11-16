@@ -1,12 +1,10 @@
 package com.shultrea.rin.enchantments.curses;
 
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
-import com.shultrea.rin.enchantments.tier.EnchantmentAdvancedPower;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnumEnchantmentType;
-import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
 
 /**
  * Enchantment arrow power handled in;
@@ -15,9 +13,8 @@ import net.minecraft.inventory.EntityEquipmentSlot;
  */
 public class EnchantmentPowerless extends EnchantmentCurse {
 	
-	public EnchantmentPowerless(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{
-				EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});
+	public EnchantmentPowerless(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -29,26 +26,30 @@ public class EnchantmentPowerless extends EnchantmentCurse {
 	public int getMaxLevel() {
 		return ModConfig.level.powerless;
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 12 + (par1 - 1) * 12;
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.powerless, level);
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return this.getMinEnchantability(par1) + 30;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.powerless, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.powerless, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.powerless, stack) || super.canApply(stack);
 	}
 	
 	@Override
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.powerless;
 	}
-	
-	@Override
-	public boolean canApplyTogether(Enchantment ench) {
-		return ench != Enchantments.POWER && !(ench instanceof EnchantmentAdvancedPower) && super.canApplyTogether(ench);
-	}
+
 }

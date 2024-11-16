@@ -2,26 +2,25 @@ package com.shultrea.rin.Prop_Sector;
 
 public class ArrowProperties implements IArrowProperties {
 	
-	private float ExplosionPower;
-	private boolean CanDestroyBLocks;
-	private boolean NoDrag;
-	private boolean CanRecover;
-	private boolean didStarFall;
-	private int level;
-	private boolean isStarFallMade;
+//	private float ExplosionPower;
+//	private boolean CanDestroyBLocks;
+//	private boolean CanRecover;
+//	private boolean didStarFall;
+//	private int level;
+//	private boolean isStarFallMade;
 	private int flameLevel;
-	private boolean pierceInvuln;
-	private int piercingLevel;
-	private float pullPower;
+	private boolean arrowResetsIFrames;
+	private int armorPiercingLevel;
+	private float draggingPower;
 	
 	@Override
-	public boolean isArrowRapidDamage() {
-		return this.pierceInvuln;
+	public boolean getArrowResetsIFrames() {
+		return this.arrowResetsIFrames;
 	}
 	
 	@Override
-	public void setArrowRapidDamage(boolean flag) {
-		this.pierceInvuln = flag;
+	public void setArrowResetsIFrames(boolean flag) {
+		this.arrowResetsIFrames = flag;
 	}
 	
 	@Override
@@ -34,89 +33,79 @@ public class ArrowProperties implements IArrowProperties {
 		this.flameLevel = flameLevel;
 	}
 	
-	@Override
-	public void setExplosion(float power, boolean canDestroyBlocks) {
-		this.ExplosionPower = power;
-		this.CanDestroyBLocks = canDestroyBlocks;
-	}
-	
-	@Override
-	public float getExplosionPower() {
-		return this.ExplosionPower;
-	}
-	
-	@Override
-	public boolean getCanDestroyBlocks() {
-		return this.CanDestroyBLocks;
-	}
-	
-	@Override
-	public boolean getNoDrag() {
-		return this.NoDrag;
-	}
-	
-	@Override
-	public void setNoDrag(boolean noDrag) {
-		this.NoDrag = noDrag;
-	}
-	
-	@Override
-	public boolean getCanRecover() {
-		return this.CanRecover;
-	}
-	
-	@Override
-	public void setCanRecover(boolean canRecover) {
-		this.CanRecover = canRecover;
-	}
-	
-	@Override
-	public void setDidStarFall(boolean didStarFall) {
-		this.didStarFall = didStarFall;
-	}
-	
-	@Override
-	public boolean didStarFall() {
-		return this.didStarFall;
-	}
-	
-	@Override
-	public int setLevel(int level) {
-		return this.level = level;
-	}
-	
-	@Override
-	public int getLevel() {
-		return this.level;
-	}
-	
-	@Override
-	public boolean getIsStarFallMade() {
-		return isStarFallMade;
-	}
-	
-	@Override
-	public void setIsStarFallMade(boolean isStarFall) {
-		this.isStarFallMade = isStarFall;
-	}
+//	@Override
+//	public void setExplosion(float power, boolean canDestroyBlocks) {
+//		this.ExplosionPower = power;
+//		this.CanDestroyBLocks = canDestroyBlocks;
+//	}
+//
+//	@Override
+//	public float getExplosionPower() {
+//		return this.ExplosionPower;
+//	}
+//
+//	@Override
+//	public boolean getCanDestroyBlocks() {
+//		return this.CanDestroyBLocks;
+//	}
+//
+//	@Override
+//	public boolean getCanRecover() {
+//		return this.CanRecover;
+//	}
+//
+//	@Override
+//	public void setCanRecover(boolean canRecover) {
+//		this.CanRecover = canRecover;
+//	}
+//
+//	@Override
+//	public void setDidStarFall(boolean didStarFall) {
+//		this.didStarFall = didStarFall;
+//	}
+//
+//	@Override
+//	public boolean didStarFall() {
+//		return this.didStarFall;
+//	}
+//
+//	@Override
+//	public void setLevel(int level) {
+//        this.level = level;
+//    }
+//
+//	@Override
+//	public int getLevel() {
+//		return this.level;
+//	}
+//
+//	@Override
+//	public boolean getIsStarFallMade() {
+//		return isStarFallMade;
+//	}
+//
+//	@Override
+//	public void setIsStarFallMade(boolean isStarFall) {
+//		this.isStarFallMade = isStarFall;
+//	}
 	
 	@Override
 	public int getArmorPiercingLevel() {
-		return this.piercingLevel;
+		return this.armorPiercingLevel;
 	}
 	
 	@Override
-	public void setPiercingLevel(int level) {
-		this.piercingLevel = level;
+	public void setArmorPiercingLevel(int level) {
+		this.armorPiercingLevel = level;
 	}
 	
 	@Override
-	public float getPullPower() {
-		return this.pullPower;
+	public float getDraggingPower() {
+		return this.draggingPower;
 	}
 	
 	@Override
-	public void setPullPower(float p) {
-		this.pullPower = p;
+	public void setDraggingPower(float p) {
+		this.draggingPower = p;
 	}
 }

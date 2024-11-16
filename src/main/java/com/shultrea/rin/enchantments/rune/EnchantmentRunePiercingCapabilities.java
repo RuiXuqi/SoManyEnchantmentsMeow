@@ -1,13 +1,11 @@
 package com.shultrea.rin.enchantments.rune;
 
-import com.shultrea.rin.Interfaces.IEnchantmentRune;
-import com.shultrea.rin.Main_Sector.ModConfig;
-import com.shultrea.rin.Utility_Sector.EnchantmentsUtility;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.Utility_Sector.UtilityAccessor;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import net.minecraft.enchantment.Enchantment;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -18,10 +16,10 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentRunePiercingCapabilities extends EnchantmentBase implements IEnchantmentRune {
+public class EnchantmentRunePiercingCapabilities extends EnchantmentBase {
 	
-	public EnchantmentRunePiercingCapabilities(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentRunePiercingCapabilities(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -38,17 +36,25 @@ public class EnchantmentRunePiercingCapabilities extends EnchantmentBase impleme
 	public int getMaxLevel() {
 		return ModConfig.level.runePiercingCapabilities;
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 20 + 10 * (par1 - 1);
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.runePiercingCapabilities, level);
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return super.getMinEnchantability(par1) + 50;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.runePiercingCapabilities, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.runePiercingCapabilities, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.runePiercingCapabilities, stack) || super.canApply(stack);
 	}
 	
 	@Override
@@ -63,23 +69,15 @@ public class EnchantmentRunePiercingCapabilities extends EnchantmentBase impleme
 	}
 	
 	//TODO
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return super.canApplyTogether(fTest) && !(fTest instanceof IEnchantmentRune);
-	}
-	
-	//TODO
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void HandleEnchant(LivingHurtEvent fEvent) {
-		//System.out.println("Piercing Capabilities");
-		if(!(EnchantmentsUtility.checkEventCondition(fEvent, this))) return;
+		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
 		if(fEvent.getSource().isUnblockable()) return;
 		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
-		ItemStack dmgSource = attacker.getHeldItemMainhand();
-		int pierceLevel = EnchantmentHelper.getEnchantmentLevel(this, dmgSource);
+		ItemStack stack = attacker.getHeldItemMainhand();
+		//TODO: this should check the attacking hand, not main
+		int pierceLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.runePiercingCapabilities, stack);
 		if(pierceLevel <= 0) return;
-		if(this.isOffensivePetDisallowed(fEvent.getSource().getImmediateSource(), fEvent.getSource().getTrueSource()))
-			return;
 		float damage = fEvent.getAmount() * 0.25f * pierceLevel;
 		fEvent.setAmount(fEvent.getAmount() - (fEvent.getAmount() * pierceLevel * 0.25f));
 		if(attacker instanceof EntityPlayer)

@@ -12,7 +12,6 @@ public class PlayerPropertiesStorage implements IStorage<IPlayerProperties> {
 	public NBTBase writeNBT(Capability<IPlayerProperties> capability, IPlayerProperties instance, EnumFacing side) {
 		NBTTagCompound compound = new NBTTagCompound();
 		compound.setBoolean("isResurrecting", instance.isResurrecting());
-		compound.setDouble("moralitasDamage", instance.getMoralitasDamage());
 		return compound;
 	}
 	
@@ -20,6 +19,5 @@ public class PlayerPropertiesStorage implements IStorage<IPlayerProperties> {
 	public void readNBT(Capability<IPlayerProperties> capability, IPlayerProperties instance, EnumFacing side, NBTBase nbt) {
 		NBTTagCompound nbttag = (NBTTagCompound)nbt;
 		instance.setResurrecting(nbttag.getBoolean("isResurrecting"));
-		instance.setMoralitasDamage(nbttag.getDouble("motalitasDamage"));
 	}
 }

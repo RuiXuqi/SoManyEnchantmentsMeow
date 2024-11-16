@@ -1,8 +1,8 @@
 package com.shultrea.rin.enchantments.curses;
 
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
@@ -10,10 +10,9 @@ import net.minecraft.item.ItemStack;
  * Enchantment handled in com.shultrea.rin.mixin.vanilla.ItemStackMixin
  */
 public class EnchantmentRusted extends EnchantmentCurse {
-	
-	public EnchantmentRusted(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{
-				EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});
+
+	public EnchantmentRusted(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -30,23 +29,25 @@ public class EnchantmentRusted extends EnchantmentCurse {
 	public int getMaxLevel() {
 		return ModConfig.level.rusted;
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 25 + 25 * (par1 - 1);
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.rusted, level);
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return super.getMinEnchantability(par1) + 50;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.rusted, level);
 	}
-	
-	//TODO better way of handling this
+
 	@Override
-	public boolean canApply(ItemStack stack) {
-		return !stack.getItem().getTranslationKey().contains("gold") && super.canApply(stack);
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.rusted, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.rusted, stack) || super.canApply(stack);
 	}
 	
 	@Override

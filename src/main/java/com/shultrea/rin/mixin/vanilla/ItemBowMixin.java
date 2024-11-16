@@ -1,7 +1,6 @@
 package com.shultrea.rin.mixin.vanilla;
 
-import com.shultrea.rin.Prop_Sector.ArrowPropertiesProvider;
-import com.shultrea.rin.Prop_Sector.IArrowProperties;
+import com.shultrea.rin.Prop_Sector.ArrowPropertiesHandler;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(ItemBow.class)
 public abstract class ItemBowMixin {
-	
+
 	@Inject(
 			method = "onPlayerStoppedUsing",
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;damageItem(ILnet/minecraft/entity/EntityLivingBase;)V"),
@@ -30,20 +29,7 @@ public abstract class ItemBowMixin {
 		if(inaccuracyLevel > 0 && player.getRNG().nextFloat() < ((float)inaccuracyLevel * 0.20F)) {
 			entityArrow.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 3.0F, inaccuracyLevel * 10);
 		}
-		
-		int powerlessLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.powerless, bow);
-		if(powerlessLevel > 0) {
-			double damage = entityArrow.getDamage();
-			entityArrow.setDamage(damage - (0.5D + (double)powerlessLevel * 0.5D));
-			if(powerlessLevel > 2 || player.getRNG().nextFloat() < powerlessLevel * 0.4F) {
-				entityArrow.setIsCritical(false);
-			}
-		}
-		
-		int runeArrowPiercingLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.runeArrowPiercing, bow);
-		if(runeArrowPiercingLevel > 0) {
-			IArrowProperties cap = entityArrow.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
-			if(cap != null) cap.setPiercingLevel(runeArrowPiercingLevel);
-		}
+
+		ArrowPropertiesHandler.setArrowCapabilities(entity,entityArrow);
 	}
 }

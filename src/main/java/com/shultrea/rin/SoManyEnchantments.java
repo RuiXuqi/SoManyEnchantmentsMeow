@@ -1,12 +1,10 @@
 package com.shultrea.rin;
 
-import com.shultrea.rin.Enum.EnumList;
+import com.shultrea.rin.Enum.EnumTypes;
 import com.shultrea.rin.Prop_Sector.*;
 import com.shultrea.rin.Utility_Sector.*;
 import com.shultrea.rin.registry.EnchantmentRegistry;
-import com.shultrea.rin.registry.Smc_020;
-import com.shultrea.rin.registry.Smc_030;
-import com.shultrea.rin.registry.Smc_040;
+import com.shultrea.rin.registry.ModRegistry;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -17,6 +15,8 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod(
 		modid = SoManyEnchantments.MODID, name = SoManyEnchantments.NAME, version = SoManyEnchantments.VERSION,
@@ -27,6 +27,8 @@ public class SoManyEnchantments {
 	public static final String NAME = "Rin's So Many Enchantments?";
 	public static final String VERSION = "0.5.5";
 	public static boolean hotbarOnly = true;
+	public static final Logger LOGGER = LogManager.getLogger(SoManyEnchantments.NAME);
+
 	@Instance(SoManyEnchantments.MODID)
 	public static SoManyEnchantments instance;
 	@SidedProxy(clientSide = RefStrings.CLIENTSIDE, serverSide = RefStrings.SERVERSIDE)
@@ -74,18 +76,12 @@ public class SoManyEnchantments {
 	public void preInit(FMLPreInitializationEvent fEvent) {
 		CapabilityManager.INSTANCE.register(IArrowProperties.class, new ArrowPropertiesStorage(), ArrowProperties::new);
 		CapabilityManager.INSTANCE.register(IPlayerProperties.class, new PlayerPropertiesStorage(), PlayerProperties::new);
+		ModRegistry.init();
 		proxy.preInit(fEvent);
 		SMEsounds.registerSounds();
-		Smc_010.init();
-		Smc_020.init();
-		Smc_030.init();
-		Smc_040.init();
 		EnchantmentRegistry.handleSubscribers();
-		MinecraftForge.EVENT_BUS.register(new HurtPatchHandler());
-		MinecraftForge.EVENT_BUS.register(new OtherHandler());
+		MinecraftForge.EVENT_BUS.register(new PlayerPropertiesHandler());
 		MinecraftForge.EVENT_BUS.register(new ArrowPropertiesHandler());
-		MinecraftForge.EVENT_BUS.register(new AdditionalProtectionEnchantmentsEffects());
-		MinecraftForge.EVENT_BUS.register(new ExtraEvent());
 	}
 	
 	@EventHandler
@@ -96,8 +92,9 @@ public class SoManyEnchantments {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent fEvent) {
 		proxy.postInit(fEvent);
-		PotionLister.Cycle();
-		EnumList.initializeEnchantmentTab();
-		EnchantmentLister.initEnchantmentList();
+		PotionLister.initializePotionLists();
+		EnumTypes.initializeEnchantmentTab();
+		CurseLister.initCursesList();
+		EnchantmentRegistry.initIncompatLists();
 	}
 }

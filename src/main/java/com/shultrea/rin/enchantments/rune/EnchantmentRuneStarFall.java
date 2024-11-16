@@ -27,8 +27,6 @@ public class EnchantmentRuneStarFall extends Enchantment {
 	public EnchantmentRuneStarFall() {
 		super(Rarity.VERY_RARE, EnumEnchantmentType.BOW, new EntityEquipmentSlot[]{
 				EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND});
-		this.setName("rune_starfall");
-		this.setRegistryName("rune_starfall");
 	}
 	
 	@Override
@@ -44,11 +42,6 @@ public class EnchantmentRuneStarFall extends Enchantment {
 	@Override
 	public int getMaxEnchantability(int par1) {
 		return this.getMinEnchantability(par1) + 50;
-	}
-	
-	@Override
-	public boolean canApplyTogether(Enchantment fTest) {
-		return super.canApplyTogether(fTest);
 	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGH, receiveCanceled = true)
@@ -67,8 +60,8 @@ public class EnchantmentRuneStarFall extends Enchantment {
 			if(arrow.hasCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null)) {
 				IArrowProperties properties = arrow.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
 				{
-					if(EnchantmentHelper.getEnchantmentLevel(Smc_040.rune_starfall, bow) > 0) {
-						int l = EnchantmentHelper.getMaxEnchantmentLevel(Smc_040.rune_starfall, shooter);
+					if(EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.rune_starfall, bow) > 0) {
+						int l = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.rune_starfall, shooter);
 						properties.setLevel(l);
 						properties.setDidStarFall(false);
 					}
@@ -153,4 +146,29 @@ public class EnchantmentRuneStarFall extends Enchantment {
 }
 //}
 
+
  */
+
+/*	int counter = 0;
+
+	@SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
+	public void onEvent(WorldTickEvent event) {
+		if (event.phase != Phase.START) return;
+		counter++;
+		if (counter != 20) return;
+		counter = 0;
+		for (Entity entity : event.world.loadedEntityList) {
+			if (entity instanceof EntityArrow) {
+				if (!entity.hasCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null)) continue;
+				IArrowProperties ar = entity.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
+
+				if (ar.getIsStarFallMade()) {
+					NBTTagCompound life = new NBTTagCompound();
+					entity.writeToNBT(life);
+					short f = life.getShort("life");
+					life.setShort("life", (short) (f + 50));
+					entity.readFromNBT(life);
+				}
+			}
+		}
+	}*/

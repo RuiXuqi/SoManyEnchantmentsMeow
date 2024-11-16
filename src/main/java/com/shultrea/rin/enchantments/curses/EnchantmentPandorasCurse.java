@@ -1,13 +1,14 @@
 package com.shultrea.rin.enchantments.curses;
 
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.SoManyEnchantments;
-import com.shultrea.rin.Utility_Sector.EnchantmentLister;
+import com.shultrea.rin.Utility_Sector.CurseLister;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
 import com.shultrea.rin.registry.EnchantmentRegistry;
+import com.shultrea.rin.registry.ModRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -26,8 +27,8 @@ import java.util.Map;
 
 public class EnchantmentPandorasCurse extends EnchantmentCurse {
 	
-	public EnchantmentPandorasCurse(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, EntityEquipmentSlot.values());
+	public EnchantmentPandorasCurse(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -44,17 +45,25 @@ public class EnchantmentPandorasCurse extends EnchantmentCurse {
 	public int getMaxLevel() {
 		return ModConfig.level.pandorasCurse;
 	}
-	
-	//TODO
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 100 + 50 * (par1 - 1);
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.pandorasCurse, level);
 	}
-	
-	//TODO
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return super.getMinEnchantability(par1) + 100;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.pandorasCurse, level);
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.pandorasCurse, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.pandorasCurse, stack) || super.canApply(stack);
 	}
 	
 	@Override
@@ -117,7 +126,7 @@ public class EnchantmentPandorasCurse extends EnchantmentCurse {
 			
 			int origCurseLevel = curseLevel;
 			
-			List<Enchantment> curses = EnchantmentLister.CURSE;
+			List<Enchantment> curses = CurseLister.CURSE;
 			for(ItemStack stack : candidates) {
 				if(curseLevel <= 5 && event.player.world.rand.nextInt(8) < 1) {
 					Enchantment curse = curses.get(event.player.world.rand.nextInt(curses.size()));

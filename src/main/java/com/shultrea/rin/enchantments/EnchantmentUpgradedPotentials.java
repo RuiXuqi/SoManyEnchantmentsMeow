@@ -1,10 +1,11 @@
 package com.shultrea.rin.enchantments;
 
-import com.shultrea.rin.Main_Sector.ModConfig;
+import com.shultrea.rin.Config.EnchantabilityConfig;
+import com.shultrea.rin.Config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -15,8 +16,8 @@ import java.util.Map;
 
 public class EnchantmentUpgradedPotentials extends EnchantmentBase {
 	
-	public EnchantmentUpgradedPotentials(String name, Rarity rarity, EnumEnchantmentType type) {
-		super(name, rarity, type, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+	public EnchantmentUpgradedPotentials(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+		super(name, rarity, slots);
 	}
 	
 	@Override
@@ -33,20 +34,25 @@ public class EnchantmentUpgradedPotentials extends EnchantmentBase {
 	public int getMaxLevel() {
 		return ModConfig.level.upgradedPotentials;
 	}
-	
+
 	@Override
-	public int getMinEnchantability(int par1) {
-		return 35;
+	public int getMinEnchantability(int level) {
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.upgradedPotentials, level);
 	}
-	
+
 	@Override
-	public int getMaxEnchantability(int par1) {
-		return super.getMinEnchantability(par1) + 45;
+	public int getMaxEnchantability(int level) {
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.upgradedPotentials, level);
 	}
-	
+
 	@Override
-	public boolean canApply(ItemStack fTest) {
-		return false;
+	public boolean canApplyAtEnchantingTable(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.upgradedPotentials, stack) && super.canApplyAtEnchantingTable(stack);
+	}
+
+	@Override
+	public boolean canApply(ItemStack stack){
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.upgradedPotentials, stack) || super.canApply(stack);
 	}
 	
 	@Override
@@ -78,7 +84,7 @@ public class EnchantmentUpgradedPotentials extends EnchantmentBase {
 					event.setOutput(ItemStack.EMPTY);
 					return;
 				}
-				if(EnchantmentHelper.getEnchantmentLevel(this, left) >= 1) {
+				if(EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.upgradedPotentials, left) >= 1) {
 					//Left already has upgraded potentials, set output to empty and return
 					event.setOutput(ItemStack.EMPTY);
 					return;
