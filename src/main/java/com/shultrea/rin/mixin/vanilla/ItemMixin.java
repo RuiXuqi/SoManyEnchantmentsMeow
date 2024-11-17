@@ -19,24 +19,27 @@ import java.util.UUID;
 public abstract class ItemMixin {
 	
 	@Unique
-	private static final UUID SS_UUID = UUID.fromString("fc1c8dca-9411-4a4e-97a4-90e66c883a77");
+	private static final UUID soManyEnchantments$SS_UUID = UUID.fromString("fc1c8dca-9411-4a4e-97a4-90e66c883a77");
 	
 	@Unique
-	private static final UUID HW_UUID = UUID.fromString("e2765897-134f-4c14-a535-29c3ae5c7a21");
+	private static final UUID soManyEnchantments$HW_UUID = UUID.fromString("e2765897-134f-4c14-a535-29c3ae5c7a21");
 	
+	/**
+	 * Handling for Swifter Slashes and HeavyWeight enchants
+	 */
 	@ModifyReturnValue(
 			method = "getAttributeModifiers",
 			at = @At("RETURN")
 	)
-	public Multimap<String, AttributeModifier> soManyEnchantments_vanillaItem_getAttributeModifiers(Multimap<String, AttributeModifier> original, EntityEquipmentSlot slot, ItemStack stack) {
+	private Multimap<String, AttributeModifier> soManyEnchantments_vanillaItem_getAttributeModifiers(Multimap<String, AttributeModifier> original, EntityEquipmentSlot slot, ItemStack stack) {
 		if(stack.isEmpty() || slot != EntityEquipmentSlot.MAINHAND) return original;
 		int ssLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.swifterSlashes, stack);
 		int hwLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.heavyWeight, stack);
 		if(ssLevel > 0) {
-			original.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(SS_UUID, "swifterSlashes", 0.20D*(double)ssLevel, 1));
+			original.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(soManyEnchantments$SS_UUID, "swifterSlashes", 0.20D*(double)ssLevel, 1));
 		}
 		if(hwLevel > 0) {
-			original.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(HW_UUID, "heavyWeight", ((double)hwLevel*0.10D + 0.20) * -1.0D, 1));
+			original.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(soManyEnchantments$HW_UUID, "heavyWeight", ((double)hwLevel*0.10D + 0.20) * -1.0D, 1));
 		}
 		return original;
 	}

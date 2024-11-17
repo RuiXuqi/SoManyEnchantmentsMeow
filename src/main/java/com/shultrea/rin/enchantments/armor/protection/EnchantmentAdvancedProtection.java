@@ -4,7 +4,6 @@ import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.utility_sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -58,18 +57,16 @@ public class EnchantmentAdvancedProtection extends EnchantmentBase {
 		return ModConfig.treasure.advancedProtection;
 	}
 	
-	//TODO
 	@Override
 	public int calcModifierDamage(int level, DamageSource source) {
 		return source.canHarmInCreative() ? 0 : level * 2;
 	}
 
-	@SubscribeEvent(priority = EventPriority.LOW, receiveCanceled = true)
-	public void extraProtectionEffect(LivingHurtEvent fEvent) {
+	@SubscribeEvent(priority = EventPriority.LOW)
+	public void livingHurtEvent_extraProtection(LivingHurtEvent fEvent) {
 		if(!ModConfig.miscellaneous.extraProtectionEffects) return;
-		if(!(ModConfig.enabled.advancedProtection)) return;
-		if(fEvent.getSource().damageType.equals("null")) return;
-		int modifier = (int) (4.75f * EnchantmentsUtility.getTotalEnchantmentLevel(EnchantmentRegistry.advancedProtection, fEvent.getEntityLiving()));
+		if(!this.isEnabled()) return;
+		int modifier = (int)(4.75f * EnchantmentsUtility.getTotalEnchantmentLevel(this, fEvent.getEntityLiving()));
 		float damage = EnchantmentsUtility.getDamageAfterMagicAbsorb(fEvent.getAmount(), modifier);
 		fEvent.setAmount(damage);
 	}
