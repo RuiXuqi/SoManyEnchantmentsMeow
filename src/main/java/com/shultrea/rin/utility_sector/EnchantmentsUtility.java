@@ -160,6 +160,7 @@ public class EnchantmentsUtility {
 	}
 	
 	//For sunshine and moonlight
+	//TODO: this is ridiculously bad, making sols+lunars basically curses
 	public static float modifyDamageForDaytime(EntityLivingBase attacker, boolean mustBeDaytime, ItemStack stack, Enchantment enchantment) {
 		boolean isCorrectDayTime = attacker.world.isDaytime() == mustBeDaytime;
 		int level = EnchantmentHelper.getEnchantmentLevel(enchantment, stack);

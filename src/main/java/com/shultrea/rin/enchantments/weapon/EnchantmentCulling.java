@@ -77,50 +77,41 @@ public class EnchantmentCulling extends EnchantmentBase {
 	public void HandleEnchant(LivingHurtEvent fEvent) {
 		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
 		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
-		ItemStack dmgSource = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
-		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.culling, dmgSource);
+		ItemStack stack = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
+		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.culling, stack);
 		if(enchantmentLevel <= 0) return;
-		float half = enchantmentLevel;
-		//System.out.println("First!");
 		float maxHealth = fEvent.getEntityLiving().getMaxHealth();
 		float currentHealthPercent = fEvent.getEntityLiving().getHealth() / maxHealth;
-		if(!fEvent.getEntityLiving().isNonBoss()) {
-			half = half / 2;
-		}
-		int bonus = 0;
-		if(!(fEvent.getEntityLiving() instanceof EntityPlayer)) bonus = 4 + enchantmentLevel * 2;
-		//System.out.println(currentHealthPercent);
-		//System.out.println(attacker.fallDistance);
-		if(fEvent.getEntityLiving().getHealth() <= bonus || (currentHealthPercent <= 0.1f + (half * 0.07 - 0.01f))) {
-			attacker.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 20 + (enchantmentLevel * 5), 1));
-		}
+
+		float modifiedEnchantmentLevel = fEvent.getEntityLiving().isNonBoss()? enchantmentLevel : enchantmentLevel/2f;
+		int bonus = fEvent.getEntityLiving() instanceof EntityPlayer? 0 : 4 + enchantmentLevel * 2;
+
 		if(attacker.fallDistance > 0.34) {
 			attacker.addPotionEffect(new PotionEffect(MobEffects.SATURATION, 4, -1, false, false));
-			if(fEvent.getEntityLiving().getHealth() > bonus && currentHealthPercent > 0.1f + (half * 0.07 - 0.01f)) {
-				//System.out.println("Failed");
-				float DamageCull = fEvent.getAmount();
-				UtilityAccessor.damageTarget(fEvent.getEntityLiving(), SoManyEnchantments.PhysicalDamage, DamageCull * (0.7f + (half * 0.33f + 0.01f)));
-				fEvent.setAmount(1.0f);
+			if(fEvent.getEntityLiving().getHealth() > bonus && currentHealthPercent > 0.09f + modifiedEnchantmentLevel * 0.07) {
+				float damageCull = fEvent.getAmount() * (0.71f + modifiedEnchantmentLevel * 0.33f);
+				UtilityAccessor.damageTarget(fEvent.getEntityLiving(), SoManyEnchantments.PhysicalDamage, damageCull);
+				fEvent.setAmount(1f);
 			}
-			else if(fEvent.getEntityLiving().getHealth() <= bonus || currentHealthPercent <= 0.1f + (half * 0.07 - 0.01f)) {
-				//System.out.println("Strike!");
-				double X = fEvent.getEntity().posX;
-				double Y = fEvent.getEntity().posY;
-				double Z = fEvent.getEntity().posZ;
+			else {
+				attacker.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 20 + (enchantmentLevel * 5), 1));
+
 				Random random = fEvent.getEntity().world.rand;
+				float X = (float) (fEvent.getEntity().posX) + random.nextFloat();
+				float Y = (float) (fEvent.getEntity().posY) + random.nextFloat() * 2;
+				float Z = (float) (fEvent.getEntity().posZ) + random.nextFloat();
 				for(int i = 0; i < 20; ++i) {
 					double d0 = random.nextGaussian() * 0.02D;
 					double d1 = random.nextGaussian() * 0.02D;
 					double d2 = random.nextGaussian() * 0.02D;
-					SMEnetwork.net.sendToAll(new MsgSP_Particle("angryVillager", (float)X + random.nextFloat(), Y + ((double)random.nextFloat() * 2), (float)Z + random.nextFloat(), d0, d1, d2));
+					SMEnetwork.net.sendToAll(new MsgSP_Particle("angryVillager", X, Y, Z, d0, d1, d2));
 				}
-				float Damage = maxHealth * 1000.0f;
-				attacker.addPotionEffect(new PotionEffect(MobEffects.SPEED, 60 + (enchantmentLevel * 20), enchantmentLevel - 1));
-				UtilityAccessor.damageTarget(fEvent.getEntityLiving(), SoManyEnchantments.Culled, (Damage));
+				float damage = maxHealth * 1000.0f;
+				attacker.addPotionEffect(new PotionEffect(MobEffects.SPEED, 60 + enchantmentLevel * 20, enchantmentLevel - 1));
+				UtilityAccessor.damageTarget(fEvent.getEntityLiving(), SoManyEnchantments.Culled, damage);
 				fEvent.setAmount(1f);
 			}
 		}
-		//System.out.println(Success);
 	}
 	
 	//TODO
