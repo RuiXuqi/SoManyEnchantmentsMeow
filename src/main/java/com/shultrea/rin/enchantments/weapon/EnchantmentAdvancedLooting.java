@@ -4,21 +4,30 @@ import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
+import com.shultrea.rin.utility_sector.compat.CompatUtil;
+import com.shultrea.rin.utility_sector.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
+/**
+ * Enchantment handled in com.shultrea.rin.mixin.vanilla.EnchantmentHelperMixin
+ */
 public class EnchantmentAdvancedLooting extends EnchantmentBase {
 	
 	public EnchantmentAdvancedLooting(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
 	}
 	
-	//TODO
 	public static int getValue(int original, EntityLivingBase entity) {
 		if(!EnchantmentRegistry.advancedLooting.isEnabled()) return 0;
-		int levelLooting = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.advancedLooting, entity);
+		if(entity == null) return 0;
+		ItemStack stack = entity.getHeldItemMainhand();
+		if(CompatUtil.isRLCombatLoaded()) {
+			stack = RLCombatCompat.getArthropodStack(entity);
+		}
+		int levelLooting = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.advancedLooting, stack);
 		if(levelLooting <= 0) return 0;
 		int toReturn = original + 2 + ((levelLooting - 1) * 2);
 		if(Math.random() < 0.25f) toReturn = toReturn + 2 + (levelLooting * 2);

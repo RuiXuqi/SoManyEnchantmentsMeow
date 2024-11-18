@@ -48,6 +48,7 @@ public class EnchantmentPhysicalProtection extends EnchantmentBase {
 		return ModConfig.treasure.physicalProtection;
 	}
 	
+	//TODO: Simplify or make config based for what types it *should* protect against
 	@Override
 	public int calcModifierDamage(int level, DamageSource source) {
 		return source.canHarmInCreative() ? 0 :

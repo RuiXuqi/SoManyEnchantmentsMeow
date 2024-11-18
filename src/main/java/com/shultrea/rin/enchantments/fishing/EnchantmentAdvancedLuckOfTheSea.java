@@ -8,13 +8,15 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
+/**
+ * Enchantment handled in com.shultrea.rin.mixin.vanilla.EnchantmentHelperMixin
+ */
 public class EnchantmentAdvancedLuckOfTheSea extends EnchantmentBase {
 	
 	public EnchantmentAdvancedLuckOfTheSea(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
 	}
 	
-	//TODO
 	public static int getValue(ItemStack stack) {
 		if(!EnchantmentRegistry.advancedLuckOfTheSea.isEnabled()) return 0;
 		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.advancedLuckOfTheSea, stack);

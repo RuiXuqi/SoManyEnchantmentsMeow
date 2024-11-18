@@ -23,6 +23,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.UUID;
 
+/**
+ * Enchantment handled in com.shultrea.rin.mixin.vanilla.ItemMixin
+ */
 public class EnchantmentSwifterSlashes extends EnchantmentBase {
 	
 	//TODO

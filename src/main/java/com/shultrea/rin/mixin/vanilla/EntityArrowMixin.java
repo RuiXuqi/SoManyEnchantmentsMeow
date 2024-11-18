@@ -15,7 +15,7 @@ public abstract class EntityArrowMixin {
 			method = "setEnchantmentEffectsFromEntity",
 			at = @At("RETURN")
 	)
-	public void soManyEnchantments_vanillaEntityArrow_setEnchantmentEffectsFromEntity(EntityLivingBase entity, float distanceFactor, CallbackInfo ci) {
-		ArrowPropertiesHandler.setArrowCapabilities(entity,(EntityArrow)(Object) this);
+	private void soManyEnchantments_vanillaEntityArrow_setEnchantmentEffectsFromEntity(EntityLivingBase entity, float distanceFactor, CallbackInfo ci) {
+		ArrowPropertiesHandler.setArrowCapabilities(entity, (EntityArrow)(Object)this);
 	}
 }

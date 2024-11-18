@@ -10,12 +10,15 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(ItemStack.class)
 public abstract class ItemStackMixin {
 	
+	/**
+	 * Handling for Rusted enchant
+	 */
 	@ModifyVariable(
 			method = "damageItem",
 			at = @At("HEAD"),
 			argsOnly = true
 	)
-	public int soManyEnchantments_vanillaItemStack_damageItem(int amount) {
+	private int soManyEnchantments_vanillaItemStack_damageItem(int amount) {
 		if(amount > 0) {
 			int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.rusted, (ItemStack)(Object)this);
 			if(level > 0) return amount * (level+1);

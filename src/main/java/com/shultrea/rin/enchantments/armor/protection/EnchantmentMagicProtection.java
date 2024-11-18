@@ -53,4 +53,3 @@ public class EnchantmentMagicProtection extends EnchantmentBase {
 		return source.canHarmInCreative() ? 0 : (source.isMagicDamage() ? level * 2 : 0);
 	}
 }
-

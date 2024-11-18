@@ -4,7 +4,6 @@ import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.utility_sector.EnchantmentsUtility;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -58,19 +57,17 @@ public class EnchantmentAdvancedFeatherFalling extends EnchantmentBase {
 		return ModConfig.treasure.advancedFeatherFalling;
 	}
 	
-	//TODO
 	@Override
 	public int calcModifierDamage(int level, DamageSource source) {
-		if(Math.random() < 0.35f) return source.canHarmInCreative() ? 0 : (source == DamageSource.FALL ? level * 5 : 0);
-		else return source.canHarmInCreative() ? 0 : (source == DamageSource.FALL ? level * 4 : 0);
+		return source.canHarmInCreative() ? 0 : source == DamageSource.FALL ? level * 5 : 0;
 	}
 
-	@SubscribeEvent(priority = EventPriority.LOW, receiveCanceled = true)
-	public void extraProtectionEffect(LivingHurtEvent fEvent) {
+	@SubscribeEvent(priority = EventPriority.LOW)
+	public void livingHurtEvent_extraProtection(LivingHurtEvent fEvent) {
 		if(!ModConfig.miscellaneous.extraProtectionEffects) return;
-		if(!(ModConfig.enabled.advancedFeatherFalling)) return;
-		if((fEvent.getSource() != DamageSource.FALL)) return;
-		int modifier = 9*EnchantmentsUtility.getTotalEnchantmentLevel(EnchantmentRegistry.advancedFeatherFalling, fEvent.getEntityLiving());
+		if(!this.isEnabled()) return;
+		if(fEvent.getSource() != DamageSource.FALL) return;
+		int modifier = (int)(9.0F * EnchantmentsUtility.getTotalEnchantmentLevel(this, fEvent.getEntityLiving()));
 		float damage = EnchantmentsUtility.getDamageAfterMagicAbsorb(fEvent.getAmount(), modifier);
 		fEvent.setAmount(damage);
 	}

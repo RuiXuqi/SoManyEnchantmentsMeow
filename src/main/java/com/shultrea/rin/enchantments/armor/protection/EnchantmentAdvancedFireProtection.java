@@ -11,14 +11,24 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+/**
+ * Enchantment handled in com.shultrea.rin.mixin.vanilla.EnchantmentProtectionMixin
+ */
 public class EnchantmentAdvancedFireProtection extends EnchantmentBase {
 	
 	public EnchantmentAdvancedFireProtection(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
+	}
+	
+	public static int getValue(EntityLivingBase entity) {
+		if(!EnchantmentRegistry.advancedFireProtection.isEnabled()) return 0;
+		if(entity == null) return 0;
+		int i = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.advancedFireProtection, entity);
+		
+		return 2 * i;
 	}
 	
 	@Override
@@ -61,31 +71,17 @@ public class EnchantmentAdvancedFireProtection extends EnchantmentBase {
 		return ModConfig.treasure.advancedFireProtection;
 	}
 	
-	//TODO
 	@Override
 	public int calcModifierDamage(int level, DamageSource source) {
 		return source.canHarmInCreative() ? 0 : source.isFireDamage() ? level * 3 : 0;
 	}
 	
-	//TODO
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void updateFireEntity(LivingUpdateEvent fEvent) {
-		if(!(fEvent.getEntity() instanceof EntityLivingBase)) return;
-		EntityLivingBase victim = fEvent.getEntityLiving();
-		int totalFireProtectLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.advancedFireProtection, victim);
-		if(totalFireProtectLevel <= 0) return;
-		if(!victim.isBurning()) return;
-		if(Math.random() < 0.025 + (0.0025 * totalFireProtectLevel)) {
-			victim.extinguish();
-		}
-	}
-
-	@SubscribeEvent(priority = EventPriority.LOW, receiveCanceled = true)
-	public void extraProtectionEffect(LivingDamageEvent fEvent) {
+	@SubscribeEvent(priority = EventPriority.LOW)
+	public void livingHurtEvent_extraProtection(LivingDamageEvent fEvent) {
 		if(!ModConfig.miscellaneous.extraProtectionEffects) return;
-		if(!(ModConfig.enabled.advancedFireProtection)) return;
-		if(!(fEvent.getSource().isFireDamage())) return;
-		int modifier = (int) (7.5f * EnchantmentsUtility.getTotalEnchantmentLevel(EnchantmentRegistry.advancedFireProtection, fEvent.getEntityLiving()));
+		if(!this.isEnabled()) return;
+		if(!fEvent.getSource().isFireDamage()) return;
+		int modifier = (int)(7.5f * EnchantmentsUtility.getTotalEnchantmentLevel(this, fEvent.getEntityLiving()));
 		float damage = EnchantmentsUtility.getDamageAfterMagicAbsorb(fEvent.getAmount(), modifier);
 		fEvent.setAmount(damage);
 	}
