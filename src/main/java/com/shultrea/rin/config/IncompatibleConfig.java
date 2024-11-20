@@ -9,9 +9,11 @@ import java.util.ArrayList;
 
 public class IncompatibleConfig {
 	
-	@Config.Name("Groups of incompatible Enchantments")
+	@Config.Comment("List groupings of enchantments that should be incompatible with each other")
+	@Config.Name("Incompatible Enchantment Groups")
 	@Config.RequiresMcRestart
-	public String[] incompatibleGroups = {"minecraft:feather_falling, advancedfeatherfalling",
+	public String[] incompatibleGroups = {
+			"minecraft:feather_falling, advancedfeatherfalling",
 			"minecraft:depth_strider, underwaterstrider",
 			"heavyweight, swifterslashes",
 			"minecraft:unbreaking, rusted",
@@ -50,36 +52,33 @@ public class IncompatibleConfig {
 			"advancedsharpness, advancedsmite, advancedbaneofarthropods, supremesharpness, supremesmite, supremebaneofarthropods, spellbreaker",
 			"defusingedge, inhumane, butchering"};
 
-	public ArrayList<Enchantment> getIncompatibleEnchantmentsString(ResourceLocation name) {
+	public ArrayList<Enchantment> getIncompatibleEnchantmentsString(Enchantment thisEnch) {
 		ArrayList<Enchantment> incompatEnchs = new ArrayList<>();
 
-		Enchantment thisEnch = Enchantment.getEnchantmentByLocation(name.toString());
-		if (thisEnch == null) {
-            SoManyEnchantments.LOGGER.info("SME: could not find enchantment to get incompatible list for {}", name.toString());
-			return incompatEnchs;
-		}
-
-		for (String s : incompatibleGroups){
-			if (s.contains(name.getPath())) {
-				//Assumes that config lines are enchantments separated by comma before optional whitespaces
-				String[] enchsInList = s.split(", *");
-				for (String s1 : enchsInList) {
+		ResourceLocation regName = thisEnch.getRegistryName();
+		if(regName == null) return incompatEnchs;
+		
+		for(String s : incompatibleGroups) {
+			if(s.contains(regName.getPath())) {
+				//Assumes that config lines are enchantments separated by comma
+				String[] enchsInList = s.split(",");
+				for(String s1 : enchsInList) {
+					s1 = s1.trim();
+					if(s1.isEmpty()) continue;
 					//assumes that the config uses modid:enchantment if its not an SME enchant
-					if(!s1.contains(":"))
-						s1 = SoManyEnchantments.MODID+ ":" + s1;
+					if(!s1.contains(":")) s1 = SoManyEnchantments.MODID + ":" + s1;
 					Enchantment incompatEnch = Enchantment.getEnchantmentByLocation(s1);
-					if (incompatEnch == null)
-                        SoManyEnchantments.LOGGER.info("SME: could not find incompatible enchantment {}", s1);
-					else
-						incompatEnchs.add(incompatEnch);
+					if(incompatEnch == null) SoManyEnchantments.LOGGER.info("SME: could not find incompatible enchantment {}", s1);
+					else incompatEnchs.add(incompatEnch);
 				}
 			}
 		}
 		// remove duplicates of the calling enchant
 		// every enchantment is incompatible with itself, this is handled by Enchantment.java though
 		// and thus doesnt need to be in this list
-		while(incompatEnchs.contains(thisEnch))
+		while(incompatEnchs.contains(thisEnch)) {
 			incompatEnchs.remove(thisEnch);
+		}
 
 		return incompatEnchs;
 	}

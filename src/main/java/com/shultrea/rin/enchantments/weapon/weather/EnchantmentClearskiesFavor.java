@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.weapon.weather;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
+import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -67,15 +67,15 @@ public class EnchantmentClearskiesFavor extends EnchantmentBase {
 		ItemStack stack = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
 		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.clearskiesFavor, stack);
 		if(enchantmentLevel <= 0) return;
-		if(!attacker.world.isRaining() && EnchantmentsUtility.entityCanSeeSky(attacker)) {
-			float FDamage = EnchantmentsUtility.modifyDamage(fEvent.getAmount(), 0.5f, 0.75f, 1.00f, enchantmentLevel);
+		if(!attacker.world.isRaining() && EnchantUtil.canEntitySeeSky(attacker)) {
+			float FDamage = EnchantUtil.modifyDamage(fEvent.getAmount(), 0.5f, 0.75f, 1.00f, enchantmentLevel);
 			fEvent.setAmount(FDamage);
 		}
 		else if(attacker.world.isRaining() || attacker.world.isThundering()) {
 			if(Math.random() * 2000 < 3 + (enchantmentLevel * 2)) {
-				EnchantmentsUtility.setClearWeather(fEvent.getEntityLiving().getEntityWorld());
+				EnchantUtil.setClearWeather(fEvent.getEntityLiving().getEntityWorld());
 			}
-			float modifiedDamage = EnchantmentsUtility.modifyDamage(fEvent.getAmount(), 0.0f, -0.6f, 1.0f, enchantmentLevel);
+			float modifiedDamage = EnchantUtil.modifyDamage(fEvent.getAmount(), 0.0f, -0.6f, 1.0f, enchantmentLevel);
 			fEvent.setAmount(modifiedDamage);
 		}
 	}

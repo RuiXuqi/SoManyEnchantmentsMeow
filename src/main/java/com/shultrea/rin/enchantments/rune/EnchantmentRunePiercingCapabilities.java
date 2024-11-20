@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.rune;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.UtilityAccessor;
+import com.shultrea.rin.util.ReflectionUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -81,8 +81,8 @@ public class EnchantmentRunePiercingCapabilities extends EnchantmentBase {
 		float damage = fEvent.getAmount() * 0.25f * pierceLevel;
 		fEvent.setAmount(fEvent.getAmount() - (fEvent.getAmount() * pierceLevel * 0.25f));
 		if(attacker instanceof EntityPlayer)
-			UtilityAccessor.damageTargetEvent(fEvent.getEntityLiving(), new EntityDamageSource("player", attacker).setDamageBypassesArmor(), damage);
+			ReflectionUtil.damageEntityLivingDamageEvent(fEvent.getEntityLiving(), new EntityDamageSource("player", attacker).setDamageBypassesArmor(), damage);
 		else
-			UtilityAccessor.damageTargetEvent(fEvent.getEntityLiving(), new EntityDamageSource("mob", attacker).setDamageBypassesArmor(), damage);
+			ReflectionUtil.damageEntityLivingDamageEvent(fEvent.getEntityLiving(), new EntityDamageSource("mob", attacker).setDamageBypassesArmor(), damage);
 	}
 }

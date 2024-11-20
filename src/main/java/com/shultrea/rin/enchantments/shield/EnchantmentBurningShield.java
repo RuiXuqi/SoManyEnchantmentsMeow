@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.shield;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
+import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -71,7 +71,7 @@ public class EnchantmentBurningShield extends EnchantmentBase {
 		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.burningShield, victim);
 		if(enchantmentLevel <= 0) return;
 
-		if(!EnchantmentsUtility.canBlockDamageSource(fEvent.getSource(), victim)) return;
+		if(!EnchantUtil.canBlockDamageSource(fEvent.getSource(), victim)) return;
 		if(victim.getRNG().nextInt(100) > 40 + (enchantmentLevel * 10)) return;
 
 		Entity attacker = fEvent.getSource().getImmediateSource();

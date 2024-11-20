@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.weapon;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
+import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -70,7 +70,7 @@ public class EnchantmentBlessedEdge extends EnchantmentBase {
 		if(enchantmentLevel <= 0) return;
 		attacker.heal(fEvent.getAmount() * (enchantmentLevel * 0.03f));
 		if(fEvent.getEntityLiving().getCreatureAttribute() == EnumCreatureAttribute.UNDEAD) {
-			float FDamage = EnchantmentsUtility.modifyDamage(fEvent.getAmount(), 1.00f, 0.60f, 1 + 0.04f * enchantmentLevel, enchantmentLevel);
+			float FDamage = EnchantUtil.modifyDamage(fEvent.getAmount(), 1.00f, 0.60f, 1 + 0.04f * enchantmentLevel, enchantmentLevel);
 			//UtilityAccessor.damageEntity(fEvent.getEntityLiving(), somanyenchantments.PhysicalDamage, Damage - 0.001f);
 			fEvent.setAmount(FDamage);
 		}

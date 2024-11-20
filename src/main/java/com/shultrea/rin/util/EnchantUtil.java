@@ -1,6 +1,7 @@
-package com.shultrea.rin.utility_sector;
+package com.shultrea.rin.util;
 
 import com.shultrea.rin.config.ModConfig;
+import com.shultrea.rin.enchantments.curses.EnchantmentPandorasCurse;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.crash.ICrashReportDetail;
@@ -11,7 +12,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.math.BlockPos;
@@ -19,57 +19,82 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 /**
  * Recreated by Rin on 13/05/2017. This is an utility to be used for some enchantments.
  */
-public class EnchantmentsUtility {
+public abstract class EnchantUtil {
 	
 	public static final Random RANDOM = new Random();
 	
-	public static boolean entityCanSeeSky(EntityLivingBase attacker) {
+	private static List<Enchantment> CURSES = null;
+	
+	public static List<Enchantment> getCurses() {
+		if(CURSES == null) {
+			CURSES = new ArrayList<>();
+			for(Enchantment e : Enchantment.REGISTRY)
+				if(e.isCurse() && !(e instanceof EnchantmentPandorasCurse)) {
+					CURSES.add(e);
+				}
+		}
+		return CURSES;
+	}
+	
+	public static boolean canEntitySeeSky(EntityLivingBase attacker) {
+		if(attacker == null) return false;
 		BlockPos pos = new BlockPos(attacker.posX, attacker.posY, attacker.posZ);
 		return attacker.world.canBlockSeeSky(pos);
 	}
 
 	public static void setRaining(World world) {
 		if(!ModConfig.miscellaneous.enableWeatherChanges) return;
-		world.getWorldInfo().setRainTime(0);
+		if(world.isRemote) return;
+		int i = (300 + RANDOM.nextInt(600)) * 20;
+		world.getWorldInfo().setCleanWeatherTime(0);
+		world.getWorldInfo().setRainTime(i);
+		world.getWorldInfo().setThunderTime(i);
 		world.getWorldInfo().setRaining(true);
+		world.getWorldInfo().setThundering(false);
 	}
 	
-	public static void setThunderstorm(World world) {
+	public static void setThundering(World world) {
 		if(!ModConfig.miscellaneous.enableWeatherChanges) return;
-		world.getWorldInfo().setThunderTime(0);
+		if(world.isRemote) return;
+		int i = (300 + RANDOM.nextInt(600)) * 20;
+		world.getWorldInfo().setCleanWeatherTime(0);
+		world.getWorldInfo().setRainTime(i);
+		world.getWorldInfo().setThunderTime(i);
 		world.getWorldInfo().setRaining(true);
 		world.getWorldInfo().setThundering(true);
 	}
 
 	public static void setClearWeather(World world) {
 		if(!ModConfig.miscellaneous.enableWeatherChanges) return;
-		if(world.getWorldInfo().isRaining()) world.getWorldInfo().setRaining(false);
-		if(world.getWorldInfo().isThundering()) {
-			world.getWorldInfo().setThundering(false);
-			world.getWorldInfo().setRaining(false);
-		}
+		if(world.isRemote) return;
+		int i = (300 + RANDOM.nextInt(600)) * 20;
+		world.getWorldInfo().setCleanWeatherTime(i);
+		world.getWorldInfo().setRainTime(0);
+		world.getWorldInfo().setThunderTime(0);
+		world.getWorldInfo().setRaining(false);
+		world.getWorldInfo().setThundering(false);
 	}
 	
 	/**
 	 * Used to calculate modified damage
 	 * @param damage - The original damage.
-	 * @param level - The enchantment level.
+	 * @param constant - The constant damage you want to add in the calculation.
 	 * @param multiplier - Multiplies the given value based on the enchantment's level you want to add in the
 	 * calculation.
-	 * @param constant - The constant damage you want to add in the calculation.
 	 * @param trueMultiplier - Multiplies the damage based on the total damage and not the level of the enchantment you
 	 * want to add in the calculation. Avoid using zero as this negates your damage.
+	 * @param level - The enchantment level.
 	 * @return The finished calculated damage.
 	 */
 	public static float modifyDamage(float damage, float constant, float multiplier, float trueMultiplier, int level) {
-		if(damage <= 1.0f) return 1.0f;
+		if(damage <= 1.0F) return 1.0F;
 		return (damage + constant + level * multiplier) * trueMultiplier;
 	}
 	
@@ -115,68 +140,38 @@ public class EnchantmentsUtility {
 	 * For armors, get total sum of this enchantments levels on equipment
 	 */
 	public static int getTotalEnchantmentLevel(Enchantment enchantment, EntityLivingBase user) {
-		Iterable<ItemStack> iterable = enchantment.getEntityEquipment(user);
-		if(iterable == null)
-			return 0;
-		else {
-			int enchantLevelSum = 0;
-			for(ItemStack itemstack : iterable)
-				enchantLevelSum += EnchantmentHelper.getEnchantmentLevel(enchantment, itemstack);
-			return enchantLevelSum;
+		List<ItemStack> list = enchantment.getEntityEquipment(user);
+		if(list.isEmpty()) return 0;
+		int enchantLevelSum = 0;
+		for(ItemStack itemstack : list) {
+			if(itemstack.isEmpty()) continue;
+			enchantLevelSum += EnchantmentHelper.getEnchantmentLevel(enchantment, itemstack);
 		}
+		return enchantLevelSum;
 	}
 	
 	public static float getDamageAfterMagicAbsorb(float damage, float enchantModifiers) {
-		float f = MathHelper.clamp(enchantModifiers * 1.5f, 0.0F, 60.0F);
+		float f = MathHelper.clamp(enchantModifiers * 1.5F, 0.0F, 60.0F);
 		return damage * (1.0F - f / 80.0F);
 	}
 	
-	@Nullable
-	public static Potion getNonInstantNegativePotion() {
-		if(PotionLister.debuff_ids.isEmpty()) return null;
-		int index = RANDOM.nextInt(PotionLister.debuff_ids.size());
-		return Potion.getPotionById(PotionLister.debuff_ids.get(index));
-	}
-	
-	@Nullable
-	public static Potion getInstantNegativePotion() {
-		if(PotionLister.debuff_instant_ids.isEmpty()) return null;
-		int index = RANDOM.nextInt(PotionLister.debuff_instant_ids.size());
-		return Potion.getPotionById(PotionLister.debuff_instant_ids.get(index));
-	}
-	
-	@Nullable
-	public static Potion getNonInstantPositivePotion() {
-		if(PotionLister.buff_ids.isEmpty()) return null;
-		int index = RANDOM.nextInt(PotionLister.buff_ids.size());
-		return Potion.getPotionById(PotionLister.buff_ids.get(index));
-	}
-	
-	@Nullable
-	public static Potion getInstantPositivePotion() {
-		if(PotionLister.buff_instant_ids.isEmpty()) return null;
-		int index = RANDOM.nextInt(PotionLister.buff_instant_ids.size());
-		return Potion.getPotionById(PotionLister.buff_instant_ids.get(index));
-	}
-	
-	//For sunshine and moonlight
-	public static float modifyDamageForDaytime(EntityLivingBase attacker, boolean mustBeDaytime, ItemStack stack, Enchantment enchantment) {
-		boolean isCorrectDayTime = attacker.world.isDaytime() == mustBeDaytime;
+	/**
+	 * Returns damage modifier based on day/night
+	 */
+	public static float modifyDamageForTime(EntityLivingBase attacker, boolean mustBeDaytime, ItemStack stack, Enchantment enchantment) {
+		if(stack.isEmpty()) return 0;
 		int level = EnchantmentHelper.getEnchantmentLevel(enchantment, stack);
-		float damage = level * 0.5f + 1.5f;
-		if(!isCorrectDayTime)
-			damage *= -1f;
-		if(!EnchantmentsUtility.entityCanSeeSky(attacker)) {
-			if(isCorrectDayTime)
-				damage -= 0.75f * level;
-			else
-				damage -= 0.5f * level;
+		if(level == 0) return 0;
+		boolean isCorrectDayTime = attacker.world.isDaytime() == mustBeDaytime;
+		if(!isCorrectDayTime) return 0;
+		float damage = level * 0.5F + 1.5F;
+		if(!EnchantUtil.canEntitySeeSky(attacker)) {
+			damage -= level * 0.25F + 1.0F;
 		}
-		if(attacker.world.isRaining())
-			damage -= 0.5f * level;
 		return damage;
 	}
 
+	//TODO all this nonsense below
 	/**
 	 * Adds the item stack to the inventory, returns false if it is impossible.
 	 */

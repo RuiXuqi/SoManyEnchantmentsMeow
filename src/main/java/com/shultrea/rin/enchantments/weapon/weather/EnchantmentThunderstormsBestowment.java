@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.weapon.weather;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
+import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -101,20 +101,20 @@ public class EnchantmentThunderstormsBestowment extends EnchantmentBase {
 		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.thunderstormsBestowment, stack);
 		if(enchantmentLevel <= 0) return;
 		float damage = fEvent.getAmount();
-		if(EnchantmentsUtility.entityCanSeeSky(attacker)) {
+		if(EnchantUtil.canEntitySeeSky(attacker)) {
 			if(attacker.world.isThundering()) {
-				float modifiedDamage = EnchantmentsUtility.modifyDamage(damage, 0.0f, 1.25f, 1.00f, enchantmentLevel);
+				float modifiedDamage = EnchantUtil.modifyDamage(damage, 0.0f, 1.25f, 1.00f, enchantmentLevel);
 				fEvent.setAmount(modifiedDamage);
 			} else {
-				float modifiedDamage = EnchantmentsUtility.modifyDamage(damage, 0.00f, -0.5f, 1.0f, enchantmentLevel);
+				float modifiedDamage = EnchantUtil.modifyDamage(damage, 0.00f, -0.5f, 1.0f, enchantmentLevel);
 				fEvent.setAmount(modifiedDamage);
 				if(fEvent.getEntity().world.rand.nextInt(800) < 2 + (enchantmentLevel * 2)) {
-					EnchantmentsUtility.setThunderstorm(fEvent.getEntityLiving().getEntityWorld());
+					EnchantUtil.setThundering(fEvent.getEntityLiving().getEntityWorld());
 				}
 			}
 		}
 		else {
-			float modifiedDamage = EnchantmentsUtility.modifyDamage(damage, -0.05f, -0.75f, 1.0f, enchantmentLevel);
+			float modifiedDamage = EnchantUtil.modifyDamage(damage, -0.05f, -0.75f, 1.0f, enchantmentLevel);
 			fEvent.setAmount(modifiedDamage);
 		}
 	}

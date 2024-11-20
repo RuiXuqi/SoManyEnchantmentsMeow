@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.armor.protection;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
+import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -67,8 +67,8 @@ public class EnchantmentAdvancedFeatherFalling extends EnchantmentBase {
 		if(!ModConfig.miscellaneous.extraProtectionEffects) return;
 		if(!this.isEnabled()) return;
 		if(fEvent.getSource() != DamageSource.FALL) return;
-		int modifier = (int)(9.0F * EnchantmentsUtility.getTotalEnchantmentLevel(this, fEvent.getEntityLiving()));
-		float damage = EnchantmentsUtility.getDamageAfterMagicAbsorb(fEvent.getAmount(), modifier);
+		int modifier = (int)(9.0F * EnchantUtil.getTotalEnchantmentLevel(this, fEvent.getEntityLiving()));
+		float damage = EnchantUtil.getDamageAfterMagicAbsorb(fEvent.getAmount(), modifier);
 		fEvent.setAmount(damage);
 	}
 }

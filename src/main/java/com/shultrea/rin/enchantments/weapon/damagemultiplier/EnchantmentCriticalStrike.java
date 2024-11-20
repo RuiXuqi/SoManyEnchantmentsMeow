@@ -5,7 +5,7 @@ import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
-import com.shultrea.rin.registry.ModRegistry;
+import com.shultrea.rin.registry.SoundRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -81,7 +81,7 @@ public class EnchantmentCriticalStrike extends EnchantmentBase {
 					stack.getTagCompound().setInteger("failedCritCount", 0);
 					float crit = 0.4F + (float)csLevel * 0.4F + player.world.rand.nextFloat() * 0.5F;
 
-					player.world.playSound(null, player.posX, player.posY, player.posZ, ModRegistry.CRITICAL_STRIKE, SoundCategory.PLAYERS, 0.8F, 1.0F /(player.world.rand.nextFloat() * 0.4F + 1.2F)* 1.6F);
+					player.world.playSound(null, player.posX, player.posY, player.posZ, SoundRegistry.CRITICAL_STRIKE, SoundCategory.PLAYERS, 0.8F, 1.0F /(player.world.rand.nextFloat() * 0.4F + 1.2F)* 1.6F);
 
 					event.setDamageModifier(event.getDamageModifier() + crit);
 				}

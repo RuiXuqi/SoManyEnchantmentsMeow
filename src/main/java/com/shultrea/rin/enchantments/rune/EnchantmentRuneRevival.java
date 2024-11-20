@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.rune;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
+import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -82,7 +82,7 @@ public class EnchantmentRuneRevival extends EnchantmentBase {
 							durability > 80 ? 8 :
 							10;
 		extraChance = extraChance / 100f;
-		boolean test = EnchantmentsUtility.RANDOM.nextDouble() < (0.15f + (enchantmentLevel * 0.15f)) + extraChance;
+		boolean test = EnchantUtil.RANDOM.nextDouble() < (0.15f + (enchantmentLevel * 0.15f)) + extraChance;
 		//System.out.println(extraChance + " - Extra Chance");
 		if(test) {
 			ItemStack newTool = tool.copy();
@@ -100,7 +100,7 @@ public class EnchantmentRuneRevival extends EnchantmentBase {
 			 }
 			 }
 			 */
-			boolean flag = EnchantmentsUtility.addItemStackToInventoryWithoutHolding(newTool, entity.inventory);
+			boolean flag = EnchantUtil.addItemStackToInventoryWithoutHolding(newTool, entity.inventory);
 			if(!flag) {
 				EntityItem entityItem = entity.entityDropItem(newTool, 1.3f);
 				entityItem.setOwner(entity.getName());

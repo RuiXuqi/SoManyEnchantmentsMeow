@@ -1,6 +1,6 @@
 package com.shultrea.rin.config;
 
-import com.shultrea.rin.enums.Types;
+import com.shultrea.rin.util.Types;
 import com.shultrea.rin.SoManyEnchantments;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.Item;
@@ -9,6 +9,7 @@ import net.minecraftforge.common.config.Config;
 
 import java.util.HashMap;
 
+//TODO predefined types are registered with EnumHelper and Creative tabs, custom types probably need to as well?
 public class CanApplyConfig {
 
 	private final HashMap<String, EnumEnchantmentType> itemTypes = new HashMap<>();

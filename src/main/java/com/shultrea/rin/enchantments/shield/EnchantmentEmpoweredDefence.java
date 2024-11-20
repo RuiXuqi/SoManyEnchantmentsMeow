@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.shield;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
+import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -71,12 +71,12 @@ public class EnchantmentEmpoweredDefence extends EnchantmentBase {
 		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.empoweredDefence, victim);
 		if(enchantmentLevel <= 0) return;
 
-		if(!EnchantmentsUtility.canBlockDamageSource(fEvent.getSource(), victim)) return;
+		if(!EnchantUtil.canBlockDamageSource(fEvent.getSource(), victim)) return;
 		if(victim.getRNG().nextInt(100) > 20 + (enchantmentLevel * 5)) return;
 
 		fEvent.setCanceled(true);
 		Entity attacker = fEvent.getSource().getImmediateSource();
-		EnchantmentsUtility.knockBackIgnoreKBRes(attacker, 0.4f + 0.2F * enchantmentLevel, victim.posX - attacker.posX, victim.posZ - attacker.posZ);
+		EnchantUtil.knockBackIgnoreKBRes(attacker, 0.4f + 0.2F * enchantmentLevel, victim.posX - attacker.posX, victim.posZ - attacker.posZ);
 		float revengeDamage = fEvent.getAmount() * 0.225f * enchantmentLevel;
 		if(victim instanceof EntityPlayer)
 			attacker.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)victim), revengeDamage);

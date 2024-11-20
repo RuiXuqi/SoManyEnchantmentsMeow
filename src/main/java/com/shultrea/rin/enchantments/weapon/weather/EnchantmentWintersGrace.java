@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.weapon.weather;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
+import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -77,9 +77,9 @@ public class EnchantmentWintersGrace extends EnchantmentBase {
 		if(enchantmentLevel <= 0) return;
 		BlockPos blockpos = attacker.getPosition();
 		float Damage = fEvent.getAmount();
-		if(attacker.world.isRaining() && EnchantmentsUtility.entityCanSeeSky(attacker) && isInColdTemperature(attacker, attacker.getEntityWorld().getBiome(blockpos))) {
+		if(attacker.world.isRaining() && EnchantUtil.canEntitySeeSky(attacker) && isInColdTemperature(attacker, attacker.getEntityWorld().getBiome(blockpos))) {
 
-			float modifiedDamage = EnchantmentsUtility.modifyDamage(Damage, 0.10f, 0.90f, 1.15f, enchantmentLevel);
+			float modifiedDamage = EnchantUtil.modifyDamage(Damage, 0.10f, 0.90f, 1.15f, enchantmentLevel);
 			fEvent.setAmount(modifiedDamage);
 
 			fEvent.getEntityLiving().addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 60, enchantmentLevel - 3));
@@ -88,14 +88,14 @@ public class EnchantmentWintersGrace extends EnchantmentBase {
 			if(enchantmentLevel >= 4)
 				fEvent.getEntityLiving().addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 60, enchantmentLevel - 4));
 		}
-		else if((!attacker.world.isRaining() && EnchantmentsUtility.entityCanSeeSky(attacker)) || !isInColdTemperature(attacker, attacker.getEntityWorld().getBiome(blockpos))) {
-			float modifiedDamage = EnchantmentsUtility.modifyDamage(Damage, 0.00f, -0.6f, 1.0f, enchantmentLevel);
+		else if((!attacker.world.isRaining() && EnchantUtil.canEntitySeeSky(attacker)) || !isInColdTemperature(attacker, attacker.getEntityWorld().getBiome(blockpos))) {
+			float modifiedDamage = EnchantUtil.modifyDamage(Damage, 0.00f, -0.6f, 1.0f, enchantmentLevel);
 			fEvent.setAmount(modifiedDamage);
 			if(Math.random() * 5 < 0.02f + enchantmentLevel)
-				EnchantmentsUtility.setRaining(attacker.getEntityWorld());
+				EnchantUtil.setRaining(attacker.getEntityWorld());
 		}
-		else if(!EnchantmentsUtility.entityCanSeeSky(attacker)) {
-			float modifiedDamage = EnchantmentsUtility.modifyDamage(Damage, 0.00f, -0.8f, 1.0f, enchantmentLevel);
+		else if(!EnchantUtil.canEntitySeeSky(attacker)) {
+			float modifiedDamage = EnchantUtil.modifyDamage(Damage, 0.00f, -0.8f, 1.0f, enchantmentLevel);
 			fEvent.setAmount(modifiedDamage);
 		}
 	}

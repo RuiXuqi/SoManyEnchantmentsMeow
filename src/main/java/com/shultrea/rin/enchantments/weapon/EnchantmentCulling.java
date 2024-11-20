@@ -2,10 +2,8 @@ package com.shultrea.rin.enchantments.weapon;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.SoManyEnchantments;
-import com.shultrea.rin.utility_sector.MsgSP_Particle;
-import com.shultrea.rin.utility_sector.SMEnetwork;
-import com.shultrea.rin.utility_sector.UtilityAccessor;
+import com.shultrea.rin.util.DamageSources;
+import com.shultrea.rin.util.ReflectionUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -19,6 +17,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -99,7 +98,7 @@ public class EnchantmentCulling extends EnchantmentBase {
 			if(fEvent.getEntityLiving().getHealth() > bonus && currentHealthPercent > 0.1f + (half * 0.07 - 0.01f)) {
 				//System.out.println("Failed");
 				float DamageCull = fEvent.getAmount();
-				UtilityAccessor.damageTarget(fEvent.getEntityLiving(), SoManyEnchantments.PhysicalDamage, DamageCull * (0.7f + (half * 0.33f + 0.01f)));
+				ReflectionUtil.damageEntityNoEvent(fEvent.getEntityLiving(), DamageSources.PhysicalDamage, DamageCull * (0.7f + (half * 0.33f + 0.01f)));
 				fEvent.setAmount(1.0f);
 			}
 			else if(fEvent.getEntityLiving().getHealth() <= bonus || currentHealthPercent <= 0.1f + (half * 0.07 - 0.01f)) {
@@ -112,11 +111,11 @@ public class EnchantmentCulling extends EnchantmentBase {
 					double d0 = random.nextGaussian() * 0.02D;
 					double d1 = random.nextGaussian() * 0.02D;
 					double d2 = random.nextGaussian() * 0.02D;
-					SMEnetwork.net.sendToAll(new MsgSP_Particle("angryVillager", (float)X + random.nextFloat(), Y + ((double)random.nextFloat() * 2), (float)Z + random.nextFloat(), d0, d1, d2));
+					attacker.world.spawnParticle(EnumParticleTypes.VILLAGER_ANGRY, (float)X + random.nextFloat(), Y + ((double)random.nextFloat() * 2), (float)Z + random.nextFloat(), d0, d1, d2);
 				}
 				float Damage = maxHealth * 1000.0f;
 				attacker.addPotionEffect(new PotionEffect(MobEffects.SPEED, 60 + (enchantmentLevel * 20), enchantmentLevel - 1));
-				UtilityAccessor.damageTarget(fEvent.getEntityLiving(), SoManyEnchantments.Culled, (Damage));
+				ReflectionUtil.damageEntityNoEvent(fEvent.getEntityLiving(), DamageSources.Culled, (Damage));
 				fEvent.setAmount(1f);
 			}
 		}
@@ -126,7 +125,7 @@ public class EnchantmentCulling extends EnchantmentBase {
 	//TODO
 	@SubscribeEvent
 	public void HandleEnchant(LivingDropsEvent fEvent) {
-		if(fEvent.getSource() != SoManyEnchantments.Culled) return;
+		if(fEvent.getSource() != DamageSources.Culled) return;
 		if(!(fEvent.getSource().getTrueSource() instanceof EntityLivingBase)) return;
 		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
 		if(attacker == null) return;

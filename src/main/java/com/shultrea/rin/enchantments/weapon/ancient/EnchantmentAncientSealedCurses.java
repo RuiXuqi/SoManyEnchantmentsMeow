@@ -2,8 +2,8 @@ package com.shultrea.rin.enchantments.weapon.ancient;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.CurseLister;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.util.EnchantUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -85,7 +85,7 @@ public class EnchantmentAncientSealedCurses extends EnchantmentBase {
 			Iterable<ItemStack> iter = entity.getEquipmentAndArmor();
 			for(ItemStack stack : iter) {
 				if(user.getRNG().nextInt(8) < 1) {
-					List<Enchantment> list = CurseLister.CURSE;
+					List<Enchantment> list = EnchantUtil.getCurses();
 					int random = user.getRNG().nextInt(list.size());
 					Enchantment ench = list.get(random);
 					int randLevel = user.getRNG().nextInt(ench.getMaxLevel());

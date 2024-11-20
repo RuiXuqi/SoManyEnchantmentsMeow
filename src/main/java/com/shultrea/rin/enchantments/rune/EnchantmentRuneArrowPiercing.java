@@ -4,7 +4,7 @@ import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.properties.ArrowPropertiesProvider;
 import com.shultrea.rin.properties.IArrowProperties;
-import com.shultrea.rin.utility_sector.UtilityAccessor;
+import com.shultrea.rin.util.ReflectionUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -84,7 +84,7 @@ public class EnchantmentRuneArrowPiercing extends EnchantmentBase {
 			EntityLivingBase shooter = (EntityLivingBase)event.getSource().getTrueSource();
 			float damage = event.getAmount() * 0.25F * pierceLevel;
 			event.setAmount(event.getAmount() - damage);
-			UtilityAccessor.damageTarget(event.getEntityLiving(), new EntityDamageSourceIndirect("arrow", arrow, shooter).setDamageBypassesArmor(), damage);
+			ReflectionUtil.damageEntityNoEvent(event.getEntityLiving(), new EntityDamageSourceIndirect("arrow", arrow, shooter).setDamageBypassesArmor(), damage);
 		}
 	}
 }

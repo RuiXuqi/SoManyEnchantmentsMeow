@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.weapon.weather;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
+import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -66,19 +66,19 @@ public class EnchantmentRainsBestowment extends EnchantmentBase {
 		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.rainsBestowment, stack);
 		if(enchantmentLevel <= 0) return;
 		float damage = fEvent.getAmount();
-		if(attacker.world.isRaining() && EnchantmentsUtility.entityCanSeeSky(attacker)) {
-			float modifiedDamage = EnchantmentsUtility.modifyDamage(damage, 0.2f, 0.80f, 1.0f, enchantmentLevel);
+		if(attacker.world.isRaining() && EnchantUtil.canEntitySeeSky(attacker)) {
+			float modifiedDamage = EnchantUtil.modifyDamage(damage, 0.2f, 0.80f, 1.0f, enchantmentLevel);
 			fEvent.setAmount(modifiedDamage);
 		}
-		else if(!attacker.world.isRaining() && EnchantmentsUtility.entityCanSeeSky(attacker)) {
-			float modifiedDamage = EnchantmentsUtility.modifyDamage(damage, -0.2f, -0.3f, 1.0f, enchantmentLevel);
+		else if(!attacker.world.isRaining() && EnchantUtil.canEntitySeeSky(attacker)) {
+			float modifiedDamage = EnchantUtil.modifyDamage(damage, -0.2f, -0.3f, 1.0f, enchantmentLevel);
 			fEvent.setAmount(modifiedDamage);
 			if(fEvent.getEntity().world.rand.nextInt(500) < 3 + enchantmentLevel) {
-				EnchantmentsUtility.setRaining(fEvent.getEntityLiving().getEntityWorld());
+				EnchantUtil.setRaining(fEvent.getEntityLiving().getEntityWorld());
 			}
 			//This is never called, wrong spot in ifelse
-			else if(!EnchantmentsUtility.entityCanSeeSky(attacker)) {
-				modifiedDamage = EnchantmentsUtility.modifyDamage(damage, 0.0f, -0.5f, 1.0f, enchantmentLevel);
+			else if(!EnchantUtil.canEntitySeeSky(attacker)) {
+				modifiedDamage = EnchantUtil.modifyDamage(damage, 0.0f, -0.5f, 1.0f, enchantmentLevel);
 				fEvent.setAmount(modifiedDamage);
 			}
 		}

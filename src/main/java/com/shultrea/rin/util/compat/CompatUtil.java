@@ -1,4 +1,4 @@
-package com.shultrea.rin.utility_sector.compat;
+package com.shultrea.rin.util.compat;
 
 import net.minecraftforge.fml.common.Loader;
 

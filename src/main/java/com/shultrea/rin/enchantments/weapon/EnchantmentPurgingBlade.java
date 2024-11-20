@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.weapon;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.UtilityAccessor;
+import com.shultrea.rin.util.ReflectionUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -70,7 +70,7 @@ public class EnchantmentPurgingBlade extends EnchantmentBase {
 		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.purgingBlade, dmgSource);
 		if(enchantmentLevel <= 0) return;
 		if(Math.random() <= 0.1 + (0.06f * enchantmentLevel)) {
-			UtilityAccessor.damageTarget(fEvent.getEntityLiving(), DamageSource.MAGIC, 1.25f + (0.75f * enchantmentLevel));
+			ReflectionUtil.damageEntityNoEvent(fEvent.getEntityLiving(), DamageSource.MAGIC, 1.25f + (0.75f * enchantmentLevel));
 			fEvent.getEntityLiving().hurtResistantTime = 0;
 			fEvent.setAmount(fEvent.getAmount() * 1.2f);
 			Collection<PotionEffect> collectPotion = fEvent.getEntityLiving().getActivePotionEffects();

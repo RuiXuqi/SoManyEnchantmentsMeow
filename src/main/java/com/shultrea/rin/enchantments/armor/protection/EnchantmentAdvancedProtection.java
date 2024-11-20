@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.armor.protection;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
+import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -66,8 +66,8 @@ public class EnchantmentAdvancedProtection extends EnchantmentBase {
 	public void livingHurtEvent_extraProtection(LivingHurtEvent fEvent) {
 		if(!ModConfig.miscellaneous.extraProtectionEffects) return;
 		if(!this.isEnabled()) return;
-		int modifier = (int)(4.75f * EnchantmentsUtility.getTotalEnchantmentLevel(this, fEvent.getEntityLiving()));
-		float damage = EnchantmentsUtility.getDamageAfterMagicAbsorb(fEvent.getAmount(), modifier);
+		int modifier = (int)(4.75f * EnchantUtil.getTotalEnchantmentLevel(this, fEvent.getEntityLiving()));
+		float damage = EnchantUtil.getDamageAfterMagicAbsorb(fEvent.getAmount(), modifier);
 		fEvent.setAmount(damage);
 	}
 }

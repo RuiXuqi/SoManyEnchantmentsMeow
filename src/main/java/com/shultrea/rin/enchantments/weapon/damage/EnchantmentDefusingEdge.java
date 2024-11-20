@@ -2,8 +2,8 @@ package com.shultrea.rin.enchantments.weapon.damage;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.SoManyEnchantments;
-import com.shultrea.rin.utility_sector.UtilityAccessor;
+import com.shultrea.rin.util.DamageSources;
+import com.shultrea.rin.util.ReflectionUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -71,7 +71,7 @@ public class EnchantmentDefusingEdge extends EnchantmentBase {
 		if(levelDefusing <= 0) return;
 		if(fEvent.getEntity() instanceof EntityCreeper) {
 			float Damage = fEvent.getAmount();
-			UtilityAccessor.damageTarget(fEvent.getEntityLiving(), SoManyEnchantments.PhysicalDamage, levelDefusing * 2.5f);
+			ReflectionUtil.damageEntityNoEvent(fEvent.getEntityLiving(), DamageSources.PhysicalDamage, levelDefusing * 2.5f);
 			fEvent.setAmount(Damage);
 			if(Math.random() < 0.02f * levelDefusing) {
 				EntityCreeper creeper = (EntityCreeper)fEvent.getEntityLiving();

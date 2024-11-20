@@ -2,8 +2,8 @@ package com.shultrea.rin.enchantments.weapon;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.SoManyEnchantments;
-import com.shultrea.rin.utility_sector.UtilityAccessor;
+import com.shultrea.rin.util.DamageSources;
+import com.shultrea.rin.util.ReflectionUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -69,6 +69,6 @@ public class EnchantmentLifesteal extends EnchantmentBase {
 		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.lifesteal, weapon);
 		if(enchantmentLevel <= 0) return;
 		attacker.heal(fEvent.getAmount() * (enchantmentLevel * 0.025f + 0.025f));
-		UtilityAccessor.damageTarget(fEvent.getEntityLiving(), SoManyEnchantments.PhysicalDamage, fEvent.getAmount() * (0.05F + ((enchantmentLevel * 0.05F))));
+		ReflectionUtil.damageEntityNoEvent(fEvent.getEntityLiving(), DamageSources.PhysicalDamage, fEvent.getAmount() * (0.05F + ((enchantmentLevel * 0.05F))));
 	}
 }

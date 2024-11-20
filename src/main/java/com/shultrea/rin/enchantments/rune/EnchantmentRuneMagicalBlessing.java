@@ -2,8 +2,9 @@ package com.shultrea.rin.enchantments.rune;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
-import com.shultrea.rin.utility_sector.UtilityAccessor;
+import com.shultrea.rin.util.EnchantUtil;
+import com.shultrea.rin.util.PotionUtil;
+import com.shultrea.rin.util.ReflectionUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -92,21 +93,21 @@ public class EnchantmentRuneMagicalBlessing extends EnchantmentBase {
 		damage *= enchantmentLevel * 0.25f;
 		if(victim instanceof EntityWitch)
 			damage *= 0.15f;
-		UtilityAccessor.damageTargetEvent(victim, new EntityDamageSource("player", attacker).setMagicDamage(), damage);
-		if(EnchantmentsUtility.RANDOM.nextBoolean()) {
-			Potion negaPotion = EnchantmentsUtility.getNonInstantNegativePotion();
+		ReflectionUtil.damageEntityLivingDamageEvent(victim, new EntityDamageSource("player", attacker).setMagicDamage(), damage);
+		if(EnchantUtil.RANDOM.nextBoolean()) {
+			Potion negaPotion = PotionUtil.getNonInstantNegativePotion();
 			if(negaPotion != null) {
-				int duration = (EnchantmentsUtility.RANDOM.nextInt(6) + 1) * 20 * enchantmentLevel;
-				int amplifier = EnchantmentsUtility.RANDOM.nextInt(enchantmentLevel) - 1;
+				int duration = (EnchantUtil.RANDOM.nextInt(6) + 1) * 20 * enchantmentLevel;
+				int amplifier = EnchantUtil.RANDOM.nextInt(enchantmentLevel) - 1;
 				victim.addPotionEffect(new PotionEffect(negaPotion, duration, amplifier));
 			}
 		}
 		else {
-			Potion negaIPotion = EnchantmentsUtility.getInstantNegativePotion();
+			Potion negaIPotion = PotionUtil.getInstantNegativePotion();
 			if(negaIPotion != null) {
 				if(negaIPotion == MobEffects.INSTANT_DAMAGE && fEvent.getEntityLiving().isEntityUndead())
 					negaIPotion = MobEffects.INSTANT_HEALTH;
-				int amplifier = EnchantmentsUtility.RANDOM.nextInt(enchantmentLevel) - 1;
+				int amplifier = EnchantUtil.RANDOM.nextInt(enchantmentLevel) - 1;
 				victim.addPotionEffect(new PotionEffect(negaIPotion, 1, amplifier));
 			}
 		}

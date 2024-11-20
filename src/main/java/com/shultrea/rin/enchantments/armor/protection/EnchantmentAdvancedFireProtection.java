@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.armor.protection;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
+import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -81,8 +81,8 @@ public class EnchantmentAdvancedFireProtection extends EnchantmentBase {
 		if(!ModConfig.miscellaneous.extraProtectionEffects) return;
 		if(!this.isEnabled()) return;
 		if(!fEvent.getSource().isFireDamage()) return;
-		int modifier = (int)(7.5f * EnchantmentsUtility.getTotalEnchantmentLevel(this, fEvent.getEntityLiving()));
-		float damage = EnchantmentsUtility.getDamageAfterMagicAbsorb(fEvent.getAmount(), modifier);
+		int modifier = (int)(7.5f * EnchantUtil.getTotalEnchantmentLevel(this, fEvent.getEntityLiving()));
+		float damage = EnchantUtil.getDamageAfterMagicAbsorb(fEvent.getAmount(), modifier);
 		fEvent.setAmount(damage);
 	}
 }
