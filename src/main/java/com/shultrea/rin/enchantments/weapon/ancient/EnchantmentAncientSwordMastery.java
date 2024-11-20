@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.weapon.ancient;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
+import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.Enchantment;
@@ -91,7 +91,7 @@ public class EnchantmentAncientSwordMastery extends EnchantmentBase {
 		}
 		stack.getTagCompound().setBoolean(nbtFlag, true);
 		//if(EnchantmentsUtility.isLevelMax(stack, this) || EnchantmentsUtility.RANDOM.nextInt(3) < enchantmentLevel - 1)
-		if(enchantmentLevel >= 3 || EnchantmentsUtility.RANDOM.nextInt(3) < enchantmentLevel - 1) {
+		if(enchantmentLevel >= 3 || EnchantUtil.RANDOM.nextInt(3) < enchantmentLevel - 1) {
 			if(stack.getItem() instanceof ItemSword && attacker instanceof EntityPlayer) {
 				ItemSword sword = (ItemSword)stack.getItem();
 				sword.onLeftClickEntity(stack, (EntityPlayer)attacker, victim);

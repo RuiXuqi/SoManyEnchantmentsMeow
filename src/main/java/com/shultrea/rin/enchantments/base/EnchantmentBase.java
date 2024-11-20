@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments.base;
 
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.enums.Types;
+import com.shultrea.rin.util.Types;
 import com.shultrea.rin.SoManyEnchantments;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;

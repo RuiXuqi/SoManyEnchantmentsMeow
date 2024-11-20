@@ -2,8 +2,6 @@ package com.shultrea.rin.enchantments.tool;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.MsgSP_Particle;
-import com.shultrea.rin.utility_sector.SMEnetwork;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -13,6 +11,7 @@ import net.minecraft.item.ItemAir;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -112,7 +111,7 @@ public class EnchantmentSmelter extends EnchantmentBase {
 							double rx = eitem.posX + random.nextFloat() - 0.5;
 							double ry = eitem.posY + (random.nextFloat() + 0.5) * 0.15;
 							double rz = eitem.posZ + random.nextFloat() - 0.5;
-							SMEnetwork.net.sendToAll(new MsgSP_Particle("flame", rx, ry, rz, 0, 0, 0));
+							fEvent.getHarvester().world.spawnParticle(EnumParticleTypes.FLAME, rx, ry, rz, 0, 0, 0);
 						}
 					}
 					// cancel the default drops

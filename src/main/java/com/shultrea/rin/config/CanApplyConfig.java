@@ -1,6 +1,6 @@
 package com.shultrea.rin.config;
 
-import com.shultrea.rin.enums.Types;
+import com.shultrea.rin.util.Types;
 import com.shultrea.rin.SoManyEnchantments;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.Item;
@@ -9,6 +9,7 @@ import net.minecraftforge.common.config.Config;
 
 import java.util.HashMap;
 
+//TODO predefined types are registered with EnumHelper and Creative tabs, custom types probably need to as well?
 public class CanApplyConfig {
 
 	private final HashMap<String, EnumEnchantmentType> itemTypes = new HashMap<>();
@@ -93,7 +94,7 @@ public class CanApplyConfig {
 	public String[] burningShield = {"SHIELD"};
 	@Config.Name("Burning Thorns")
 	@Config.RequiresMcRestart
-	public String[] burningThorns = {"ARMOR"};
+	public String[] burningThorns = {"ARMOR_CHEST"};
 	@Config.Name("Butchering")
 	@Config.RequiresMcRestart
 	public String[] butchering = {"SWORD"};
@@ -429,7 +430,7 @@ public class CanApplyConfig {
 	public String[] advancedSmite = {"SWORD"};
 	@Config.Name("Advanced Thorns")
 	@Config.RequiresMcRestart
-	public String[] advancedThorns = {"ARMOR"};
+	public String[] advancedThorns = {"ARMOR_CHEST"};
 	//Supreme
 	@Config.Name("Supreme Bane of Arthropods")
 	@Config.RequiresMcRestart

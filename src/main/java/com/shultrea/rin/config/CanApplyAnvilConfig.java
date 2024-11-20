@@ -33,7 +33,7 @@ public class CanApplyAnvilConfig {
 	public String[] burningShield = {};
 	@Config.Name("Burning Thorns")
 	@Config.RequiresMcRestart
-	public String[] burningThorns = {};
+	public String[] burningThorns = {"ARMOR"};
 	@Config.Name("Butchering")
 	@Config.RequiresMcRestart
 	public String[] butchering = {"AXE"};
@@ -369,7 +369,7 @@ public class CanApplyAnvilConfig {
 	public String[] advancedSmite = {"AXE"};
 	@Config.Name("Advanced Thorns")
 	@Config.RequiresMcRestart
-	public String[] advancedThorns = {};
+	public String[] advancedThorns = {"ARMOR"};
 	//Supreme
 	@Config.Name("Supreme Bane of Arthropods")
 	@Config.RequiresMcRestart

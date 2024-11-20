@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.weapon;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
+import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -63,7 +63,7 @@ public class EnchantmentBrutality extends EnchantmentBase {
 			x--;
 		}
 		for(ItemStack item : iter) {
-            item.damageItem((int)(item.getMaxDamage() * (0.0025f * x) + EnchantmentsUtility.RANDOM.nextInt(x + 2)) + 1, victim);
+            item.damageItem((int)(item.getMaxDamage() * (0.0025f * x) + EnchantUtil.RANDOM.nextInt(x + 2)) + 1, victim);
 		}
 		//TODO: enchantment level doesnt factor into this calc at all, so brutality 1 does the same as brutality 1000
 	}

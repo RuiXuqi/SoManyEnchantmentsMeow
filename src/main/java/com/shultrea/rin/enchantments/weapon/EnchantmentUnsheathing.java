@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.weapon;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
+import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -70,7 +70,7 @@ public class EnchantmentUnsheathing extends EnchantmentBase {
 					ItemStack stack = inv.getStackInSlot(x);
 					int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.unsheathing, stack);
 					if(enchantmentLevel <= 0) continue;
-					if(EnchantmentsUtility.RANDOM.nextInt(2) <= -1 + enchantmentLevel)
+					if(EnchantUtil.RANDOM.nextInt(2) <= -1 + enchantmentLevel)
 						continue;
 					if(inv.getStackInSlot(inv.currentItem) == stack) continue;
 					ItemStack s = inv.getStackInSlot(inv.currentItem);

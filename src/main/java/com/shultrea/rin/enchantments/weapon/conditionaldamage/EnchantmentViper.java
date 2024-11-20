@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.weapon.conditionaldamage;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
+import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -78,7 +78,7 @@ public class EnchantmentViper extends EnchantmentBase {
 		//System.out.println(FDamage + " - Additional Damage Viper");
 
 		//This only adds +1 dmg flat, could just do forgeDamage += 1;
-		forgeDamage += EnchantmentsUtility.modifyDamage(forgeDamage + FDamage, 0.0f, 1.00f, 1.0f, 1);
+		forgeDamage += EnchantUtil.modifyDamage(forgeDamage + FDamage, 0.0f, 1.00f, 1.0f, 1);
 		fEvent.setAmount(forgeDamage);
 	}
 }

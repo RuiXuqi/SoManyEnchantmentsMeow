@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.weapon;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
+import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.*;
@@ -129,7 +129,7 @@ public class EnchantmentArcSlash extends EnchantmentBase {
                     //Entity victim = fEvent.getEntityLiving();
                     if (modKnockback > 0)
                         //target.setVelocity((double)(-MathHelper.sin(attacker.rotationYaw * (float)Math.PI / 180.0F) * (float)modKnockback * 0.85F), 0.2D, (double)(MathHelper.cos(attacker.rotationYaw * (float)Math.PI / 180.0F) * (float)modKnockback * 0.85F));
-                        EnchantmentsUtility.knockBackIgnoreKBRes(target, 0.3F * modKnockback, attacker.posX - target.posX, attacker.posZ - target.posZ);
+                        EnchantUtil.knockBackIgnoreKBRes(target, 0.3F * modKnockback, attacker.posX - target.posX, attacker.posZ - target.posZ);
                 }
             }
         }

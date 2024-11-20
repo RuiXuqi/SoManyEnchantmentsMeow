@@ -3,10 +3,10 @@ package com.shultrea.rin.enchantments.curses;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.SoManyEnchantments;
-import com.shultrea.rin.utility_sector.CurseLister;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
 import com.shultrea.rin.registry.EnchantmentRegistry;
-import com.shultrea.rin.registry.ModRegistry;
+import com.shultrea.rin.registry.SoundRegistry;
+import com.shultrea.rin.util.EnchantUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -72,7 +72,7 @@ public class EnchantmentPandorasCurse extends EnchantmentCurse {
 		if(!this.isEnabled()) return super.getTranslatedName(level);
 		String s = I18n.translateToLocal(this.getName());
 		s = TextFormatting.DARK_RED + s;
-		EntityPlayer player = SoManyEnchantments.proxy.getClientPlayer();
+		EntityPlayer player = SoManyEnchantments.PROXY.getClientPlayer();
 		return level < 3 && player != null && !player.isCreative() ? "" : s;
 	}
 	
@@ -126,7 +126,7 @@ public class EnchantmentPandorasCurse extends EnchantmentCurse {
 			
 			int origCurseLevel = curseLevel;
 			
-			List<Enchantment> curses = CurseLister.CURSE;
+			List<Enchantment> curses = EnchantUtil.getCurses();
 			for(ItemStack stack : candidates) {
 				if(curseLevel <= 5 && event.player.world.rand.nextInt(8) < 1) {
 					Enchantment curse = curses.get(event.player.world.rand.nextInt(curses.size()));
@@ -150,7 +150,7 @@ public class EnchantmentPandorasCurse extends EnchantmentCurse {
 				Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(cursedStack);
 				if(curseLevel > 5) {
 					enchants.remove(EnchantmentRegistry.pandorasCurse);
-					event.player.world.playSound(null, event.player.posX, event.player.posY, event.player.posZ, ModRegistry.PANDORA_REMOVAL, SoundCategory.PLAYERS, 0.8F, (event.player.world.rand.nextFloat()-event.player.world.rand.nextFloat())*0.1F+1.4F);
+					event.player.world.playSound(null, event.player.posX, event.player.posY, event.player.posZ, SoundRegistry.PANDORA_REMOVAL, SoundCategory.PLAYERS, 0.8F, (event.player.world.rand.nextFloat()-event.player.world.rand.nextFloat())*0.1F+1.4F);
 				}
 				else {
 					enchants.put(EnchantmentRegistry.pandorasCurse, curseLevel);

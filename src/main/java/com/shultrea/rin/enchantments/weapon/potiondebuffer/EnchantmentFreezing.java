@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.weapon.potiondebuffer;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
+import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -105,9 +105,9 @@ public class EnchantmentFreezing extends EnchantmentBase {
 			if(chance < (enchantmentLevel * 10)) {
 				victim.extinguish();
 				stack.damageItem(6 - enchantmentLevel, attacker);
-				float damage = EnchantmentsUtility.modifyDamage(fEvent.getAmount(), 2.0f, 0.65f, 1.0f, enchantmentLevel);
+				float damage = EnchantUtil.modifyDamage(fEvent.getAmount(), 2.0f, 0.65f, 1.0f, enchantmentLevel);
 				if(!(attacker instanceof EntityPlayer)) {
-					EnchantmentsUtility.knockBackIgnoreKBRes(attacker, 0.25f, attacker.posX - victim.posX, attacker.posZ - victim.posZ);
+					EnchantUtil.knockBackIgnoreKBRes(attacker, 0.25f, attacker.posX - victim.posX, attacker.posZ - victim.posZ);
 				}
 				victim.getEntityWorld().playSound(null, victim.posX, victim.posY, victim.posZ, SoundEvents.ENTITY_ZOMBIE_VILLAGER_CURE, SoundCategory.MASTER, 0.8f, -1f);
 				ArrayList<BlockPos> posList = new ArrayList<>();
@@ -120,7 +120,7 @@ public class EnchantmentFreezing extends EnchantmentBase {
 				posList.add(new BlockPos(victim.posX, victim.posY, victim.posZ + 1));
 
 				if(enchantmentLevel >= 3) {
-					damage += EnchantmentsUtility.modifyDamage(fEvent.getAmount(), 0.0f, 0.25f, 1.10f, enchantmentLevel);
+					damage += EnchantUtil.modifyDamage(fEvent.getAmount(), 0.0f, 0.25f, 1.10f, enchantmentLevel);
 					posList.add(new BlockPos(victim.posX - 1, victim.posY, victim.posZ - 1));
 					posList.add(new BlockPos(victim.posX - 1, victim.posY, victim.posZ + 1));
 					posList.add(new BlockPos(victim.posX + 1, victim.posY, victim.posZ - 1));

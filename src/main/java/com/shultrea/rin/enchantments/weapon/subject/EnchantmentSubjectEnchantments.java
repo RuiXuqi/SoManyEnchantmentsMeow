@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.weapon.subject;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
+import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -185,13 +185,13 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 		if(levelMath > 0) {
 			float hp = fEvent.getEntityLiving().getMaxHealth() * (levelMath * 0.003125f);
 			float currentHp = fEvent.getEntityLiving().getHealth() * (0.025f * levelMath + 0.025f);
-			float FD = EnchantmentsUtility.modifyDamage(fEvent.getAmount(), hp + currentHp, 0.0f, 1.0f, levelMath);
+			float FD = EnchantUtil.modifyDamage(fEvent.getAmount(), hp + currentHp, 0.0f, 1.0f, levelMath);
 			fEvent.setAmount(FD);
 		}
 		if(levelHistory > 0) {
 			float history = attacker.getEntityWorld().getTotalWorldTime() / 20 / 3600 / (6-levelHistory);
 			history = Math.min(history, 2.5f * levelHistory);
-			float FD = EnchantmentsUtility.modifyDamage(fEvent.getAmount(), history, 0.0f, 1.0f, levelHistory);
+			float FD = EnchantUtil.modifyDamage(fEvent.getAmount(), history, 0.0f, 1.0f, levelHistory);
 			fEvent.setAmount(FD);
 		}
 		if(levelEnglish > 0) {
@@ -205,7 +205,7 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 					fEvent.getEntity() instanceof EntityIllusionIllager ||
 					fEvent.getEntity() instanceof EntityEvoker)
 			{
-				float FD = EnchantmentsUtility.modifyDamage(fEvent.getAmount(), 0.0f, 3.0f, 1.0f, levelEnglish);
+				float FD = EnchantUtil.modifyDamage(fEvent.getAmount(), 0.0f, 3.0f, 1.0f, levelEnglish);
 				fEvent.setAmount(FD);
 				if(Math.random() <= 0.4f) fEvent.getEntityLiving().setSilent(true);
 			}

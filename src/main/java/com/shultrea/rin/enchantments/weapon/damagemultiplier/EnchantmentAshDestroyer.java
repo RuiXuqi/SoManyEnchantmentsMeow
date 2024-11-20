@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.weapon.damagemultiplier;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
+import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -70,7 +70,7 @@ public class EnchantmentAshDestroyer extends EnchantmentBase {
 
 		//UtilityEntityDamager.damageEntity(fEvent.getEntityLiving(), somanyenchantments.PhysicalDamage, Damage);
 		//fEvent.setAmount(fEvent.getAmount());
-		float Final = EnchantmentsUtility.modifyDamage(fEvent.getAmount(), 0f, 0, 1.0f + (enchantmentLevel * 0.2f), enchantmentLevel);
+		float Final = EnchantUtil.modifyDamage(fEvent.getAmount(), 0f, 0, 1.0f + (enchantmentLevel * 0.2f), enchantmentLevel);
 		fEvent.setAmount(Final);
 		//System.out.println("2nd");
 		/**float Damager = fEvent.getAmount();

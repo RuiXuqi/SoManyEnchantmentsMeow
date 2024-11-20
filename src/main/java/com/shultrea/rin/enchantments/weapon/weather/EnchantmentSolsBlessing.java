@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.weapon.weather;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
+import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -64,7 +64,7 @@ public class EnchantmentSolsBlessing extends EnchantmentBase {
 	public void onEntityDamagedAlt(EntityLivingBase user, Entity entiti, ItemStack stack, int level) {
 		if(!(entiti instanceof EntityLivingBase)) return;
 		EntityLivingBase entity = (EntityLivingBase)entiti;
-		if(user.world.isDaytime() && EnchantmentsUtility.entityCanSeeSky(user)) {
+		if(user.world.isDaytime() && EnchantUtil.canEntitySeeSky(user)) {
 			if(!entity.isPotionActive(MobEffects.GLOWING))
 				entity.addPotionEffect(new PotionEffect(MobEffects.GLOWING, 200, 0, false, false));
 			else {
@@ -78,7 +78,7 @@ public class EnchantmentSolsBlessing extends EnchantmentBase {
 	public void onHurtEvent(LivingHurtEvent e) {
 		if(!EnchantmentBase.isDamageSourceAllowed(e.getSource())) return;
 		EntityLivingBase attacker = (EntityLivingBase)e.getSource().getTrueSource();
-		float damage = EnchantmentsUtility.modifyDamageForDaytime(attacker, true, attacker.getHeldItemMainhand(), this);
+		float damage = EnchantUtil.modifyDamageForTime(attacker, true, attacker.getHeldItemMainhand(), this);
 		e.setAmount(damage + e.getAmount());
 	}
 }

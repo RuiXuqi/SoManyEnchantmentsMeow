@@ -2,7 +2,7 @@ package com.shultrea.rin.enchantments.weapon.weather;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.utility_sector.EnchantmentsUtility;
+import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -64,7 +64,7 @@ public class EnchantmentLunarsBlessing extends EnchantmentBase {
 	public void onEntityDamagedAlt(EntityLivingBase user, Entity entiti, ItemStack stack, int level) {
 		if(!(entiti instanceof EntityLivingBase)) return;
 		EntityLivingBase entity = (EntityLivingBase)entiti;
-		if(!user.world.isDaytime() && EnchantmentsUtility.entityCanSeeSky(user)) {
+		if(!user.world.isDaytime() && EnchantUtil.canEntitySeeSky(user)) {
 			if(!entity.isPotionActive(MobEffects.BLINDNESS))
 				entity.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 200));
 			else {
@@ -78,6 +78,6 @@ public class EnchantmentLunarsBlessing extends EnchantmentBase {
 	public void onHurtEvent(LivingHurtEvent e) {
 		if(!EnchantmentBase.isDamageSourceAllowed(e.getSource())) return;
 		EntityLivingBase attacker = (EntityLivingBase)e.getSource().getTrueSource();
-		e.setAmount(e.getAmount() + EnchantmentsUtility.modifyDamageForDaytime(attacker, false, attacker.getHeldItemMainhand(), this));
+		e.setAmount(e.getAmount() + EnchantUtil.modifyDamageForTime(attacker, false, attacker.getHeldItemMainhand(), this));
 	}
 }

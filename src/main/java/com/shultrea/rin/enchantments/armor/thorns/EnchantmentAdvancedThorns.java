@@ -3,13 +3,13 @@ package com.shultrea.rin.enchantments.armor.thorns;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.common.ISpecialArmor;
 
 import java.util.Random;
 
@@ -17,16 +17,6 @@ public class EnchantmentAdvancedThorns extends EnchantmentBase {
 
 	public EnchantmentAdvancedThorns(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
-	}
-	
-	//TODO
-	public static boolean shouldHit(int level, Random rnd) {
-		return level > 0 && rnd.nextFloat() < 0.05f + (0.20F * (float)level);
-	}
-	
-	//TODO
-	public static int getDamage(int level, Random rnd) {
-		return level > 5 ? ((level)) + rnd.nextInt(2 * level) : ((level) + 2) + rnd.nextInt(level + 3);
 	}
 	
 	@Override
@@ -64,44 +54,47 @@ public class EnchantmentAdvancedThorns extends EnchantmentBase {
 		return ModConfig.treasure.advancedThorns;
 	}
 	
-	//TODO
 	@Override
 	public void onUserHurt(EntityLivingBase user, Entity attacker, int level) {
-		if(user == null) return;
-		if(attacker == null || attacker.isDead) return;
 		Random random = user.getRNG();
-		ItemStack itemstack = EnchantmentHelper.getEnchantedItem(EnchantmentRegistry.advancedThorns, user);
+		ItemStack itemstack = EnchantmentHelper.getEnchantedItem(this, user);
 		if(itemstack.isEmpty()) return;
-		if(shouldHit(level, random)) {
-			attacker.attackEntityFrom(DamageSource.causeThornsDamage(user), (float)getDamage(level, random) - 1);
-			damageArmor(itemstack, 4 + random.nextInt(6), user);
+		//Use the level of the actual stack being used
+		int lvl = EnchantmentHelper.getEnchantmentLevel(this, itemstack);
+		//Shouldn't ever be 0 but just incase weirdness
+		if(lvl <= 0) return;
+		if(shouldHit(lvl, random)) {
+			attacker.attackEntityFrom(DamageSource.causeThornsDamage(user), (float)getDamage(lvl, random));
+			damageArmor(itemstack, 4 + random.nextInt(lvl), user);
 		}
-		else
-			damageArmor(itemstack, 2 + random.nextInt(2), user);
+		else {
+			damageArmor(itemstack, 2 + random.nextInt(lvl), user);
+		}
 	}
 	
-	//TODO
+	private static boolean shouldHit(int level, Random rnd) {
+		return level > 0 && rnd.nextFloat() < 0.05F + (0.20F * (float)level);
+	}
+	
+	private static int getDamage(int level, Random rnd) {
+		return 2 + level + rnd.nextInt(level + 3);
+	}
+	
 	private void damageArmor(ItemStack stack, int amount, EntityLivingBase entity) {
-		/**
-		 * Nischi:
-		 * above in onUserHurt we're getting a random item from the specified slots via getEnchantedItem (head,chest,legs,feet), here we search for that slot again but only in armor slots (getArmorInventoryList)
-		 * Although this is ripped straight out of forge EnchantmentThorns.java, that code assumes vanilla behavior (thorns only on armor)
-		 * I would just search for the stack in the whole equipment list (getEquipmentAndArmor)
-		**/
 		int slot = -1;
 		int x = 0;
-		for(ItemStack i : entity.getEquipmentAndArmor()) {
+		for(ItemStack i : entity.getArmorInventoryList()) {
 			if(i == stack) {
 				slot = x;
 				break;
 			}
 			x++;
 		}
-		if(slot == -1 || !(stack.getItem() instanceof net.minecraftforge.common.ISpecialArmor)) {
-			stack.damageItem(2, entity);
+		if(slot == -1 || !(stack.getItem() instanceof ISpecialArmor)) {
+			stack.damageItem(amount, entity);
 			return;
 		}
-		net.minecraftforge.common.ISpecialArmor armor = (net.minecraftforge.common.ISpecialArmor)stack.getItem();
+		ISpecialArmor armor = (ISpecialArmor)stack.getItem();
 		armor.damageArmor(entity, stack, DamageSource.causeThornsDamage(entity), amount, slot);
 	}
 }

@@ -2,8 +2,8 @@ package com.shultrea.rin.enchantments.weapon.damage;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.SoManyEnchantments;
-import com.shultrea.rin.utility_sector.UtilityAccessor;
+import com.shultrea.rin.util.DamageSources;
+import com.shultrea.rin.util.ReflectionUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -70,7 +70,7 @@ public class EnchantmentButchering extends EnchantmentBase {
 		if(enchantmentLevel <= 0) return;
 		if(fEvent.getEntity() instanceof EntityAnimal) {
 			float Damage = 1.25f + enchantmentLevel * 1.25f;
-			UtilityAccessor.damageTarget(fEvent.getEntityLiving(), SoManyEnchantments.PhysicalDamage, Damage);
+			ReflectionUtil.damageEntityNoEvent(fEvent.getEntityLiving(), DamageSources.PhysicalDamage, Damage);
 			fEvent.setAmount(fEvent.getAmount());
 		}
 	}

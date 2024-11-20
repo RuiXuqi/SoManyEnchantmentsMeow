@@ -5,7 +5,7 @@ import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
-import com.shultrea.rin.registry.ModRegistry;
+import com.shultrea.rin.registry.SoundRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -74,7 +74,7 @@ public class EnchantmentAtomicDeconstructor extends EnchantmentBase {
 				if(!ModConfig.miscellaneous.atomicDeconstructorMaxDamage || !target.attackEntityFrom(DamageSource.OUT_OF_WORLD, Float.MAX_VALUE)) {
 					event.setDamageModifier(target.getMaxHealth() * 100.0F);
 				}
-				event.getEntityPlayer().world.playSound(null, event.getEntityPlayer().posX, event.getEntityPlayer().posY, event.getEntityPlayer().posZ, ModRegistry.ATOMIC_DECONSTRUCT, SoundCategory.PLAYERS, 2.0F, 1.0F /(event.getEntityPlayer().world.rand.nextFloat() * 0.4F + 1.2F)* 1.4F);
+				event.getEntityPlayer().world.playSound(null, event.getEntityPlayer().posX, event.getEntityPlayer().posY, event.getEntityPlayer().posZ, SoundRegistry.ATOMIC_DECONSTRUCT, SoundCategory.PLAYERS, 2.0F, 1.0F /(event.getEntityPlayer().world.rand.nextFloat() * 0.4F + 1.2F)* 1.4F);
 			}
 		}
 	}

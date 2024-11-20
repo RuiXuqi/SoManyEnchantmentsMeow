@@ -2,8 +2,8 @@ package com.shultrea.rin.enchantments.weapon.damage;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.SoManyEnchantments;
-import com.shultrea.rin.utility_sector.UtilityAccessor;
+import com.shultrea.rin.util.DamageSources;
+import com.shultrea.rin.util.ReflectionUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -78,12 +78,12 @@ public class EnchantmentWaterAspect extends EnchantmentBase {
 				target instanceof EntityMagmaCube)
 		{
 			float Damage = fEvent.getAmount();
-			UtilityAccessor.damageTarget(fEvent.getEntityLiving(), SoManyEnchantments.PhysicalDamage, 2.5f * enchantmentLevel);
+			ReflectionUtil.damageEntityNoEvent(fEvent.getEntityLiving(), DamageSources.PhysicalDamage, 2.5f * enchantmentLevel);
 			fEvent.setAmount(Damage);
 		}
 		if(fEvent.getEntity().handleWaterMovement() || fEvent.getEntity().isInWater() || fEvent.getEntity().isWet()) {
 			float Damager = fEvent.getAmount();
-			UtilityAccessor.damageTarget(fEvent.getEntityLiving(), SoManyEnchantments.PhysicalDamage, 0.75f * enchantmentLevel);
+			ReflectionUtil.damageEntityNoEvent(fEvent.getEntityLiving(), DamageSources.PhysicalDamage, 0.75f * enchantmentLevel);
 			fEvent.setAmount(Damager);
 			//  attacker.getEntityWorld().playSound(attacker.posX, attacker.posY, attacker.posZ, SMEsounds.wateraspecthit, SoundCategory.PLAYERS, 2f, 0f, true);
 			//   attacker.getEntityWorld().playSound(null, attacker.posX, attacker.posY, attacker.posZ, SMEsounds.wateraspecthit, SoundCategory.PLAYERS, 0.4f, 1f);
@@ -101,7 +101,7 @@ public class EnchantmentWaterAspect extends EnchantmentBase {
 		}
 		if(attacker.isWet() || attacker.isInWater() || attacker.handleWaterMovement()) {
 			float Damet = fEvent.getAmount();
-			UtilityAccessor.damageTarget(fEvent.getEntityLiving(), SoManyEnchantments.PhysicalDamage, 0.75f * enchantmentLevel);
+			ReflectionUtil.damageEntityNoEvent(fEvent.getEntityLiving(), DamageSources.PhysicalDamage, 0.75f * enchantmentLevel);
 			fEvent.setAmount(Damet);
 			//  attacker.getEntityWorld().playSound(null, attacker.posX, attacker.posY, attacker.posZ, SMEsounds.wateraspecthit, SoundCategory.PLAYERS, 0.4f, 1f);
 		}
