@@ -133,7 +133,7 @@ public abstract class EnchantUtil {
 	/**
 	 * For armors, get total sum of this enchantments levels on equipment
 	 */
-	public static int getTotalEnchantmentLevel(Enchantment enchantment, EntityLivingBase user) {
+	public static int getTotalArmorEnchantmentLevel(Enchantment enchantment, EntityLivingBase user) {
 		List<ItemStack> list = enchantment.getEntityEquipment(user);
 		if(list.isEmpty()) return 0;
 		int enchantLevelSum = 0;

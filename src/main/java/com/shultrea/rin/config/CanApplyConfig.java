@@ -94,7 +94,7 @@ public class CanApplyConfig {
 	public String[] burningShield = {"SHIELD"};
 	@Config.Name("Burning Thorns")
 	@Config.RequiresMcRestart
-	public String[] burningThorns = {"ARMOR"};
+	public String[] burningThorns = {"ARMOR_CHEST"};
 	@Config.Name("Butchering")
 	@Config.RequiresMcRestart
 	public String[] butchering = {"SWORD"};
@@ -430,7 +430,7 @@ public class CanApplyConfig {
 	public String[] advancedSmite = {"SWORD"};
 	@Config.Name("Advanced Thorns")
 	@Config.RequiresMcRestart
-	public String[] advancedThorns = {"ARMOR"};
+	public String[] advancedThorns = {"ARMOR_CHEST"};
 	//Supreme
 	@Config.Name("Supreme Bane of Arthropods")
 	@Config.RequiresMcRestart

@@ -35,3 +35,19 @@
 - Cleaned up CounterAttack - mainly deleting commented out code and replaced 20 with maxhurtresistanttime
 - fixed unreasonable always proccing (roll was wrong) and not stopping to go through entity list after one random target was found
 - cleaned up rune magical blessing and fixed it only working (and crashing) if the player DOESNT have it
+
+## Im too lazy so sort this later
+- Refactored and simplified everything
+- Buffed Sol/Luna blessing to not be effectively curses, gives buff in correct time, lesser buff if underground, no buff if incorrect time
+- Reworked Rune Revival to be mixin to vastly simplify/fix handling
+
+## "Finished" enchants
+- AdvancedBlastProtection
+- AdvancedFeatherFalling
+- AdvancedFireProtection
+- AdvancedProjectileProtection
+- AdvancedProtection
+- MagicProtection
+- PhysicalProtection
+- AdvancedThorns
+- BurningThorns

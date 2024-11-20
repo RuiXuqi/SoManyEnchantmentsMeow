@@ -67,7 +67,7 @@ public class EnchantmentAdvancedProjectileProtection extends EnchantmentBase {
 		if(!ModConfig.miscellaneous.extraProtectionEffects) return;
 		if(!this.isEnabled()) return;
 		if(!fEvent.getSource().isProjectile()) return;
-		int modifier = (int)(7.5f * EnchantUtil.getTotalEnchantmentLevel(this, fEvent.getEntityLiving()));
+		int modifier = (int)(7.5f * EnchantUtil.getTotalArmorEnchantmentLevel(this, fEvent.getEntityLiving()));
 		float damage = EnchantUtil.getDamageAfterMagicAbsorb(fEvent.getAmount(), modifier);
 		fEvent.setAmount(damage);
 	}

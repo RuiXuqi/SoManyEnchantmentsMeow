@@ -3,13 +3,13 @@ package com.shultrea.rin.enchantments.armor.thorns;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.common.ISpecialArmor;
 
 import java.util.Random;
 
@@ -17,16 +17,6 @@ public class EnchantmentBurningThorns extends EnchantmentBase {
 	
 	public EnchantmentBurningThorns(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
-	}
-	
-	//TODO
-	public static boolean shouldHit(int level, Random rnd) {
-		return level > 0 && rnd.nextFloat() < 0.14F * (float)level;
-	}
-	
-	//TODO
-	public static int getDamage(int level, Random rnd) {
-		return level > 10 ? level - 9 : 2 + rnd.nextInt(3);
 	}
 	
 	@Override
@@ -64,29 +54,37 @@ public class EnchantmentBurningThorns extends EnchantmentBase {
 		return ModConfig.treasure.burningThorns;
 	}
 	
-	//TODO
 	@Override
 	public void onUserHurt(EntityLivingBase user, Entity attacker, int level) {
-		if(user == null) return;
-		if(attacker == null || attacker.isDead) return;
 		Random random = user.getRNG();
-		ItemStack itemstack = EnchantmentHelper.getEnchantedItem(EnchantmentRegistry.burningThorns, user);
+		ItemStack itemstack = EnchantmentHelper.getEnchantedItem(this, user);
 		if(itemstack.isEmpty()) return;
+		//Use the level of the actual stack being used
+		int lvl = EnchantmentHelper.getEnchantmentLevel(this, itemstack);
+		//Shouldn't ever be 0 but just incase weirdness
+		if(lvl <= 0) return;
 		if(shouldHit(level, random)) {
 			attacker.attackEntityFrom(DamageSource.causeThornsDamage(user), (float)getDamage(level, random));
 			attacker.setFire((level) + 2);
-
-			damageArmor(itemstack, 5, user);
+			damageArmor(itemstack, 4, user);
 		}
-		else
+		else {
 			damageArmor(itemstack, 2, user);
+		}
 	}
 	
-	//TODO
+	private static boolean shouldHit(int level, Random rnd) {
+		return level > 0 && rnd.nextFloat() < (0.15F * (float)level);
+	}
+	
+	private static int getDamage(int level, Random rnd) {
+		return 2 + rnd.nextInt(4);
+	}
+	
 	private void damageArmor(ItemStack stack, int amount, EntityLivingBase entity) {
 		int slot = -1;
 		int x = 0;
-		for(ItemStack i : entity.getEquipmentAndArmor()) {	//Swapped from getArmorInventoryList, same comment as Adv Thorns
+		for(ItemStack i : entity.getArmorInventoryList()) {
 			if(i == stack) {
 				slot = x;
 				break;
@@ -94,10 +92,10 @@ public class EnchantmentBurningThorns extends EnchantmentBase {
 			x++;
 		}
 		if(slot == -1 || !(stack.getItem() instanceof net.minecraftforge.common.ISpecialArmor)) {
-			stack.damageItem(1, entity);
+			stack.damageItem(amount, entity);
 			return;
 		}
-		net.minecraftforge.common.ISpecialArmor armor = (net.minecraftforge.common.ISpecialArmor)stack.getItem();
+		ISpecialArmor armor = (ISpecialArmor)stack.getItem();
 		armor.damageArmor(entity, stack, DamageSource.causeThornsDamage(entity), amount, slot);
 	}
 }

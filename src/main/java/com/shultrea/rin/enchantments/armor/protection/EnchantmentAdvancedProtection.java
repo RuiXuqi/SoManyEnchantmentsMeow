@@ -66,7 +66,7 @@ public class EnchantmentAdvancedProtection extends EnchantmentBase {
 	public void livingHurtEvent_extraProtection(LivingHurtEvent fEvent) {
 		if(!ModConfig.miscellaneous.extraProtectionEffects) return;
 		if(!this.isEnabled()) return;
-		int modifier = (int)(4.75f * EnchantUtil.getTotalEnchantmentLevel(this, fEvent.getEntityLiving()));
+		int modifier = (int)(4.75f * EnchantUtil.getTotalArmorEnchantmentLevel(this, fEvent.getEntityLiving()));
 		float damage = EnchantUtil.getDamageAfterMagicAbsorb(fEvent.getAmount(), modifier);
 		fEvent.setAmount(damage);
 	}
