@@ -97,7 +97,7 @@ public abstract class EnchantUtil {
 	 */
 	public static void knockBackIgnoreKBRes(Entity entityIn, float strength, double xRatio, double zRatio) {
 		entityIn.isAirBorne = true;
-		float f = MathHelper.sqrt(xRatio * xRatio + zRatio * zRatio);
+		float f = MathHelper.sqrt(Math.max(0.1F, xRatio * xRatio + zRatio * zRatio));
 		entityIn.motionX /= 2.0;
 		entityIn.motionZ /= 2.0;
 		entityIn.motionX -= xRatio / (double)f * (double)strength;

@@ -80,7 +80,7 @@ public class EnchantmentAdvancedThorns extends EnchantmentBase {
 		return 2 + level + rnd.nextInt(level + 3);
 	}
 	
-	private void damageArmor(ItemStack stack, int amount, EntityLivingBase entity) {
+	private static void damageArmor(ItemStack stack, int amount, EntityLivingBase entity) {
 		int slot = -1;
 		int x = 0;
 		for(ItemStack i : entity.getArmorInventoryList()) {

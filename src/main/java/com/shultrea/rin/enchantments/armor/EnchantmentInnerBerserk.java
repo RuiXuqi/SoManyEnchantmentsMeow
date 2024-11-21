@@ -58,16 +58,15 @@ public class EnchantmentInnerBerserk extends EnchantmentBase {
 		return ModConfig.treasure.innerBerserk;
 	}
 	
-	//TODO
 	@SubscribeEvent(priority = EventPriority.LOW)
-	public void HandleEnchant(LivingDamageEvent fEvent) {
-		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
-		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
-		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.innerBerserk, attacker);
+	public void onLivingDamageEvent(LivingDamageEvent event) {
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
+		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(this, attacker);
 		if(enchantmentLevel > 0) {
-			float attackerMissingHealthPercent = 1.0f - attacker.getHealth() / attacker.getMaxHealth();
-			float dmgMod = 1.0f + attackerMissingHealthPercent * (1.1f + 0.05f * enchantmentLevel);
-			fEvent.setAmount(fEvent.getAmount() * dmgMod);
+			float attackerMissingHealthPercent = 1.0F - Math.max(0.0F, Math.min(1.0F, attacker.getHealth() / attacker.getMaxHealth()));
+			float dmgMod = 1.0F + attackerMissingHealthPercent * (1.1F + 0.05F * (float)enchantmentLevel);
+			event.setAmount(event.getAmount() * dmgMod);
 		}
 	}
 }

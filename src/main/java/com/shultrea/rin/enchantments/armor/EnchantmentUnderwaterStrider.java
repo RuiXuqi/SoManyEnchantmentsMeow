@@ -3,9 +3,6 @@ package com.shultrea.rin.enchantments.armor;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -13,16 +10,14 @@ import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 import java.util.UUID;
 
 public class EnchantmentUnderwaterStrider extends EnchantmentBase {
 	
-	public static final UUID CACHED_UUID = UUID.fromString("a612fe81-132f-4c58-a335-13c4ae5cba21");
+	private static final UUID UNDERWATERSTRIDER_UUID = UUID.fromString("a612fe81-132f-4c58-a335-13c4ae5cba21");
 	
 	public EnchantmentUnderwaterStrider(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
@@ -69,35 +64,29 @@ public class EnchantmentUnderwaterStrider extends EnchantmentBase {
 	}
 	
 	@SubscribeEvent
-	public void onUnder(PlayerTickEvent e) {
-		if(e.phase == Phase.END) return;
-		EntityPlayer player = e.player;
-		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.underwaterStrider, player);
-		IAttributeInstance s = player.getEntityAttribute(EntityLivingBase.SWIM_SPEED);
-		if(enchantmentLevel <= 0) {
-			removeSpeed(s, player);
-			return;
-		}
-		IBlockState water = player.world.getBlockState(new BlockPos(player.posX, player.posY + 1, player.posZ));
-		if(player.isInWater() && water.getMaterial() == Material.WATER) {
-			removeSpeed(s, player);
-			addSpeed(s, player);
-		}
-		else removeSpeed(s, player);
+	public void onLivingUpdateEvent(LivingEvent.LivingUpdateEvent event) {
+		if(event.getEntityLiving() == null) return;
+		if(event.getEntityLiving().world.isRemote) return;
+		if(!(event.getEntityLiving() instanceof EntityPlayer)) return;
+		
+		EntityPlayer player = (EntityPlayer)event.getEntityLiving();
+		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, player);
+		IAttributeInstance swimSpeed = player.getEntityAttribute(EntityLivingBase.SWIM_SPEED);
+		
+		if(level > 0) addSwimSpeedModifier(level, swimSpeed);
+		else swimSpeed.removeModifier(UNDERWATERSTRIDER_UUID);
 	}
 	
-	private void addSpeed(IAttributeInstance s, EntityLivingBase p) {
-		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.underwaterStrider, p);
-		if(s.getModifier(CACHED_UUID) != null) return;
-		AttributeModifier modSpeed = new AttributeModifier(CACHED_UUID, "moveSpeed", 1.30 + ((double)enchantmentLevel * 0.4D), 1);
-		s.removeModifier(modSpeed);
-		s.applyModifier(modSpeed);
-	}
-	
-	private void removeSpeed(IAttributeInstance s, EntityLivingBase p) {
-		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.underwaterStrider, p);
-		if(s.getModifier(CACHED_UUID) == null) return;
-		AttributeModifier modSpeed = new AttributeModifier(CACHED_UUID, "moveSpeed", 1.30 + ((double)enchantmentLevel * 0.4D), 1);
-		s.removeModifier(modSpeed);
+	private static void addSwimSpeedModifier(int level, IAttributeInstance instance) {
+		double amount = 1.30D + 0.4D * (double)level;
+		AttributeModifier modifier = new AttributeModifier(UNDERWATERSTRIDER_UUID, "UnderwaterStriderBoost", amount, 1);
+		AttributeModifier previous = instance.getModifier(UNDERWATERSTRIDER_UUID);
+		if(previous == null) {
+			instance.applyModifier(modifier);
+		}
+		else if(previous.getAmount() != amount) {
+			instance.removeModifier(UNDERWATERSTRIDER_UUID);
+			instance.applyModifier(modifier);
+		}
 	}
 }

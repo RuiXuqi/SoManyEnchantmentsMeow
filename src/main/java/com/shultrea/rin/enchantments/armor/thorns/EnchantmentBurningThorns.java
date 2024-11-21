@@ -81,7 +81,7 @@ public class EnchantmentBurningThorns extends EnchantmentBase {
 		return 2 + rnd.nextInt(4);
 	}
 	
-	private void damageArmor(ItemStack stack, int amount, EntityLivingBase entity) {
+	private static void damageArmor(ItemStack stack, int amount, EntityLivingBase entity) {
 		int slot = -1;
 		int x = 0;
 		for(ItemStack i : entity.getArmorInventoryList()) {
@@ -91,7 +91,7 @@ public class EnchantmentBurningThorns extends EnchantmentBase {
 			}
 			x++;
 		}
-		if(slot == -1 || !(stack.getItem() instanceof net.minecraftforge.common.ISpecialArmor)) {
+		if(slot == -1 || !(stack.getItem() instanceof ISpecialArmor)) {
 			stack.damageItem(amount, entity);
 			return;
 		}

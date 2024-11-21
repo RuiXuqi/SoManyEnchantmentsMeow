@@ -40,6 +40,9 @@
 - Refactored and simplified everything
 - Buffed Sol/Luna blessing to not be effectively curses, gives buff in correct time, lesser buff if underground, no buff if incorrect time
 - Reworked Rune Revival to be mixin to vastly simplify/fix handling
+- Fixed bugs with evasion potion divide by 0 and hurt resistance timings
+- Reworked magmawalker into mixin
+- Reworked and fixed attribute handling of strengthened vitality and underwater strider
 
 ## "Finished" enchants
 - AdvancedBlastProtection
@@ -51,3 +54,10 @@
 - PhysicalProtection
 - AdvancedThorns
 - BurningThorns
+- Meltdown
+- Evasion
+- InnerBerserk
+- LightWeight
+- MagmaWalker
+- StrengthenedVitality
+- UnderwaterStrider

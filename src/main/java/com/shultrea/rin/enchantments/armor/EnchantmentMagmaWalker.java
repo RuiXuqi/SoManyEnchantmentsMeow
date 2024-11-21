@@ -3,13 +3,11 @@ package com.shultrea.rin.enchantments.armor;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -19,15 +17,17 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
-import net.minecraftforge.fml.relauncher.Side;
 
+/**
+ * Enchantment handled in com.shultrea.rin.mixin.vanilla.EntityLivingBaseMixin
+ */
 public class EnchantmentMagmaWalker extends EnchantmentBase {
 	
 	public EnchantmentMagmaWalker(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
 	}
 	
+	//TODO replace Magma with temporary version?
 	public static void walkOnMagma(EntityLivingBase living, World worldIn, BlockPos pos, int level) {
 		if(living.onGround) {
 			float f = (float)Math.min(16, 2 + level);
@@ -88,26 +88,14 @@ public class EnchantmentMagmaWalker extends EnchantmentBase {
 	}
 	
 	@SubscribeEvent
-	public void magmaWalk(PlayerTickEvent fEvent) {
-		if(fEvent.side != Side.SERVER) return;
-		EntityPlayer p = fEvent.player;
-		int level = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.magmaWalker, p);
-		if(level <= 0) return;
-		BlockPos blockpos = new BlockPos(p);
-		//  if (!Objects.equal(new BlockPos(p.prevPosX, p.prevPosY, p.prevPosZ), blockpos))
-		{
-			walkOnMagma(p, p.world, blockpos, level);
-		}
-	}
-	
-	@SubscribeEvent
-	public void onMagmaStep(LivingAttackEvent e) {
-		if(e.getSource() == DamageSource.LAVA && e.getSource().getTrueSource() == null && e.getEntityLiving() != null && !e.getEntityLiving().isInLava()) {
-			e.setCanceled(true);
-		}
-		if(e.getSource() == DamageSource.HOT_FLOOR && e.getSource().getTrueSource() == null) {
-			if(EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.magmaWalker, e.getEntityLiving()) > 0)
-				e.setCanceled(true);
+	public void onLivingAttackEvent(LivingAttackEvent event) {
+		if(event.getEntityLiving() == null) return;
+		if(event.getSource().getTrueSource() == null) return;
+		if(event.getSource() != DamageSource.LAVA && event.getSource() != DamageSource.HOT_FLOOR) return;
+		if(event.getSource() == DamageSource.LAVA && event.getEntityLiving().isInLava()) return;
+		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, event.getEntityLiving());
+		if(level > 0) {
+			event.setCanceled(true);
 		}
 	}
 }
