@@ -2,17 +2,13 @@ package com.shultrea.rin.enchantments.bow;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.properties.ArrowPropertiesProvider;
-import com.shultrea.rin.properties.IArrowProperties;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+/**
+ * Enchantment handling in com.shultrea.rin.properties.ArrowPropertiesHandler
+ */
 public class EnchantmentDragging extends EnchantmentBase {
 	
 	public EnchantmentDragging(String name, Rarity rarity, EntityEquipmentSlot... slots) {
@@ -22,11 +18,6 @@ public class EnchantmentDragging extends EnchantmentBase {
 	@Override
 	public boolean isEnabled() {
 		return ModConfig.enabled.dragging;
-	}
-	
-	@Override
-	public boolean hasSubscriber() {
-		return true;
 	}
 	
 	@Override
@@ -57,24 +48,5 @@ public class EnchantmentDragging extends EnchantmentBase {
 	@Override
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.dragging;
-	}
-
-	@SubscribeEvent
-	public void onArrowHit(LivingDamageEvent fEvent) {
-		if(!"arrow".equals(fEvent.getSource().damageType)) return;
-		if(!(fEvent.getSource().getImmediateSource() instanceof EntityArrow)) return;
-
-		EntityArrow arrow = (EntityArrow) fEvent.getSource().getImmediateSource();
-		EntityLivingBase victim = fEvent.getEntityLiving();
-
-		if(!arrow.hasCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null)) return;
-		IArrowProperties properties = arrow.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
-
-		float draggingPower = properties.getDraggingPower();
-		if(draggingPower > 0) {
-			double velocityMultiplier = - draggingPower * 0.6 / (double) MathHelper.sqrt(arrow.motionX * arrow.motionX + arrow.motionZ * arrow.motionZ);
-			victim.addVelocity(arrow.motionX * velocityMultiplier, 0.1, arrow.motionZ * velocityMultiplier);
-			victim.velocityChanged = true;
-		}
 	}
 }

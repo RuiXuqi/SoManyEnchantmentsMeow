@@ -65,6 +65,7 @@ public class EnchantmentUnderwaterStrider extends EnchantmentBase {
 	
 	@SubscribeEvent
 	public void onLivingUpdateEvent(LivingEvent.LivingUpdateEvent event) {
+		if(!this.isEnabled()) return;
 		if(event.getEntityLiving() == null) return;
 		if(event.getEntityLiving().world.isRemote) return;
 		if(!(event.getEntityLiving() instanceof EntityPlayer)) return;

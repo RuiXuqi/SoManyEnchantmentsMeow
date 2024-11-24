@@ -3,7 +3,6 @@ package com.shultrea.rin.enchantments.bow;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -68,30 +67,34 @@ public class EnchantmentPushing extends EnchantmentBase {
 		return ModConfig.treasure.pushing;
 	}
 	
-	@SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
-	public void onEvent(LivingEntityUseItemEvent.Tick event) {
+	@SubscribeEvent(priority = EventPriority.HIGH)
+	public void onLivingEntityUseItem(LivingEntityUseItemEvent.Tick event) {
+		if(!this.isEnabled()) return;
 		EntityLivingBase entity = event.getEntityLiving();
-		if(entity == null) return;
 		ItemStack bow = event.getItem();
-		if(bow.isEmpty()) return;
-		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.pushing, bow);
-		if(enchantmentLevel <= 0) return;
-		if(bow.getItem() instanceof ItemBow && (72000 - event.getDuration() <= 20 + enchantmentLevel * 10)) {
+		if(entity == null) return;
+		if(entity.world.isRemote) return;
+		if(!(bow.getItem() instanceof ItemBow)) return;
+		
+		if(entity.ticksExisted%10 == 0) return;
+		
+		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(this, bow);
+		if(enchantmentLevel > 0) {
 			AxisAlignedBB axis = new AxisAlignedBB(entity.getPosition()).grow(4 + enchantmentLevel * 2);
 			repelEntitiesInAABBFromPoint(entity.world, axis, entity.posX, entity.posY, entity.posZ, enchantmentLevel);
 		}
 	}
 
-	//TODO: rewrote the math, only intended change is forcing denominators to be positive, gotta test if i fucked up
-	public void repelEntitiesInAABBFromPoint(World world, AxisAlignedBB effectBounds, double x, double y, double z, int enchantmentLevel) {
+	private static void repelEntitiesInAABBFromPoint(World world, AxisAlignedBB effectBounds, double x, double y, double z, int enchantmentLevel) {
 		List<Entity> list = world.getEntitiesWithinAABB(Entity.class, effectBounds);
 		for(Entity ent : list) {
 			if(ent instanceof EntityLiving || ent instanceof IProjectile) {
+				if(ent.isDead) continue;
 				if(ent instanceof EntityArrow && ent.onGround) continue;
 				Vec3d bowVec = new Vec3d(x, y, z);
 				Vec3d entVec = new Vec3d(ent.posX, ent.posY, ent.posZ);
 				Vec3d bowToEntVec = new Vec3d(entVec.x - bowVec.x, entVec.y - bowVec.y, entVec.z - bowVec.z);
-				double distance = bowToEntVec.length() + 0.1;
+				double distance = bowToEntVec.length() + 0.1D;
 				double diminishOverDistance = 10 / distance / Math.max(50 - enchantmentLevel * 10, 1);
 				ent.motionX += bowToEntVec.x / Math.max(5.25 - enchantmentLevel * 1.5, 1) * diminishOverDistance;
 				ent.motionY += bowToEntVec.y / Math.max(6.25 - enchantmentLevel * 1.25, 1) * diminishOverDistance;

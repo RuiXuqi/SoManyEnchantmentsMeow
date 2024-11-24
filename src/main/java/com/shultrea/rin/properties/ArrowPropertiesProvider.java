@@ -10,6 +10,7 @@ public class ArrowPropertiesProvider implements ICapabilitySerializable<NBTTagCo
 	
 	@CapabilityInject(IArrowProperties.class)
 	public static final Capability<IArrowProperties> ARROWPROPERTIES_CAP = null;
+	
 	private final IArrowProperties instance = ARROWPROPERTIES_CAP.getDefaultInstance();
 	
 	@Override

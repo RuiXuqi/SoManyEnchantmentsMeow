@@ -43,6 +43,7 @@
 - Fixed bugs with evasion potion divide by 0 and hurt resistance timings
 - Reworked magmawalker into mixin
 - Reworked and fixed attribute handling of strengthened vitality and underwater strider
+- Simplified strafe draw speed calculations
 
 ## "Finished" enchants
 - AdvancedBlastProtection
@@ -61,3 +62,14 @@
 - MagmaWalker
 - StrengthenedVitality
 - UnderwaterStrider
+- EnchantmentAdvancedPower
+- EnchantmentAdvancedPunch
+- EnchantmentDragging
+- EnchantmentPushing
+- EnchantmentSplitshot
+- EnchantmentStrafe
+- EnchantmentTierFlame
+
+- EnchantmentCurseofInaccuracy
+
+- EnchantmentPowerless

@@ -64,6 +64,7 @@ public class EnchantmentLightWeight extends EnchantmentBase {
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void onPlayerTick(PlayerTickEvent event) {
+		if(!this.isEnabled()) return;
 		if(event.phase != Phase.END) return;
 		EntityPlayer player = event.player;
 		if(player == null) return;
@@ -87,6 +88,7 @@ public class EnchantmentLightWeight extends EnchantmentBase {
 	
 	@SubscribeEvent
 	public void onLivingJumpEvent(LivingJumpEvent event) {
+		if(!this.isEnabled()) return;
 		if(event.getEntityLiving() == null) return;
 		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(this, event.getEntityLiving());
 		if(enchantmentLevel > 0) {
@@ -96,6 +98,7 @@ public class EnchantmentLightWeight extends EnchantmentBase {
 	
 	@SubscribeEvent
 	public void onLivingFallEvent(LivingFallEvent event) {
+		if(!this.isEnabled()) return;
 		if(event.getEntityLiving() == null) return;
 		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(this, event.getEntityLiving());
 		if(enchantmentLevel > 0) {

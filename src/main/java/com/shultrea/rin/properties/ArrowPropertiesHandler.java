@@ -2,79 +2,202 @@ package com.shultrea.rin.properties;
 
 import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.registry.EnchantmentRegistry;
+import com.shultrea.rin.util.ReflectionUtil;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.item.ItemBow;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class ArrowPropertiesHandler {
+import java.util.Random;
 
-	@SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
-	public void onArrowCapAttach(AttachCapabilitiesEvent<Entity> event) {
-		if (event.getObject() instanceof EntityArrow && !event.getObject().hasCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null)) {
-			event.addCapability(new ResourceLocation(SoManyEnchantments.MODID + ":arrow_capabilities"), new ArrowPropertiesProvider());
+public class ArrowPropertiesHandler {
+	
+	private static final ResourceLocation ARROWPROPERTIES_CAP_RESOURCE = new ResourceLocation(SoManyEnchantments.MODID + ":arrow_capabilities");
+	
+	private static final Random RANDOM = new Random();
+	
+	@SubscribeEvent(priority = EventPriority.HIGH)
+	public void onAttachCapabilitiesEvent(AttachCapabilitiesEvent<Entity> event) {
+		if(event.getObject() instanceof EntityArrow && !event.getObject().hasCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null)) {
+			event.addCapability(ARROWPROPERTIES_CAP_RESOURCE, new ArrowPropertiesProvider());
 		}
 	}
+	
+	@SubscribeEvent(priority = EventPriority.HIGH)
+	public void onEntityJoinWorld(EntityJoinWorldEvent event) {
+		if(event.getWorld().isRemote) return;
+		if(!(event.getEntity() instanceof EntityArrow)) return;
+		EntityArrow entityArrow = (EntityArrow)event.getEntity();
+		if(!(entityArrow.shootingEntity instanceof EntityLivingBase)) return;
+		EntityLivingBase shooter = (EntityLivingBase)entityArrow.shootingEntity;
+		
+		//I dislike handling this on EntityJoinWorld but mixin'ing into ItemBow has compatibility issues due to other mod bows overriding needed methods
+		ItemStack bow = shooter.getHeldItemMainhand();
+		if(!(bow.getItem() instanceof ItemBow)) {
+			bow = shooter.getHeldItemOffhand();
+		}
+		if(!(bow.getItem() instanceof ItemBow)) {
+			return;
+		}
+		
+		IArrowProperties properties = entityArrow.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
+		if(properties == null) return;
+		
+		//Avoid overwriting if properties were already set for this entity for whatever reason
+		if(properties.getPropertiesHandled()) return;
+		setArrowEnchantmentsFromStack(bow, entityArrow, properties);
+		properties.setPropertiesHandled(true);
+	}
+	
+	@SubscribeEvent(priority = EventPriority.LOW)
+	public void onArrowHitHurt(LivingHurtEvent event) {
+		if(!(event.getSource().getImmediateSource() instanceof EntityArrow)) return;
+		if(!"arrow".equals(event.getSource().damageType)) return;
+		
+		EntityArrow arrow = (EntityArrow)event.getSource().getImmediateSource();
+		EntityLivingBase victim = event.getEntityLiving();
+		
+		IArrowProperties properties = arrow.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
+		if(properties == null) return;
+		
+		//TODO SpartanWeaponry compat or a better way of splitting damage
+		if(EnchantmentRegistry.runeArrowPiercing.isEnabled()) {
+			int pierceLevel = properties.getArmorPiercingLevel();
+			if(pierceLevel > 0) {
+				EntityLivingBase shooter = (EntityLivingBase)event.getSource().getTrueSource();
+				float damage = event.getAmount() * 0.25F * pierceLevel;
+				event.setAmount(event.getAmount() - damage);
+				ReflectionUtil.damageEntityLivingDamageEvent(victim, new EntityDamageSourceIndirect("arrow", arrow, shooter).setDamageBypassesArmor(), damage);
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onArrowHitDamage(LivingDamageEvent event) {
+		if(!(event.getSource().getImmediateSource() instanceof EntityArrow)) return;
+		if(!"arrow".equals(event.getSource().damageType)) return;
+		
+		EntityArrow arrow = (EntityArrow)event.getSource().getImmediateSource();
+		EntityLivingBase victim = event.getEntityLiving();
+		
+		IArrowProperties properties = arrow.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
+		if(properties == null) return;
+		
+		if(EnchantmentRegistry.lesserFlame.isEnabled() || EnchantmentRegistry.advancedFlame.isEnabled() || EnchantmentRegistry.supremeFlame.isEnabled()) {
+			int seconds = getFireSeconds(properties.getFlameLevel());
+			if(seconds > 0) victim.setFire(seconds);
+		}
+		
+		if(EnchantmentRegistry.dragging.isEnabled()) {
+			float draggingPower = properties.getDraggingPower();
+			if(draggingPower > 0) {
+				double velocityMultiplier = -0.6F * draggingPower / MathHelper.sqrt(arrow.motionX * arrow.motionX + arrow.motionZ * arrow.motionZ);
+				victim.addVelocity(arrow.motionX * velocityMultiplier, 0.1, arrow.motionZ * velocityMultiplier);
+				victim.velocityChanged = true;
+			}
+		}
+		
+		if(EnchantmentRegistry.strafe.isEnabled()) {
+			if(properties.getArrowResetsIFrames()) {
+				victim.hurtResistantTime = 0;
+			}
+		}
+	}
+	
+	private static int getFireSeconds(int tier) {
+		switch(tier) {
+			case 1:
+				return 2;
+			case 2:
+				return 15;
+			case 3:
+				return 30;
+		}
+		return 0;
+	}
 
-	public static void setArrowCapabilities(EntityLivingBase shooter, EntityArrow arrow){
-		int powerlessLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.powerless, shooter);
-		if(powerlessLevel > 0) {
-			arrow.setDamage(arrow.getDamage() - 0.5D - powerlessLevel * 0.5D);
-			if(powerlessLevel > 2 || shooter.getRNG().nextFloat() < powerlessLevel * 0.4F) {
-				arrow.setIsCritical(false);
+	public static void setArrowEnchantmentsFromStack(ItemStack bow, EntityArrow arrow, IArrowProperties properties) {
+		if(EnchantmentRegistry.powerless.isEnabled()) {
+			int powerlessLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.powerless, bow);
+			if(powerlessLevel > 0) {
+				arrow.setDamage(arrow.getDamage() - 0.5D - powerlessLevel * 0.5D);
+				if(powerlessLevel > 2 || RANDOM.nextFloat() < powerlessLevel * 0.4F) {
+					arrow.setIsCritical(false);
+				}
+			}
+		}
+		
+		if(EnchantmentRegistry.advancedPower.isEnabled()) {
+			int advPowerLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.advancedPower, bow);
+			if(advPowerLevel > 0) {
+				arrow.setDamage(arrow.getDamage() + 1.25D + (double)advPowerLevel * 0.75D);
+				if(advPowerLevel >= 4 || RANDOM.nextFloat() < advPowerLevel * 0.25F) {
+					arrow.setIsCritical(true);
+				}
 			}
 		}
 
-		int advPowerLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.advancedPower, shooter);
-		if(advPowerLevel > 0) {
-			arrow.setDamage(arrow.getDamage() + 1.25D + (double)advPowerLevel * 0.75D);
-			if(advPowerLevel >= 4) {
-				arrow.setIsCritical(true);
-			}
-			else if(shooter.getRNG().nextFloat() < advPowerLevel * 0.25f) {
-				arrow.setIsCritical(true);
+		if(EnchantmentRegistry.advancedPunch.isEnabled()) {
+			int advPunchLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.advancedPunch, bow);
+			if(advPunchLevel > 0) {
+				arrow.setKnockbackStrength(1 + advPunchLevel * 2);
 			}
 		}
 
-		int advPunchLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.advancedPunch, shooter);
-		if(advPunchLevel > 0)
-			arrow.setKnockbackStrength(1 + advPunchLevel * 2);
-
-		IArrowProperties cap = arrow.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
-		if(cap == null) return;
-
-		int runeArrowPiercingLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.runeArrowPiercing, shooter);
-		if(runeArrowPiercingLevel > 0)
-			 cap.setArmorPiercingLevel(runeArrowPiercingLevel);
-
-		int draggingLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.dragging, shooter);
-		if(draggingLevel > 0)
-			cap.setDraggingPower(1.25f + draggingLevel * 1.75f);
-
-		int levelStrafe = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.strafe, shooter);
-		if (shooter.getRNG().nextFloat() < 0.125f * levelStrafe)
-			cap.setArrowResetsIFrames(true);
-
-		int levelLessFlame = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.lesserFlame, shooter);
-		if (levelLessFlame > 0) {
-			//arrow.setFire(50); //Overrides the 2 seconds with 5 seconds
-			cap.setFlameLevel(0);
+		if(EnchantmentRegistry.runeArrowPiercing.isEnabled()) {
+			int runeArrowPiercingLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.runeArrowPiercing, bow);
+			if(runeArrowPiercingLevel > 0) {
+				properties.setArmorPiercingLevel(runeArrowPiercingLevel);
+			}
 		}
 
-		int levelAdvFlame = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.advancedFlame, shooter);
-		if (levelAdvFlame > 0) {
-			arrow.setFire(200);
-			cap.setFlameLevel(1);
+		if(EnchantmentRegistry.dragging.isEnabled()) {
+			int draggingLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.dragging, bow);
+			if(draggingLevel > 0) {
+				properties.setDraggingPower(1.25F + draggingLevel * 1.75F);
+			}
 		}
 
-		int levelSupFlame = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.supremeFlame, shooter);
-		if (levelSupFlame > 0) {
-			arrow.setFire(400);
-			cap.setFlameLevel(2);
+		if(EnchantmentRegistry.strafe.isEnabled()) {
+			int levelStrafe = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.strafe, bow);
+			if(RANDOM.nextFloat() < 0.125F * levelStrafe) {
+				properties.setArrowResetsIFrames(true);
+			}
+		}
+
+		if(EnchantmentRegistry.lesserFlame.isEnabled()) {
+			int levelLessFlame = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.lesserFlame, bow);
+			if(levelLessFlame > 0) {
+				arrow.setFire(50);
+				properties.setFlameLevel(1);
+			}
+		}
+
+		if(EnchantmentRegistry.advancedFlame.isEnabled()) {
+			int levelAdvFlame = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.advancedFlame, bow);
+			if(levelAdvFlame > 0) {
+				arrow.setFire(200);
+				properties.setFlameLevel(2);
+			}
+		}
+		
+		if(EnchantmentRegistry.supremeFlame.isEnabled()) {
+			int levelSupFlame = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.supremeFlame, bow);
+			if(levelSupFlame > 0) {
+				arrow.setFire(400);
+				properties.setFlameLevel(3);
+			}
 		}
 	}
 }

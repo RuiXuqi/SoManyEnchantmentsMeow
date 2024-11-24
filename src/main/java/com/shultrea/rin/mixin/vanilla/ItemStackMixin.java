@@ -23,7 +23,7 @@ public abstract class ItemStackMixin {
 			argsOnly = true
 	)
 	private int soManyEnchantments_vanillaItemStack_damageItem_head(int amount) {
-		if(amount > 0) {
+		if(amount > 0 && EnchantmentRegistry.rusted.isEnabled()) {
 			int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.rusted, (ItemStack)(Object)this);
 			if(level > 0) return amount * (level+1);
 		}
@@ -37,9 +37,9 @@ public abstract class ItemStackMixin {
 			method = "damageItem",
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;attemptDamageItem(ILjava/util/Random;Lnet/minecraft/entity/player/EntityPlayerMP;)Z")
 	)
-	public boolean soManyEnchantments_vanillaItemStack_damageItem_attemptDamageItem(ItemStack instance, int amount, Random rand, EntityPlayerMP damager) {
+	private boolean soManyEnchantments_vanillaItemStack_damageItem_attemptDamageItem(ItemStack instance, int amount, Random rand, EntityPlayerMP damager) {
 		boolean broken = instance.attemptDamageItem(amount, rand, damager);
-		if(broken) {
+		if(broken && EnchantmentRegistry.runeRevival.isEnabled()) {
 			int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.runeRevival, instance);
 			if(level > 0) {
 				int durability = instance.getMaxDamage();

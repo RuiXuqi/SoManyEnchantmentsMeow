@@ -26,7 +26,7 @@ public abstract class EntityLivingBaseMixin extends Entity {
 			method = "frostWalk",
 			at = @At("HEAD")
 	)
-	public void soManyEnchantments_vanillaEntityLivingBase_frostWalk_head(BlockPos pos, CallbackInfo ci) {
+	private void soManyEnchantments_vanillaEntityLivingBase_frostWalk_head(BlockPos pos, CallbackInfo ci) {
 		int i = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.magmaWalker, (EntityLivingBase)(Object)this);
 		
 		if(i > 0) {

@@ -56,6 +56,7 @@ public class EnchantmentAdvancedThorns extends EnchantmentBase {
 	
 	@Override
 	public void onUserHurt(EntityLivingBase user, Entity attacker, int level) {
+		if(!this.isEnabled()) return;
 		Random random = user.getRNG();
 		ItemStack itemstack = EnchantmentHelper.getEnchantedItem(this, user);
 		if(itemstack.isEmpty()) return;

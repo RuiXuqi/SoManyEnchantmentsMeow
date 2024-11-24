@@ -3,6 +3,7 @@ package com.shultrea.rin.enchantments.armor;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -29,6 +30,7 @@ public class EnchantmentMagmaWalker extends EnchantmentBase {
 	
 	//TODO replace Magma with temporary version?
 	public static void walkOnMagma(EntityLivingBase living, World worldIn, BlockPos pos, int level) {
+		if(!EnchantmentRegistry.magmaWalker.isEnabled()) return;
 		if(living.onGround) {
 			float f = (float)Math.min(16, 2 + level);
 			BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(0, 0, 0);
@@ -89,11 +91,13 @@ public class EnchantmentMagmaWalker extends EnchantmentBase {
 	
 	@SubscribeEvent
 	public void onLivingAttackEvent(LivingAttackEvent event) {
-		if(event.getEntityLiving() == null) return;
-		if(event.getSource().getTrueSource() == null) return;
+		if(!this.isEnabled()) return;
+		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
+		
 		if(event.getSource() != DamageSource.LAVA && event.getSource() != DamageSource.HOT_FLOOR) return;
-		if(event.getSource() == DamageSource.LAVA && event.getEntityLiving().isInLava()) return;
-		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, event.getEntityLiving());
+		if(event.getSource() == DamageSource.LAVA && victim.isInLava()) return;
+		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, victim);
 		if(level > 0) {
 			event.setCanceled(true);
 		}
