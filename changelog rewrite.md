@@ -45,6 +45,7 @@
 - Reworked and fixed attribute handling of strengthened vitality and underwater strider
 - Simplified strafe draw speed calculations
 - Added fixes for curses handling from RLMixins
+- Reworked rune enchants, magical/resurrection/revival should now work properly, resurrection is now a shield enchant
 
 ## "Finished" enchants
 - AdvancedBlastProtection
@@ -87,3 +88,8 @@
 - EnchantmentJaggedRake
 - EnchantmentMoisturized
 - EnchantmentPlowing
+- EnchantmentRuneArrowPiercing (Still need spartan compat or better damage split handling)
+- EnchantmentRuneMagicalBlessing (Still need spartan compat or better damage split handling)
+- EnchantmentRunePiercingCapabilities (Still need spartan compat or better damage split handling)
+- EnchantmentRuneResurrection
+- EnchantmentRuneRevival

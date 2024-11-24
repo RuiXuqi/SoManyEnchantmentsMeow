@@ -60,7 +60,8 @@ public class ArrowPropertiesHandler {
 		properties.setPropertiesHandled(true);
 	}
 	
-	@SubscribeEvent(priority = EventPriority.LOW)
+	//TODO SpartanWeaponry compat or a better way of splitting damage
+	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onArrowHitHurt(LivingHurtEvent event) {
 		if(!(event.getSource().getImmediateSource() instanceof EntityArrow)) return;
 		if(!"arrow".equals(event.getSource().damageType)) return;
@@ -71,7 +72,6 @@ public class ArrowPropertiesHandler {
 		IArrowProperties properties = arrow.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
 		if(properties == null) return;
 		
-		//TODO SpartanWeaponry compat or a better way of splitting damage
 		if(EnchantmentRegistry.runeArrowPiercing.isEnabled()) {
 			int pierceLevel = properties.getArmorPiercingLevel();
 			if(pierceLevel > 0) {

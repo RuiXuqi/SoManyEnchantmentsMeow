@@ -50,7 +50,6 @@ public class CanApplyConfig {
 		itemTypes.put("PICKAXE", Types.PICKAXE);
 		itemTypes.put("HOE", Types.HOE);
 		itemTypes.put("SHOVEL", Types.SPADE);
-		itemTypes.put("GAPPLE", Types.COMBAT_GOLDEN_APPLE);
 		itemTypes.put("SHIELD", Types.SHIELD);
 		itemTypes.put("NONE", Types.NONE);
 
@@ -335,7 +334,7 @@ public class CanApplyConfig {
 	public String[] runePiercingCapabilities = {"SWORD"};
 	@Config.Name("Rune: Resurrection")
 	@Config.RequiresMcRestart
-	public String[] runeResurrection = {"GAPPLE"};
+	public String[] runeResurrection = {"SHIELD"};
 	@Config.Name("Rune: Revival")
 	@Config.RequiresMcRestart
 	public String[] runeRevival = {"SWORD"};

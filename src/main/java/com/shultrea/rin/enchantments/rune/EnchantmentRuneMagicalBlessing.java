@@ -2,15 +2,14 @@ package com.shultrea.rin.enchantments.rune;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.util.PotionUtil;
 import com.shultrea.rin.util.ReflectionUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.monster.EntityWitch;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -75,40 +74,43 @@ public class EnchantmentRuneMagicalBlessing extends EnchantmentBase {
 	
 	@Override
 	public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType) {
-		return (0.75f * level);
+		return 0.75F * (float)level;
 	}
 	
+	//TODO SpartanWeaponry compat or a better way of splitting damage
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void HandleEnchant(LivingHurtEvent fEvent) {
-		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
-		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
-		EntityLivingBase victim = fEvent.getEntityLiving();
+	public void onLivingHurtEvent(LivingHurtEvent event) {
+		if(!this.isEnabled()) return;
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
+		if(attacker == null) return;
+		EntityLivingBase victim = event.getEntityLiving();
 		if(victim == null) return;
 
-		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.runeMagicalBlessing, attacker);
-		if(enchantmentLevel <= 0) return;
-
-		float damage = fEvent.getAmount();
-		fEvent.setAmount(fEvent.getAmount() - fEvent.getAmount() * enchantmentLevel * 0.25f);
-		damage *= enchantmentLevel * 0.25f;
-		if(victim instanceof EntityWitch)
-			damage *= 0.15f;
-		ReflectionUtil.damageEntityLivingDamageEvent(victim, new EntityDamageSource("player", attacker).setMagicDamage(), damage);
-		if(EnchantUtil.RANDOM.nextBoolean()) {
-			Potion negaPotion = PotionUtil.getNonInstantNegativePotion();
-			if(negaPotion != null) {
-				int duration = (EnchantUtil.RANDOM.nextInt(6) + 1) * 20 * enchantmentLevel;
-				int amplifier = EnchantUtil.RANDOM.nextInt(enchantmentLevel) - 1;
-				victim.addPotionEffect(new PotionEffect(negaPotion, duration, amplifier));
-			}
-		}
-		else {
-			Potion negaIPotion = PotionUtil.getInstantNegativePotion();
-			if(negaIPotion != null) {
-				if(negaIPotion == MobEffects.INSTANT_DAMAGE && fEvent.getEntityLiving().isEntityUndead())
-					negaIPotion = MobEffects.INSTANT_HEALTH;
-				int amplifier = EnchantUtil.RANDOM.nextInt(enchantmentLevel) - 1;
-				victim.addPotionEffect(new PotionEffect(negaIPotion, 1, amplifier));
+		int level = EnchantmentHelper.getEnchantmentLevel(this, attacker.getHeldItemMainhand());
+		if(level > 0) {
+			float damage = event.getAmount() * 0.25F * (float)level;
+			event.setAmount(event.getAmount() - damage);
+			if(victim instanceof EntityWitch) damage *= 0.5F;
+			ReflectionUtil.damageEntityLivingDamageEvent(victim, new EntityDamageSource(attacker instanceof EntityPlayer ? "player" : "mob", attacker).setMagicDamage(), damage);
+			
+			if(!attacker.world.isRemote) {
+				if(attacker.getRNG().nextBoolean()) {
+					Potion negaPotion = PotionUtil.getNonInstantNegativePotion();
+					if(negaPotion != null) {
+						int duration = (1 + attacker.getRNG().nextInt(6)) * 20 * level;
+						int amplifier = Math.max(0, attacker.getRNG().nextInt(level) - 1);
+						victim.addPotionEffect(new PotionEffect(negaPotion, duration, amplifier));
+					}
+				}
+				else {
+					Potion negaIPotion = PotionUtil.getInstantNegativePotion();
+					if(negaIPotion != null) {
+						if(negaIPotion == MobEffects.INSTANT_DAMAGE && victim.isEntityUndead()) negaIPotion = MobEffects.INSTANT_HEALTH;
+						int amplifier = Math.max(0, attacker.getRNG().nextInt(level) - 1);
+						negaIPotion.affectEntity(attacker, null, victim, amplifier, 1.0D);
+					}
+				}
 			}
 		}
 	}
