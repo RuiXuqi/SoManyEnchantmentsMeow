@@ -50,6 +50,6 @@ public class EnchantmentBluntness extends EnchantmentCurse {
 	
 	@Override
 	public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType) {
-		return 0.0F - 1.0f * level;
+		return -1.0F * level;
 	}
 }

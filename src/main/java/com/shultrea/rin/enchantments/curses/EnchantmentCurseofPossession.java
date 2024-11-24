@@ -61,14 +61,17 @@ public class EnchantmentCurseofPossession extends EnchantmentCurse {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public static void onItemTossEvent(ItemTossEvent event) {
+	public void onItemTossEvent(ItemTossEvent event) {
+		if(!this.isEnabled()) return;
 		EntityPlayer player = event.getPlayer();
 		if(player == null) return;
-		if(event.getEntityItem().getItem().isEmpty()) return;
-		ItemStack copyStack = event.getEntityItem().getItem().copy();
+		if(player.isCreative()) return;
+		ItemStack origStack = event.getEntityItem().getItem();
+		if(origStack.isEmpty()) return;
 		
-		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.curseOfPossession, copyStack);
-		if(level > 0 && !player.isCreative()) {
+		int level = EnchantmentHelper.getEnchantmentLevel(this, origStack);
+		if(level > 0) {
+			ItemStack copyStack = origStack.copy();
 			boolean flag = player.inventory.addItemStackToInventory(copyStack);
 			if(!flag) {
 				EntityItem entityItem = player.entityDropItem(copyStack, (-0.3F + player.getEyeHeight()));
@@ -83,8 +86,9 @@ public class EnchantmentCurseofPossession extends EnchantmentCurse {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public static void onEntityJoinWorldEvent(EntityJoinWorldEvent event) {
-		if(event.getEntity() == null || !(event.getEntity() instanceof EntityItem)) return;
+	public void onEntityJoinWorldEvent(EntityJoinWorldEvent event) {
+		if(!this.isEnabled()) return;
+		if(!(event.getEntity() instanceof EntityItem)) return;
 		EntityItem item = (EntityItem)event.getEntity();
 		if(item.getItem().isEmpty()) return;
 		ItemStack copyStack = item.getItem().copy();

@@ -3,7 +3,6 @@ package com.shultrea.rin.enchantments.curses;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -59,10 +58,11 @@ public class EnchantmentCurseofDecay extends EnchantmentCurse {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
-	public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
+	public void onEntityJoinWorld(EntityJoinWorldEvent event) {
+		if(!this.isEnabled()) return;
 		if(!(event.getEntity() instanceof EntityItem)) return;
 		EntityItem entity = (EntityItem)event.getEntity();
-		if(EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.curseOfDecay, entity.getItem()) > 0) {
+		if(EnchantmentHelper.getEnchantmentLevel(this, entity.getItem()) > 0) {
 			entity.lifespan = 80;
 			entity.setPickupDelay(10);
 		}

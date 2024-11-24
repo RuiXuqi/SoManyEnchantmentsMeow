@@ -44,6 +44,7 @@
 - Reworked magmawalker into mixin
 - Reworked and fixed attribute handling of strengthened vitality and underwater strider
 - Simplified strafe draw speed calculations
+- Added fixes for curses handling from RLMixins
 
 ## "Finished" enchants
 - AdvancedBlastProtection
@@ -69,7 +70,15 @@
 - EnchantmentSplitshot
 - EnchantmentStrafe
 - EnchantmentTierFlame
-
+- EnchantmentBluntness
+- EnchantmentCurseofDecay
+- EnchantmentCurseofHolding
 - EnchantmentCurseofInaccuracy
-
+- EnchantmentCurseofPossession
+- EnchantmentCurseofVulnerability
+- EnchantmentHeavyWeight
+- EnchantmentInefficient
+- EnchantmentPandorasCurse
 - EnchantmentPowerless
+- EnchantmentRusted
+- EnchantmentUnpredictable

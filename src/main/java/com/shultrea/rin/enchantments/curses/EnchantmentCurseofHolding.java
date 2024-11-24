@@ -3,7 +3,6 @@ package com.shultrea.rin.enchantments.curses;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
@@ -61,12 +60,15 @@ public class EnchantmentCurseofHolding extends EnchantmentCurse {
 	}
 	
 	@SubscribeEvent
-	public static void onPlayerTickEvent(PlayerTickEvent event) {
+	public void onPlayerTickEvent(PlayerTickEvent event) {
+		if(!this.isEnabled()) return;
 		if(event.phase != Phase.START) return;
 		EntityPlayer player = event.player;
 		if(player == null) return;
-		if(!player.world.isRemote && player.ticksExisted%9 == 0) {
-			int level = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.curseOfHolding, player);
+		if(player.world.isRemote) return;
+		
+		if(player.ticksExisted%9 == 0) {
+			int level = EnchantmentHelper.getMaxEnchantmentLevel(this, player);
 			if(level > 0) {
 				player.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 10, level - 1, false, false));
 				player.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 10, level > 1 ? 1 : 0, false, false));

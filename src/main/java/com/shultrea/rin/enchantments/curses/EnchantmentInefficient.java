@@ -3,7 +3,6 @@ package com.shultrea.rin.enchantments.curses;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -61,12 +60,14 @@ public class EnchantmentInefficient extends EnchantmentCurse {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
-	public static void onBreakSpeedEvent(PlayerEvent.BreakSpeed event) {
+	public void onBreakSpeedEvent(PlayerEvent.BreakSpeed event) {
+		if(!this.isEnabled()) return;
 		EntityPlayer player = event.getEntityPlayer();
 		if(player == null) return;
 		ItemStack stack = player.getHeldItemMainhand();
-		if(stack.isEmpty() || !(stack.getItem() instanceof ItemTool)) return;
-		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.inefficient, stack);
+		if(!(stack.getItem() instanceof ItemTool)) return;
+		
+		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
 			if(stack.canHarvestBlock(event.getState()) || ForgeHooks.isToolEffective(player.world, event.getPos(), stack)) {
 				float speed = (float)level * 0.65F + 2.0F;
