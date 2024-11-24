@@ -84,3 +84,6 @@
 - EnchantmentUnpredictable
 - EnchantmentAdvancedLuckOfTheSea
 - EnchantmentAdvancedLure
+- EnchantmentJaggedRake
+- EnchantmentMoisturized
+- EnchantmentPlowing
