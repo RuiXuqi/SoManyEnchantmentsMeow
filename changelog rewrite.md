@@ -82,3 +82,5 @@
 - EnchantmentPowerless
 - EnchantmentRusted
 - EnchantmentUnpredictable
+- EnchantmentAdvancedLuckOfTheSea
+- EnchantmentAdvancedLure

@@ -60,35 +60,4 @@ public class EnchantmentAdvancedLuckOfTheSea extends EnchantmentBase {
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.advancedLuckOfTheSea;
 	}
-	
-	/*
-	@SubscribeEvent(priority=EventPriority.HIGHEST)
-	public void onEvent(EntityJoinWorldEvent fEvent)
-	{
-		if (fEvent.getEntity() instanceof EntityFishHook)
-		{
-			EntityFishHook hook = (EntityFishHook) fEvent.getEntity();
-			EntityLivingBase fisher = hook.getAngler();
-			ItemStack fishingRod = fisher.getHeldItemMainhand();
-			
-			if(fishingRod == null || fishingRod == ItemStack.EMPTY){
-				
-				fishingRod = fisher.getHeldItemOffhand();
-				if(fishingRod == null || fishingRod == ItemStack.EMPTY){
-					
-					return;
-				}
-			}
-			int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.AdvancedLuckOfTheSea, fishingRod);
-			
-			if(level <= 0)
-			return;
-			
-			hook.setLuck(level * 2 + 2);
-			if(Math.random() < 0.15f){
-			hook.setLuck(level * 3 + 3);
-			}
-		}
-	}
-	*/
 }
