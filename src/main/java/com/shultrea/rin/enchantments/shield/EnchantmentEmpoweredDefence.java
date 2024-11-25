@@ -84,35 +84,4 @@ public class EnchantmentEmpoweredDefence extends EnchantmentBase {
 			attacker.attackEntityFrom(DamageSource.causeMobDamage(victim), revengeDamage);
 		victim.hurtResistantTime = victim.maxHurtResistantTime-5;
 	}
-	/** @SubscribeEvent public void OnShieldCooldown(LivingUpdateEvent fEvent){
-	if(!(fEvent.getEntityLiving() instanceof EntityPlayer))
-	return;
-	EntityPlayer player = (EntityPlayer) fEvent.getEntityLiving();
-	int levelED = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.EmpoweredDefence, player);
-	float cooldown = player.getCooldownTracker().getCooldown(Items.SHIELD, 100f);
-	if(cooldown == 0)
-	return;
-	if(cooldown <= 100){
-	player.getCooldownTracker().setCooldown(Items.SHIELD, (int)(100 / levelED));
-	player.resetActiveHand();
-	fEvent.getEntityLiving().getEntityWorld().setEntityState(player, (byte)30);
-	}
-	}
-	 */
 }
-//@Override
-/**
- * public void onUserHurt(EntityLivingBase user, Entity attacker, int level){
- *
- * if(GotHit == true){
- *
- * double XMot = attacker.motionX; double ZMot = attacker.motionZ; double YMot = attacker.motionY;
- *
- * XMot += (double)(-MathHelper.sin(attacker.rotationYaw * (float)Math.PI / 180.0F) * (float) 0.02f + level * 0.03125F);
- * ZMot += (double)(MathHelper.cos(attacker.rotationYaw * (float)Math.PI / 180.0F) * (float)0.02f + level * 0.03125F);
- * attacker.motionX = XMot /1.1D; attacker.motionZ = ZMot /1.1D; attacker.motionY = YMot + level * 0.125;
- *
- * }
- *
- * } }
- */
