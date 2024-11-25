@@ -83,19 +83,3 @@ public class EnchantmentBurningShield extends EnchantmentBase {
 		attacker.setFire(4 + enchantmentLevel * 2);
 	}
 }
-//@Override
-/**
- * public void onUserHurt(EntityLivingBase user, Entity attacker, int level){
- *
- * if(GotHit == true){
- *
- * double XMot = attacker.motionX; double ZMot = attacker.motionZ; double YMot = attacker.motionY;
- *
- * XMot += (double)(-MathHelper.sin(attacker.rotationYaw * (float)Math.PI / 180.0F) * (float) 0.02f + level * 0.03125F);
- * ZMot += (double)(MathHelper.cos(attacker.rotationYaw * (float)Math.PI / 180.0F) * (float)0.02f + level * 0.03125F);
- * attacker.motionX = XMot /1.1D; attacker.motionZ = ZMot /1.1D; attacker.motionY = YMot + level * 0.125;
- *
- * }
- *
- * } }
- */

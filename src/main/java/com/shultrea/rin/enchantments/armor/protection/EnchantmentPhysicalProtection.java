@@ -52,7 +52,20 @@ public class EnchantmentPhysicalProtection extends EnchantmentBase {
 	@Override
 	public int calcModifierDamage(int level, DamageSource source) {
 		return source.canHarmInCreative() ? 0 :
-			   (!(source.isMagicDamage() || source.isFireDamage() || source.isExplosion() || source.isProjectile() || source.damageType.equals("outOfWorld") || source.damageType.equals("drown") || source.damageType.equals("generic") || source.damageType.equals("wither") || source.damageType.equals("lightningBolt") || source.damageType.equals("inFire") || source.damageType.equals("onFire") || source.damageType.equals("hotFloor") || source.damageType.equals("Ethereal") || source.damageType.equals("Culled")) ?
+			   (!(source.isMagicDamage() ||
+					   source.isFireDamage() ||
+					   source.isExplosion() ||
+					   source.isProjectile() ||
+					   source.damageType.equals("outOfWorld") ||
+					   source.damageType.equals("drown") ||
+					   source.damageType.equals("generic") ||
+					   source.damageType.equals("wither") ||
+					   source.damageType.equals("lightningBolt") ||
+					   source.damageType.equals("inFire") ||
+					   source.damageType.equals("onFire") ||
+					   source.damageType.equals("hotFloor") ||
+					   source.damageType.equals("Ethereal") ||
+					   source.damageType.equals("Culled")) ?
 				level * 3 : 0);
 	}
 }

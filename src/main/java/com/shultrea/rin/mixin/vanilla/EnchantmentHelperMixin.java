@@ -37,13 +37,13 @@ public abstract class EnchantmentHelperMixin {
 			if(!stack.isEmpty()) {
 				NBTTagList nbttaglist = stack.getEnchantmentTagList();
 				for(int i = 0; i < nbttaglist.tagCount(); ++i) {
-					int j = nbttaglist.getCompoundTagAt(i).getShort("id");
-					int k = nbttaglist.getCompoundTagAt(i).getShort("lvl");
-					if(Enchantment.getEnchantmentByID(j) != null) {
-						Enchantment ench = Enchantment.getEnchantmentByID(j);
+					int enchID = nbttaglist.getCompoundTagAt(i).getShort("id");
+					int enchLvl = nbttaglist.getCompoundTagAt(i).getShort("lvl");
+					Enchantment ench = Enchantment.getEnchantmentByID(enchID);
+					if(ench != null) {
 						if(ench instanceof EnchantmentBase) {
 							EnchantmentBase enchant = (EnchantmentBase)ench;
-							if(enchant.isEnabled()) enchant.onEntityDamagedAlt(user, target, stack, k);
+							if(enchant.isEnabled()) enchant.onEntityDamagedAlt(user, target, stack, enchLvl);
 						}
 					}
 				}

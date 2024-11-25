@@ -48,7 +48,7 @@ public class CanApplyAnvilConfig {
 	public String[] counterAttack = {};
 	@Config.Name("Critical Strike")
 	@Config.RequiresMcRestart
-	public String[] criticalStrike = {,};
+	public String[] criticalStrike = {};
 	@Config.Name("Culling")
 	@Config.RequiresMcRestart
 	public String[] culling = {};
@@ -174,7 +174,7 @@ public class CanApplyAnvilConfig {
 	public String[] solsBlessing = {};
 	@Config.Name("Spell Breaker")
 	@Config.RequiresMcRestart
-	public String[] spellBreaker = {,};
+	public String[] spellBreaker = {};
 	@Config.Name("Splitshot")
 	@Config.RequiresMcRestart
 	public String[] splitShot = {};
@@ -221,10 +221,10 @@ public class CanApplyAnvilConfig {
 	//Curses
 	@Config.Name("Bluntness")
 	@Config.RequiresMcRestart
-	public String[] bluntness = {"SWORD","AXE"};
+	public String[] bluntness = {"SWORD","AXE", "BATTLEAXE", "BS_WEAPON"};
 	@Config.Name("Cursed Edge")
 	@Config.RequiresMcRestart
-	public String[] cursedEdge = {"SWORD"};
+	public String[] cursedEdge = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Curse of Decay")
 	@Config.RequiresMcRestart
 	public String[] curseOfDecay = {"ALL_ITEMS"};
@@ -233,7 +233,7 @@ public class CanApplyAnvilConfig {
 	public String[] curseOfHolding = {"ALL_ITEMS"};
 	@Config.Name("Curse of Inaccuracy")
 	@Config.RequiresMcRestart
-	public String[] curseOfInaccuracy = {"SWORD","AXE","BOW"};
+	public String[] curseOfInaccuracy = {"SWORD","AXE","BOW", "BATTLEAXE", "BS_WEAPON"};
 	@Config.Name("Curse of Possession")
 	@Config.RequiresMcRestart
 	public String[] curseOfPossession = {"ALL_TYPES"};
@@ -242,13 +242,13 @@ public class CanApplyAnvilConfig {
 	public String[] curseOfVulnerability = {"ARMOR"};
 	@Config.Name("Heavy Weight")
 	@Config.RequiresMcRestart
-	public String[] heavyWeight = {"SWORD"};
+	public String[] heavyWeight = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Inefficient")
 	@Config.RequiresMcRestart
 	public String[] inefficient = {"TOOL"};
 	@Config.Name("Instability")
 	@Config.RequiresMcRestart
-	public String[] instability = {"SWORD","TOOL"};
+	public String[] instability = {"SWORD","TOOL", "BS_WEAPON"};
 	@Config.Name("Pandora's Curse")
 	@Config.RequiresMcRestart
 	public String[] pandorasCurse = {"ALL_ITEMS"};
@@ -260,7 +260,7 @@ public class CanApplyAnvilConfig {
 	public String[] rusted = {"BREAKABLE","NOT_GOLD"};
 	@Config.Name("Unpredictable")
 	@Config.RequiresMcRestart
-	public String[] unpredictable = {"SWORD"};
+	public String[] unpredictable = {"SWORD", "BS_WEAPON"};
 	
 	//Rune
 	@Config.Name("Rune: Arrow Piercing")
@@ -271,7 +271,7 @@ public class CanApplyAnvilConfig {
 	public String[] runeMagicalBlessing = {};
 	@Config.Name("Rune: Piercing Capabilities")
 	@Config.RequiresMcRestart
-	public String[] runePiercingCapabilities = {};
+	public String[] runePiercingCapabilities = {"AXE"};
 	@Config.Name("Rune: Resurrection")
 	@Config.RequiresMcRestart
 	public String[] runeResurrection = {};

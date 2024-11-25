@@ -15,6 +15,7 @@ public class IncompatibleConfig {
 	public String[] incompatibleGroups = {
 			"minecraft:feather_falling, advancedfeatherfalling",
 			"minecraft:depth_strider, underwaterstrider",
+			"minecraft:frost_walker, magma_walker",
 			"heavyweight, swifterslashes",
 			"minecraft:unbreaking, rusted",
 			"minecraft:unbreaking, instability",
@@ -27,11 +28,11 @@ public class IncompatibleConfig {
 			"minecraft:mending, advancedmending",
 			"curseofpossession, curseofdecay",
 			"truestrike, curseofinaccuracy",
-			"minecraft:thorns, advancedthorns, burningthorns",
+			"minecraft:thorns, advancedthorns, burningthorns, meltdown",
 			"minecraft:efficiency, advancedefficiency, inefficient",
-			"minecraft:knockback, advancedknockback, flinging",
+			"minecraft:knockback, advancedknockback, flinging, mujmajnkraftsbettersurvival:fling",
 			"fieryedge, ashdestroyer",
-			"minecraft:looting, advancedlooting",
+			"minecraft:looting, advancedlooting, mujmajnkraftsbettersurvival:education",
 			"blessededge, lifesteal",
 			"rune_piercingcapabilities, rune_arrowpiercing, penetratingedge, rune_magicalblessing, rune_revival, rune_resurrection",
 			"viper, darkshadows, mortalitas",
@@ -51,7 +52,8 @@ public class IncompatibleConfig {
 			"lessersharpness, lessersmite, lesserbaneofarthropods",
 			"advancedsharpness, advancedsmite, advancedbaneofarthropods, supremesharpness, supremesmite, supremebaneofarthropods, spellbreaker",
 			"defusingedge, inhumane, butchering",
-			"splitshot, mujmajnkraftsbettersurvival:multishot"};
+			"splitshot, mujmajnkraftsbettersurvival:multishot",
+			"adept, mujmajnkraftsbettersurvival:education"};
 
 	public ArrayList<Enchantment> getIncompatibleEnchantmentsString(Enchantment thisEnch) {
 		ArrayList<Enchantment> incompatEnchs = new ArrayList<>();
