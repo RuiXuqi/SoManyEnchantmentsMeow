@@ -217,7 +217,6 @@ public class EnabledConfig {
 	@Config.Name("Winter's Grace")
 	@Config.RequiresMcRestart
 	public boolean wintersGrace = true;
-	//TODO recheck curses?
 	//Curses
 	@Config.Name("Bluntness")
 	@Config.RequiresMcRestart

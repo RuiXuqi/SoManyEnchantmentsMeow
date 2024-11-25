@@ -4,14 +4,12 @@ import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -62,26 +60,24 @@ public class EnchantmentEmpoweredDefence extends EnchantmentBase {
 		return ModConfig.treasure.empoweredDefence;
 	}
 	
-	//TODO
-	@SubscribeEvent(priority = EventPriority.LOW)
-	public void EmpoweredDefenceEvent(LivingAttackEvent fEvent) {
-		if(!(fEvent.getEntity() instanceof EntityLivingBase)) return;
-		EntityLivingBase victim = (EntityLivingBase)fEvent.getEntity();
-
-		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.empoweredDefence, victim);
-		if(enchantmentLevel <= 0) return;
-
-		if(!EnchantUtil.canBlockDamageSource(fEvent.getSource(), victim)) return;
-		if(victim.getRNG().nextInt(100) > 20 + (enchantmentLevel * 5)) return;
-
-		fEvent.setCanceled(true);
-		Entity attacker = fEvent.getSource().getImmediateSource();
-		EnchantUtil.knockBackIgnoreKBRes(attacker, 0.4f + 0.2F * enchantmentLevel, victim.posX - attacker.posX, victim.posZ - attacker.posZ);
-		float revengeDamage = fEvent.getAmount() * 0.225f * enchantmentLevel;
-		if(victim instanceof EntityPlayer)
-			attacker.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)victim), revengeDamage);
-		else
-			attacker.attackEntityFrom(DamageSource.causeMobDamage(victim), revengeDamage);
-		victim.hurtResistantTime = victim.maxHurtResistantTime-5;
+	@SubscribeEvent(priority = EventPriority.NORMAL)
+	public void onLivingAttackEvent(LivingAttackEvent event) {
+		if(!this.isEnabled()) return;
+		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
+		if(!(event.getSource().getImmediateSource() instanceof EntityLivingBase)) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getImmediateSource();
+		if(!EnchantUtil.canBlockDamageSource(event.getSource(), victim)) return;
+		
+		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, victim);
+		if(level > 0 && victim.getRNG().nextFloat() < 0.2F + 0.05F * (float)level) {
+			if(!victim.world.isRemote) {
+				EnchantUtil.knockBackIgnoreKBRes(attacker, 0.4F + 0.2F * (float)level, victim.posX - attacker.posX, victim.posZ - attacker.posZ);
+			}
+			float revengeDamage = event.getAmount() * 0.225F * (float)level;
+			attacker.attackEntityFrom(new EntityDamageSource(victim instanceof EntityPlayer ? "player" : "mob", victim).setFireDamage(), revengeDamage);
+			event.setCanceled(true);
+			victim.hurtResistantTime = victim.maxHurtResistantTime - 5;
+		}
 	}
 }

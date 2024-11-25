@@ -223,8 +223,6 @@ public class RarityConfig {
 	@Config.Name("Winter's Grace")
 	@Config.RequiresMcRestart
 	public int wintersGrace = VERY_RARE;
-	
-	//TODO recheck curses?
 	//Curses
 	@Config.Name("Bluntness")
 	@Config.RequiresMcRestart

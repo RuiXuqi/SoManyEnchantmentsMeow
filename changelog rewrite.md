@@ -47,6 +47,12 @@
 - Added fixes for curses handling from RLMixins
 - Reworked rune enchants, magical/resurrection/revival should now work properly, resurrection is now a shield enchant
 
+## Todo
+- Organize event handler priorities
+- Split damage handling or spartan compat
+- Handle removing enchants from Villagers and Loot enchanting
+- More sound effects? (Like resurrection)
+
 ## "Finished" enchants
 - AdvancedBlastProtection
 - AdvancedFeatherFalling
@@ -93,3 +99,6 @@
 - EnchantmentRunePiercingCapabilities (Still need spartan compat or better damage split handling)
 - EnchantmentRuneResurrection
 - EnchantmentRuneRevival
+- EnchantmentBurningShield
+- EnchnatmentEmpoweredDefence
+- EnchantmentNaturalBlocking

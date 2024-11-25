@@ -217,8 +217,6 @@ public class TreasureConfig {
 	@Config.Name("Winter's Grace")
 	@Config.RequiresMcRestart
 	public boolean wintersGrace = false;
-	
-	//TODO recheck curses?
 	//Curses
 	@Config.Name("Bluntness")
 	@Config.RequiresMcRestart

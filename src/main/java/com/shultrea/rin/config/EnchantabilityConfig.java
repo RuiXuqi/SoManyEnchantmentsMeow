@@ -313,7 +313,6 @@ public class EnchantabilityConfig {
 	@Config.Name("Lesser Smite")
 	@Config.RequiresMcRestart
 	public int[] lesserSmite = {1, 5, 20, MIN};
-	//TODO why so many more advanced?
 	//Advanced
 	@Config.Name("Advanced Bane of Arthropods")
 	@Config.RequiresMcRestart

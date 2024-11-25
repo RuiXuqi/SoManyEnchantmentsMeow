@@ -4,14 +4,12 @@ import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -62,24 +60,20 @@ public class EnchantmentBurningShield extends EnchantmentBase {
 		return ModConfig.treasure.burningShield;
 	}
 
-	//TODO
-	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void shieldBurn(LivingAttackEvent fEvent) {
-		if(!(fEvent.getEntity() instanceof EntityLivingBase)) return;
-		EntityLivingBase victim = (EntityLivingBase)fEvent.getEntity();
+	@SubscribeEvent(priority = EventPriority.LOW)
+	public void onLivingAttackEvent(LivingAttackEvent event) {
+		if(!this.isEnabled()) return;
+		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
+		if(!(event.getSource().getImmediateSource() instanceof EntityLivingBase)) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getImmediateSource();
+		if(!EnchantUtil.canBlockDamageSource(event.getSource(), victim)) return;
 
-		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.burningShield, victim);
-		if(enchantmentLevel <= 0) return;
-
-		if(!EnchantUtil.canBlockDamageSource(fEvent.getSource(), victim)) return;
-		if(victim.getRNG().nextInt(100) > 40 + (enchantmentLevel * 10)) return;
-
-		Entity attacker = fEvent.getSource().getImmediateSource();
-		float revengeDamage = fEvent.getAmount() * enchantmentLevel * 0.1f;
-		if(victim instanceof EntityPlayer)
-			attacker.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)victim).setFireDamage(), revengeDamage);
-		else
-			attacker.attackEntityFrom(DamageSource.causeMobDamage(victim).setFireDamage(), revengeDamage);
-		attacker.setFire(4 + enchantmentLevel * 2);
+		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, victim);
+		if(level > 0 && victim.getRNG().nextFloat() < 0.4F + 0.1F * (float)level) {
+			float revengeDamage = event.getAmount() * 0.1F * (float)level;
+			attacker.attackEntityFrom(new EntityDamageSource(victim instanceof EntityPlayer ? "player" : "mob", victim).setFireDamage(), revengeDamage);
+			attacker.setFire(4 + 2 * level);
+		}
 	}
 }
