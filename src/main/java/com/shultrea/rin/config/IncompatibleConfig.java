@@ -15,6 +15,7 @@ public class IncompatibleConfig {
 	public String[] incompatibleGroups = {
 			"minecraft:feather_falling, advancedfeatherfalling",
 			"minecraft:depth_strider, underwaterstrider",
+			"minecraft:frost_walker, magma_walker",
 			"heavyweight, swifterslashes",
 			"minecraft:unbreaking, rusted",
 			"minecraft:unbreaking, instability",
@@ -27,7 +28,7 @@ public class IncompatibleConfig {
 			"minecraft:mending, advancedmending",
 			"curseofpossession, curseofdecay",
 			"truestrike, curseofinaccuracy",
-			"minecraft:thorns, advancedthorns, burningthorns",
+			"minecraft:thorns, advancedthorns, burningthorns, meltdown",
 			"minecraft:efficiency, advancedefficiency, inefficient",
 			"minecraft:knockback, advancedknockback, flinging, mujmajnkraftsbettersurvival:fling",
 			"fieryedge, ashdestroyer",
