@@ -35,10 +35,10 @@ public abstract class ItemMixin {
 		if(stack.isEmpty() || slot != EntityEquipmentSlot.MAINHAND) return original;
 		int ssLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.swifterSlashes, stack);
 		int hwLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.heavyWeight, stack);
-		if(ssLevel > 0) {
+		if(ssLevel > 0 && EnchantmentRegistry.swifterSlashes.isEnabled()) {
 			original.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(soManyEnchantments$SS_UUID, "swifterSlashes", 0.20D*(double)ssLevel, 1));
 		}
-		if(hwLevel > 0) {
+		if(hwLevel > 0 && EnchantmentRegistry.heavyWeight.isEnabled()) {
 			original.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(soManyEnchantments$HW_UUID, "heavyWeight", ((double)hwLevel*0.10D + 0.20) * -1.0D, 1));
 		}
 		return original;

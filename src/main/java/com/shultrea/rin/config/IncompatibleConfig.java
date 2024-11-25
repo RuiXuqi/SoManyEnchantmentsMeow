@@ -50,7 +50,8 @@ public class IncompatibleConfig {
 			"lesserbaneofarthropods, minecraft:bane_of_arthropods, advancedbaneofarthropods, supremebaneofarthropods, reinforcedsharpness, bluntness",
 			"lessersharpness, lessersmite, lesserbaneofarthropods",
 			"advancedsharpness, advancedsmite, advancedbaneofarthropods, supremesharpness, supremesmite, supremebaneofarthropods, spellbreaker",
-			"defusingedge, inhumane, butchering"};
+			"defusingedge, inhumane, butchering",
+			"splitshot, mujmajnkraftsbettersurvival:multishot"};
 
 	public ArrayList<Enchantment> getIncompatibleEnchantmentsString(Enchantment thisEnch) {
 		ArrayList<Enchantment> incompatEnchs = new ArrayList<>();

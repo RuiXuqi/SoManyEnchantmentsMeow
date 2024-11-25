@@ -33,8 +33,6 @@ public class SoManyEnchantments {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent fEvent) {
 		CapabilityManager.INSTANCE.register(IArrowProperties.class, new ArrowPropertiesStorage(), ArrowProperties::new);
-		CapabilityManager.INSTANCE.register(IPlayerProperties.class, new PlayerPropertiesStorage(), PlayerProperties::new);
-		MinecraftForge.EVENT_BUS.register(new PlayerPropertiesHandler());
 		MinecraftForge.EVENT_BUS.register(new ArrowPropertiesHandler());
 		EnchantmentRegistry.handleSubscribers();
 	}

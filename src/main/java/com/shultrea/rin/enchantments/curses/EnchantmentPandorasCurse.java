@@ -4,7 +4,6 @@ import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import com.shultrea.rin.registry.SoundRegistry;
 import com.shultrea.rin.util.EnchantUtil;
 import net.minecraft.enchantment.Enchantment;
@@ -82,18 +81,19 @@ public class EnchantmentPandorasCurse extends EnchantmentCurse {
 	}
 	
 	@SubscribeEvent
-	public static void onPlayerTickEvent(PlayerTickEvent event) {
+	public void onPlayerTickEvent(PlayerTickEvent event) {
+		if(!this.isEnabled()) return;
 		if(event.phase != Phase.END || event.player == null || event.player.world.isRemote) return;
 		
 		if(event.player.ticksExisted%ModConfig.miscellaneous.pandorasCurseInterval == 0) {
 			InventoryPlayer inv = event.player.inventory;
-			ItemStack cursedStack = null;
+			ItemStack cursedStack = ItemStack.EMPTY;
 			int curseLevel = 0;
 			List<ItemStack> candidates = new ArrayList<ItemStack>();
 			
 			for(ItemStack stack : inv.offHandInventory) {
 				if(!stack.isEmpty() && !(stack.getItem() instanceof ItemEnchantedBook)) {
-					int lvl = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.pandorasCurse, stack);
+					int lvl = EnchantmentHelper.getEnchantmentLevel(this, stack);
 					if(lvl > 0) {
 						cursedStack = stack;
 						curseLevel = lvl;
@@ -103,7 +103,7 @@ public class EnchantmentPandorasCurse extends EnchantmentCurse {
 			}
 			for(ItemStack stack : inv.armorInventory) {
 				if(!stack.isEmpty() && !(stack.getItem() instanceof ItemEnchantedBook)) {
-					int lvl = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.pandorasCurse, stack);
+					int lvl = EnchantmentHelper.getEnchantmentLevel(this, stack);
 					if(lvl > 0) {
 						cursedStack = stack;
 						curseLevel = lvl;
@@ -113,7 +113,7 @@ public class EnchantmentPandorasCurse extends EnchantmentCurse {
 			}
 			for(ItemStack stack : inv.mainInventory) {
 				if(!stack.isEmpty() && !(stack.getItem() instanceof ItemEnchantedBook)) {
-					int lvl = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.pandorasCurse, stack);
+					int lvl = EnchantmentHelper.getEnchantmentLevel(this, stack);
 					if(lvl > 0) {
 						cursedStack = stack;
 						curseLevel = lvl;
@@ -122,7 +122,7 @@ public class EnchantmentPandorasCurse extends EnchantmentCurse {
 				}
 			}
 			
-			if(cursedStack == null || candidates.isEmpty()) return;
+			if(cursedStack.isEmpty() || candidates.isEmpty()) return;
 			
 			int origCurseLevel = curseLevel;
 			
@@ -130,7 +130,7 @@ public class EnchantmentPandorasCurse extends EnchantmentCurse {
 			for(ItemStack stack : candidates) {
 				if(curseLevel <= 5 && event.player.world.rand.nextInt(8) < 1) {
 					Enchantment curse = curses.get(event.player.world.rand.nextInt(curses.size()));
-					if(curse != EnchantmentRegistry.pandorasCurse && curse.canApply(stack)) {
+					if(curse != this && curse.canApply(stack)) {
 						boolean compat = true;
 						for(Enchantment ench : EnchantmentHelper.getEnchantments(stack).keySet()) {
 							if(!ench.isCompatibleWith(curse)) {
@@ -149,11 +149,11 @@ public class EnchantmentPandorasCurse extends EnchantmentCurse {
 			if(curseLevel != origCurseLevel || curseLevel > 5) {
 				Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(cursedStack);
 				if(curseLevel > 5) {
-					enchants.remove(EnchantmentRegistry.pandorasCurse);
+					enchants.remove(this);
 					event.player.world.playSound(null, event.player.posX, event.player.posY, event.player.posZ, SoundRegistry.PANDORA_REMOVAL, SoundCategory.PLAYERS, 0.8F, (event.player.world.rand.nextFloat()-event.player.world.rand.nextFloat())*0.1F+1.4F);
 				}
 				else {
-					enchants.put(EnchantmentRegistry.pandorasCurse, curseLevel);
+					enchants.put(this, curseLevel);
 				}
 				EnchantmentHelper.setEnchantments(enchants, cursedStack);
 			}

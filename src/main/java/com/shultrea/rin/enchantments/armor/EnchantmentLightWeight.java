@@ -3,7 +3,6 @@ package com.shultrea.rin.enchantments.armor;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -63,61 +62,47 @@ public class EnchantmentLightWeight extends EnchantmentBase {
 		return ModConfig.treasure.lightWeight;
 	}
 	
-	@SubscribeEvent(priority = EventPriority.LOW, receiveCanceled = true)
-	public void onExist(PlayerTickEvent e) {
-		if(e.phase == Phase.START) return;
-		if(e.player == null) return;
-		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.lightWeight, e.player);
-		if(enchantmentLevel > 0 && !e.player.onGround) {
-			if(e.player.isCreative()) {
-				if(!e.player.capabilities.isFlying) {
-					lightStep(enchantmentLevel, e.player);
-				}
-			}
-			else {
-				lightStep(enchantmentLevel, e.player);
-			}
-		}
-	}
-	
-	public void lightStep(int enchantmentLevel, EntityPlayer player) {
-		float cloud = MathHelper.clamp(enchantmentLevel/3f, 0.33f, 1);
-		if(player.fallDistance >= 3.0F) {
-			if(player.world.isRemote) {
-				for(int i = 0; i < 3; i++) {
-					player.world.spawnParticle(EnumParticleTypes.CLOUD, player.posX, player.posY - 2.0D, player.posZ, (player.getRNG().nextFloat() - 0.5F) / 2.0F * cloud, -0.5D * cloud, (player.getRNG().nextFloat() - 0.5F) / 2.0F * cloud);
-				}
-			}
-		}
-		if((player.isSprinting()) && (player.world.isRemote)) {
-			player.world.spawnParticle(EnumParticleTypes.CLOUD, player.posX, player.posY - 1.5D, player.posZ, (player.getRNG().nextFloat() - 0.5F) / 2.0F * cloud, 0.1D * cloud, (player.getRNG().nextFloat() - 0.5F) / 2.0F * cloud);
-		}
-		if(!player.onGround) {
-			if(!player.world.isRemote)
-				// player.motionY = player.motionY + MathHelper.clamp(0.005D + 0.005D * enchantmentLevel, 0, 0.04D);
-				player.jumpMovementFactor += 0.0075F * enchantmentLevel + 0.0025f;
-		}
-		if(player.collidedHorizontally) {
-			player.stepHeight = 1.0F;
-		}
-		else {
-			player.stepHeight = 0.5F;
-		}
-	}
-	
-	@SubscribeEvent
-	public void onJump(LivingJumpEvent e) {
-		if(e.getEntityLiving() == null) return;
-		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.lightWeight, e.getEntityLiving());
-		if(enchantmentLevel > 0)
-			e.getEntityLiving().motionY *= (1.05D + enchantmentLevel * 0.15D);
-	}
-	
-	@SubscribeEvent
-	public void onEvent(LivingFallEvent e) {
-		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.lightWeight, e.getEntityLiving());
+	@SubscribeEvent(priority = EventPriority.LOW)
+	public void onPlayerTick(PlayerTickEvent event) {
+		if(!this.isEnabled()) return;
+		if(event.phase != Phase.END) return;
+		EntityPlayer player = event.player;
+		if(player == null) return;
+		if(!player.world.isRemote) return;
+		if(player.onGround) return;
+		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(this, player);
 		if(enchantmentLevel > 0) {
-			e.setDistance(MathHelper.clamp(e.getDistance() - 4 - enchantmentLevel * 2f, 0, 20));
+			if(!player.capabilities.isFlying) {
+				float cloud = MathHelper.clamp((float)enchantmentLevel / 3.0F, 0.33F, 1);
+				if(player.fallDistance >= 3.0F) {
+					for(int i = 0; i < 3; i++) {
+						player.world.spawnParticle(EnumParticleTypes.CLOUD, player.posX, player.posY - 2.0D, player.posZ, (player.getRNG().nextFloat() - 0.5F) / 2.0F * cloud, -0.5D * cloud, (player.getRNG().nextFloat() - 0.5F) / 2.0F * cloud);
+					}
+				}
+				else if((player.isSprinting())) {
+					player.world.spawnParticle(EnumParticleTypes.CLOUD, player.posX, player.posY - 1.5D, player.posZ, (player.getRNG().nextFloat() - 0.5F) / 2.0F * cloud, 0.1D * cloud, (player.getRNG().nextFloat() - 0.5F) / 2.0F * cloud);
+				}
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onLivingJumpEvent(LivingJumpEvent event) {
+		if(!this.isEnabled()) return;
+		if(event.getEntityLiving() == null) return;
+		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(this, event.getEntityLiving());
+		if(enchantmentLevel > 0) {
+			event.getEntityLiving().motionY *= (1.05D + (double)enchantmentLevel * 0.15D);
+		}
+	}
+	
+	@SubscribeEvent
+	public void onLivingFallEvent(LivingFallEvent event) {
+		if(!this.isEnabled()) return;
+		if(event.getEntityLiving() == null) return;
+		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(this, event.getEntityLiving());
+		if(enchantmentLevel > 0) {
+			event.setDistance(MathHelper.clamp(event.getDistance() - 4 - enchantmentLevel * 2, 0, 20));
 		}
 	}
 }

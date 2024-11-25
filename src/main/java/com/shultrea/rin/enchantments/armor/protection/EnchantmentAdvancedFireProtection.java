@@ -11,6 +11,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -77,7 +78,7 @@ public class EnchantmentAdvancedFireProtection extends EnchantmentBase {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
-	public void livingHurtEvent_extraProtection(LivingDamageEvent fEvent) {
+	public void livingHurtEvent_extraProtection(LivingHurtEvent fEvent) {
 		if(!ModConfig.miscellaneous.extraProtectionEffects) return;
 		if(!this.isEnabled()) return;
 		if(!fEvent.getSource().isFireDamage()) return;

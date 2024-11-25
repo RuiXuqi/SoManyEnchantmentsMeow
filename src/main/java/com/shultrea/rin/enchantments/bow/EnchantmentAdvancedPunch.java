@@ -6,6 +6,9 @@ import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
+/**
+ * Enchantment handling in com.shultrea.rin.properties.ArrowPropertiesHandler
+ */
 public class EnchantmentAdvancedPunch extends EnchantmentBase {
 	
 	public EnchantmentAdvancedPunch(String name, Rarity rarity, EntityEquipmentSlot... slots) {

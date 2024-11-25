@@ -4,7 +4,6 @@ import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.util.ReflectionUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -62,27 +61,28 @@ public class EnchantmentRunePiercingCapabilities extends EnchantmentBase {
 		return ModConfig.treasure.runePiercingCapabilities;
 	}
 	
-	//TODO
 	@Override
 	public String getPrefix() {
 		return TextFormatting.GREEN.toString();
 	}
 	
-	//TODO
+	//TODO SpartanWeaponry compat or a better way of splitting damage
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void HandleEnchant(LivingHurtEvent fEvent) {
-		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
-		if(fEvent.getSource().isUnblockable()) return;
-		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
-		ItemStack stack = attacker.getHeldItemMainhand();
-		//TODO: this should check the attacking hand, not main
-		int pierceLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.runePiercingCapabilities, stack);
-		if(pierceLevel <= 0) return;
-		float damage = fEvent.getAmount() * 0.25f * pierceLevel;
-		fEvent.setAmount(fEvent.getAmount() - (fEvent.getAmount() * pierceLevel * 0.25f));
-		if(attacker instanceof EntityPlayer)
-			ReflectionUtil.damageEntityLivingDamageEvent(fEvent.getEntityLiving(), new EntityDamageSource("player", attacker).setDamageBypassesArmor(), damage);
-		else
-			ReflectionUtil.damageEntityLivingDamageEvent(fEvent.getEntityLiving(), new EntityDamageSource("mob", attacker).setDamageBypassesArmor(), damage);
+	public void onLivingHurtEvent(LivingHurtEvent event) {
+		if(!this.isEnabled()) return;
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
+		if(attacker == null) return;
+		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
+		if(event.getSource().isUnblockable()) return;
+		
+		
+		int level = EnchantmentHelper.getEnchantmentLevel(this, attacker.getHeldItemMainhand());
+		if(level > 0) {
+			float damage = event.getAmount() * 0.25F * (float)level;
+			event.setAmount(event.getAmount() - damage);
+			ReflectionUtil.damageEntityLivingDamageEvent(victim, new EntityDamageSource(attacker instanceof EntityPlayer ? "player" : "mob", attacker).setDamageBypassesArmor(), damage);
+		}
 	}
 }

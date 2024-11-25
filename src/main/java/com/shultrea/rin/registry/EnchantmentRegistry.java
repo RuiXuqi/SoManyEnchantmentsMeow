@@ -1,6 +1,7 @@
 package com.shultrea.rin.registry;
 
 import com.shultrea.rin.config.RarityConfig;
+import com.shultrea.rin.enchantments.armor.thorns.EnchantmentMeltdown;
 import com.shultrea.rin.util.Slots;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.SoManyEnchantments;
@@ -59,7 +60,7 @@ public class EnchantmentRegistry {
 	public static EnchantmentBase blessedEdge = register(new EnchantmentBlessedEdge("blessededge", RarityConfig.get(ModConfig.rarity.blessedEdge), Slots.MAINHAND));
 	public static EnchantmentBase brutality = register(new EnchantmentBrutality("brutality", RarityConfig.get(ModConfig.rarity.brutality), Slots.MAINHAND));
 	public static EnchantmentBase burningShield = register(new EnchantmentBurningShield("burningshield", RarityConfig.get(ModConfig.rarity.burningShield), Slots.HAND));
-	public static EnchantmentBase burningThorns = register(new EnchantmentBurningThorns("burningthorns", RarityConfig.get(ModConfig.rarity.burningThorns), Slots.CHEST));
+	public static EnchantmentBase burningThorns = register(new EnchantmentBurningThorns("burningthorns", RarityConfig.get(ModConfig.rarity.burningThorns), Slots.BODY));
 	public static EnchantmentBase butchering = register(new EnchantmentButchering("butchering", RarityConfig.get(ModConfig.rarity.butchering), Slots.MAINHAND));
 	public static EnchantmentBase clearskiesFavor = register(new EnchantmentClearskiesFavor("clearskiesfavor", RarityConfig.get(ModConfig.rarity.clearskiesFavor), Slots.MAINHAND));
 	public static EnchantmentBase combatVeterancy = register(new EnchantmentCombatVeterancy("combatveterancy", RarityConfig.get(ModConfig.rarity.combatVeterancy), Slots.MAINHAND));
@@ -200,7 +201,7 @@ public class EnchantmentRegistry {
 	//public static EnchantmentBase advancedRespiration;
 	public static EnchantmentBase advancedSharpness = register(new EnchantmentAdvancedSharpness("advancedsharpness", RarityConfig.get(ModConfig.rarity.advancedSharpness), Slots.MAINHAND));
 	public static EnchantmentBase advancedSmite = register(new EnchantmentAdvancedSmite("advancedsmite", RarityConfig.get(ModConfig.rarity.advancedSmite), Slots.MAINHAND));
-	public static EnchantmentBase advancedThorns = register(new EnchantmentAdvancedThorns("advancedthorns", RarityConfig.get(ModConfig.rarity.advancedThorns), Slots.CHEST));
+	public static EnchantmentBase advancedThorns = register(new EnchantmentAdvancedThorns("advancedthorns", RarityConfig.get(ModConfig.rarity.advancedThorns), Slots.BODY));
 	//Supreme
 	public static EnchantmentBase supremeBaneOfArthropods = register(new EnchantmentTierDamage("supremebaneofarthropods", RarityConfig.get(ModConfig.rarity.supremeBaneOfArthropods),5));
 	//public static EnchantmentBase supremeBlastProtection;

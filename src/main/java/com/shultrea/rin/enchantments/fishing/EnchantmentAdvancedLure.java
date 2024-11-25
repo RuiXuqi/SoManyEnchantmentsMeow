@@ -60,39 +60,4 @@ public class EnchantmentAdvancedLure extends EnchantmentBase {
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.advancedLure;
 	}
-	
-	/*
-	@SubscribeEvent(priority=EventPriority.HIGHEST)
-	public void onEvent(EntityJoinWorldEvent fEvent)
-	{
-		if (fEvent.getEntity() instanceof EntityFishHook)
-		{
-			EntityFishHook hook = (EntityFishHook) fEvent.getEntity();
-			EntityLivingBase fisher = hook.getAngler();
-			ItemStack fishingRod = fisher.getHeldItemMainhand();
-			
-			if(fishingRod == null || fishingRod == ItemStack.EMPTY){
-				
-			fishingRod = fisher.getHeldItemOffhand();
-			if(fishingRod == null || fishingRod == ItemStack.EMPTY){
-				
-				return;
-			}
-		}
-		
-			
-			//ItemStack item = EnchantmentHelper.getEnchantedItem(EnchantmentRegistry.AdvancedLure, fisher);
-			
-			int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.AdvancedLure, fishingRod);
-			
-			if(level <= 0)
-			return;
-			
-			hook.setLureSpeed(level + 1);
-			if(Math.random() < 0.15f){
-			hook.setLureSpeed(level + 2);
-			}
-		}
-	}
-	 */
 }

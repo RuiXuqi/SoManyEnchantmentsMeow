@@ -7,9 +7,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
 /**
- * Enchantment arrow power handled in;
- * com.shultrea.rin.mixin.vanilla.ItemBowMixin
- * com.shultrea.rin.mixin.vanilla.EntityArrowMixin
+ * Enchantment handling in com.shultrea.rin.properties.ArrowPropertiesHandler
  */
 public class EnchantmentPowerless extends EnchantmentCurse {
 	
@@ -51,5 +49,4 @@ public class EnchantmentPowerless extends EnchantmentCurse {
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.powerless;
 	}
-
 }

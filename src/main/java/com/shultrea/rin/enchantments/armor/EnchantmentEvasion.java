@@ -61,30 +61,32 @@ public class EnchantmentEvasion extends EnchantmentBase {
 		return ModConfig.treasure.evasion;
 	}
 	
-	//TODO
-	@SubscribeEvent(priority = EventPriority.LOW, receiveCanceled = false)
-	public void HandleEnchant(LivingAttackEvent fEvent) {
-		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
-		if("arrow".equals(fEvent.getSource().damageType)) return;
-		EntityLivingBase victim = fEvent.getEntityLiving();
+	@SubscribeEvent(priority = EventPriority.LOW)
+	public void onLivingAttackEvent(LivingAttackEvent event) {
+		if(!this.isEnabled()) return;
+		if(event.getSource().isProjectile()) return;
+		EntityLivingBase victim = event.getEntityLiving();
 		if(victim == null) return;
-		EntityLivingBase attacker = (EntityLivingBase) fEvent.getSource().getTrueSource();
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
-		if(EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.trueStrike, attacker) > 0) {
-			if(EnchantUtil.RANDOM.nextInt(100) < 75) return;
-		}
-		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.evasion, victim);
-		if(enchantmentLevel <= 0) return;
-		double randX = 0.65 + victim.getRNG().nextDouble() * 0.25f;
-		randX = victim.getRNG().nextBoolean() ? randX * -1 : randX;
-		double randZ = 0.65 + victim.getRNG().nextDouble() * 0.25f;
-		randZ = victim.getRNG().nextBoolean() ? randZ * -1 : randZ;
-		if(fEvent.getEntityLiving().world.rand.nextInt(100) < 5 + (enchantmentLevel * 15)) {
-			if(!attacker.world.isRemote && ModConfig.miscellaneous.evasionDodgeEffect)
-				EnchantUtil.knockBackIgnoreKBRes(victim, 0.7f, (attacker.posX - victim.posX) * randX, (attacker.posZ - victim.posZ) * randZ);
-			victim.getEntityWorld().playSound(null, victim.posX, victim.posY, victim.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.PLAYERS, 0.3f, victim.getRNG().nextFloat() * 2.25f + 0.75f);
-			fEvent.setCanceled(true);
-			victim.hurtResistantTime = 15 + 5 * enchantmentLevel;
+		
+		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(this, victim);
+		if(enchantmentLevel > 0) {
+			boolean attackerEffects = EnchantmentBase.isDamageSourceAllowed(event.getSource());
+			if(attackerEffects && EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.trueStrike, attacker.getHeldItemMainhand()) > 0) return;
+			
+			if(victim.getRNG().nextFloat() < 0.05F + ((float)enchantmentLevel * 0.15F)) {
+				if(attackerEffects && !attacker.world.isRemote && ModConfig.miscellaneous.evasionDodgeEffect) {
+					double randX = 0.65 + victim.getRNG().nextDouble() * 0.25f;
+					randX = victim.getRNG().nextBoolean() ? randX * -1 : randX;
+					double randZ = 0.65 + victim.getRNG().nextDouble() * 0.25f;
+					randZ = victim.getRNG().nextBoolean() ? randZ * -1 : randZ;
+					EnchantUtil.knockBackIgnoreKBRes(victim, 0.7f, (attacker.posX - victim.posX) * randX, (attacker.posZ - victim.posZ) * randZ);
+				}
+				victim.getEntityWorld().playSound(null, victim.posX, victim.posY, victim.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.PLAYERS, 0.3f, victim.getRNG().nextFloat() * 2.25f + 0.75f);
+				event.setCanceled(true);
+				victim.hurtResistantTime = victim.maxHurtResistantTime + (5 * (enchantmentLevel - 1));
+			}
 		}
 	}
 }

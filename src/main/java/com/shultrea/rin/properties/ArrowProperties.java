@@ -2,16 +2,21 @@ package com.shultrea.rin.properties;
 
 public class ArrowProperties implements IArrowProperties {
 	
-//	private float ExplosionPower;
-//	private boolean CanDestroyBLocks;
-//	private boolean CanRecover;
-//	private boolean didStarFall;
-//	private int level;
-//	private boolean isStarFallMade;
+	private boolean propertiesHandled;
 	private int flameLevel;
 	private boolean arrowResetsIFrames;
 	private int armorPiercingLevel;
 	private float draggingPower;
+	
+	@Override
+	public boolean getPropertiesHandled() {
+		return this.propertiesHandled;
+	}
+	
+	@Override
+	public void setPropertiesHandled(boolean handled) {
+		this.propertiesHandled = handled;
+	}
 	
 	@Override
 	public boolean getArrowResetsIFrames() {
@@ -32,62 +37,6 @@ public class ArrowProperties implements IArrowProperties {
 	public void setFlameLevel(int flameLevel) {
 		this.flameLevel = flameLevel;
 	}
-	
-//	@Override
-//	public void setExplosion(float power, boolean canDestroyBlocks) {
-//		this.ExplosionPower = power;
-//		this.CanDestroyBLocks = canDestroyBlocks;
-//	}
-//
-//	@Override
-//	public float getExplosionPower() {
-//		return this.ExplosionPower;
-//	}
-//
-//	@Override
-//	public boolean getCanDestroyBlocks() {
-//		return this.CanDestroyBLocks;
-//	}
-//
-//	@Override
-//	public boolean getCanRecover() {
-//		return this.CanRecover;
-//	}
-//
-//	@Override
-//	public void setCanRecover(boolean canRecover) {
-//		this.CanRecover = canRecover;
-//	}
-//
-//	@Override
-//	public void setDidStarFall(boolean didStarFall) {
-//		this.didStarFall = didStarFall;
-//	}
-//
-//	@Override
-//	public boolean didStarFall() {
-//		return this.didStarFall;
-//	}
-//
-//	@Override
-//	public void setLevel(int level) {
-//        this.level = level;
-//    }
-//
-//	@Override
-//	public int getLevel() {
-//		return this.level;
-//	}
-//
-//	@Override
-//	public boolean getIsStarFallMade() {
-//		return isStarFallMade;
-//	}
-//
-//	@Override
-//	public void setIsStarFallMade(boolean isStarFall) {
-//		this.isStarFallMade = isStarFall;
-//	}
 	
 	@Override
 	public int getArmorPiercingLevel() {

@@ -5,11 +5,25 @@ import net.minecraftforge.fml.common.Loader;
 public class CompatUtil {
 	
 	private static final String RLCOMBAT_MODID = "bettercombatmod";
+	private static final String SWITCHBOW_MODID = "switchbow";
+	private static final String INF_MODID = "iceandfire";
 	private static Boolean isRLCombatLoaded = null;
+	private static Boolean isSwitchbowLoaded = null;
+	private static Boolean isIceAndFireLoaded = null;
 	
 	public static boolean isRLCombatLoaded() {
 		if(isRLCombatLoaded == null) isRLCombatLoaded = Loader.isModLoaded(RLCOMBAT_MODID) && isRLCombatCorrectVersion();
 		return isRLCombatLoaded;
+	}
+	
+	public static boolean isSwitchbowLoaded() {
+		if(isSwitchbowLoaded == null) isSwitchbowLoaded = Loader.isModLoaded(SWITCHBOW_MODID);
+		return isSwitchbowLoaded;
+	}
+	
+	public static boolean isIceAndFireLoaded() {
+		if(isIceAndFireLoaded == null) isIceAndFireLoaded = Loader.isModLoaded(INF_MODID);
+		return isIceAndFireLoaded;
 	}
 	
 	private static boolean isRLCombatCorrectVersion() {

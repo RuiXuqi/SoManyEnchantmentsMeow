@@ -3,12 +3,11 @@ package com.shultrea.rin.enchantments.armor;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -58,16 +57,18 @@ public class EnchantmentInnerBerserk extends EnchantmentBase {
 		return ModConfig.treasure.innerBerserk;
 	}
 	
-	//TODO
 	@SubscribeEvent(priority = EventPriority.LOW)
-	public void HandleEnchant(LivingDamageEvent fEvent) {
-		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
-		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
-		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.innerBerserk, attacker);
+	public void onLivingHurtEvent(LivingHurtEvent event) {
+		if(!this.isEnabled()) return;
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
+		if(attacker == null) return;
+		
+		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(this, attacker);
 		if(enchantmentLevel > 0) {
-			float attackerMissingHealthPercent = 1.0f - attacker.getHealth() / attacker.getMaxHealth();
-			float dmgMod = 1.0f + attackerMissingHealthPercent * (1.1f + 0.05f * enchantmentLevel);
-			fEvent.setAmount(fEvent.getAmount() * dmgMod);
+			float attackerMissingHealthPercent = 1.0F - Math.max(0.0F, Math.min(1.0F, attacker.getHealth() / attacker.getMaxHealth()));
+			float dmgMod = 1.0F + attackerMissingHealthPercent * (1.1F + 0.05F * (float)enchantmentLevel);
+			event.setAmount(event.getAmount() * dmgMod);
 		}
 	}
 }

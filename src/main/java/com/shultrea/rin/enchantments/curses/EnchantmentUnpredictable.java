@@ -1,19 +1,14 @@
 package com.shultrea.rin.enchantments.curses;
 
-import bettercombat.mod.event.RLCombatModifyDamageEvent;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.util.compat.CompatUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -64,14 +59,15 @@ public class EnchantmentUnpredictable extends EnchantmentCurse {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGH)
-	public static void onLivingDamageEvent(LivingDamageEvent event) {
+	public void onLivingDamageEvent(LivingDamageEvent event) {
+		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(event.getSource().getTrueSource() instanceof EntityPlayer && CompatUtil.isRLCombatLoaded()) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
 		ItemStack stack = attacker.getHeldItemMainhand();
 		if(stack.isEmpty()) return;
-		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.unpredictable, stack);
+		
+		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
 			float damage = attacker.getRNG().nextFloat() * ((float)level + 1.0F) * event.getAmount();
 			event.setAmount(damage);
@@ -80,23 +76,6 @@ public class EnchantmentUnpredictable extends EnchantmentCurse {
 				if(event.getEntityLiving() != null) {
 					event.getEntityLiving().heal(damage);
 				}
-			}
-		}
-	}
-	
-	@Optional.Method(modid = "bettercombatmod")
-	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public static void modifyDamageEventPre(RLCombatModifyDamageEvent.Pre event) {
-		if(event.getEntityPlayer() == null || event.getTarget() == null || event.getStack().isEmpty() || !(event.getTarget() instanceof EntityLivingBase)) return;
-		
-		EntityPlayer player = event.getEntityPlayer();
-		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.unpredictable, event.getStack());
-		if(level > 0) {
-			float damage = player.getRNG().nextFloat() * ((float)level + 1.0F) * (event.getBaseDamage() + event.getDamageModifier());
-			event.setDamageModifier(damage - event.getBaseDamage());
-			if(player.getRNG().nextFloat() < (float)level * 0.2F) {
-				event.setDamageModifier(Math.min(-1 - event.getBaseDamage(), -1));
-				((EntityLivingBase)event.getTarget()).heal(damage);
 			}
 		}
 	}

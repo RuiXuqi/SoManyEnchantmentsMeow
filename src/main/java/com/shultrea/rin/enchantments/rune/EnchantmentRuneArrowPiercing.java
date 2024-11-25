@@ -2,24 +2,13 @@ package com.shultrea.rin.enchantments.rune;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.properties.ArrowPropertiesProvider;
-import com.shultrea.rin.properties.IArrowProperties;
-import com.shultrea.rin.util.ReflectionUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
- * Enchantment arrow pierce level setting handled in;
- * com.shultrea.rin.mixin.vanilla.ItemBowMixin
- * com.shultrea.rin.mixin.vanilla.EntityArrowMixin
+ * Enchantment handling in com.shultrea.rin.properties.ArrowPropertiesHandler
  */
 public class EnchantmentRuneArrowPiercing extends EnchantmentBase {
 	
@@ -30,11 +19,6 @@ public class EnchantmentRuneArrowPiercing extends EnchantmentBase {
 	@Override
 	public boolean isEnabled() {
 		return ModConfig.enabled.runeArrowPiercing;
-	}
-	
-	@Override
-	public boolean hasSubscriber() {
-		return true;
 	}
 	
 	@Override
@@ -70,21 +54,5 @@ public class EnchantmentRuneArrowPiercing extends EnchantmentBase {
 	@Override
 	public String getPrefix() {
 		return TextFormatting.GREEN.toString();
-	}
-	
-	//TODO piercing compat with spartan weaponry piercing?
-	@SubscribeEvent(priority = EventPriority.LOW)
-	public static void onLivingHurtEvent(LivingHurtEvent event) {
-		if(!(event.getSource().getImmediateSource() instanceof EntityArrow)) return;
-		EntityArrow arrow = (EntityArrow)event.getSource().getImmediateSource();
-		IArrowProperties cap = arrow.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
-		if(cap == null) return;
-		int pierceLevel = cap.getArmorPiercingLevel();
-		if(pierceLevel > 0) {
-			EntityLivingBase shooter = (EntityLivingBase)event.getSource().getTrueSource();
-			float damage = event.getAmount() * 0.25F * pierceLevel;
-			event.setAmount(event.getAmount() - damage);
-			ReflectionUtil.damageEntityNoEvent(event.getEntityLiving(), new EntityDamageSourceIndirect("arrow", arrow, shooter).setDamageBypassesArmor(), damage);
-		}
 	}
 }

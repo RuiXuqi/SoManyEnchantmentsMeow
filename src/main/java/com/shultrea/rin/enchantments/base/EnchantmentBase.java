@@ -115,7 +115,7 @@ public abstract class EnchantmentBase extends Enchantment {
 	public void onEntityDamagedAlt(EntityLivingBase user, Entity target, ItemStack weapon, int level) {}
 	
 	/**
-	 * @return if the given damage source is allowed to trigger this enchantment
+	 * @return if the given damage source is allowed to trigger an enchantment from the attacker
 	 */
 	public static boolean isDamageSourceAllowed(DamageSource source) {
 		if(source == null) {

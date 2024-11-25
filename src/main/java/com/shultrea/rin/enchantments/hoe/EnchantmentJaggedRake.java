@@ -50,7 +50,6 @@ public class EnchantmentJaggedRake extends EnchantmentBase {
 	
 	@Override
 	public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType) {
-		if(ModConfig.enabled.jaggedRake) return (1.0f + 0.55f * level);
-		return 0;
+		return 1.0F + (float)level * 0.55F;
 	}
 }

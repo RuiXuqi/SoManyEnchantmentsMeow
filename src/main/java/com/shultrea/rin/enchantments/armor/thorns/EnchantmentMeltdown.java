@@ -1,16 +1,15 @@
-package com.shultrea.rin.enchantments.armor;
+package com.shultrea.rin.enchantments.armor.thorns;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.common.ISpecialArmor;
 
 import java.util.Random;
 
@@ -57,22 +56,28 @@ public class EnchantmentMeltdown extends EnchantmentBase {
 	
 	@Override
 	public void onUserHurt(EntityLivingBase user, Entity attacker, int level) {
+		if(!this.isEnabled()) return;
 		Random random = user.getRNG();
-		ItemStack itemstack = EnchantmentHelper.getEnchantedItem(EnchantmentRegistry.meltdown, user);
-		if(Math.random() < 0.05f + 0.05f * level) {
-			if(attacker != null) {
-				attacker.getEntityWorld().newExplosion(user, user.posX, user.posY, user.posZ, 1.90f + 0.30f * level, true, false);
-			}
-			if(!itemstack.isEmpty()) {
-				damageArmor(itemstack, 10 + random.nextInt(15 * level + 1), user);
-			}
+		ItemStack itemstack = EnchantmentHelper.getEnchantedItem(this, user);
+		if(itemstack.isEmpty()) return;
+		//Use the level of the actual stack being used
+		int lvl = EnchantmentHelper.getEnchantmentLevel(this, itemstack);
+		//Shouldn't ever be 0 but just incase weirdness
+		if(lvl <= 0) return;
+		if(shouldHit(lvl, random)) {
+			attacker.getEntityWorld().createExplosion(user, user.posX, user.posY, user.posZ, 1.90F + 0.30F * lvl, false);
+			damageArmor(itemstack, 10 + random.nextInt(15 * lvl), user);
 		}
-		else if(!itemstack.isEmpty()) {
-			damageArmor(itemstack, 1 + random.nextInt(3 * level), user);
+		else {
+			damageArmor(itemstack, 1 + random.nextInt(2 * lvl), user);
 		}
 	}
 	
-	private void damageArmor(ItemStack stack, int amount, EntityLivingBase entity) {
+	private static boolean shouldHit(int level, Random rnd) {
+		return level > 0 && rnd.nextFloat() < 0.05F + (0.05F * (float)level);
+	}
+	
+	private static void damageArmor(ItemStack stack, int amount, EntityLivingBase entity) {
 		int slot = -1;
 		int x = 0;
 		for(ItemStack i : entity.getArmorInventoryList()) {
@@ -82,14 +87,11 @@ public class EnchantmentMeltdown extends EnchantmentBase {
 			}
 			x++;
 		}
-		if(slot == -1 || !(stack.getItem() instanceof net.minecraftforge.common.ISpecialArmor)) {
-			if(entity instanceof EntityPlayerMP) stack.attemptDamageItem(amount, new Random(), (EntityPlayerMP)entity);
-			else stack.damageItem(amount, entity);
+		if(slot == -1 || !(stack.getItem() instanceof ISpecialArmor)) {
+			stack.damageItem(amount, entity);
 			return;
 		}
-		net.minecraftforge.common.ISpecialArmor armor = (net.minecraftforge.common.ISpecialArmor)stack.getItem();
+		ISpecialArmor armor = (ISpecialArmor)stack.getItem();
 		armor.damageArmor(entity, stack, DamageSource.causeExplosionDamage(entity), amount, slot);
 	}
 }
-	  
-	  
