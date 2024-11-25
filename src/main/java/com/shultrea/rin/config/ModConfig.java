@@ -117,6 +117,39 @@ public class ModConfig {
 		@Config.Comment("Whether or not Atomic Deconstructor should work on bosses (May cause bugs)")
 		@Config.Name("Atomic Deconstructor Works on Bosses")
 		public boolean atomicDeconstructorBosses = false;
+
+		@Config.Comment("Randomly enchanted loot, enchanting table and librarians will not be able to generate enchantments in this list")
+		@Config.Name("Enchantment Blacklist")
+		public String[] blacklistedEnchants = {
+				"advancedbaneofarthropods",
+				"advancedblastprotection",
+				"advancedefficiency",
+				"advancedfeatherfalling",
+				"advancedfireaspect",
+				"advancedfireprotection",
+				"advancedflame",
+				"advancedknockback",
+				"advancedlooting",
+				"advancedluckofthesea",
+				"advancedlure",
+				"advancedmending",
+				"advancedpower",
+				"advancedprojectileprotection",
+				"advancedprotection",
+				"advancedpunch",
+				"advancedsharpness",
+				"advancedsmite",
+				"advancedthorns",
+				"supremebaneofarthropods",
+				"supremefireaspect",
+				"supremeflame",
+				"supremesharpness",
+				"supremesmite"
+		};
+
+		@Config.Comment("Enchantment blacklist will be treated as a Whitelist")
+		@Config.Name("Enchantment Whitelist Toggle")
+		public boolean blacklistedEnchantsIsWhitelist = false;
 	}
 	
 	@Mod.EventBusSubscriber(modid = SoManyEnchantments.MODID)

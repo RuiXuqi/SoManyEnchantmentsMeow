@@ -6,10 +6,13 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
+    "vanilla.EnchantmentHelperEnchantBlacklistMixin",
     "vanilla.EnchantmentHelperMixin",
     "vanilla.EnchantmentProtectionMixin",
+    "vanilla.EnchantRandomlyMixin",
     "vanilla.EntityArrowMixin",
     "vanilla.EntityLivingBaseMixin",
+    "vanilla.EntityVillagerListEnchantedBookForEmeraldsMixin",
     "vanilla.IItemBowMixin",
     "vanilla.ItemMixin",
     "vanilla.ItemStackMixin"
