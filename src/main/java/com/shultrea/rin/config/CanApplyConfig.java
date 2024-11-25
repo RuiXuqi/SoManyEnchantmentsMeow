@@ -62,34 +62,34 @@ public class CanApplyConfig {
 	@Config.Name("Custom Item Types")
 	@Config.Comment("Pattern: Name to use;Regex to match item ids to find the item;optional: 'NOT' to invert. If you use the inversion, canApply will use this type as an AND connection instead of an OR connection. So 'NOTGOLD','TOOL','SWORD' will be any sword or tool that is not gold. The custom types can also be used in canApplyAnvil config")
 	public String[] customTypes = {
-			"BS_BATTLEAXE;mujmajnkraftsbettersurvival\\:item.*battleaxe",
-			"BS_OTHER;mujmajnkraftsbettersurvival\\:item.*(dagger|nunchaku|hammer)",
+			"BATTLEAXE;(mujmajnkraftsbettersurvival\\:item.*battleaxe)|(spartan(defiled|fire|weaponry)\\:battleaxe.*)",
+			"BS_WEAPON;mujmajnkraftsbettersurvival\\:item.*(dagger|nunchaku|hammer|battleaxe)",
 			"NOT_GOLD;.*gold.*;NOT"};
 
 	@Config.Name("Adept")
 	@Config.RequiresMcRestart
-	public String[] adept = {"SWORD","AXE","BOW", "BS_BATTLEAXE", "BS_OTHER"};
+	public String[] adept = {"SWORD","AXE","BOW", "BATTLEAXE", "BS_WEAPON"};
 	@Config.Name("Ancient Sealed Curses")
 	@Config.RequiresMcRestart
-	public String[] ancientSealedCurses = {"SWORD", "BS_OTHER"};
+	public String[] ancientSealedCurses = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Ancient Sword Mastery")
 	@Config.RequiresMcRestart
-	public String[] ancientSwordMastery = {"SWORD", "BS_OTHER"};
+	public String[] ancientSwordMastery = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Arc Slash")
 	@Config.RequiresMcRestart
-	public String[] arcSlash = {"SWORD", "BS_OTHER"};
+	public String[] arcSlash = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Ash Destroyer")
 	@Config.RequiresMcRestart
-	public String[] ashDestroyer = {"SWORD", "BS_OTHER"};
+	public String[] ashDestroyer = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Atomic Deconstructor")
 	@Config.RequiresMcRestart
-	public String[] atomicDeconstructor = {"SWORD", "BS_OTHER"};
+	public String[] atomicDeconstructor = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Blessed Edge")
 	@Config.RequiresMcRestart
-	public String[] blessedEdge = {"SWORD", "BS_OTHER"};
+	public String[] blessedEdge = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Brutality")
 	@Config.RequiresMcRestart
-	public String[] brutality = {"AXE", "BS_BATTLEAXE"};
+	public String[] brutality = {"AXE", "BATTLEAXE"};
 	@Config.Name("Burning Shield")
 	@Config.RequiresMcRestart
 	public String[] burningShield = {"SHIELD"};
@@ -98,64 +98,64 @@ public class CanApplyConfig {
 	public String[] burningThorns = {"ARMOR_CHEST"};
 	@Config.Name("Butchering")
 	@Config.RequiresMcRestart
-	public String[] butchering = {"SWORD", "BS_OTHER"};
+	public String[] butchering = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Clearskies' Favor")
 	@Config.RequiresMcRestart
-	public String[] clearskiesFavor = {"SWORD", "BS_OTHER"};
+	public String[] clearskiesFavor = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Combat Veterancy")
 	@Config.RequiresMcRestart
-	public String[] combatVeterancy = {"SWORD", "BS_OTHER"};
+	public String[] combatVeterancy = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Counter Attack")
 	@Config.RequiresMcRestart
-	public String[] counterAttack = {"SWORD", "BS_OTHER"};
+	public String[] counterAttack = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Critical Strike")
 	@Config.RequiresMcRestart
-	public String[] criticalStrike = {"SWORD","AXE", "BS_BATTLEAXE", "BS_OTHER"};
+	public String[] criticalStrike = {"SWORD","AXE", "BATTLEAXE", "BS_WEAPON"};
 	@Config.Name("Culling")
 	@Config.RequiresMcRestart
-	public String[] culling = {"AXE", "BS_BATTLEAXE"};
+	public String[] culling = {"AXE", "BATTLEAXE"};
 	@Config.Name("Dark Shadows")
 	@Config.RequiresMcRestart
-	public String[] darkShadows = {"SWORD", "BS_OTHER"};
+	public String[] darkShadows = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Defusing Edge")
 	@Config.RequiresMcRestart
-	public String[] defusingEdge = {"SWORD", "BS_OTHER"};
+	public String[] defusingEdge = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Desolator")
 	@Config.RequiresMcRestart
-	public String[] desolator = {"AXE", "BS_BATTLEAXE"};
+	public String[] desolator = {"AXE", "BATTLEAXE"};
 	@Config.Name("Difficulty's Endowment")
 	@Config.RequiresMcRestart
-	public String[] difficultysEndowment = {"SWORD", "BS_OTHER"};
+	public String[] difficultysEndowment = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Disarmament")
 	@Config.RequiresMcRestart
-	public String[] disarmament = {"AXE", "BS_BATTLEAXE"};
+	public String[] disarmament = {"AXE", "BATTLEAXE"};
 	@Config.Name("Disorientating Blade")
 	@Config.RequiresMcRestart
-	public String[] disorientatingBlade = {"SWORD", "BS_OTHER"};
+	public String[] disorientatingBlade = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Empowered Defence")
 	@Config.RequiresMcRestart
 	public String[] empoweredDefence = {"SHIELD"};
 	@Config.Name("Envenomed")
 	@Config.RequiresMcRestart
-	public String[] envenomed = {"SWORD", "BS_OTHER"};
+	public String[] envenomed = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Evasion")
 	@Config.RequiresMcRestart
 	public String[] evasion = {"ARMOR_LEGS"};
 	@Config.Name("Fiery Edge")
 	@Config.RequiresMcRestart
-	public String[] fieryEdge = {"SWORD", "BS_OTHER"};
+	public String[] fieryEdge = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Flinging")
 	@Config.RequiresMcRestart
-	public String[] flinging = {"SWORD", "BS_OTHER"};
+	public String[] flinging = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Freezing")
 	@Config.RequiresMcRestart
-	public String[] freezing = {"SWORD", "BS_OTHER"};
+	public String[] freezing = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Hors De Combat")
 	@Config.RequiresMcRestart
-	public String[] horsDeCombat = {"SWORD", "BS_OTHER"};
+	public String[] horsDeCombat = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Inhumane")
 	@Config.RequiresMcRestart
-	public String[] inhumane = {"SWORD", "BS_OTHER"};
+	public String[] inhumane = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Inner Berserk")
 	@Config.RequiresMcRestart
 	public String[] innerBerserk = {"ARMOR_CHEST"};
@@ -164,19 +164,19 @@ public class CanApplyConfig {
 	public String[] jaggedRake = {"HOE"};
 	@Config.Name("Levitator")
 	@Config.RequiresMcRestart
-	public String[] levitator = {"SWORD", "BS_OTHER"};
+	public String[] levitator = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Lifesteal")
 	@Config.RequiresMcRestart
-	public String[] lifesteal = {"SWORD", "BS_OTHER"};
+	public String[] lifesteal = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Light Weight")
 	@Config.RequiresMcRestart
 	public String[] lightWeight = {"ARMOR_FEET"};
 	@Config.Name("Luck Magnification")
 	@Config.RequiresMcRestart
-	public String[] luckMagnification = {"SWORD","AXE", "BS_BATTLEAXE", "BS_OTHER"};
+	public String[] luckMagnification = {"SWORD","AXE", "BATTLEAXE", "BS_WEAPON"};
 	@Config.Name("Lunars Blessing")
 	@Config.RequiresMcRestart
-	public String[] lunarsBlessing = {"SWORD", "BS_OTHER"};
+	public String[] lunarsBlessing = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Magic Protection")
 	@Config.RequiresMcRestart
 	public String[] magicProtection = {"ARMOR"};
@@ -191,16 +191,16 @@ public class CanApplyConfig {
 	public String[] moisturized = {"HOE"};
 	@Config.Name("Mortalitas")
 	@Config.RequiresMcRestart
-	public String[] mortalitas = {"SWORD","AXE", "BS_BATTLEAXE", "BS_OTHER"};
+	public String[] mortalitas = {"SWORD","AXE", "BATTLEAXE", "BS_WEAPON"};
 	@Config.Name("Natural Blocking")
 	@Config.RequiresMcRestart
 	public String[] naturalBlocking = {"SHIELD"};
 	@Config.Name("Parry")
 	@Config.RequiresMcRestart
-	public String[] parry = {"SWORD", "BS_OTHER"};
+	public String[] parry = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Penetrating Edge")
 	@Config.RequiresMcRestart
-	public String[] penetratingEdge = {"AXE", "BS_BATTLEAXE"};
+	public String[] penetratingEdge = {"AXE", "BATTLEAXE"};
 	@Config.Name("Physical Protection")
 	@Config.RequiresMcRestart
 	public String[] physicalProtection = {"ARMOR"};
@@ -209,10 +209,10 @@ public class CanApplyConfig {
 	public String[] dragging = {"BOW"};
 	@Config.Name("Purging Blade")
 	@Config.RequiresMcRestart
-	public String[] purgingBlade = {"SWORD", "BS_OTHER"};
+	public String[] purgingBlade = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Purification")
 	@Config.RequiresMcRestart
-	public String[] purification = {"AXE", "BS_BATTLEAXE"};
+	public String[] purification = {"AXE", "BATTLEAXE"};
 	@Config.Name("Pushing")
 	@Config.RequiresMcRestart
 	public String[] pushing = {"BOW"};
@@ -221,10 +221,10 @@ public class CanApplyConfig {
 	public String[] quarrying = {"PICKAXE"};
 	@Config.Name("Rain's Bestowment")
 	@Config.RequiresMcRestart
-	public String[] rainsBestowment = {"SWORD", "BS_OTHER"};
+	public String[] rainsBestowment = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Reviled Blade")
 	@Config.RequiresMcRestart
-	public String[] reviledBlade = {"SWORD", "BS_OTHER"};
+	public String[] reviledBlade = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Reinforced Sharpness")
 	@Config.RequiresMcRestart
 	public String[] reinforcedsharpness = {"TOOL"};
@@ -233,10 +233,10 @@ public class CanApplyConfig {
 	public String[] smelter = {"TOOL"};
 	@Config.Name("Sol's Blessing")
 	@Config.RequiresMcRestart
-	public String[] solsBlessing = {"SWORD", "BS_OTHER"};
+	public String[] solsBlessing = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Spell Breaker")
 	@Config.RequiresMcRestart
-	public String[] spellBreaker = {"SWORD","AXE", "BS_BATTLEAXE", "BS_OTHER"};
+	public String[] spellBreaker = {"SWORD","AXE", "BATTLEAXE", "BS_WEAPON"};
 	@Config.Name("Splitshot")
 	@Config.RequiresMcRestart
 	public String[] splitShot = {"BOW"};
@@ -248,45 +248,45 @@ public class CanApplyConfig {
 	public String[] strengthenedVitality = {"ARMOR_CHEST"};
 	@Config.Name("Swifter Slashes")
 	@Config.RequiresMcRestart
-	public String[] swifterSlashes = {"SWORD", "BS_OTHER"};
+	public String[] swifterSlashes = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Thunderstorm's Bestowment")
 	@Config.RequiresMcRestart
-	public String[] thunderstormsBestowment = {"SWORD", "BS_OTHER"};
+	public String[] thunderstormsBestowment = {"SWORD", "BS_WEAPON"};
 	@Config.Name("True Strike")
 	@Config.RequiresMcRestart
-	public String[] trueStrike = {"SWORD", "BS_OTHER"};
+	public String[] trueStrike = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Underwater Strider")
 	@Config.RequiresMcRestart
 	public String[] underwaterStrider = {"ARMOR_FEET"};
 	@Config.Name("Unreasonable")
 	@Config.RequiresMcRestart
-	public String[] unreasonable = {"SWORD", "BS_OTHER"};
+	public String[] unreasonable = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Unsheathing")
 	@Config.RequiresMcRestart
-	public String[] unsheathing = {"SWORD", "BS_OTHER"};
+	public String[] unsheathing = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Upgraded Potentials")
 	@Config.RequiresMcRestart
 	public String[] upgradedPotentials = {"NONE"};
 	@Config.Name("Viper")
 	@Config.RequiresMcRestart
-	public String[] viper = {"SWORD", "BS_OTHER"};
+	public String[] viper = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Water Aspect")
 	@Config.RequiresMcRestart
-	public String[] waterAspect = {"SWORD", "BS_OTHER"};
+	public String[] waterAspect = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Plowing")
 	@Config.RequiresMcRestart
 	public String[] plowing = {"HOE"};
 	@Config.Name("Winter's Grace")
 	@Config.RequiresMcRestart
-	public String[] wintersGrace = {"SWORD", "BS_OTHER"};
+	public String[] wintersGrace = {"SWORD", "BS_WEAPON"};
 
 	//Curses
 	@Config.Name("Bluntness")
 	@Config.RequiresMcRestart
-	public String[] bluntness = {"SWORD","AXE", "BS_BATTLEAXE", "BS_OTHER"};
+	public String[] bluntness = {"SWORD","AXE", "BATTLEAXE", "BS_WEAPON"};
 	@Config.Name("Cursed Edge")
 	@Config.RequiresMcRestart
-	public String[] cursedEdge = {"SWORD", "BS_OTHER"};
+	public String[] cursedEdge = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Curse of Decay")
 	@Config.RequiresMcRestart
 	public String[] curseOfDecay = {"ALL_ITEMS"};
@@ -295,7 +295,7 @@ public class CanApplyConfig {
 	public String[] curseOfHolding = {"ALL_ITEMS"};
 	@Config.Name("Curse of Inaccuracy")
 	@Config.RequiresMcRestart
-	public String[] curseOfInaccuracy = {"SWORD","AXE","BOW", "BS_BATTLEAXE", "BS_OTHER"};
+	public String[] curseOfInaccuracy = {"SWORD","AXE","BOW", "BATTLEAXE", "BS_WEAPON"};
 	@Config.Name("Curse of Possession")
 	@Config.RequiresMcRestart
 	public String[] curseOfPossession = {"ALL_TYPES"};
@@ -304,13 +304,13 @@ public class CanApplyConfig {
 	public String[] curseOfVulnerability = {"ARMOR"};
 	@Config.Name("Heavy Weight")
 	@Config.RequiresMcRestart
-	public String[] heavyWeight = {"SWORD", "BS_OTHER"};
+	public String[] heavyWeight = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Inefficient")
 	@Config.RequiresMcRestart
 	public String[] inefficient = {"TOOL"};
 	@Config.Name("Instability")
 	@Config.RequiresMcRestart
-	public String[] instability = {"SWORD","TOOL", "BS_OTHER"};
+	public String[] instability = {"SWORD","TOOL", "BS_WEAPON"};
 	@Config.Name("Pandora's Curse")
 	@Config.RequiresMcRestart
 	public String[] pandorasCurse = {"ALL_ITEMS"};
@@ -322,7 +322,7 @@ public class CanApplyConfig {
 	public String[] rusted = {"BREAKABLE","NOT_GOLD"};
 	@Config.Name("Unpredictable")
 	@Config.RequiresMcRestart
-	public String[] unpredictable = {"SWORD", "BS_OTHER"};
+	public String[] unpredictable = {"SWORD", "BS_WEAPON"};
 	
 	//Rune
 	@Config.Name("Rune: Arrow Piercing")
@@ -330,54 +330,54 @@ public class CanApplyConfig {
 	public String[] runeArrowPiercing = {"BOW"};
 	@Config.Name("Rune: Magical Blessing")
 	@Config.RequiresMcRestart
-	public String[] runeMagicalBlessing = {"SWORD", "BS_OTHER"};
+	public String[] runeMagicalBlessing = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Rune: Piercing Capabilities")
 	@Config.RequiresMcRestart
-	public String[] runePiercingCapabilities = {"SWORD", "BS_OTHER"};
+	public String[] runePiercingCapabilities = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Rune: Resurrection")
 	@Config.RequiresMcRestart
 	public String[] runeResurrection = {"SHIELD"};
 	@Config.Name("Rune: Revival")
 	@Config.RequiresMcRestart
-	public String[] runeRevival = {"SWORD", "BS_OTHER"};
+	public String[] runeRevival = {"SWORD", "BS_WEAPON"};
 	
 	//Subject
 	@Config.Name("Subject English")
 	@Config.RequiresMcRestart
-	public String[] subjectEnglish = {"SWORD", "BS_OTHER"};
+	public String[] subjectEnglish = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Subject History")
 	@Config.RequiresMcRestart
-	public String[] subjectHistory = {"SWORD", "BS_OTHER"};
+	public String[] subjectHistory = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Subject Mathematics")
 	@Config.RequiresMcRestart
-	public String[] subjectMathematics = {"SWORD", "BS_OTHER"};
+	public String[] subjectMathematics = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Subject P.E.")
 	@Config.RequiresMcRestart
-	public String[] subjectPE = {"SWORD", "BS_OTHER"};
+	public String[] subjectPE = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Subject Science")
 	@Config.RequiresMcRestart
-	public String[] subjectScience = {"SWORD", "BS_OTHER"};
+	public String[] subjectScience = {"SWORD", "BS_WEAPON"};
 	//Lesser
 	@Config.Name("Lesser Bane of Arthropods")
 	@Config.RequiresMcRestart
-	public String[] lesserBaneOfArthropods = {"SWORD", "BS_OTHER"};
+	public String[] lesserBaneOfArthropods = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Lesser Fire Aspect")
 	@Config.RequiresMcRestart
-	public String[] lesserFireAspect = {"SWORD", "BS_OTHER"};
+	public String[] lesserFireAspect = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Lesser Flame")
 	@Config.RequiresMcRestart
 	public String[] lesserFlame = {"BOW"};
 	@Config.Name("Lesser Sharpness")
 	@Config.RequiresMcRestart
-	public String[] lesserSharpness = {"SWORD", "BS_OTHER"};
+	public String[] lesserSharpness = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Lesser Smite")
 	@Config.RequiresMcRestart
-	public String[] lesserSmite = {"SWORD", "BS_OTHER"};
+	public String[] lesserSmite = {"SWORD", "BS_WEAPON"};
 	
 	//Advanced
 	@Config.Name("Advanced Bane of Arthropods")
 	@Config.RequiresMcRestart
-	public String[] advancedBaneOfArthropods = {"SWORD", "BS_OTHER"};
+	public String[] advancedBaneOfArthropods = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Advanced Blast Protection")
 	@Config.RequiresMcRestart
 	public String[] advancedBlastProtection = {"ARMOR"};
@@ -389,7 +389,7 @@ public class CanApplyConfig {
 	public String[] advancedFeatherFalling = {"ARMOR_FEET"};
 	@Config.Name("Advanced Fire Aspect")
 	@Config.RequiresMcRestart
-	public String[] advancedFireAspect = {"SWORD", "BS_OTHER"};
+	public String[] advancedFireAspect = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Advanced Fire Protection")
 	@Config.RequiresMcRestart
 	public String[] advancedFireProtection = {"ARMOR"};
@@ -398,10 +398,10 @@ public class CanApplyConfig {
 	public String[] advancedFlame = {"BOW"};
 	@Config.Name("Advanced Knockback")
 	@Config.RequiresMcRestart
-	public String[] advancedKnockback = {"SWORD", "BS_OTHER"};
+	public String[] advancedKnockback = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Advanced Looting")
 	@Config.RequiresMcRestart
-	public String[] advancedLooting = {"SWORD", "BS_OTHER"};
+	public String[] advancedLooting = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Advanced Luck of the Sea")
 	@Config.RequiresMcRestart
 	public String[] advancedLuckOfTheSea = {"FISHING_ROD"};
@@ -425,29 +425,29 @@ public class CanApplyConfig {
 	public String[] advancedPunch = {"BOW"};
 	@Config.Name("Advanced Sharpness")
 	@Config.RequiresMcRestart
-	public String[] advancedSharpness = {"SWORD", "BS_OTHER"};
+	public String[] advancedSharpness = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Advanced Smite")
 	@Config.RequiresMcRestart
-	public String[] advancedSmite = {"SWORD", "BS_OTHER"};
+	public String[] advancedSmite = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Advanced Thorns")
 	@Config.RequiresMcRestart
 	public String[] advancedThorns = {"ARMOR_CHEST"};
 	//Supreme
 	@Config.Name("Supreme Bane of Arthropods")
 	@Config.RequiresMcRestart
-	public String[] supremeBaneOfArthropods = {"SWORD", "BS_OTHER"};
+	public String[] supremeBaneOfArthropods = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Supreme Fire Aspect")
 	@Config.RequiresMcRestart
-	public String[] supremeFireAspect = {"SWORD", "BS_OTHER"};
+	public String[] supremeFireAspect = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Supreme Flame")
 	@Config.RequiresMcRestart
 	public String[] supremeFlame = {"BOW"};
 	@Config.Name("Supreme Sharpness")
 	@Config.RequiresMcRestart
-	public String[] supremeSharpness = {"SWORD", "BS_OTHER"};
+	public String[] supremeSharpness = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Supreme Smite")
 	@Config.RequiresMcRestart
-	public String[] supremeSmite = {"SWORD", "BS_OTHER"};
+	public String[] supremeSmite = {"SWORD", "BS_WEAPON"};
 
 	public boolean isItemValid(String[] enchantConfig, ItemStack stack){
 		Item item = stack.getItem();

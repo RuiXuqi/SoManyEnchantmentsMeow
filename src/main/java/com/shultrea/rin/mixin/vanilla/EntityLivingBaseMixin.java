@@ -56,8 +56,7 @@ public abstract class EntityLivingBaseMixin extends Entity {
 			EnchantmentMagmaWalker.walkOnMagma((EntityLivingBase)(Object)this, this.world, pos, i);
 		}
 	}
-	
-	//TODO test this works properly
+
 	/**
 	 * Handling for Rune Resurrection enchant
 	 */
