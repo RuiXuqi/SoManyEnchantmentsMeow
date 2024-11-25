@@ -36,7 +36,7 @@ public class CanApplyAnvilConfig {
 	public String[] burningThorns = {"ARMOR"};
 	@Config.Name("Butchering")
 	@Config.RequiresMcRestart
-	public String[] butchering = {"AXE"};
+	public String[] butchering = {"AXE", "BS_BATTLEAXE"};
 	@Config.Name("Clearskies' Favor")
 	@Config.RequiresMcRestart
 	public String[] clearskiesFavor = {};
@@ -57,7 +57,7 @@ public class CanApplyAnvilConfig {
 	public String[] darkShadows = {};
 	@Config.Name("Defusing Edge")
 	@Config.RequiresMcRestart
-	public String[] defusingEdge = {"AXE"};
+	public String[] defusingEdge = {"AXE", "BS_BATTLEAXE"};
 	@Config.Name("Desolator")
 	@Config.RequiresMcRestart
 	public String[] desolator = {};
@@ -93,7 +93,7 @@ public class CanApplyAnvilConfig {
 	public String[] horsDeCombat = {};
 	@Config.Name("Inhumane")
 	@Config.RequiresMcRestart
-	public String[] inhumane = {"AXE"};
+	public String[] inhumane = {"AXE", "BS_BATTLEAXE"};
 	@Config.Name("Inner Berserk")
 	@Config.RequiresMcRestart
 	public String[] innerBerserk = {};
@@ -221,10 +221,10 @@ public class CanApplyAnvilConfig {
 	//Curses
 	@Config.Name("Bluntness")
 	@Config.RequiresMcRestart
-	public String[] bluntness = {"SWORD","AXE"};
+	public String[] bluntness = {"SWORD","AXE", "BS_BATTLEAXE", "BS_OTHER"};
 	@Config.Name("Cursed Edge")
 	@Config.RequiresMcRestart
-	public String[] cursedEdge = {"SWORD"};
+	public String[] cursedEdge = {"SWORD", "BS_OTHER"};
 	@Config.Name("Curse of Decay")
 	@Config.RequiresMcRestart
 	public String[] curseOfDecay = {"ALL_ITEMS"};
@@ -233,7 +233,7 @@ public class CanApplyAnvilConfig {
 	public String[] curseOfHolding = {"ALL_ITEMS"};
 	@Config.Name("Curse of Inaccuracy")
 	@Config.RequiresMcRestart
-	public String[] curseOfInaccuracy = {"SWORD","AXE","BOW"};
+	public String[] curseOfInaccuracy = {"SWORD","AXE","BOW", "BS_BATTLEAXE", "BS_OTHER"};
 	@Config.Name("Curse of Possession")
 	@Config.RequiresMcRestart
 	public String[] curseOfPossession = {"ALL_TYPES"};
@@ -242,13 +242,13 @@ public class CanApplyAnvilConfig {
 	public String[] curseOfVulnerability = {"ARMOR"};
 	@Config.Name("Heavy Weight")
 	@Config.RequiresMcRestart
-	public String[] heavyWeight = {"SWORD"};
+	public String[] heavyWeight = {"SWORD", "BS_OTHER"};
 	@Config.Name("Inefficient")
 	@Config.RequiresMcRestart
 	public String[] inefficient = {"TOOL"};
 	@Config.Name("Instability")
 	@Config.RequiresMcRestart
-	public String[] instability = {"SWORD","TOOL"};
+	public String[] instability = {"SWORD","TOOL", "BS_OTHER"};
 	@Config.Name("Pandora's Curse")
 	@Config.RequiresMcRestart
 	public String[] pandorasCurse = {"ALL_ITEMS"};
@@ -260,7 +260,7 @@ public class CanApplyAnvilConfig {
 	public String[] rusted = {"BREAKABLE","NOT_GOLD"};
 	@Config.Name("Unpredictable")
 	@Config.RequiresMcRestart
-	public String[] unpredictable = {"SWORD"};
+	public String[] unpredictable = {"SWORD", "BS_OTHER"};
 	
 	//Rune
 	@Config.Name("Rune: Arrow Piercing")
@@ -271,7 +271,7 @@ public class CanApplyAnvilConfig {
 	public String[] runeMagicalBlessing = {};
 	@Config.Name("Rune: Piercing Capabilities")
 	@Config.RequiresMcRestart
-	public String[] runePiercingCapabilities = {};
+	public String[] runePiercingCapabilities = {"AXE", "BS_BATTLEAXE"};
 	@Config.Name("Rune: Resurrection")
 	@Config.RequiresMcRestart
 	public String[] runeResurrection = {};
@@ -282,23 +282,23 @@ public class CanApplyAnvilConfig {
 	//Subject
 	@Config.Name("Subject English")
 	@Config.RequiresMcRestart
-	public String[] subjectEnglish = {"AXE"};
+	public String[] subjectEnglish = {"AXE", "BS_BATTLEAXE"};
 	@Config.Name("Subject History")
 	@Config.RequiresMcRestart
-	public String[] subjectHistory = {"AXE"};
+	public String[] subjectHistory = {"AXE", "BS_BATTLEAXE"};
 	@Config.Name("Subject Mathematics")
 	@Config.RequiresMcRestart
-	public String[] subjectMathematics = {"AXE"};
+	public String[] subjectMathematics = {"AXE", "BS_BATTLEAXE"};
 	@Config.Name("Subject P.E.")
 	@Config.RequiresMcRestart
-	public String[] subjectPE = {"AXE"};
+	public String[] subjectPE = {"AXE", "BS_BATTLEAXE"};
 	@Config.Name("Subject Science")
 	@Config.RequiresMcRestart
-	public String[] subjectScience = {"AXE"};
+	public String[] subjectScience = {"AXE", "BS_BATTLEAXE"};
 	//Lesser
 	@Config.Name("Lesser Bane of Arthropods")
 	@Config.RequiresMcRestart
-	public String[] lesserBaneOfArthropods = {"AXE"};
+	public String[] lesserBaneOfArthropods = {"AXE", "BS_BATTLEAXE"};
 	@Config.Name("Lesser Fire Aspect")
 	@Config.RequiresMcRestart
 	public String[] lesserFireAspect = {};
@@ -307,15 +307,15 @@ public class CanApplyAnvilConfig {
 	public String[] lesserFlame = {};
 	@Config.Name("Lesser Sharpness")
 	@Config.RequiresMcRestart
-	public String[] lesserSharpness = {"AXE"};
+	public String[] lesserSharpness = {"AXE", "BS_BATTLEAXE"};
 	@Config.Name("Lesser Smite")
 	@Config.RequiresMcRestart
-	public String[] lesserSmite = {"AXE"};
+	public String[] lesserSmite = {"AXE", "BS_BATTLEAXE"};
 	
 	//Advanced
 	@Config.Name("Advanced Bane of Arthropods")
 	@Config.RequiresMcRestart
-	public String[] advancedBaneOfArthropods = {"AXE"};
+	public String[] advancedBaneOfArthropods = {"AXE", "BS_BATTLEAXE"};
 	@Config.Name("Advanced Blast Protection")
 	@Config.RequiresMcRestart
 	public String[] advancedBlastProtection = {};
@@ -363,17 +363,17 @@ public class CanApplyAnvilConfig {
 	public String[] advancedPunch = {};
 	@Config.Name("Advanced Sharpness")
 	@Config.RequiresMcRestart
-	public String[] advancedSharpness = {"AXE"};
+	public String[] advancedSharpness = {"AXE", "BS_BATTLEAXE"};
 	@Config.Name("Advanced Smite")
 	@Config.RequiresMcRestart
-	public String[] advancedSmite = {"AXE"};
+	public String[] advancedSmite = {"AXE", "BS_BATTLEAXE"};
 	@Config.Name("Advanced Thorns")
 	@Config.RequiresMcRestart
 	public String[] advancedThorns = {"ARMOR"};
 	//Supreme
 	@Config.Name("Supreme Bane of Arthropods")
 	@Config.RequiresMcRestart
-	public String[] supremeBaneOfArthropods = {"AXE"};
+	public String[] supremeBaneOfArthropods = {"AXE", "BS_BATTLEAXE"};
 	@Config.Name("Supreme Fire Aspect")
 	@Config.RequiresMcRestart
 	public String[] supremeFireAspect = {};
@@ -382,8 +382,8 @@ public class CanApplyAnvilConfig {
 	public String[] supremeFlame = {};
 	@Config.Name("Supreme Sharpness")
 	@Config.RequiresMcRestart
-	public String[] supremeSharpness = {"AXE"};
+	public String[] supremeSharpness = {"AXE", "BS_BATTLEAXE"};
 	@Config.Name("Supreme Smite")
 	@Config.RequiresMcRestart
-	public String[] supremeSmite = {"AXE"};
+	public String[] supremeSmite = {"AXE", "BS_BATTLEAXE"};
 }
