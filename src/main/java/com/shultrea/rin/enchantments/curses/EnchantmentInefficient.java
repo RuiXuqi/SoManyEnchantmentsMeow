@@ -73,13 +73,7 @@ public class EnchantmentInefficient extends EnchantmentCurse {
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
 			if(stack.canHarvestBlock(event.getState()) || ForgeHooks.isToolEffective(player.world, event.getPos(), stack)) {
-				float speed = (float)level * 0.65F + 2.0F;
 				event.setNewSpeed(event.getNewSpeed() / (level*level+1.F));
-				//TODO: this can go to 0 and below.
-				//My suggestion would be to do efficiency multiplier backwards.
-				//So instead of x(lvl²+1) we do /(lvl²+1)
-				//this can't go below 0 and would be exactly nullified by having the same lvl of normal efficiency
-				//which of course is not possible anyway due to incompat
 			}
 		}
 	}
