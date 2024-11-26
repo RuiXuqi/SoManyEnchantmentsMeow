@@ -6,15 +6,16 @@ import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.util.EnchantUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.List;
+import java.util.Map;
 
 public class EnchantmentAncientSealedCurses extends EnchantmentBase {
 	
@@ -25,6 +26,11 @@ public class EnchantmentAncientSealedCurses extends EnchantmentBase {
 	@Override
 	public boolean isEnabled() {
 		return ModConfig.enabled.ancientSealedCurses;
+	}
+	
+	@Override
+	public boolean hasSubscriber() {
+		return true;
 	}
 	
 	@Override
@@ -56,55 +62,52 @@ public class EnchantmentAncientSealedCurses extends EnchantmentBase {
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.ancientSealedCurses;
 	}
-
-	/*
-	//TODO this makes it fully not allowed on anything
-	@Override
-	public boolean canApplyAtEnchantingTable(ItemStack stack) {
-		return false;
-	}
-	*/
 	
-	//TODO
 	@Override
 	public boolean isAllowedOnBooks() {
 		return false;
 	}
 	
-	//TODO
 	@Override
 	public String getPrefix() {
 		return TextFormatting.YELLOW.toString();
 	}
 	
-	//TODO
-	@Override
-	public void onEntityDamagedAlt(EntityLivingBase user, Entity target, ItemStack stackIn, int level) {
-		if(target instanceof EntityLivingBase) {
-			EntityLivingBase entity = (EntityLivingBase)target;
-			Iterable<ItemStack> iter = entity.getEquipmentAndArmor();
-			for(ItemStack stack : iter) {
-				if(user.getRNG().nextInt(8) < 1) {
-					List<Enchantment> list = EnchantUtil.getCurses();
-					int random = user.getRNG().nextInt(list.size());
-					Enchantment ench = list.get(random);
-					int randLevel = user.getRNG().nextInt(ench.getMaxLevel());
-					if(!ench.canApply(stack)) continue;
-					boolean isCompatible = true;
-					NBTTagList nbt = stack.getEnchantmentTagList();
-					for(int z = 0; z < nbt.tagCount(); z++) {
-						NBTTagCompound tag = nbt.getCompoundTagAt(z);
-						int enchId = tag.getShort("id");
-						int currEnchLevel = tag.getShort("lvl");
-						Enchantment enchantment = Enchantment.getEnchantmentByID(enchId);
-						if(enchantment == null) continue;
-						if(enchantment == this) continue;
-						if(enchantment.isCompatibleWith(ench)) continue;
-						else isCompatible = false;
-						break;
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onLivingDamageEvent(LivingDamageEvent event) {
+		if(!this.isEnabled()) return;
+		if(!isDamageSourceAllowed(event.getSource())) return;
+		if(!(event.getSource().getTrueSource() instanceof EntityLivingBase)) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
+		if(event.getEntityLiving() == null) return;
+		EntityLivingBase victim = event.getEntityLiving();
+		if(event.getAmount() <= 1.0F) return;
+		ItemStack stack = attacker.getHeldItemMainhand();
+		if(stack.isEmpty()) return;
+		
+		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
+		if(level > 0) {
+			Iterable<ItemStack> equipmentList = victim.getEquipmentAndArmor();
+			List<Enchantment> curses = EnchantUtil.getCurses();
+			if(curses.isEmpty()) return;
+			for(ItemStack equipment : equipmentList) {
+				if(equipment.isEmpty()) continue;
+				if(attacker.getRNG().nextFloat() < 0.125F) {
+					Enchantment curse = curses.get(attacker.getRNG().nextInt(curses.size()));
+					int curseLevel = 1 + attacker.getRNG().nextInt(curse.getMaxLevel());
+					if(!curse.canApply(equipment)) continue;
+					
+					Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(equipment);
+					boolean compatible = true;
+					for(Enchantment enchant : enchants.keySet()) {
+						if(curse == enchant || !curse.isCompatibleWith(enchant)) {
+							compatible = false;
+							break;
+						}
 					}
-					if(EnchantmentHelper.getEnchantmentLevel(ench, stack) <= 0 && isCompatible)
-						stack.addEnchantment(list.get(random), randLevel + 1);
+					if(compatible) {
+						equipment.addEnchantment(curse, curseLevel);
+					}
 				}
 			}
 		}
