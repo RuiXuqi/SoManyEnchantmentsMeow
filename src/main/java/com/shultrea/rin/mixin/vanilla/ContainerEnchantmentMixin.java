@@ -13,7 +13,10 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerEnchantment;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -28,7 +31,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import javax.annotation.Nullable;
 import java.util.*;
 
 import static net.minecraftforge.common.ForgeHooks.getEnchantPower;
@@ -42,6 +44,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
     @Shadow public int[] enchantClue;
     @Shadow public int[] worldClue;
     @Shadow @Final private Random rand;
+    @Shadow public int xpSeed;
 
     @Unique EnchantmentData soManyEnchantments$currentEnch;
     @Unique EnchantmentData soManyEnchantments$upgradedEnch;
@@ -140,7 +143,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
             Enchantment nextEnchantment = soManyEnchantments$getNextEnchInUpgradeOrder(currEnch);
             int newLvl = 0;
 
-            if (ModConfig.upgrade.allowLevelIncrease && enchLvl < currEnch.getMaxLevel()) {
+            if (ModConfig.upgrade.allowLevelIncrease && enchLvl < currEnch.getMaxLevel() && !currEnch.isCurse()) {
                 nextEnchantment = currEnch;
                 newLvl = enchLvl + 1;
             }
@@ -157,6 +160,9 @@ public abstract class ContainerEnchantmentMixin extends Container {
             upgradedEnchantments.add(new EnchantmentData(nextEnchantment, newLvl));
         }
         if (upgradeableEnchantments.isEmpty()) return;
+
+        //Set RNG seed so the roll is always the same, no matter how often you input the same item
+        this.rand.setSeed((long) this.xpSeed);
 
         //Which one of the upgradeable enchants to upgrade
         int upgradingIndex;
@@ -229,9 +235,6 @@ public abstract class ContainerEnchantmentMixin extends Container {
         if (this.enchantLevels[soManyEnchantments$upgradeSlot] <= 0 || itemstackTargetItem.isEmpty() || (playerIn.experienceLevel < this.enchantLevels[soManyEnchantments$upgradeSlot] && !playerIn.capabilities.isCreativeMode))
             return;
 
-        //Pay xp price
-        playerIn.onEnchant(itemstackTargetItem, soManyEnchantments$levelCost);
-
         //Replace enchantment with upgraded or cursed version
         Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(itemstackTargetItem);
         boolean isCursed = rand.nextFloat() < ModConfig.upgrade.cursingChance;
@@ -240,7 +243,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
                 enchantments.remove(soManyEnchantments$currentEnch.enchantment);
             if (soManyEnchantments$cursedEnch != null)
                 if(enchantments.containsKey(soManyEnchantments$cursedEnch.enchantment)) {
-                    int newCurseLvl = Math.min(soManyEnchantments$cursedEnch.enchantmentLevel + 1, soManyEnchantments$cursedEnch.enchantment.getMaxLevel());
+                    int newCurseLvl = Math.min(enchantments.get(soManyEnchantments$cursedEnch.enchantment) + 1, soManyEnchantments$cursedEnch.enchantment.getMaxLevel());
                     enchantments.put(soManyEnchantments$cursedEnch.enchantment, newCurseLvl);
                 } else {
                     enchantments.put(soManyEnchantments$cursedEnch.enchantment, soManyEnchantments$cursedEnch.enchantmentLevel);
@@ -249,7 +252,21 @@ public abstract class ContainerEnchantmentMixin extends Container {
             enchantments.remove(soManyEnchantments$currentEnch.enchantment);
             enchantments.put(soManyEnchantments$upgradedEnch.enchantment, soManyEnchantments$upgradedEnch.enchantmentLevel);
         }
+
+        //Clear Enchanted Book enchants bc setEnchantments is handled differently there
+        if(itemstackTargetItem.getItem()==Items.ENCHANTED_BOOK && itemstackTargetItem.hasTagCompound()) {
+            NBTTagCompound tags = itemstackTargetItem.getTagCompound();
+            if (tags.hasKey("StoredEnchantments")) {
+                tags.setTag("StoredEnchantments", new NBTTagList());
+                itemstackTargetItem.setTagCompound(tags);
+            }
+        }
+
+        //Set new enchants
         EnchantmentHelper.setEnchantments(enchantments, itemstackTargetItem);
+
+        //Pay xp price and roll RNG seed
+        playerIn.onEnchant(itemstackTargetItem, soManyEnchantments$levelCost);
 
         //Pay token price
         if (!playerIn.capabilities.isCreativeMode) {
@@ -278,8 +295,12 @@ public abstract class ContainerEnchantmentMixin extends Container {
         }
 
         this.tableInventory.markDirty();
+        this.xpSeed = playerIn.getXPSeed();
         this.onCraftMatrixChanged(this.tableInventory);
-        this.world.playSound(null, this.position, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.BLOCKS, 1.0F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+        if(isCursed)
+            this.world.playSound(null, this.position, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+        else
+            this.world.playSound(null, this.position, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.BLOCKS, 1.0F, this.world.rand.nextFloat() * 0.1F + 0.9F);
         cir.setReturnValue(true);
     }
 
