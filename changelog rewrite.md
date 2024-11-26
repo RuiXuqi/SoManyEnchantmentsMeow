@@ -51,6 +51,8 @@
 - Add config option for making advanced mending prioritize damaged items
 - Rework adept to give a boost to boss xp and compat for blights
 - Fix advanced mending being applicable with infinity
+- Rework ancient sealed curses to work better
+- Rework and simplify ancient sword mastery with mixin, increases damage increase of damage increasing enchants by 25% per level
 
 ## Todo
 - Organize event handler priorities
@@ -58,6 +60,7 @@
 - Handle removing enchants from Villagers and Loot enchanting
 - More sound effects? (Like resurrection)
 - Recheck that all offhand/rlcombat compat checks are working properly (Anything triggered from attackEntityFrom should only use mainhand now)
+- Recheck anything that should be moved to using RLCombat events (To check for attack strength for effects from attacks, etc)
 
 ## "Finished" enchants
 - AdvancedBlastProtection
@@ -110,6 +113,8 @@
 - EnchantmentNaturalBlocking
 - EnchantmentAdvancedEfficiency
 - EnchantmentSmelter
+- EnchantmentAncientSealedCurses
+- EnchantmentAncientSwordMastery
 
 - EnchantmentAdept
 - EnchantmentAdvancedMending
