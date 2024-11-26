@@ -3,11 +3,14 @@ package com.shultrea.rin.enchantments.curses;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -71,7 +74,12 @@ public class EnchantmentInefficient extends EnchantmentCurse {
 		if(level > 0) {
 			if(stack.canHarvestBlock(event.getState()) || ForgeHooks.isToolEffective(player.world, event.getPos(), stack)) {
 				float speed = (float)level * 0.65F + 2.0F;
-				event.setNewSpeed((event.getNewSpeed() / speed) - (0.15F * level));
+				event.setNewSpeed(event.getNewSpeed() / (level*level+1.F));
+				//TODO: this can go to 0 and below.
+				//My suggestion would be to do efficiency multiplier backwards.
+				//So instead of x(lvl²+1) we do /(lvl²+1)
+				//this can't go below 0 and would be exactly nullified by having the same lvl of normal efficiency
+				//which of course is not possible anyway due to incompat
 			}
 		}
 	}
