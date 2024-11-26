@@ -3,8 +3,6 @@ package com.shultrea.rin.mixin.vanilla;
 import com.google.common.collect.Lists;
 import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.enchantments.base.EnchantmentCurse;
 import com.shultrea.rin.util.EnchantUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
