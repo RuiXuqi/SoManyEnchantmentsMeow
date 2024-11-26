@@ -174,7 +174,8 @@ public abstract class ContainerEnchantmentMixin extends Container {
 
     @Inject(
             method = "enchantItem",
-            at = @At("HEAD")
+            at = @At("HEAD"),
+            cancellable = true
     )
     void soManyEnchantments_enchantItem_head(EntityPlayer playerIn, int id, CallbackInfoReturnable<Boolean> cir){
         ItemStack itemstackTargetItem = this.tableInventory.getStackInSlot(0);

@@ -29,7 +29,7 @@ public class UpgradeConfig {
 
 	@Config.Comment("Upgrading enchantments will use up this material")
 	@Config.Name("Upgrade Token")
-	public String upgradeToken = "minecraft:prismarine_shard";
+	public String upgradeToken = "minecraft:nether_star";
 
 	@Config.Comment("Upgrading enchantments will use up this amount of the token material")
 	@Config.Name("Upgrade Token Amount")
