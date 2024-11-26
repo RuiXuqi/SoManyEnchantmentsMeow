@@ -151,6 +151,10 @@ public class ModConfig {
 		@Config.Comment("Enchantment blacklist will be treated as a Whitelist")
 		@Config.Name("Enchantment Whitelist Toggle")
 		public boolean blacklistedEnchantsIsWhitelist = false;
+
+		@Config.Comment("If set to true, remove anvil repair cost increase when combining two single enchant books with the same lvl (Prot 3 + Prot 3)")
+		@Config.Name("Remove book combination anvil cost increase")
+		public boolean removeBookCombinationAnvilCost = false;
 	}
 	
 	@Mod.EventBusSubscriber(modid = SoManyEnchantments.MODID)

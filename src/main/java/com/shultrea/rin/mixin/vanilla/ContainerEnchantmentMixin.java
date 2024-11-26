@@ -3,7 +3,6 @@ package com.shultrea.rin.mixin.vanilla;
 import com.google.common.collect.Lists;
 import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.util.EnchantUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -29,10 +28,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import static net.minecraftforge.common.ForgeHooks.getEnchantPower;
 
@@ -48,6 +44,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
 
     @Unique EnchantmentData soManyEnchantments$currentEnch;
     @Unique EnchantmentData soManyEnchantments$upgradedEnch;
+    @Unique EnchantmentData soManyEnchantments$cursedEnch;
     @Unique int soManyEnchantments$levelCost;
     @Unique int soManyEnchantments$upgradeSlot = 0;
 
@@ -141,8 +138,9 @@ public abstract class ContainerEnchantmentMixin extends Container {
 
             Enchantment nextEnchantment = soManyEnchantments$getNextEnchInUpgradeOrder(currEnch);
             if (nextEnchantment == null) continue;
-            int newLvl = Math.min(enchLvl, nextEnchantment.getMaxLevel()) - ModConfig.upgrade.enchantLvlsReduced;
-            if (newLvl < 1) continue;
+            int newLvl = nextEnchantment.getMinLevel();
+            if (Objects.equals(ModConfig.upgrade.enchantLevelMode, "SUBTRACT"))
+                newLvl = MathHelper.clamp(enchLvl - ModConfig.upgrade.enchantLvlsReduced, 1, nextEnchantment.getMaxLevel());
             upgradeableEnchantments.add(new EnchantmentData(currEnch, enchLvl));
             upgradedEnchantments.add(new EnchantmentData(nextEnchantment, newLvl));
         }
@@ -150,7 +148,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
 
         //Which one of the upgradeable enchants to upgrade
         int upgradingIndex = 0;
-        switch (ModConfig.upgrade.upgradeMode) {
+        switch (ModConfig.upgrade.selectionMode) {
             case "RANDOM":
                 upgradingIndex = rand.nextInt(upgradeableEnchantments.size());
                 break;
@@ -159,13 +157,18 @@ public abstract class ContainerEnchantmentMixin extends Container {
                 break;
         }
         soManyEnchantments$currentEnch = upgradeableEnchantments.get(upgradingIndex);
-        soManyEnchantments$upgradedEnch = upgradedEnchantments.get(upgradingIndex);
+
+        //Select upgraded enchant
+        if(ModConfig.upgrade.allowLevelIncrease && soManyEnchantments$currentEnch.enchantmentLevel<soManyEnchantments$currentEnch.enchantment.getMaxLevel())
+            soManyEnchantments$upgradedEnch = new EnchantmentData(soManyEnchantments$currentEnch.enchantment,soManyEnchantments$currentEnch.enchantmentLevel+1);
+        else
+            soManyEnchantments$upgradedEnch = upgradedEnchantments.get(upgradingIndex);
 
         //Get possible cursed enchant
-        EnchantmentData cursedEnch = null;
         Enchantment curse = soManyEnchantments$getCurse(soManyEnchantments$currentEnch.enchantment);
+        soManyEnchantments$cursedEnch = null;
         if (curse != null)
-            cursedEnch = new EnchantmentData(curse, soManyEnchantments$currentEnch.enchantmentLevel);
+            soManyEnchantments$cursedEnch = new EnchantmentData(curse, soManyEnchantments$currentEnch.enchantmentLevel);
 
         //Get level cost
         soManyEnchantments$levelCost = 1;
@@ -189,11 +192,6 @@ public abstract class ContainerEnchantmentMixin extends Container {
         if (this.enchantLevels[soManyEnchantments$upgradeSlot] > 0) {
             this.enchantClue[soManyEnchantments$upgradeSlot] = Enchantment.getEnchantmentID(soManyEnchantments$upgradedEnch.enchantment);
             this.worldClue[soManyEnchantments$upgradeSlot] = soManyEnchantments$upgradedEnch.enchantmentLevel;
-        }
-
-        //Chance to curse
-        if (rand.nextFloat() < ModConfig.upgrade.cursingChance && cursedEnch != null) {
-            soManyEnchantments$upgradedEnch = cursedEnch;
         }
 
         this.detectAndSendChanges();
@@ -224,9 +222,16 @@ public abstract class ContainerEnchantmentMixin extends Container {
 
         //Replace enchantment with upgraded or cursed version
         Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(itemstackTargetItem);
-        enchantments.remove(soManyEnchantments$currentEnch.enchantment);
-        if (!soManyEnchantments$upgradedEnch.enchantment.getName().equals("enchantment.none"))
+        boolean isCursed = rand.nextFloat() < ModConfig.upgrade.cursingChance;
+        if(isCursed){
+            if(ModConfig.upgrade.cursesReplaceUpgrade)
+                enchantments.remove(soManyEnchantments$currentEnch.enchantment);
+            if(soManyEnchantments$cursedEnch != null)
+                enchantments.put(soManyEnchantments$cursedEnch.enchantment, soManyEnchantments$cursedEnch.enchantmentLevel);
+        } else{
+            enchantments.remove(soManyEnchantments$currentEnch.enchantment);
             enchantments.put(soManyEnchantments$upgradedEnch.enchantment, soManyEnchantments$upgradedEnch.enchantmentLevel);
+        }
         EnchantmentHelper.setEnchantments(enchantments, itemstackTargetItem);
 
         //Pay token price
@@ -236,6 +241,23 @@ public abstract class ContainerEnchantmentMixin extends Container {
             if (itemstackToken.isEmpty()) {
                 this.tableInventory.setInventorySlotContents(1, ItemStack.EMPTY);
             }
+        }
+
+        //Pay anvil repair price
+        if(ModConfig.upgrade.increaseAnvilRepairCost) {
+            int repairCost = itemstackTargetItem.getRepairCost();
+            switch (ModConfig.upgrade.anvilRepairMode) {
+                case "ADD":
+                    repairCost = (int) (repairCost + ModConfig.upgrade.anvilRepairCostAmount);
+                    break;
+                case "MULT":
+                    repairCost = (int) (repairCost * ModConfig.upgrade.anvilRepairCostAmount);
+                    break;
+                /* case "ANVIL": */
+                default:
+                    repairCost = 2 * repairCost + 1;
+            }
+            itemstackTargetItem.setRepairCost(repairCost);
         }
 
         this.tableInventory.markDirty();
@@ -300,7 +322,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
 
             String curseEnchName = order[order.length-1];
             if(curseEnchName.equals("none"))
-                return EnchantUtil.EnchantmentNone;
+                return null;
             else {
                 if (!curseEnchName.contains(":")) curseEnchName = "somanyenchantments:" + curseEnchName;
                 Enchantment curse = Enchantment.getEnchantmentByLocation(curseEnchName);

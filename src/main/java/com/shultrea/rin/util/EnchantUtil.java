@@ -1,7 +1,6 @@
 package com.shultrea.rin.util;
 
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.enchantments.base.EnchantmentCurse;
 import com.shultrea.rin.enchantments.curses.EnchantmentPandorasCurse;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -174,21 +173,4 @@ public abstract class EnchantUtil {
 		boolean isInList = Arrays.asList(ModConfig.miscellaneous.blacklistedEnchants).contains(enchantName);
 		return isInList == ModConfig.miscellaneous.blacklistedEnchantsIsWhitelist;
 	}
-
-	public static EnchantmentCurse EnchantmentNone = new EnchantmentCurse("none", Enchantment.Rarity.COMMON) {
-		@Override
-		public boolean isEnabled() {
-			return false;
-		}
-
-		@Override
-		public int getMaxLevel() {
-			return 0;
-		}
-
-		@Override
-		public boolean isTreasureEnchantment() {
-			return true;
-		}
-	};
 }

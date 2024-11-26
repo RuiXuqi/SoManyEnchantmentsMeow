@@ -6,6 +6,8 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
+    "vanilla.ContainerEnchantmentMixin",
+    "vanilla.ContainerRepairMixin",
     "vanilla.EnchantmentHelperEnchantBlacklistMixin",
     "vanilla.EnchantmentHelperMixin",
     "vanilla.EnchantmentProtectionMixin",
@@ -15,8 +17,7 @@
     "vanilla.EntityVillagerListEnchantedBookForEmeraldsMixin",
     "vanilla.IItemBowMixin",
     "vanilla.ItemMixin",
-    "vanilla.ItemStackMixin",
-    "vanilla.ContainerEnchantmentMixin"
+    "vanilla.ItemStackMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

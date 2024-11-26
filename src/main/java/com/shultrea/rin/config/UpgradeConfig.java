@@ -33,15 +33,15 @@ public class UpgradeConfig {
 			"lessersharpness, minecraft:sharpness, advancedsharpness, bluntness",
 			"lessersmite, minecraft:smite, advancedsmite, supremesmite, bluntness",
 			"lesserbaneofarthropods, minecraft:bane_of_arthropods, advancedbaneofarthropods, supremebaneofarthropods, bluntness",
-			"lesserfireaspect, minecraft:fire_aspect, advancedfireaspect, supremefireaspect, none",
-			"minecraft:knockback, advancedknockback, none",
-			"minecraft:looting, advancedlooting, none",
+			"lesserfireaspect, minecraft:fire_aspect, advancedfireaspect, supremefireaspect, extinguish",
+			"minecraft:knockback, advancedknockback, dragging",
+			"minecraft:looting, advancedlooting, ascetic",
 			"minecraft:efficiency, advancedefficiency, inefficient",
-			"minecraft:luck_of_the_sea, advancedluckofthesea, none",
+			"minecraft:luck_of_the_sea, advancedluckofthesea, ascetic",
 			"minecraft:lure, advancedlure, none",
-			"minecraft:mending, advancedmending, none",
-			"lesserflame, minecraft:flame, advancedflame, supremeflame, none",
-			"minecraft:punch, advancedpunch, none",
+			"minecraft:mending, advancedmending, rusted",
+			"lesserflame, minecraft:flame, advancedflame, supremeflame, extinguish",
+			"minecraft:punch, advancedpunch, dragging",
 			"powerless, minecraft:power, advancedpower, powerless",
 			"minecraft:feather_falling, advancedfeatherfalling, curseofvulnerability",
 			"minecraft:blast_protection, advancedblastprotection, curseofvulnerability",
@@ -75,15 +75,39 @@ public class UpgradeConfig {
 	@Config.Name("Chance to curse")
 	public float cursingChance = 0.1F;
 
+	@Config.Comment("If set to true, randomly rolled curses will replace the upgraded enchant. If false, they will be an additional enchant")
+	@Config.Name("Curses Replace Upgrade")
+	public boolean cursesReplaceUpgrade = true;
+
 	@Config.Comment("If upgrading is allowed on items with multiple enchants, upgrade them randomly (RANDOM), top to bottom (FIRST) or bottom to top (LAST)")
-	@Config.Name("Upgrade mode")
-	public String upgradeMode = "RANDOM";
+	@Config.Name("Selection mode")
+	public String selectionMode = "RANDOM";
+
+	@Config.Comment("Upgraded Enchant will have the current level minus x levels set in config (SUBTRACT), or it will have the min possible level of the enchant, usually 1 (MINLVL)")
+	@Config.Name("Enchantment level mode")
+	public String enchantLevelMode = "SUBTRACT";
+
+	@Config.Comment("Whether you can also upgrade the level of your enchants without changing the tier")
+	@Config.Name("Allow level increase")
+	public boolean allowLevelIncrease = false;
+
+	@Config.Comment("Whether to increase anvil repair cost when upgrading")
+	@Config.Name("Increase anvil repair cost")
+	public boolean increaseAnvilRepairCost = false;
+
+	@Config.Comment("Mode of how anvil repair cost is increased. ANVIL= normal exponential anvil behavior, ADD= add a flat amount, MULT= multiply by a number")
+	@Config.Name("Anvil repair cost increase mode")
+	public String anvilRepairMode = "ADD";
+
+	@Config.Comment("How many levels to add or multiply anvil repair cost by when upgrading")
+	@Config.Name("Anvil repair cost amount")
+	public float anvilRepairCostAmount = 10.0F;
 
 	@Config.Comment("How many bookshelves are needed to be able to upgrade")
 	@Config.Name("Amount of bookshelves needed")
 	public int bookshelvesNeeded = 30;
 
-	@Config.Comment("How many lvls of the enchant to reduce by while upgrading. For example 1 means Prot 4 turns to Adv Prot 3. Does not apply for cursing")
+	@Config.Comment("How many lvls of the enchant to reduce by while upgrading in SUBTRACT mode. For example 1 means Prot 4 turns to Adv Prot 3. Does not apply for cursing")
 	@Config.Name("Enchant Lvls reduced during upgrade")
 	public int enchantLvlsReduced = 1;
 }
