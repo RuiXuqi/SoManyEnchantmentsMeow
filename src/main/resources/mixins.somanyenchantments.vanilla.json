@@ -15,7 +15,8 @@
     "vanilla.EntityVillagerListEnchantedBookForEmeraldsMixin",
     "vanilla.IItemBowMixin",
     "vanilla.ItemMixin",
-    "vanilla.ItemStackMixin"
+    "vanilla.ItemStackMixin",
+    "vanilla.ContainerEnchantmentMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

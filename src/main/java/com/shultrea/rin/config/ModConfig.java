@@ -37,13 +37,17 @@ public class ModConfig {
 	public static RarityConfig rarity = new RarityConfig();
 	
 	@Config.Comment("Types of items each enchantment can apply on at enchantment table and anvil. Available types: ALL_TYPES (=any of the following types), ARMOR, ARMOR_HEAD, ARMOR_CHEST, ARMOR_LEGS, ARMOR_FEET, SWORD, TOOL, FISHING_ROD, BREAKABLE, BOW, WEARABLE, ALL_ITEMS (=any Item), AXE, PICKAXE, HOE, SHOVEL, GAPPLE, SHIELD, NONE")
-	@Config.Name("CanApply")
+	@Config.Name("Can apply on enchantment table and anvil")
 	public static CanApplyConfig canApply = new CanApplyConfig();
 	
 	@Config.Comment("Additional types of items each enchantment can apply on at the anvil. To be able to use miscellaneous.canCursesBeAppliedAtEnchantingTable=false, all valid types of curses have to be named here, not just the additional ones")
-	@Config.Name("CanApplyAnvil")
+	@Config.Name("Can apply additionally on anvil")
 	public static CanApplyAnvilConfig canApplyAnvil = new CanApplyAnvilConfig();
-	
+
+	@Config.Comment("Config for upgrading tiered enchantments")
+	@Config.Name("Upgrade")
+	public static UpgradeConfig upgrade = new UpgradeConfig();
+
 	@Config.Comment("Miscellaneous")
 	@Config.Name("Miscellaneous")
 	public static MiscellaneousConfig miscellaneous = new MiscellaneousConfig();
@@ -121,6 +125,11 @@ public class ModConfig {
 		@Config.Comment("Randomly enchanted loot, enchanting table and librarians will not be able to generate enchantments in this list")
 		@Config.Name("Enchantment Blacklist")
 		public String[] blacklistedEnchants = {
+				"lesserbaneofarthropods",
+				"lesserfireaspect",
+				"lesserflame",
+				"lessersharpness",
+				"lessersmite",
 				"advancedbaneofarthropods",
 				"advancedblastprotection",
 				"advancedefficiency",
