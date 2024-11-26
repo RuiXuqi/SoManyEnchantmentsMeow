@@ -3,6 +3,9 @@ package com.shultrea.rin.mixin.vanilla;
 import com.google.common.collect.Lists;
 import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.config.ModConfig;
+import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.enchantments.base.EnchantmentCurse;
+import com.shultrea.rin.util.EnchantUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -48,6 +51,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
     @Unique EnchantmentData soManyEnchantments$currentEnch;
     @Unique EnchantmentData soManyEnchantments$upgradedEnch;
     @Unique int soManyEnchantments$levelCost;
+    @Unique int soManyEnchantments$upgradeSlot = 0;
 
     @Redirect(
             method = "<init>(Lnet/minecraft/entity/player/InventoryPlayer;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)V",
@@ -94,17 +98,26 @@ public abstract class ContainerEnchantmentMixin extends Container {
     )
     public void soManyEnchantments_onCraftMatrixChanged_head(IInventory inventoryIn, CallbackInfo ci) {
         if (inventoryIn != this.tableInventory) return;
+        if (this.world.isRemote) return;
 
+        //Correct token?
         ItemStack itemstackToken = inventoryIn.getStackInSlot(1);
         if (itemstackToken.isEmpty()) return;
         if (!soManyEnchantments$isUpgradeToken(itemstackToken)) return;
-        if(itemstackToken.getCount() < ModConfig.upgrade.upgradeTokenAmount) return;
+        if (itemstackToken.getCount() < ModConfig.upgrade.upgradeTokenAmount) return;
 
+        //Correct item?
         ItemStack itemstackTargetItem = inventoryIn.getStackInSlot(0);
+        if (itemstackTargetItem.isEmpty()) return;
         boolean isBook = itemstackTargetItem.getItem() == Items.ENCHANTED_BOOK;
-        if (itemstackTargetItem.isEmpty() || !itemstackTargetItem.isItemEnchanted()) return;
-        if (this.world.isRemote) return;
+        Map<Enchantment, Integer> currentEnchants = EnchantmentHelper.getEnchantments(itemstackTargetItem);
+        if (ModConfig.upgrade.onlyAllowOnBooks) {
+            if (!isBook) return;
+            if (currentEnchants.size() != 1) return;
+        }
+        if(currentEnchants.isEmpty()) return;
 
+        //Enough bookshelves?
         float bookshelfPower = 0;
         for (int z = -1; z <= 1; ++z) {
             for (int x = -1; x <= 1; ++x) {
@@ -120,52 +133,69 @@ public abstract class ContainerEnchantmentMixin extends Container {
                 }
             }
         }
-        if(MathHelper.ceil(bookshelfPower) < ModConfig.upgrade.bookshelvesNeeded) return;
+        if (MathHelper.ceil(bookshelfPower) < ModConfig.upgrade.bookshelvesNeeded) return;
 
-        Map<Enchantment, Integer> currentEnchants = EnchantmentHelper.getEnchantments(itemstackTargetItem);
-
-        if(ModConfig.upgrade.onlyAllowOnBooks){
-            if(!isBook) return;
-            if(currentEnchants.size() != 1) return;
-        }
-
+        //Get upgradeable enchants
         List<EnchantmentData> upgradeableEnchantments = Lists.<EnchantmentData>newArrayList();
         List<EnchantmentData> upgradedEnchantments = Lists.<EnchantmentData>newArrayList();
-        for(Enchantment currEnch: currentEnchants.keySet()) {
+        for (Enchantment currEnch : currentEnchants.keySet()) {
             int enchLvl = currentEnchants.get(currEnch);
 
             Enchantment nextEnchantment = soManyEnchantments$getNextEnchInUpgradeOrder(currEnch);
-            if(nextEnchantment==null) continue;
-            //TODO: could be a good balance to subtract one lvl when upgrading
-            int newLvl = Math.min(enchLvl,nextEnchantment.getMaxLevel()) - ModConfig.upgrade.enchantLvlsReduced;
-            if(newLvl<1) continue;
+            if (nextEnchantment == null) continue;
+            int newLvl = Math.min(enchLvl, nextEnchantment.getMaxLevel()) - ModConfig.upgrade.enchantLvlsReduced;
+            if (newLvl < 1) continue;
             upgradeableEnchantments.add(new EnchantmentData(currEnch, enchLvl));
-            upgradedEnchantments.add(new EnchantmentData(nextEnchantment,newLvl));
+            upgradedEnchantments.add(new EnchantmentData(nextEnchantment, newLvl));
         }
-        if(upgradeableEnchantments.isEmpty()) return;
+        if (upgradeableEnchantments.isEmpty()) return;
 
+        //Which one of the upgradeable enchants to upgrade
         int upgradingIndex = 0;
-        switch(ModConfig.upgrade.upgradeMode){
-            case "RANDOM": upgradingIndex = rand.nextInt(upgradeableEnchantments.size()); break;
-            case "LAST": upgradingIndex = upgradeableEnchantments.size()-1; break;
+        switch (ModConfig.upgrade.upgradeMode) {
+            case "RANDOM":
+                upgradingIndex = rand.nextInt(upgradeableEnchantments.size());
+                break;
+            case "LAST":
+                upgradingIndex = upgradeableEnchantments.size() - 1;
+                break;
         }
         soManyEnchantments$currentEnch = upgradeableEnchantments.get(upgradingIndex);
         soManyEnchantments$upgradedEnch = upgradedEnchantments.get(upgradingIndex);
 
-        soManyEnchantments$levelCost = 0;
-        switch(ModConfig.upgrade.levelCostMode){
-            case "ANVIL": soManyEnchantments$levelCost = soManyEnchantments$getRarityMultiplier(soManyEnchantments$upgradedEnch.enchantment.getRarity(),isBook)* soManyEnchantments$upgradedEnch.enchantmentLevel; break;
-            case "ENCHANTABILITY": soManyEnchantments$levelCost = soManyEnchantments$upgradedEnch.enchantment.getMinEnchantability(soManyEnchantments$upgradedEnch.enchantmentLevel); break;
-            /*case "NONE":*/ default: break;
+        //Get possible cursed enchant
+        EnchantmentData cursedEnch = null;
+        Enchantment curse = soManyEnchantments$getCurse(soManyEnchantments$currentEnch.enchantment);
+        if (curse != null)
+            cursedEnch = new EnchantmentData(curse, soManyEnchantments$currentEnch.enchantmentLevel);
+
+        //Get level cost
+        soManyEnchantments$levelCost = 1;
+        switch (ModConfig.upgrade.levelCostMode) {
+            case "ANVIL":
+                soManyEnchantments$levelCost = soManyEnchantments$getRarityMultiplier(soManyEnchantments$upgradedEnch.enchantment.getRarity(), isBook) * soManyEnchantments$upgradedEnch.enchantmentLevel;
+                break;
+            case "ENCHANTABILITY":
+                soManyEnchantments$levelCost = soManyEnchantments$upgradedEnch.enchantment.getMinEnchantability(soManyEnchantments$upgradedEnch.enchantmentLevel);
+                break;
+            /*case "NONE":*/
+            default:
+                break;
+        }
+        soManyEnchantments$levelCost *= (int) ModConfig.upgrade.levelCostMultiplier;
+
+        //Clue for GUI
+        this.enchantLevels[soManyEnchantments$upgradeSlot] = soManyEnchantments$levelCost;
+        this.enchantClue[soManyEnchantments$upgradeSlot] = -1;
+        this.worldClue[soManyEnchantments$upgradeSlot] = -1;
+        if (this.enchantLevels[soManyEnchantments$upgradeSlot] > 0) {
+            this.enchantClue[soManyEnchantments$upgradeSlot] = Enchantment.getEnchantmentID(soManyEnchantments$upgradedEnch.enchantment);
+            this.worldClue[soManyEnchantments$upgradeSlot] = soManyEnchantments$upgradedEnch.enchantmentLevel;
         }
 
-        this.enchantLevels[0] = soManyEnchantments$levelCost;
-        this.enchantClue[0] = -1;
-        this.worldClue[0] = -1;
-
-        if (this.enchantLevels[0] > 0) {
-            this.enchantClue[0] = Enchantment.getEnchantmentID(soManyEnchantments$upgradedEnch.enchantment);
-            this.worldClue[0] = soManyEnchantments$upgradedEnch.enchantmentLevel;
+        //Chance to curse
+        if (rand.nextFloat() < ModConfig.upgrade.cursingChance && cursedEnch != null) {
+            soManyEnchantments$upgradedEnch = cursedEnch;
         }
 
         this.detectAndSendChanges();
@@ -177,24 +207,31 @@ public abstract class ContainerEnchantmentMixin extends Container {
             at = @At("HEAD"),
             cancellable = true
     )
-    void soManyEnchantments_enchantItem_head(EntityPlayer playerIn, int id, CallbackInfoReturnable<Boolean> cir){
+    void soManyEnchantments_enchantItem_head(EntityPlayer playerIn, int id, CallbackInfoReturnable<Boolean> cir) {
+        if (this.world.isRemote) return;
+
         ItemStack itemstackTargetItem = this.tableInventory.getStackInSlot(0);
         ItemStack itemstackToken = this.tableInventory.getStackInSlot(1);
 
-        if(id > 0) return;
+        if (id != soManyEnchantments$upgradeSlot) return;
+
+        //Correct token+amount?
         if ((itemstackToken.isEmpty() || itemstackToken.getCount() < ModConfig.upgrade.upgradeTokenAmount || !soManyEnchantments$isUpgradeToken(itemstackToken)) && !playerIn.capabilities.isCreativeMode) return;
 
-        if (this.enchantLevels[0] <= 0 || itemstackTargetItem.isEmpty() || (playerIn.experienceLevel < this.enchantLevels[0] && !playerIn.capabilities.isCreativeMode)) return;
-        if(this.world.isRemote) return;
+        //Enough lvls?
+        if (this.enchantLevels[soManyEnchantments$upgradeSlot] <= 0 || itemstackTargetItem.isEmpty() || (playerIn.experienceLevel < this.enchantLevels[soManyEnchantments$upgradeSlot] && !playerIn.capabilities.isCreativeMode)) return;
 
+        //Pay xp price
         playerIn.onEnchant(itemstackTargetItem, soManyEnchantments$levelCost);
 
-        //Replace enchantment with upgraded version
+        //Replace enchantment with upgraded or cursed version
         Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(itemstackTargetItem);
         enchantments.remove(soManyEnchantments$currentEnch.enchantment);
-        enchantments.put(soManyEnchantments$upgradedEnch.enchantment, soManyEnchantments$upgradedEnch.enchantmentLevel);
+        if (!soManyEnchantments$upgradedEnch.enchantment.getName().equals("enchantment.none"))
+            enchantments.put(soManyEnchantments$upgradedEnch.enchantment, soManyEnchantments$upgradedEnch.enchantmentLevel);
         EnchantmentHelper.setEnchantments(enchantments, itemstackTargetItem);
 
+        //Pay token price
         if (!playerIn.capabilities.isCreativeMode) {
             itemstackToken.shrink(ModConfig.upgrade.upgradeTokenAmount);
 
@@ -242,10 +279,40 @@ public abstract class ContainerEnchantmentMixin extends Container {
             if(!nextEnchName.contains(":")) nextEnchName = "somanyenchantments:"+nextEnchName;
             Enchantment nextEnchantment = Enchantment.getEnchantmentByLocation(nextEnchName);
             if(nextEnchantment == null){
-                SoManyEnchantments.LOGGER.info("Could not find upgraded enchantment {}", order[foundIndex + 1]);
+                SoManyEnchantments.LOGGER.info("Could not find upgraded enchantment {}", nextEnchName);
                 return null;
             }
             return nextEnchantment;
+        }
+        return null;
+    }
+
+    @Unique
+    private Enchantment soManyEnchantments$getCurse(Enchantment currEnch){
+        String enchName = currEnch.getRegistryName().toString();
+        if(enchName.contains("somanyenchantments:"))
+            enchName = enchName.split(":")[1];
+        for (String upgradeList : ModConfig.upgrade.enchantUpgradeCursing) {
+            if (!upgradeList.contains(enchName)) continue;
+
+            String[] order = upgradeList.split(" *, *"); //Removing optional whitespace
+            int foundIndex = Arrays.asList(order).indexOf(enchName);
+            //Do nothing if we're already at the last entry = curse
+            if (foundIndex >= order.length-1) continue;
+
+            String curseEnchName = order[order.length-1];
+            if(curseEnchName.equals("none"))
+                return EnchantUtil.EnchantmentNone;
+            else {
+                if (!curseEnchName.contains(":")) curseEnchName = "somanyenchantments:" + curseEnchName;
+                Enchantment curse = Enchantment.getEnchantmentByLocation(curseEnchName);
+                if (curse == null) {
+                    SoManyEnchantments.LOGGER.info("Could not find cursed enchantment {}", curseEnchName);
+                    return null;
+                }
+                return curse;
+            }
+
         }
         return null;
     }

@@ -12,19 +12,43 @@ public class UpgradeConfig {
 			"lesserfireaspect, minecraft:fire_aspect, advancedfireaspect, supremefireaspect",
 			"minecraft:knockback, advancedknockback",
 			"minecraft:looting, advancedlooting",
-			"inefficient, minecraft:efficiency, advancedefficiency",
+			"minecraft:efficiency, advancedefficiency",
 			"minecraft:luck_of_the_sea, advancedluckofthesea",
 			"minecraft:lure, advancedlure",
 			"minecraft:mending, advancedmending",
 			"lesserflame, minecraft:flame, advancedflame, supremeflame",
 			"minecraft:punch, advancedpunch",
-			"powerless, minecraft:power, advancedpower",
+			"minecraft:power, advancedpower",
 			"minecraft:feather_falling, advancedfeatherfalling",
 			"minecraft:blast_protection, advancedblastprotection",
 			"minecraft:fire_protection, advancedfireprotection",
 			"minecraft:projectile_protection, advancedprojectileprotection",
 			"minecraft:protection, advancedprotection",
-			"meltdown, minecraft:thorns, burningthorns, advancedthorns"
+			"minecraft:thorns, burningthorns, advancedthorns"
+	};
+
+	@Config.Comment("Enchantments will be turned into their curse form. Curse is last in list. none means it will be removed instead")
+	@Config.Name("Enchantment upgrade cursing")
+	public String[] enchantUpgradeCursing = {
+			"lessersharpness, minecraft:sharpness, advancedsharpness, bluntness",
+			"lessersmite, minecraft:smite, advancedsmite, supremesmite, bluntness",
+			"lesserbaneofarthropods, minecraft:bane_of_arthropods, advancedbaneofarthropods, supremebaneofarthropods, bluntness",
+			"lesserfireaspect, minecraft:fire_aspect, advancedfireaspect, supremefireaspect, none",
+			"minecraft:knockback, advancedknockback, none",
+			"minecraft:looting, advancedlooting, none",
+			"minecraft:efficiency, advancedefficiency, inefficient",
+			"minecraft:luck_of_the_sea, advancedluckofthesea, none",
+			"minecraft:lure, advancedlure, none",
+			"minecraft:mending, advancedmending, none",
+			"lesserflame, minecraft:flame, advancedflame, supremeflame, none",
+			"minecraft:punch, advancedpunch, none",
+			"powerless, minecraft:power, advancedpower, powerless",
+			"minecraft:feather_falling, advancedfeatherfalling, curseofvulnerability",
+			"minecraft:blast_protection, advancedblastprotection, curseofvulnerability",
+			"minecraft:fire_protection, advancedfireprotection, curseofvulnerability",
+			"minecraft:projectile_protection, advancedprojectileprotection, curseofvulnerability",
+			"minecraft:protection, advancedprotection, curseofvulnerability",
+			"minecraft:thorns, burningthorns, advancedthorns, meltdown"
 	};
 
 	@Config.Comment("Upgrading enchantments will use up this material")
@@ -35,13 +59,21 @@ public class UpgradeConfig {
 	@Config.Name("Upgrade Token Amount")
 	public int upgradeTokenAmount = 1;
 
-	@Config.Comment("Mode how XP is used while upgrading enchants: NONE=no xp cost, ANVIL=how much the resulting enchant would cost on anvil, ENCHANTABILITY=minimum enchantability of the resulting enchant")
-	@Config.Name("XP Cost Mode")
+	@Config.Comment("Mode how many XP levels are used while upgrading enchants: NONE=no xp cost, ANVIL=how much the resulting enchant would cost on anvil, ENCHANTABILITY=minimum enchantability of the resulting enchant")
+	@Config.Name("Level Cost Mode")
 	public String levelCostMode = "ANVIL";
+
+	@Config.Comment("By how much the resulting level cost will be multiplied")
+	@Config.Name("Level Cost Multiplier")
+	public float levelCostMultiplier = 2.0F;
 
 	@Config.Comment("Set to true to allow upgrading enchants only on enchanted books with one enchantment")
 	@Config.Name("Only allow upgrading for single enchant books")
 	public boolean onlyAllowOnBooks = false;
+
+	@Config.Comment("Chance to turn into curse or to remove entirely instead of upgrading")
+	@Config.Name("Chance to curse")
+	public float cursingChance = 0.1F;
 
 	@Config.Comment("If upgrading is allowed on items with multiple enchants, upgrade them randomly (RANDOM), top to bottom (FIRST) or bottom to top (LAST)")
 	@Config.Name("Upgrade mode")
@@ -51,7 +83,7 @@ public class UpgradeConfig {
 	@Config.Name("Amount of bookshelves needed")
 	public int bookshelvesNeeded = 30;
 
-	@Config.Comment("How many lvls of the enchant to reduce by while upgrading. For example 1 means Prot 4 turns to Adv Prot 3")
+	@Config.Comment("How many lvls of the enchant to reduce by while upgrading. For example 1 means Prot 4 turns to Adv Prot 3. Does not apply for cursing")
 	@Config.Name("Enchant Lvls reduced during upgrade")
 	public int enchantLvlsReduced = 1;
 }
