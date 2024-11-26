@@ -3,24 +3,23 @@ package com.shultrea.rin.enchantments.tool;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
+import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemAir;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EnchantmentSmelter extends EnchantmentBase {
-	
-	Random random = new Random();
 	
 	public EnchantmentSmelter(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
@@ -66,57 +65,58 @@ public class EnchantmentSmelter extends EnchantmentBase {
 		return ModConfig.treasure.smelter;
 	}
 	
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void onBlockDropSmelt(HarvestDropsEvent fEvent) {
-		if(fEvent.getHarvester() != null && ModConfig.enabled.smelter) {
-			int fortuneLevel = fEvent.getFortuneLevel();
-			// get the held item and make sure it isn't null!
-			// 1.1.2 fix
-			ItemStack tool = fEvent.getHarvester().getHeldItemMainhand();
-			if(fEvent.getHarvester().getHeldItemMainhand() == null) {
-				return;
-			}
-			if(EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.smelter, tool) <= 0) return;
-			if(!fEvent.isSilkTouching() && !fEvent.getHarvester().isSneaking()) {
-				ItemStack result = FurnaceRecipes.instance().getSmeltingResult(new ItemStack(fEvent.getState().getBlock(), 1, fEvent.getState().getBlock().getMetaFromState(fEvent.getState())));
-				//System.out.println(result);
-				if(fEvent.getDrops().size() <= 0) return;
-				if(result.getItem() instanceof ItemAir) return;
-				if(result != null && !(result.getItem() instanceof ItemAir)) {
-					// depending on fortune, release smelted ores
-					// 1.4.1 fix: no fortune on block items!
-					int nItems = 0;
-					int nParticles = 2;
-					if(fortuneLevel > 0 && !(result.getItem() instanceof ItemBlock)) {
-						nItems = 1 + random.nextInt(fortuneLevel + 1);
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onHarvestDropsEvent(HarvestDropsEvent event) {
+		if(!this.isEnabled()) return;
+		EntityPlayer player = event.getHarvester();
+		if(player == null) return;
+		ItemStack tool = player.getHeldItemMainhand();
+		if(tool.isEmpty()) return;
+		if(event.isSilkTouching()) return;
+		if(player.isSneaking()) return;
+		if(event.getDrops().isEmpty()) return;
+		
+		int level = EnchantmentHelper.getEnchantmentLevel(this, tool);
+		if(level > 0) {
+			if(tool.canHarvestBlock(event.getState()) || ForgeHooks.isToolEffective(player.world, event.getPos(), tool)) {
+				List<ItemStack> drops = new ArrayList<>();
+				for(ItemStack origDrop : event.getDrops()) {
+					if(origDrop.isEmpty()) continue;
+					
+					int origAmount = origDrop.getCount();
+					ItemStack smeltResult = FurnaceRecipes.instance().getSmeltingResult(new ItemStack(origDrop.getItem(), 1, origDrop.getMetadata()));
+					if(smeltResult.isEmpty()) {
+						//If theres no smelting, drop unsmelted item
+						if(event.getWorld().rand.nextFloat() <= event.getDropChance()) {
+							drops.add(origDrop);
+						}
+						continue;
 					}
-					else if(fortuneLevel <= 0 && !(result.getItem() instanceof ItemBlock)) {
-						nItems = 1;
+					
+					int levelFortune = event.getFortuneLevel();
+					if(levelFortune > 0 && !(smeltResult.getItem() instanceof ItemBlock)) {
+						//Fortune based on amount of original drops
+						origAmount *= 1 + player.getRNG().nextInt(levelFortune + 1);
 					}
-					if(result.getItem() instanceof ItemBlock) {
-						nItems = 1;
-					}
-					for(int i = 0; i < nItems; i++) {
-						float f = random.nextFloat() * 0.6F + 0.1F;
-						float f1 = random.nextFloat() * 0.6F + 0.1F;
-						float f2 = random.nextFloat() * 0.6F + 0.1F;
-						float f3 = 0.025F;
-						EntityItem eitem = new EntityItem(fEvent.getWorld(), fEvent.getPos().getX() + f, fEvent.getPos().getY() + f1, fEvent.getPos().getZ() + f2, result.copy());
-						eitem.motionX = random.nextGaussian() * f3;
-						eitem.motionY = random.nextGaussian() * f3 + 0.2F;
-						eitem.motionZ = random.nextGaussian() * f3;
-						fEvent.getWorld().spawnEntity(eitem);
-						// spawn particles at this position
-						for(int j = 0; j < nParticles; j++) {
-							double rx = eitem.posX + random.nextFloat() - 0.5;
-							double ry = eitem.posY + (random.nextFloat() + 0.5) * 0.15;
-							double rz = eitem.posZ + random.nextFloat() - 0.5;
-							fEvent.getHarvester().world.spawnParticle(EnumParticleTypes.FLAME, rx, ry, rz, 0, 0, 0);
+					//Account for if something smelts into multiple items
+					int dropAmount = origAmount * smeltResult.getCount();
+					
+					while(dropAmount > 0) {
+						//Account for returning more than the stack size of the smelted item
+						int toDrop = Math.min(dropAmount, smeltResult.getMaxStackSize());
+						dropAmount -= toDrop;
+						ItemStack dropStack = new ItemStack(smeltResult.getItem(), toDrop, smeltResult.getMetadata());
+						if(event.getWorld().rand.nextFloat() <= event.getDropChance()) {
+							event.getWorld().spawnParticle(EnumParticleTypes.FLAME, event.getPos().getX(), event.getPos().getY(), event.getPos().getZ(), 0, 0, 0);
+							drops.add(dropStack);
 						}
 					}
-					// cancel the default drops
-					fEvent.setDropChance(0);
-                }
+				}
+				for(ItemStack drop : drops) {
+					Block.spawnAsEntity(event.getWorld(), event.getPos(), drop);
+				}
+				event.setDropChance(0);
+				event.getDrops().clear();
 			}
 		}
 	}

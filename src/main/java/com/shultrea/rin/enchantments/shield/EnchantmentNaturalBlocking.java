@@ -3,12 +3,11 @@ package com.shultrea.rin.enchantments.shield;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -58,29 +57,23 @@ public class EnchantmentNaturalBlocking extends EnchantmentBase {
 		return ModConfig.treasure.naturalBlocking;
 	}
 	
-	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void naturalBlock(LivingDamageEvent fEvent) {
-		if(!(fEvent.getEntity() instanceof EntityLivingBase)) return;
-		EntityLivingBase victim = (EntityLivingBase)fEvent.getEntity();
+	@SubscribeEvent(priority = EventPriority.NORMAL)
+	public void onLivingHurtEvent(LivingHurtEvent event) {
+		if(!this.isEnabled()) return;
+		EntityLivingBase victim = event.getEntityLiving();
 		if(victim == null) return;
+		if(victim.isActiveItemStackBlocking() || event.getSource().isUnblockable()) return;
 
-		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.naturalBlocking, victim);
-		if(enchantmentLevel <= 0) return;
-
-		ItemStack shield = victim.getHeldItemMainhand();
-		if(shield.isEmpty() || !shield.getItem().isShield(shield, victim)) {
-			shield = victim.getHeldItemOffhand();
-			if(shield.isEmpty() || !shield.getItem().isShield(shield, victim)) return;
-		}
-
-		if(victim.getActiveItemStack() != shield) {
-			float damageReduction = 0.1f + enchantmentLevel * 0.1f;
-			float blockedDamage = fEvent.getAmount() * damageReduction;
-			fEvent.setAmount(fEvent.getAmount() - blockedDamage);
-			if(enchantmentLevel >= 3)
-				shield.damageItem((int) (1 + 1.25f * blockedDamage), victim);
-			else
-				shield.damageItem((int) (1 + 1.75f * blockedDamage), victim);
+		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, victim);
+		if(level > 0) {
+			ItemStack shield = victim.getHeldItemMainhand();
+			if(shield.isEmpty() || !shield.getItem().isShield(shield, victim)) {
+				shield = victim.getHeldItemOffhand();
+				if(shield.isEmpty() || !shield.getItem().isShield(shield, victim)) return;
+			}
+			float blockedDamage = event.getAmount() * (0.1F + 0.1F * (float)level);
+			event.setAmount(event.getAmount() - blockedDamage);
+			shield.damageItem((int)(1.0F + 1.5F * blockedDamage), victim);
 		}
 	}
 }

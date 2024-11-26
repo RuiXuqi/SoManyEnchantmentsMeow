@@ -37,17 +37,13 @@ public class ModConfig {
 	public static RarityConfig rarity = new RarityConfig();
 	
 	@Config.Comment("Types of items each enchantment can apply on at enchantment table and anvil. Available types: ALL_TYPES (=any of the following types), ARMOR, ARMOR_HEAD, ARMOR_CHEST, ARMOR_LEGS, ARMOR_FEET, SWORD, TOOL, FISHING_ROD, BREAKABLE, BOW, WEARABLE, ALL_ITEMS (=any Item), AXE, PICKAXE, HOE, SHOVEL, GAPPLE, SHIELD, NONE")
-	@Config.Name("Can apply on enchantment table and anvil")
+	@Config.Name("CanApply")
 	public static CanApplyConfig canApply = new CanApplyConfig();
 	
 	@Config.Comment("Additional types of items each enchantment can apply on at the anvil. To be able to use miscellaneous.canCursesBeAppliedAtEnchantingTable=false, all valid types of curses have to be named here, not just the additional ones")
-	@Config.Name("Can apply additionally on anvil")
+	@Config.Name("CanApplyAnvil")
 	public static CanApplyAnvilConfig canApplyAnvil = new CanApplyAnvilConfig();
-
-	@Config.Comment("Config for upgrading tiered enchantments")
-	@Config.Name("Upgrade")
-	public static UpgradeConfig upgrade = new UpgradeConfig();
-
+	
 	@Config.Comment("Miscellaneous")
 	@Config.Name("Miscellaneous")
 	public static MiscellaneousConfig miscellaneous = new MiscellaneousConfig();
@@ -69,14 +65,6 @@ public class ModConfig {
 		@Config.Comment("Evasion makes the player perform a dodge, disable if you want potentially dangerous forced dodges")
 		@Config.Name("Evasion Dodge Effect")
 		public boolean evasionDodgeEffect = true;
-		
-		@Config.Comment("Restricts Quarry enchant to ore only")
-		@Config.Name("Quarry Ore Only")
-		public boolean quarryOreOnly = true;
-		
-		@Config.Comment("Allow Quarry enchant to work on blocks that are tile entities, not recommended as it may cause bugs")
-		@Config.Name("Quarry Allow Tile Entities")
-		public boolean quarryAllowTileEntities = false;
 		
 		@Config.Comment("Ignores registering enabled enchantments so they do not show up in game")
 		@Config.Name("Don't Register Disabled Enchants")
@@ -121,44 +109,10 @@ public class ModConfig {
 		@Config.Comment("Whether or not Atomic Deconstructor should work on bosses (May cause bugs)")
 		@Config.Name("Atomic Deconstructor Works on Bosses")
 		public boolean atomicDeconstructorBosses = false;
-
-		@Config.Comment("Randomly enchanted loot, enchanting table and librarians will not be able to generate enchantments in this list")
-		@Config.Name("Enchantment Blacklist")
-		public String[] blacklistedEnchants = {
-				"lesserbaneofarthropods",
-				"lesserfireaspect",
-				"lesserflame",
-				"lessersharpness",
-				"lessersmite",
-				"advancedbaneofarthropods",
-				"advancedblastprotection",
-				"advancedefficiency",
-				"advancedfeatherfalling",
-				"advancedfireaspect",
-				"advancedfireprotection",
-				"advancedflame",
-				"advancedknockback",
-				"advancedlooting",
-				"advancedluckofthesea",
-				"advancedlure",
-				"advancedmending",
-				"advancedpower",
-				"advancedprojectileprotection",
-				"advancedprotection",
-				"advancedpunch",
-				"advancedsharpness",
-				"advancedsmite",
-				"advancedthorns",
-				"supremebaneofarthropods",
-				"supremefireaspect",
-				"supremeflame",
-				"supremesharpness",
-				"supremesmite"
-		};
-
-		@Config.Comment("Enchantment blacklist will be treated as a Whitelist")
-		@Config.Name("Enchantment Whitelist Toggle")
-		public boolean blacklistedEnchantsIsWhitelist = false;
+		
+		@Config.Comment("If Advanced Mending should prioritize repairing damaged items")
+		@Config.Name("Advanced Mending Prioritize Damaged Items")
+		public boolean advancedMendingPrioritizeDamaged = true;
 	}
 	
 	@Mod.EventBusSubscriber(modid = SoManyEnchantments.MODID)

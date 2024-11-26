@@ -154,9 +154,6 @@ public class CanApplyAnvilConfig {
 	@Config.Name("Pushing")
 	@Config.RequiresMcRestart
 	public String[] pushing = {};
-	@Config.Name("Quarrying")
-	@Config.RequiresMcRestart
-	public String[] quarrying = {};
 	@Config.Name("Rain's Bestowment")
 	@Config.RequiresMcRestart
 	public String[] rainsBestowment = {};

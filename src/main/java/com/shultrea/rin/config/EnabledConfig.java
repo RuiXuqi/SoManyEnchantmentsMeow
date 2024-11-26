@@ -154,9 +154,6 @@ public class EnabledConfig {
 	@Config.Name("Pushing")
 	@Config.RequiresMcRestart
 	public boolean pushing = true;
-	@Config.Name("Quarrying")
-	@Config.RequiresMcRestart
-	public boolean quarrying = true;
 	@Config.Name("Rain's Bestowment")
 	@Config.RequiresMcRestart
 	public boolean rainsBestowment = true;
@@ -217,7 +214,6 @@ public class EnabledConfig {
 	@Config.Name("Winter's Grace")
 	@Config.RequiresMcRestart
 	public boolean wintersGrace = true;
-	//TODO recheck curses?
 	//Curses
 	@Config.Name("Bluntness")
 	@Config.RequiresMcRestart

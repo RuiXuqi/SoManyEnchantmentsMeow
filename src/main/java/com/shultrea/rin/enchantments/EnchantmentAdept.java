@@ -3,8 +3,10 @@ package com.shultrea.rin.enchantments;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.ScalingHealthCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -57,18 +59,24 @@ public class EnchantmentAdept extends EnchantmentBase {
 		return ModConfig.treasure.adept;
 	}
 	
-	//TODO
 	@SubscribeEvent
-	public void onDeath(LivingExperienceDropEvent fEvent) {
-		EntityPlayer player = fEvent.getAttackingPlayer();
+	public void onLivingExperienceDropEvent(LivingExperienceDropEvent event) {
+		if(!this.isEnabled()) return;
+		EntityPlayer player = event.getAttackingPlayer();
 		if(player == null) return;
-		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.adept, player);
-		if(enchantmentLevel <= 0) return;
-		//Don't add experience to drops that otherwise would have no experience
-		if(fEvent.getOriginalExperience() <= 0) return;
-		if(fEvent.getEntityLiving() != null && !fEvent.getEntityLiving().isNonBoss())
-			fEvent.setDroppedExperience(2 + enchantmentLevel + (int)(fEvent.getOriginalExperience() * (0.75f + 0.5f * enchantmentLevel)));
-		else
-			fEvent.setDroppedExperience(2 + enchantmentLevel + (int)(fEvent.getOriginalExperience() * (1.05f + 0.15f * enchantmentLevel)));
+		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
+		if(event.getDroppedExperience() <= 0) return;
+		
+		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, player);
+		if(level > 0) {
+			boolean isBoss = !victim.isNonBoss() || (CompatUtil.isScalingHealthLoaded() && ScalingHealthCompat.isEntityBlight(victim));
+			if(isBoss) {
+				event.setDroppedExperience(2 + level + (int)((float)event.getDroppedExperience() * (1.0F + 0.5F * (float)level)));
+			}
+			else {
+				event.setDroppedExperience(2 + level + (int)((float)event.getDroppedExperience() * (1.0F + 0.15F * (float)level)));
+			}
+		}
 	}
 }

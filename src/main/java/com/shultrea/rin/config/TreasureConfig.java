@@ -154,9 +154,6 @@ public class TreasureConfig {
 	@Config.Name("Pushing")
 	@Config.RequiresMcRestart
 	public boolean pushing = false;
-	@Config.Name("Quarrying")
-	@Config.RequiresMcRestart
-	public boolean quarrying = false;
 	@Config.Name("Rain's Bestowment")
 	@Config.RequiresMcRestart
 	public boolean rainsBestowment = false;
@@ -217,8 +214,6 @@ public class TreasureConfig {
 	@Config.Name("Winter's Grace")
 	@Config.RequiresMcRestart
 	public boolean wintersGrace = false;
-	
-	//TODO recheck curses?
 	//Curses
 	@Config.Name("Bluntness")
 	@Config.RequiresMcRestart

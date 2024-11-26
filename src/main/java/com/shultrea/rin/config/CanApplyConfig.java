@@ -216,9 +216,6 @@ public class CanApplyConfig {
 	@Config.Name("Pushing")
 	@Config.RequiresMcRestart
 	public String[] pushing = {"BOW"};
-	@Config.Name("Quarrying")
-	@Config.RequiresMcRestart
-	public String[] quarrying = {"PICKAXE"};
 	@Config.Name("Rain's Bestowment")
 	@Config.RequiresMcRestart
 	public String[] rainsBestowment = {"SWORD", "BS_WEAPON"};

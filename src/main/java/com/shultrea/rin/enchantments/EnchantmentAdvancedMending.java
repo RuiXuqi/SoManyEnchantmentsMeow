@@ -11,6 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerPickupXpEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EnchantmentAdvancedMending extends EnchantmentBase {
 	
 	public EnchantmentAdvancedMending(String name, Rarity rarity, EntityEquipmentSlot... slots) {
@@ -57,23 +60,50 @@ public class EnchantmentAdvancedMending extends EnchantmentBase {
 		return ModConfig.treasure.advancedMending;
 	}
 	
-	//TODO
 	@SubscribeEvent
-	public void onXP(PlayerPickupXpEvent event) {
+	public void onPlayerPickupXPEvent(PlayerPickupXpEvent event) {
+		if(!this.isEnabled()) return;
 		EntityPlayer player = event.getEntityPlayer();
+		if(player == null) return;
 		EntityXPOrb orb = event.getOrb();
-		if(orb.xpValue > 0 && ModConfig.miscellaneous.enableDoubleXPBug) {
+		if(orb == null) return;
+		if(orb.xpValue <= 0) return;
+		
+		if(ModConfig.miscellaneous.enableDoubleXPBug) {
 			player.addExperience(orb.xpValue);
 		}
-		//Get a random item on the player that has advanced mending
-		ItemStack itemstack = EnchantmentHelper.getEnchantedItem(this, player);
-		//Attempt to repair it using some of the XP from the orb itself
-		if(!itemstack.isEmpty() && itemstack.isItemDamaged()) {
-			int value = Math.min(orb.xpValue * 3, itemstack.getItemDamage());
-			itemstack.setItemDamage(itemstack.getItemDamage() - value);
-			orb.xpValue -= value / 2;
-			//There is a chance that the orb.xpValue has become negative (for example, an orb.xpValue of 2 can become -1)
+		
+		ItemStack stack = ItemStack.EMPTY;
+		if(ModConfig.miscellaneous.advancedMendingPrioritizeDamaged) {
+			List<ItemStack> equipment = this.getEntityEquipment(player);
+			
+			if(!equipment.isEmpty()) {
+				List<ItemStack> damagedEquipment = new ArrayList<>();
+				for(ItemStack itemstack : equipment) {
+					if(!itemstack.isEmpty() && EnchantmentHelper.getEnchantmentLevel(this, itemstack) > 0 && itemstack.isItemDamaged()) {
+						damagedEquipment.add(itemstack);
+					}
+				}
+				if(!damagedEquipment.isEmpty()) {
+					stack = damagedEquipment.get(player.getRNG().nextInt(damagedEquipment.size()));
+				}
+			}
+		}
+		else {
+			stack = EnchantmentHelper.getEnchantedItem(this, player);
+		}
+		
+		if(!stack.isEmpty() && stack.isItemDamaged()) {
+			float ratio = stack.getItem().getXpRepairRatio(stack);
+			int value = Math.min(roundAverage(orb.xpValue * ratio * 1.5F), stack.getItemDamage());
+			orb.xpValue -= roundAverage(value / ratio);
+			stack.setItemDamage(stack.getItemDamage() - value);
 			if(orb.xpValue < 0) orb.xpValue = 0;
 		}
+	}
+	
+	private static int roundAverage(float value) {
+		double floor = Math.floor(value);
+		return (int) floor + (Math.random() < value - floor ? 1 : 0);
 	}
 }

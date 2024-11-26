@@ -61,22 +61,21 @@ public class EnchantmentEvasion extends EnchantmentBase {
 		return ModConfig.treasure.evasion;
 	}
 	
-	@SubscribeEvent(priority = EventPriority.LOW)
+	@SubscribeEvent(priority = EventPriority.HIGH)
 	public void onLivingAttackEvent(LivingAttackEvent event) {
 		if(!this.isEnabled()) return;
 		if(event.getSource().isProjectile()) return;
 		EntityLivingBase victim = event.getEntityLiving();
 		if(victim == null) return;
-		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
-		if(attacker == null) return;
+		if(!(event.getSource().getImmediateSource() instanceof EntityLivingBase)) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getImmediateSource();
 		
 		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(this, victim);
 		if(enchantmentLevel > 0) {
-			boolean attackerEffects = EnchantmentBase.isDamageSourceAllowed(event.getSource());
-			if(attackerEffects && EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.trueStrike, attacker.getHeldItemMainhand()) > 0) return;
+			if(EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.trueStrike, attacker.getHeldItemMainhand()) > 0) return;
 			
 			if(victim.getRNG().nextFloat() < 0.05F + ((float)enchantmentLevel * 0.15F)) {
-				if(attackerEffects && !attacker.world.isRemote && ModConfig.miscellaneous.evasionDodgeEffect) {
+				if(!victim.world.isRemote && ModConfig.miscellaneous.evasionDodgeEffect) {
 					double randX = 0.65 + victim.getRNG().nextDouble() * 0.25f;
 					randX = victim.getRNG().nextBoolean() ? randX * -1 : randX;
 					double randZ = 0.65 + victim.getRNG().nextDouble() * 0.25f;

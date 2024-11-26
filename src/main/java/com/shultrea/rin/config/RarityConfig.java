@@ -160,9 +160,6 @@ public class RarityConfig {
 	@Config.Name("Pushing")
 	@Config.RequiresMcRestart
 	public int pushing = VERY_RARE;
-	@Config.Name("Quarrying")
-	@Config.RequiresMcRestart
-	public int quarrying = VERY_RARE;
 	@Config.Name("Rain's Bestowment")
 	@Config.RequiresMcRestart
 	public int rainsBestowment = VERY_RARE;
@@ -223,8 +220,6 @@ public class RarityConfig {
 	@Config.Name("Winter's Grace")
 	@Config.RequiresMcRestart
 	public int wintersGrace = VERY_RARE;
-	
-	//TODO recheck curses?
 	//Curses
 	@Config.Name("Bluntness")
 	@Config.RequiresMcRestart

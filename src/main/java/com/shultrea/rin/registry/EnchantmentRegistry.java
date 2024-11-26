@@ -12,7 +12,6 @@ import com.shultrea.rin.enchantments.bow.*;
 import com.shultrea.rin.enchantments.fishing.EnchantmentAdvancedLuckOfTheSea;
 import com.shultrea.rin.enchantments.fishing.EnchantmentAdvancedLure;
 import com.shultrea.rin.enchantments.tool.EnchantmentAdvancedEfficiency;
-import com.shultrea.rin.enchantments.tool.EnchantmentQuarrying;
 import com.shultrea.rin.enchantments.tool.EnchantmentSmelter;
 import com.shultrea.rin.enchantments.weapon.*;
 import com.shultrea.rin.enchantments.weapon.ancient.EnchantmentAncientSealedCurses;
@@ -103,7 +102,6 @@ public class EnchantmentRegistry {
 	public static EnchantmentBase purgingBlade = register(new EnchantmentPurgingBlade("purgingblade", RarityConfig.get(ModConfig.rarity.purgingBlade), Slots.MAINHAND));
 	public static EnchantmentBase purification = register(new EnchantmentPurification("purification", RarityConfig.get(ModConfig.rarity.purification), Slots.MAINHAND));
 	public static EnchantmentBase pushing = register(new EnchantmentPushing("pushing", RarityConfig.get(ModConfig.rarity.pushing), Slots.MAINHAND));
-	public static EnchantmentBase quarrying = register(new EnchantmentQuarrying("quarrying", RarityConfig.get(ModConfig.rarity.quarrying), Slots.MAINHAND));
 	public static EnchantmentBase rainsBestowment = register(new EnchantmentRainsBestowment("rainsbestowment", RarityConfig.get(ModConfig.rarity.rainsBestowment), Slots.MAINHAND));
 	public static EnchantmentBase reviledBlade = register(new EnchantmentReviledBlade("reviledblade", RarityConfig.get(ModConfig.rarity.reviledBlade), Slots.MAINHAND));
 	public static EnchantmentBase reinforcedsharpness = register(new EnchantmentReinforcedSharpness("reinforcedsharpness", RarityConfig.get(ModConfig.rarity.reinforcedsharpness), Slots.MAINHAND));

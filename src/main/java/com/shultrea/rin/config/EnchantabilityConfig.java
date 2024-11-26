@@ -159,9 +159,6 @@ public class EnchantabilityConfig {
 	@Config.Name("Pushing")
 	@Config.RequiresMcRestart
 	public int[] pushing = {25, 25, 50, MIN};
-	@Config.Name("Quarrying")
-	@Config.RequiresMcRestart
-	public int[] quarrying = {25,17,50, MIN};
 	@Config.Name("Rain's Bestowment")
 	@Config.RequiresMcRestart
 	public int[] rainsBestowment = {15, 15, 30, MIN};
@@ -313,7 +310,6 @@ public class EnchantabilityConfig {
 	@Config.Name("Lesser Smite")
 	@Config.RequiresMcRestart
 	public int[] lesserSmite = {1, 5, 20, MIN};
-	//TODO why so many more advanced?
 	//Advanced
 	@Config.Name("Advanced Bane of Arthropods")
 	@Config.RequiresMcRestart

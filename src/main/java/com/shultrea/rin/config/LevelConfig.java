@@ -206,10 +206,6 @@ public class LevelConfig {
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
 	public int pushing = 2;
-	@Config.Name("Quarrying")
-	@Config.RequiresMcRestart
-	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
-	public int quarrying = 3;
 	@Config.Name("Rain's Bestowment")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
@@ -290,7 +286,6 @@ public class LevelConfig {
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
 	public int wintersGrace = 6;
-	//TODO recheck curses?
 	//Curses
 	@Config.Name("Bluntness")
 	@Config.RequiresMcRestart
@@ -410,7 +405,6 @@ public class LevelConfig {
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
 	public int lesserSmite = 5;
-	//TODO why so many more advanced?
 	//Advanced
 	@Config.Name("Advanced Bane of Arthropods")
 	@Config.RequiresMcRestart
