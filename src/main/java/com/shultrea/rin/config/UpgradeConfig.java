@@ -72,7 +72,7 @@ public class UpgradeConfig {
 	public boolean onlyAllowOnBooks = false;
 
 	@Config.Comment("Chance to turn into curse or to remove entirely instead of upgrading")
-	@Config.Name("Chance to curse")
+	@Config.Name("Cursing Chance")
 	public float cursingChance = 0.1F;
 
 	@Config.Comment("If set to true, randomly rolled curses will replace the upgraded enchant. If false, they will be an additional enchant")
@@ -84,15 +84,19 @@ public class UpgradeConfig {
 	public String selectionMode = "RANDOM";
 
 	@Config.Comment("Upgraded Enchant will have the current level minus x levels set in config (SUBTRACT), or it will have the min possible level of the enchant, usually 1 (MINLVL)")
-	@Config.Name("Enchantment level mode")
-	public String enchantLevelMode = "SUBTRACT";
+	@Config.Name("Upgraded tier level mode")
+	public String upgradedTierLevelMode = "SUBTRACT";
 
-	@Config.Comment("Whether you can also upgrade the level of your enchants without changing the tier")
+	@Config.Comment("How many lvls of the enchant to reduce by while upgrading in SUBTRACT mode. For example 1 means Prot 4 turns to Adv Prot 3. Does not apply for cursing")
+	@Config.Name("Upgraded tier level reduction")
+	public int enchantLvlsReduced = 1;
+
+	@Config.Comment("Whether you can also upgrade the level of the enchants without changing the tier. This makes upgrading tier only possible at max lvl. Prot 3 -> Prot 4 -> Adv Prot x")
 	@Config.Name("Allow level increase")
 	public boolean allowLevelIncrease = false;
 
 	@Config.Comment("Whether to increase anvil repair cost when upgrading")
-	@Config.Name("Increase anvil repair cost")
+	@Config.Name("Anvil repair cost increases")
 	public boolean increaseAnvilRepairCost = false;
 
 	@Config.Comment("Mode of how anvil repair cost is increased. ANVIL= normal exponential anvil behavior, ADD= add a flat amount, MULT= multiply by a number")
@@ -106,8 +110,4 @@ public class UpgradeConfig {
 	@Config.Comment("How many bookshelves are needed to be able to upgrade")
 	@Config.Name("Amount of bookshelves needed")
 	public int bookshelvesNeeded = 30;
-
-	@Config.Comment("How many lvls of the enchant to reduce by while upgrading in SUBTRACT mode. For example 1 means Prot 4 turns to Adv Prot 3. Does not apply for cursing")
-	@Config.Name("Enchant Lvls reduced during upgrade")
-	public int enchantLvlsReduced = 1;
 }
