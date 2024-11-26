@@ -77,7 +77,7 @@ public class UpgradeConfig {
 
 	@Config.Comment("If set to true, randomly rolled curses will replace the upgraded enchant. If false, they will be an additional enchant")
 	@Config.Name("Curses Replace Upgrade")
-	public boolean cursesReplaceUpgrade = true;
+	public boolean cursesReplaceUpgrade = false;
 
 	@Config.Comment("If upgrading is allowed on items with multiple enchants, upgrade them randomly (RANDOM), top to bottom (FIRST) or bottom to top (LAST)")
 	@Config.Name("Selection mode")
@@ -85,7 +85,7 @@ public class UpgradeConfig {
 
 	@Config.Comment("Upgraded Enchant will have the current level minus x levels set in config (SUBTRACT), or it will have the min possible level of the enchant, usually 1 (MINLVL)")
 	@Config.Name("Upgraded tier level mode")
-	public String upgradedTierLevelMode = "SUBTRACT";
+	public String upgradedTierLevelMode = "MINLVL";
 
 	@Config.Comment("How many lvls of the enchant to reduce by while upgrading in SUBTRACT mode. For example 1 means Prot 4 turns to Adv Prot 3. Does not apply for cursing")
 	@Config.Name("Upgraded tier level reduction")
@@ -93,7 +93,7 @@ public class UpgradeConfig {
 
 	@Config.Comment("Whether you can also upgrade the level of the enchants without changing the tier. This makes upgrading tier only possible at max lvl. Prot 3 -> Prot 4 -> Adv Prot x")
 	@Config.Name("Allow level increase")
-	public boolean allowLevelIncrease = false;
+	public boolean allowLevelIncrease = true;
 
 	@Config.Comment("Whether to increase anvil repair cost when upgrading")
 	@Config.Name("Anvil repair cost increases")
