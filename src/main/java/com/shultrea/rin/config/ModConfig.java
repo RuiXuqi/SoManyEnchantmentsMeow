@@ -109,6 +109,10 @@ public class ModConfig {
 		@Config.Comment("Whether or not Atomic Deconstructor should work on bosses (May cause bugs)")
 		@Config.Name("Atomic Deconstructor Works on Bosses")
 		public boolean atomicDeconstructorBosses = false;
+		
+		@Config.Comment("If Advanced Mending should prioritize repairing damaged items")
+		@Config.Name("Advanced Mending Prioritize Damaged Items")
+		public boolean advancedMendingPrioritizeDamaged = true;
 	}
 	
 	@Mod.EventBusSubscriber(modid = SoManyEnchantments.MODID)

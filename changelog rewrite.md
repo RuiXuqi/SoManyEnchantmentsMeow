@@ -48,6 +48,9 @@
 - Reworked rune enchants, magical/resurrection/revival should now work properly, resurrection is now a shield enchant
 - Reworked and improved smelter
 - Removed quarrying because it seemingly is only a dupe generator
+- Add config option for making advanced mending prioritize damaged items
+- Rework adept to give a boost to boss xp and compat for blights
+- Fix advanced mending being applicable with infinity
 
 ## Todo
 - Organize event handler priorities
@@ -107,3 +110,7 @@
 - EnchantmentNaturalBlocking
 - EnchantmentAdvancedEfficiency
 - EnchantmentSmelter
+
+- EnchantmentAdept
+- EnchantmentAdvancedMending
+- EnchantmentUpgradedPotentials

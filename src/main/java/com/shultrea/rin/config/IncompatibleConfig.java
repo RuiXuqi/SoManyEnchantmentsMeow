@@ -25,7 +25,7 @@ public class IncompatibleConfig {
 			"minecraft:silk_touch, minecraft:fortune",
 			"minecraft:luck_of_the_sea, advancedluckofthesea",
 			"minecraft:lure, advancedlure",
-			"minecraft:mending, advancedmending",
+			"minecraft:mending, advancedmending, minecraft:infinity",
 			"curseofpossession, curseofdecay",
 			"truestrike, curseofinaccuracy",
 			"minecraft:thorns, advancedthorns, burningthorns, meltdown",
