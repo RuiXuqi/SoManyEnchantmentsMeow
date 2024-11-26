@@ -98,6 +98,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
         ItemStack itemstackToken = inventoryIn.getStackInSlot(1);
         if (itemstackToken.isEmpty()) return;
         if (!soManyEnchantments$isUpgradeToken(itemstackToken)) return;
+        if(itemstackToken.getCount() < ModConfig.upgrade.upgradeTokenAmount) return;
 
         ItemStack itemstackTargetItem = inventoryIn.getStackInSlot(0);
         boolean isBook = itemstackTargetItem.getItem() == Items.ENCHANTED_BOOK;
@@ -135,9 +136,10 @@ public abstract class ContainerEnchantmentMixin extends Container {
 
             Enchantment nextEnchantment = soManyEnchantments$getNextEnchInUpgradeOrder(currEnch);
             if(nextEnchantment==null) continue;
-            upgradeableEnchantments.add(new EnchantmentData(currEnch, enchLvl));
             //TODO: could be a good balance to subtract one lvl when upgrading
-            int newLvl = Math.min(enchLvl,nextEnchantment.getMaxLevel());
+            int newLvl = Math.min(enchLvl,nextEnchantment.getMaxLevel()) - ModConfig.upgrade.enchantLvlsReduced;
+            if(newLvl<1) continue;
+            upgradeableEnchantments.add(new EnchantmentData(currEnch, enchLvl));
             upgradedEnchantments.add(new EnchantmentData(nextEnchantment,newLvl));
         }
         if(upgradeableEnchantments.isEmpty()) return;
@@ -179,7 +181,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
         ItemStack itemstackToken = this.tableInventory.getStackInSlot(1);
 
         if(id > 0) return;
-        if ((itemstackToken.isEmpty() || itemstackToken.getCount() < 1 || !soManyEnchantments$isUpgradeToken(itemstackToken)) && !playerIn.capabilities.isCreativeMode) return;
+        if ((itemstackToken.isEmpty() || itemstackToken.getCount() < ModConfig.upgrade.upgradeTokenAmount || !soManyEnchantments$isUpgradeToken(itemstackToken)) && !playerIn.capabilities.isCreativeMode) return;
 
         if (this.enchantLevels[0] <= 0 || itemstackTargetItem.isEmpty() || (playerIn.experienceLevel < this.enchantLevels[0] && !playerIn.capabilities.isCreativeMode)) return;
         if(this.world.isRemote) return;
@@ -193,7 +195,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
         EnchantmentHelper.setEnchantments(enchantments, itemstackTargetItem);
 
         if (!playerIn.capabilities.isCreativeMode) {
-            itemstackToken.shrink(1);
+            itemstackToken.shrink(ModConfig.upgrade.upgradeTokenAmount);
 
             if (itemstackToken.isEmpty()) {
                 this.tableInventory.setInventorySlotContents(1, ItemStack.EMPTY);
