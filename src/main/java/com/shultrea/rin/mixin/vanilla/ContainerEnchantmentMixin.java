@@ -7,18 +7,16 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerEnchantment;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,9 +24,11 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -49,22 +49,25 @@ public abstract class ContainerEnchantmentMixin extends Container {
     @Unique EnchantmentData soManyEnchantments$upgradedEnch;
     @Unique int soManyEnchantments$levelCost;
 
-    @Inject(
+    @Redirect(
             method = "<init>(Lnet/minecraft/entity/player/InventoryPlayer;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)V",
-            at = @At(value = "TAIL")
+            at= @At(value = "INVOKE", target = "Lnet/minecraft/inventory/ContainerEnchantment;addSlotToContainer(Lnet/minecraft/inventory/Slot;)Lnet/minecraft/inventory/Slot;")
     )
-    public void soManyEnchantments_initAddSlotToContainer(InventoryPlayer playerInv, World worldIn, BlockPos pos, CallbackInfo ci) {
-        Slot slot = new Slot(this.tableInventory, 1, 35, 47) {
-            java.util.List<ItemStack> ores = net.minecraftforge.oredict.OreDictionary.getOres("gemLapis");
+    Slot soManyEnchantments_init_addSlotToContainer(ContainerEnchantment instance, Slot slot){
+        if(slot.getSlotIndex()==1 && slot.xPos==35 && slot.yPos==47) {
+            Slot newSlot = new Slot(this.tableInventory, 1, 35, 47) {
+                java.util.List<ItemStack> ores = net.minecraftforge.oredict.OreDictionary.getOres("gemLapis");
 
-            public boolean isItemValid(ItemStack stack) {
-                for (ItemStack ore : ores)
-                    if (net.minecraftforge.oredict.OreDictionary.itemMatches(ore, stack, false))
-                        return true;
-                return soManyEnchantments$isUpgradeToken(stack);
-            }
-        };
-        this.inventorySlots.set(1,slot);
+                public boolean isItemValid(ItemStack stack) {
+                    for (ItemStack ore : ores)
+                        if (net.minecraftforge.oredict.OreDictionary.itemMatches(ore, stack, false))
+                            return true;
+                    return soManyEnchantments$isUpgradeToken(stack);
+                }
+            };
+            return addSlotToContainer(newSlot);
+        }
+        return addSlotToContainer(slot);
     }
 
     @Inject(
@@ -86,7 +89,8 @@ public abstract class ContainerEnchantmentMixin extends Container {
 
     @Inject(
             method = "onCraftMatrixChanged",
-            at = @At(value = "HEAD")
+            at = @At(value = "HEAD"),
+            cancellable = true
     )
     public void soManyEnchantments_onCraftMatrixChanged_head(IInventory inventoryIn, CallbackInfo ci) {
         if (inventoryIn != this.tableInventory) return;
@@ -97,7 +101,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
 
         ItemStack itemstackTargetItem = inventoryIn.getStackInSlot(0);
         boolean isBook = itemstackTargetItem.getItem() == Items.ENCHANTED_BOOK;
-        if (itemstackTargetItem.isEmpty() || !itemstackTargetItem.isItemEnchantable()) return;
+        if (itemstackTargetItem.isEmpty() || !itemstackTargetItem.isItemEnchanted()) return;
         if (this.world.isRemote) return;
 
         float bookshelfPower = 0;
@@ -115,49 +119,27 @@ public abstract class ContainerEnchantmentMixin extends Container {
                 }
             }
         }
-        SoManyEnchantments.LOGGER.info(bookshelfPower);
-        if(bookshelfPower < ModConfig.upgrade.bookshelvesNeeded) return;
+        if(MathHelper.ceil(bookshelfPower) < ModConfig.upgrade.bookshelvesNeeded) return;
+
+        Map<Enchantment, Integer> currentEnchants = EnchantmentHelper.getEnchantments(itemstackTargetItem);
+
+        if(ModConfig.upgrade.onlyAllowOnBooks){
+            if(!isBook) return;
+            if(currentEnchants.size() != 1) return;
+        }
 
         List<EnchantmentData> upgradeableEnchantments = Lists.<EnchantmentData>newArrayList();
         List<EnchantmentData> upgradedEnchantments = Lists.<EnchantmentData>newArrayList();
-        NBTTagList enchantmentNBT = itemstackTargetItem.getEnchantmentTagList();
-        if(ModConfig.upgrade.onlyAllowOnBooks){
-            if(!isBook) return;
-            if(enchantmentNBT.tagCount() != 1) return;
+        for(Enchantment currEnch: currentEnchants.keySet()) {
+            int enchLvl = currentEnchants.get(currEnch);
+
+            Enchantment nextEnchantment = soManyEnchantments$getNextEnchInUpgradeOrder(currEnch);
+            if(nextEnchantment==null) continue;
+            upgradeableEnchantments.add(new EnchantmentData(currEnch, enchLvl));
+            //TODO: could be a good balance to subtract one lvl when upgrading
+            int newLvl = Math.min(enchLvl,nextEnchantment.getMaxLevel());
+            upgradedEnchantments.add(new EnchantmentData(nextEnchantment,newLvl));
         }
-        tagLoop: for(int i = 0; i < enchantmentNBT.tagCount(); ++i) {
-            int enchID = enchantmentNBT.getCompoundTagAt(i).getShort("id");
-            int enchLvl = enchantmentNBT.getCompoundTagAt(i).getShort("lvl");
-            Enchantment ench = Enchantment.getEnchantmentByID(enchID);
-            if (ench == null) continue;
-            String enchName = ench.getRegistryName().toString();
-            for (String upgradeLists : ModConfig.upgrade.enchantUpgradeOrder) {
-                if (!upgradeLists.contains(enchName)) continue;
-
-                //If we're already maxed, we don't need to upgrade further
-                String[] order = upgradeLists.split(",");
-                int foundIndex = 0;
-                for(String upgradeableEnch : order){
-                    upgradeableEnch = upgradeableEnch.trim();
-                    if(!upgradeableEnch.contains(":"))
-                        upgradeableEnch = "somanyenchantments:" + upgradeableEnch;
-                    if(upgradeableEnch.equals(enchName)) break;
-                    foundIndex++;
-                }
-                if (foundIndex >= order.length-1) continue;
-
-                Enchantment nextEnchantment = Enchantment.getEnchantmentByLocation(order[foundIndex+1]);
-                if(nextEnchantment == null){
-                    SoManyEnchantments.LOGGER.info("Could not find upgraded enchantment {}", order[foundIndex + 1]);
-                    continue tagLoop;
-                }
-
-                upgradeableEnchantments.add(new EnchantmentData(ench, enchLvl));
-                upgradedEnchantments.add(new EnchantmentData(nextEnchantment,enchLvl));
-
-            }
-        }
-        SoManyEnchantments.LOGGER.info(upgradeableEnchantments.size());
         if(upgradeableEnchantments.isEmpty()) return;
 
         int upgradingIndex = 0;
@@ -185,6 +167,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
         }
 
         this.detectAndSendChanges();
+        ci.cancel();
     }
 
     @Inject(
@@ -220,14 +203,11 @@ public abstract class ContainerEnchantmentMixin extends Container {
         this.tableInventory.markDirty();
         this.onCraftMatrixChanged(this.tableInventory);
         this.world.playSound(null, this.position, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.BLOCKS, 1.0F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+        cir.setReturnValue(true);
     }
 
     @Unique
     private boolean soManyEnchantments$isUpgradeToken(ItemStack stack){
-        SoManyEnchantments.LOGGER.info("Testmsg1");
-        SoManyEnchantments.LOGGER.info(stack.getItem().getRegistryName().toString());
-        SoManyEnchantments.LOGGER.info(ModConfig.upgrade.upgradeToken);
-        SoManyEnchantments.LOGGER.info(stack.getItem().getRegistryName().toString().equals(ModConfig.upgrade.upgradeToken));
         return stack.getItem().getRegistryName().toString().equals(ModConfig.upgrade.upgradeToken);
     }
 
@@ -240,5 +220,30 @@ public abstract class ContainerEnchantmentMixin extends Container {
             case VERY_RARE: return isBook ? 4 : 8;
             default: return 0;
         }
+    }
+
+    @Unique
+    private Enchantment soManyEnchantments$getNextEnchInUpgradeOrder(Enchantment currEnch){
+        String enchName = currEnch.getRegistryName().toString();
+        if(enchName.contains("somanyenchantments:"))
+            enchName = enchName.split(":")[1];
+        for (String upgradeList : ModConfig.upgrade.enchantUpgradeOrder) {
+            if (!upgradeList.contains(enchName)) continue;
+
+            String[] order = upgradeList.split(" *, *"); //Removing optional whitespace
+            int foundIndex = Arrays.asList(order).indexOf(enchName);
+            //If we're already maxed, we don't need to upgrade further
+            if (foundIndex >= order.length-1) continue;
+
+            String nextEnchName = order[foundIndex+1];
+            if(!nextEnchName.contains(":")) nextEnchName = "somanyenchantments:"+nextEnchName;
+            Enchantment nextEnchantment = Enchantment.getEnchantmentByLocation(nextEnchName);
+            if(nextEnchantment == null){
+                SoManyEnchantments.LOGGER.info("Could not find upgraded enchantment {}", order[foundIndex + 1]);
+                return null;
+            }
+            return nextEnchantment;
+        }
+        return null;
     }
 }
