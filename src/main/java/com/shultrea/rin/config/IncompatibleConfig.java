@@ -22,7 +22,7 @@ public class IncompatibleConfig {
 			"minecraft:sweeping, arcslash",
 			"minecraft:sweeping, ancientswordmastery",
 			"minecraft:silk_touch, smelter",
-			"minecraft:silk_touch, minecraft:fortune, quarrying",
+			"minecraft:silk_touch, minecraft:fortune",
 			"minecraft:luck_of_the_sea, advancedluckofthesea",
 			"minecraft:lure, advancedlure",
 			"minecraft:mending, advancedmending",

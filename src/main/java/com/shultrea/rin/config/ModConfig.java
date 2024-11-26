@@ -66,14 +66,6 @@ public class ModConfig {
 		@Config.Name("Evasion Dodge Effect")
 		public boolean evasionDodgeEffect = true;
 		
-		@Config.Comment("Restricts Quarry enchant to ore only")
-		@Config.Name("Quarry Ore Only")
-		public boolean quarryOreOnly = true;
-		
-		@Config.Comment("Allow Quarry enchant to work on blocks that are tile entities, not recommended as it may cause bugs")
-		@Config.Name("Quarry Allow Tile Entities")
-		public boolean quarryAllowTileEntities = false;
-		
 		@Config.Comment("Ignores registering enabled enchantments so they do not show up in game")
 		@Config.Name("Don't Register Disabled Enchants")
 		@Config.RequiresMcRestart

@@ -380,9 +380,6 @@ enchantment.somanyenchantments.luckmagnification.desc=The user (must be a player
 enchantment.underwaterstrider=Underwater Strider
 enchantment.somanyenchantments.underwaterstrider.desc=Faster swim speed if the player in question is fully submerged underground.
 
-enchantment.quarrying=Quarrying
-enchantment.somanyenchantments.quarrying.desc=A variant of fortune that has a different mechanic in increasing the quantity dropped by a non-block resource.
-
 enchantment.unreasonable=Unreasonable
 enchantment.somanyenchantments.unreasonable.desc=Destroys the reasoning of an entity, making it mad at random entities nearby it.
 

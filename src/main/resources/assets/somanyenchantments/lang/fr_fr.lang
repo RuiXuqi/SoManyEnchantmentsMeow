@@ -381,9 +381,6 @@ enchantment.somanyenchantments.luckmagnification.desc=L'utilisateur (qui doit ê
 enchantment.underwaterstrider=Nageur Sous-Marin
 enchantment.somanyenchantments.underwaterstrider.desc=Vitesse de nage plus rapide si le joueur en question est entièrement immergé sous terre.
 
-enchantment.quarrying=Exploitation de Carrières
-enchantment.somanyenchantments.quarrying.desc=Une variante de la fortune qui a une mécanique différente pour augmenter la quantité lâchée par une ressource non-bloquée.
-
 enchantment.unreasonable=Déraisonnable
 enchantment.somanyenchantments.unreasonable.desc=Détruit le raisonnement d'une entité, la rendant furieuse contre des entités aléatoires à proximité.
 

@@ -46,12 +46,15 @@
 - Simplified strafe draw speed calculations
 - Added fixes for curses handling from RLMixins
 - Reworked rune enchants, magical/resurrection/revival should now work properly, resurrection is now a shield enchant
+- Reworked and improved smelter
+- Removed quarrying because it seemingly is only a dupe generator
 
 ## Todo
 - Organize event handler priorities
 - Split damage handling or spartan compat
 - Handle removing enchants from Villagers and Loot enchanting
 - More sound effects? (Like resurrection)
+- Recheck that all offhand/rlcombat compat checks are working properly (Anything triggered from attackEntityFrom should only use mainhand now)
 
 ## "Finished" enchants
 - AdvancedBlastProtection
@@ -102,3 +105,5 @@
 - EnchantmentBurningShield
 - EnchnatmentEmpoweredDefence
 - EnchantmentNaturalBlocking
+- EnchantmentAdvancedEfficiency
+- EnchantmentSmelter

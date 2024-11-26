@@ -4,8 +4,6 @@ import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
-import com.shultrea.rin.util.compat.CompatUtil;
-import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -24,9 +22,6 @@ public class EnchantmentAdvancedLooting extends EnchantmentBase {
 		if(!EnchantmentRegistry.advancedLooting.isEnabled()) return 0;
 		if(entity == null) return 0;
 		ItemStack stack = entity.getHeldItemMainhand();
-		if(CompatUtil.isRLCombatLoaded()) {
-			stack = RLCombatCompat.getArthropodStack(entity);
-		}
 		int levelLooting = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.advancedLooting, stack);
 		if(levelLooting <= 0) return 0;
 		int toReturn = original + 2 + ((levelLooting - 1) * 2);

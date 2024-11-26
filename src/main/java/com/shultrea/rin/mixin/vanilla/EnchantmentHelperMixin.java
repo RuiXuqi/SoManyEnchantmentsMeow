@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.enchantments.fishing.EnchantmentAdvancedLuckOfTheSea;
 import com.shultrea.rin.enchantments.fishing.EnchantmentAdvancedLure;
+import com.shultrea.rin.enchantments.tool.EnchantmentAdvancedEfficiency;
 import com.shultrea.rin.enchantments.weapon.EnchantmentAdvancedLooting;
 import com.shultrea.rin.util.compat.CompatUtil;
 import com.shultrea.rin.util.compat.RLCombatCompat;
@@ -49,6 +50,17 @@ public abstract class EnchantmentHelperMixin {
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Handling for Advanced Efficiency enchant
+	 */
+	@ModifyReturnValue(
+			method = "getEfficiencyModifier",
+			at = @At("RETURN")
+	)
+	private static int soManyEnchantments_vanillaEnchantmentHelper_getEfficiencyModifier(int original, EntityLivingBase entity) {
+		return Math.max(original, EnchantmentAdvancedEfficiency.getValue(original, entity));
 	}
 	
 	/**

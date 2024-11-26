@@ -381,9 +381,6 @@ enchantment.somanyenchantments.luckmagnification.desc=El usuario (debe ser un ju
 enchantment.underwaterstrider=Velocidad bajo agua
 enchantment.somanyenchantments.underwaterstrider.desc=Velocidad de nadado más rápida si el jugador en cuestión está completamente sumergido.
 
-enchantment.quarrying=Extracción
-enchantment.somanyenchantments.quarrying.desc=Una variante de Fortuna que tiene una mecánica diferente para aumentar la cantidad que cae de una fuente sin bloque.
-
 enchantment.unreasonable=Irrazonable
 enchantment.somanyenchantments.unreasonable.desc=Destruye el razonamiento de una entidad, enloqueciendo con entidades aleatorias cercanas.
 

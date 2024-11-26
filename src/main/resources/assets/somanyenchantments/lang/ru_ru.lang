@@ -382,9 +382,6 @@ enchantment.somanyenchantments.luckmagnification.desc=Пользователь (
 enchantment.underwaterstrider=Подводный странник
 enchantment.somanyenchantments.underwaterstrider.desc=Увеличенная скорость плавания, если рассматриваемый игрок полностью погружен под землю.
 
-enchantment.quarrying=Удачливый копатель
-enchantment.somanyenchantments.quarrying.desc=Вариант Удачи с другой механикой увеличения количества сброшенного ресурса (не блока).
-
 enchantment.unreasonable=Безрассудство
 enchantment.somanyenchantments.unreasonable.desc=Разрушает сознание сущности, заставляя ее обезуметь от существ поблизости.
 

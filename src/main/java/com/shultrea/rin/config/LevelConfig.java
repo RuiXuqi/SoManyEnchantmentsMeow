@@ -206,10 +206,6 @@ public class LevelConfig {
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
 	public int pushing = 2;
-	@Config.Name("Quarrying")
-	@Config.RequiresMcRestart
-	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
-	public int quarrying = 3;
 	@Config.Name("Rain's Bestowment")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
