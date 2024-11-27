@@ -55,6 +55,13 @@
 - Rework and simplify ancient sword mastery with mixin, increases damage increase of damage increasing enchants by 25% per level
 - Rework dark shadows to only be based on attacker's light level, and make blindness chance scaling
 - Add cooled strength/low damage checks to enchants to prevent triggered from click spam
+- merged advanced sharp/smite/arthro into EnchantmentTierDamage
+- simplify and buff damage from Butchering
+- improve defusing from DefusingEdge
+- buff penetrating edge to scale better with more armor
+- buff reinforced sharpness and remove iframe abuse glitch
+- fix supreme smite missing extra effects
+- heavily simplify water aspect
 
 ## Todo
 - Organize event handler priorities
@@ -120,6 +127,14 @@
 - EnchantmentDarkShadows
 - EnchantmentMortalitas
 - EnchantmentViper
+- EnchantmentButchering
+- EnchantmentDefusingEdge
+- EnchantmentInhumane
+- EnchantmentPenetratingEdge
+- EnchantmentReinforcedSharpness
+- EnchantmentSpellBreaker
+- EnchantmentTierDamage
+- EnchantmentWaterAspect
 
 - EnchantmentAdept
 - EnchantmentAdvancedMending

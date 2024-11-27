@@ -3,6 +3,8 @@ package com.shultrea.rin.enchantments.weapon.damage;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
@@ -52,20 +54,22 @@ public class EnchantmentInhumane extends EnchantmentBase {
 		return ModConfig.treasure.inhumane;
 	}
 	
-	//TODO
-	@Override
-	public void onEntityDamagedAlt(EntityLivingBase user, Entity entiti, ItemStack stack, int level) {
-		if(!ModConfig.enabled.inhumane) return;
-		if(!(entiti instanceof EntityLivingBase)) return;
-		EntityLivingBase entity = (EntityLivingBase)entiti;
-		if(entity.getCreatureAttribute() == EnumCreatureAttribute.ILLAGER) {
-			entity.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 70 + (level * 10), 1));
-		}
-	}
-	
-	//TODO
 	@Override
 	public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType) {
-		return creatureType == EnumCreatureAttribute.ILLAGER ? (float)level * 2.5F : 0.0f;
+		return creatureType == EnumCreatureAttribute.ILLAGER ? 2.5F * (float)level : 0.0F;
+	}
+	
+	@Override
+	public void onEntityDamagedAlt(EntityLivingBase attacker, Entity target, ItemStack weapon, int level) {
+		if(!this.isEnabled()) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isOnEntityDamagedAltStrong()) return;
+		if(attacker == null) return;
+		if(!(target instanceof EntityLivingBase)) return;
+		EntityLivingBase victim = (EntityLivingBase)target;
+		if(weapon.isEmpty()) return;
+		
+		if(!attacker.world.isRemote && victim.getCreatureAttribute() == EnumCreatureAttribute.ILLAGER) {
+			victim.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 70 + (level * 10), 1));
+		}
 	}
 }

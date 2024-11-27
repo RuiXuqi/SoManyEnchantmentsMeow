@@ -9,6 +9,7 @@
     "vanilla.EnchantmentHelperMixin",
     "vanilla.EnchantmentProtectionMixin",
     "vanilla.EntityArrowMixin",
+    "vanilla.IEntityCreeperMixin",
     "vanilla.EntityLivingBaseMixin",
     "vanilla.IItemBowMixin",
     "vanilla.ItemMixin",

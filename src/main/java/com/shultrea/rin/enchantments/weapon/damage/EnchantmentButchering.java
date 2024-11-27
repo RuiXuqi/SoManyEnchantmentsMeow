@@ -2,10 +2,9 @@ package com.shultrea.rin.enchantments.weapon.damage;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.util.DamageSources;
-import com.shultrea.rin.util.ReflectionUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityAnimal;
@@ -61,17 +60,24 @@ public class EnchantmentButchering extends EnchantmentBase {
 		return ModConfig.treasure.butchering;
 	}
 	
-	//TODO
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void HandleEnchant(LivingHurtEvent fEvent) {
-		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
-		ItemStack stack = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
-		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.butchering, stack);
-		if(enchantmentLevel <= 0) return;
-		if(fEvent.getEntity() instanceof EntityAnimal) {
-			float Damage = 1.25f + enchantmentLevel * 1.25f;
-			ReflectionUtil.damageEntityNoEvent(fEvent.getEntityLiving(), DamageSources.PhysicalDamage, Damage);
-			fEvent.setAmount(fEvent.getAmount());
+	@SubscribeEvent(priority = EventPriority.HIGH)
+	public void onLivingHurtEvent(LivingHurtEvent event) {
+		if(!this.isEnabled()) return;
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
+		if(event.getAmount() <= 1.0F) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
+		if(attacker == null) return;
+		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
+		ItemStack stack = attacker.getHeldItemMainhand();
+		if(stack.isEmpty()) return;
+		
+		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
+		if(level > 0) {
+			if(victim instanceof EntityAnimal) {
+				event.setAmount(event.getAmount() + 2.5F + 1.5F * (float)level);
+			}
 		}
 	}
 }

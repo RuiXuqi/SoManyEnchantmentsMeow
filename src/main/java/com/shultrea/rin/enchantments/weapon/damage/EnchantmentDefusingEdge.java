@@ -2,16 +2,15 @@ package com.shultrea.rin.enchantments.weapon.damage;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.util.DamageSources;
-import com.shultrea.rin.util.ReflectionUtil;
+import com.shultrea.rin.mixin.vanilla.IEntityCreeperMixin;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -62,24 +61,28 @@ public class EnchantmentDefusingEdge extends EnchantmentBase {
 		return ModConfig.treasure.defusingEdge;
 	}
 	
-	//TODO
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void HandleEnchant(LivingHurtEvent fEvent) {
-		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
-		ItemStack dmgSource = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
-        int levelDefusing = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.defusingEdge, dmgSource);
-		if(levelDefusing <= 0) return;
-		if(fEvent.getEntity() instanceof EntityCreeper) {
-			float Damage = fEvent.getAmount();
-			ReflectionUtil.damageEntityNoEvent(fEvent.getEntityLiving(), DamageSources.PhysicalDamage, levelDefusing * 2.5f);
-			fEvent.setAmount(Damage);
-			if(Math.random() < 0.02f * levelDefusing) {
-				EntityCreeper creeper = (EntityCreeper)fEvent.getEntityLiving();
-				NBTTagCompound fuse = new NBTTagCompound();
-				creeper.writeEntityToNBT(fuse);
-				short fuseTime = 32767;
-				fuse.setShort("Fuse", fuseTime);
-				creeper.readEntityFromNBT(fuse);
+	@SubscribeEvent(priority = EventPriority.HIGH)
+	public void onLivingHurtEvent(LivingHurtEvent event) {
+		if(!this.isEnabled()) return;
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
+		if(event.getAmount() <= 1.0F) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
+		if(attacker == null) return;
+		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
+		ItemStack stack = attacker.getHeldItemMainhand();
+		if(stack.isEmpty()) return;
+		
+		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
+		if(level > 0) {
+			if(victim instanceof EntityCreeper) {
+				event.setAmount(event.getAmount() + 2.5F * (float)level);
+				
+				EntityCreeper creeper = (EntityCreeper)victim;
+				creeper.getDataManager().set(((IEntityCreeperMixin)victim).getIGNITED(), false);
+				creeper.setCreeperState(0);
+				((IEntityCreeperMixin)victim).setTimeSinceIgnited(0);
 			}
 		}
 	}

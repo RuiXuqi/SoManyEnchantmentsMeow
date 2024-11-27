@@ -156,37 +156,20 @@ public class EnchantmentRegistry {
 	public static EnchantmentBase subjectPE = register(new EnchantmentSubjectEnchantments("subjectpe", RarityConfig.get(ModConfig.rarity.subjectPE),5));
 
 	//Lesser
-	public static EnchantmentBase lesserBaneOfArthropods = register(new EnchantmentTierDamage("lesserbaneofarthropods", RarityConfig.get(ModConfig.rarity.lesserBaneOfArthropods),4));
-	//public static EnchantmentBase lesserBlastProtection;
-	//public static EnchantmentBase lesserEfficiency;
-	//public static EnchantmentBase lesserFeatherFalling;
+	public static EnchantmentBase lesserBaneOfArthropods = register(new EnchantmentTierDamage("lesserbaneofarthropods", RarityConfig.get(ModConfig.rarity.lesserBaneOfArthropods),6));
 	public static EnchantmentBase lesserFireAspect = register(new EnchantmentTierFA("lesserfireaspect", RarityConfig.get(ModConfig.rarity.lesserFireAspect),0));
-	//public static EnchantmentBase lesserFireProtection;
 	public static EnchantmentBase lesserFlame = register(new EnchantmentTierFlame("lesserflame", RarityConfig.get(ModConfig.rarity.lesserFlame),0));
-	//public static EnchantmentBase lesserFortune;
-	//public static EnchantmentBase lesserKnockback;
-	//public static EnchantmentBase lesserLooting;
-	//public static EnchantmentBase lesserLuckOfTheSea;
-	//public static EnchantmentBase lesserLure;
-	//public static EnchantmentBase lesserMending;
-	//public static EnchantmentBase lesserPower;
-	//public static EnchantmentBase lesserProjectileProtection;
-	//public static EnchantmentBase lesserProtection;
-	//public static EnchantmentBase lesserPunch;
-	//public static EnchantmentBase lesserRespiration;
 	public static EnchantmentBase lesserSharpness = register(new EnchantmentTierDamage("lessersharpness", RarityConfig.get(ModConfig.rarity.lesserSharpness),0));
-	public static EnchantmentBase lesserSmite = register(new EnchantmentTierDamage("lessersmite", RarityConfig.get(ModConfig.rarity.lesserSmite),2));
-	//public static EnchantmentBase lesserThorns;
+	public static EnchantmentBase lesserSmite = register(new EnchantmentTierDamage("lessersmite", RarityConfig.get(ModConfig.rarity.lesserSmite),3));
 
 	//Advanced
-	public static EnchantmentBase advancedBaneOfArthropods = register(new EnchantmentAdvancedBaneOfArthropods("advancedbaneofarthropods", RarityConfig.get(ModConfig.rarity.advancedBaneOfArthropods), Slots.MAINHAND));
+	public static EnchantmentBase advancedBaneOfArthropods = register(new EnchantmentTierDamage("advancedbaneofarthropods", RarityConfig.get(ModConfig.rarity.advancedBaneOfArthropods), 7));
 	public static EnchantmentBase advancedBlastProtection = register(new EnchantmentAdvancedBlastProtection("advancedblastprotection", RarityConfig.get(ModConfig.rarity.advancedBlastProtection), Slots.BODY));
 	public static EnchantmentBase advancedEfficiency = register(new EnchantmentAdvancedEfficiency("advancedefficiency", RarityConfig.get(ModConfig.rarity.advancedEfficiency), Slots.MAINHAND));
 	public static EnchantmentBase advancedFeatherFalling = register(new EnchantmentAdvancedFeatherFalling("advancedfeatherfalling", RarityConfig.get(ModConfig.rarity.advancedFeatherFalling), Slots.FEET));
 	public static EnchantmentBase advancedFireAspect = register(new EnchantmentTierFA("advancedfireaspect", RarityConfig.get(ModConfig.rarity.advancedFireAspect),1));
 	public static EnchantmentBase advancedFireProtection = register(new EnchantmentAdvancedFireProtection("advancedfireprotection", RarityConfig.get(ModConfig.rarity.advancedFireProtection), Slots.BODY));
 	public static EnchantmentBase advancedFlame = register(new EnchantmentTierFlame("advancedflame", RarityConfig.get(ModConfig.rarity.advancedFlame),1));
-	//public static EnchantmentBase advancedFortune;
 	public static EnchantmentBase advancedKnockback = register(new EnchantmentAdvancedKnockback("advancedknockback", RarityConfig.get(ModConfig.rarity.advancedKnockback), Slots.MAINHAND));
 	public static EnchantmentBase advancedLooting = register(new EnchantmentAdvancedLooting("advancedlooting", RarityConfig.get(ModConfig.rarity.advancedLooting), Slots.MAINHAND));
 	public static EnchantmentBase advancedLuckOfTheSea = register(new EnchantmentAdvancedLuckOfTheSea("advancedluckofthesea", RarityConfig.get(ModConfig.rarity.advancedLuckOfTheSea), Slots.HAND));
@@ -196,32 +179,15 @@ public class EnchantmentRegistry {
 	public static EnchantmentBase advancedProjectileProtection = register(new EnchantmentAdvancedProjectileProtection("advancedprojectileprotection", RarityConfig.get(ModConfig.rarity.advancedProjectileProtection), Slots.BODY));
 	public static EnchantmentBase advancedProtection = register(new EnchantmentAdvancedProtection("advancedprotection", RarityConfig.get(ModConfig.rarity.advancedProtection), Slots.BODY));
 	public static EnchantmentBase advancedPunch = register(new EnchantmentAdvancedPunch("advancedpunch", RarityConfig.get(ModConfig.rarity.advancedPunch), Slots.HAND));
-	//public static EnchantmentBase advancedRespiration;
-	public static EnchantmentBase advancedSharpness = register(new EnchantmentAdvancedSharpness("advancedsharpness", RarityConfig.get(ModConfig.rarity.advancedSharpness), Slots.MAINHAND));
-	public static EnchantmentBase advancedSmite = register(new EnchantmentAdvancedSmite("advancedsmite", RarityConfig.get(ModConfig.rarity.advancedSmite), Slots.MAINHAND));
+	public static EnchantmentBase advancedSharpness = register(new EnchantmentTierDamage("advancedsharpness", RarityConfig.get(ModConfig.rarity.advancedSharpness), 1));
+	public static EnchantmentBase advancedSmite = register(new EnchantmentTierDamage("advancedsmite", RarityConfig.get(ModConfig.rarity.advancedSmite), 4));
 	public static EnchantmentBase advancedThorns = register(new EnchantmentAdvancedThorns("advancedthorns", RarityConfig.get(ModConfig.rarity.advancedThorns), Slots.BODY));
 	//Supreme
-	public static EnchantmentBase supremeBaneOfArthropods = register(new EnchantmentTierDamage("supremebaneofarthropods", RarityConfig.get(ModConfig.rarity.supremeBaneOfArthropods),5));
-	//public static EnchantmentBase supremeBlastProtection;
-	//public static EnchantmentBase supremeEfficiency;
-	//public static EnchantmentBase supremeFeatherFalling;
+	public static EnchantmentBase supremeBaneOfArthropods = register(new EnchantmentTierDamage("supremebaneofarthropods", RarityConfig.get(ModConfig.rarity.supremeBaneOfArthropods),8));
 	public static EnchantmentBase supremeFireAspect = register(new EnchantmentTierFA("supremefireaspect", RarityConfig.get(ModConfig.rarity.supremeFireAspect),2));
-	//public static EnchantmentBase supremeFireProtection;
 	public static EnchantmentBase supremeFlame = register(new EnchantmentTierFlame("supremeflame", RarityConfig.get(ModConfig.rarity.supremeFlame),2));
-	//public static EnchantmentBase supremeFortune;
-	//public static EnchantmentBase supremeKnockback;
-	//public static EnchantmentBase supremeLooting;
-	//public static EnchantmentBase supremeLuckOfTheSea;
-	//public static EnchantmentBase supremeLure;
-	//public static EnchantmentBase supremeMending;
-	//public static EnchantmentBase supremePower;
-	//public static EnchantmentBase supremeProjectileProtection;
-	//public static EnchantmentBase supremeProtection;
-	//public static EnchantmentBase supremePunch;
-	//public static EnchantmentBase supremeRespiration;
-	public static EnchantmentBase supremeSharpness = register(new EnchantmentTierDamage("supremesharpness", RarityConfig.get(ModConfig.rarity.supremeSharpness),1));
-	public static EnchantmentBase supremeSmite = register(new EnchantmentTierDamage("supremesmite", RarityConfig.get(ModConfig.rarity.supremeSmite),3));
-    //public static EnchantmentBase supremeThorns;
+	public static EnchantmentBase supremeSharpness = register(new EnchantmentTierDamage("supremesharpness", RarityConfig.get(ModConfig.rarity.supremeSharpness),2));
+	public static EnchantmentBase supremeSmite = register(new EnchantmentTierDamage("supremesmite", RarityConfig.get(ModConfig.rarity.supremeSmite),5));
 
 	private static EnchantmentBase register(EnchantmentBase enchantment) {
 		if(!ModConfig.miscellaneous.dontRegisterDisabledEnchants || enchantment.isEnabled()) {
