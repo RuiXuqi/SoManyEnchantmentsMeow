@@ -13,7 +13,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerEnchantment;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -46,11 +45,11 @@ public abstract class ContainerEnchantmentMixin extends Container {
     @Shadow @Final private Random rand;
     @Shadow public int xpSeed;
 
-    @Unique EnchantmentData soManyEnchantments$currentEnch;
-    @Unique EnchantmentData soManyEnchantments$upgradedEnch;
-    @Unique EnchantmentData soManyEnchantments$cursedEnch;
-    @Unique int soManyEnchantments$levelCost;
-    @Unique int soManyEnchantments$upgradeSlot = 0;
+    @Unique private EnchantmentData sme$currentEnch;
+    @Unique private EnchantmentData sme$upgradedEnch;
+    @Unique private EnchantmentData sme$cursedEnch;
+    @Unique private int sme$levelCost;
+    @Unique private final int sme$upgradeSlot = 0;
 
     @Redirect(
             method = "<init>(Lnet/minecraft/entity/player/InventoryPlayer;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)V",
@@ -177,37 +176,37 @@ public abstract class ContainerEnchantmentMixin extends Container {
             default:
                 upgradingIndex = 0;
         }
-        soManyEnchantments$currentEnch = upgradeableEnchantments.get(upgradingIndex);
-        soManyEnchantments$upgradedEnch = upgradedEnchantments.get(upgradingIndex);
+        sme$currentEnch = upgradeableEnchantments.get(upgradingIndex);
+        sme$upgradedEnch = upgradedEnchantments.get(upgradingIndex);
 
         //Get possible cursed enchant
-        Enchantment curse = soManyEnchantments$getCurse(soManyEnchantments$currentEnch.enchantment);
-        soManyEnchantments$cursedEnch = null;
+        Enchantment curse = soManyEnchantments$getCurse(sme$currentEnch.enchantment);
+        sme$cursedEnch = null;
         if (curse != null)
-            soManyEnchantments$cursedEnch = new EnchantmentData(curse, soManyEnchantments$currentEnch.enchantmentLevel);
+            sme$cursedEnch = new EnchantmentData(curse, sme$currentEnch.enchantmentLevel);
 
         //Get level cost
-        soManyEnchantments$levelCost = 1;
+        sme$levelCost = 1;
         switch (ModConfig.upgrade.levelCostMode) {
             case "ANVIL":
-                soManyEnchantments$levelCost = soManyEnchantments$getRarityMultiplier(soManyEnchantments$upgradedEnch.enchantment.getRarity(), isBook) * soManyEnchantments$upgradedEnch.enchantmentLevel;
+                sme$levelCost = soManyEnchantments$getRarityMultiplier(sme$upgradedEnch.enchantment.getRarity(), isBook) * sme$upgradedEnch.enchantmentLevel;
                 break;
             case "ENCHANTABILITY":
-                soManyEnchantments$levelCost = soManyEnchantments$upgradedEnch.enchantment.getMinEnchantability(soManyEnchantments$upgradedEnch.enchantmentLevel);
+                sme$levelCost = sme$upgradedEnch.enchantment.getMinEnchantability(sme$upgradedEnch.enchantmentLevel);
                 break;
             /*case "NONE":*/
             default:
                 break;
         }
-        soManyEnchantments$levelCost *= (int) ModConfig.upgrade.levelCostMultiplier;
+        sme$levelCost *= (int) ModConfig.upgrade.levelCostMultiplier;
 
         //Clue for GUI
-        this.enchantLevels[soManyEnchantments$upgradeSlot] = soManyEnchantments$levelCost;
-        this.enchantClue[soManyEnchantments$upgradeSlot] = -1;
-        this.worldClue[soManyEnchantments$upgradeSlot] = -1;
-        if (this.enchantLevels[soManyEnchantments$upgradeSlot] > 0) {
-            this.enchantClue[soManyEnchantments$upgradeSlot] = Enchantment.getEnchantmentID(soManyEnchantments$upgradedEnch.enchantment);
-            this.worldClue[soManyEnchantments$upgradeSlot] = soManyEnchantments$upgradedEnch.enchantmentLevel;
+        this.enchantLevels[sme$upgradeSlot] = sme$levelCost;
+        this.enchantClue[sme$upgradeSlot] = -1;
+        this.worldClue[sme$upgradeSlot] = -1;
+        if (this.enchantLevels[sme$upgradeSlot] > 0) {
+            this.enchantClue[sme$upgradeSlot] = Enchantment.getEnchantmentID(sme$upgradedEnch.enchantment);
+            this.worldClue[sme$upgradeSlot] = sme$upgradedEnch.enchantmentLevel;
         }
 
         this.detectAndSendChanges();
@@ -225,14 +224,14 @@ public abstract class ContainerEnchantmentMixin extends Container {
         ItemStack itemstackTargetItem = this.tableInventory.getStackInSlot(0);
         ItemStack itemstackToken = this.tableInventory.getStackInSlot(1);
 
-        if (id != soManyEnchantments$upgradeSlot) return;
+        if (id != sme$upgradeSlot) return;
 
         //Correct token+amount?
         if ((itemstackToken.isEmpty() || itemstackToken.getCount() < ModConfig.upgrade.upgradeTokenAmount || !soManyEnchantments$isUpgradeToken(itemstackToken)) && !playerIn.capabilities.isCreativeMode)
             return;
 
         //Enough lvls?
-        if (this.enchantLevels[soManyEnchantments$upgradeSlot] <= 0 || itemstackTargetItem.isEmpty() || (playerIn.experienceLevel < this.enchantLevels[soManyEnchantments$upgradeSlot] && !playerIn.capabilities.isCreativeMode))
+        if (this.enchantLevels[sme$upgradeSlot] <= 0 || itemstackTargetItem.isEmpty() || (playerIn.experienceLevel < this.enchantLevels[sme$upgradeSlot] && !playerIn.capabilities.isCreativeMode))
             return;
 
         //Replace enchantment with upgraded or cursed version
@@ -240,17 +239,17 @@ public abstract class ContainerEnchantmentMixin extends Container {
         boolean isCursed = rand.nextFloat() < ModConfig.upgrade.cursingChance;
         if (isCursed) {
             if (ModConfig.upgrade.cursesReplaceUpgrade)
-                enchantments.remove(soManyEnchantments$currentEnch.enchantment);
-            if (soManyEnchantments$cursedEnch != null)
-                if(enchantments.containsKey(soManyEnchantments$cursedEnch.enchantment)) {
-                    int newCurseLvl = Math.min(enchantments.get(soManyEnchantments$cursedEnch.enchantment) + 1, soManyEnchantments$cursedEnch.enchantment.getMaxLevel());
-                    enchantments.put(soManyEnchantments$cursedEnch.enchantment, newCurseLvl);
+                enchantments.remove(sme$currentEnch.enchantment);
+            if (sme$cursedEnch != null)
+                if(enchantments.containsKey(sme$cursedEnch.enchantment)) {
+                    int newCurseLvl = Math.min(enchantments.get(sme$cursedEnch.enchantment) + 1, sme$cursedEnch.enchantment.getMaxLevel());
+                    enchantments.put(sme$cursedEnch.enchantment, newCurseLvl);
                 } else {
-                    enchantments.put(soManyEnchantments$cursedEnch.enchantment, soManyEnchantments$cursedEnch.enchantmentLevel);
+                    enchantments.put(sme$cursedEnch.enchantment, sme$cursedEnch.enchantmentLevel);
                 }
         } else {
-            enchantments.remove(soManyEnchantments$currentEnch.enchantment);
-            enchantments.put(soManyEnchantments$upgradedEnch.enchantment, soManyEnchantments$upgradedEnch.enchantmentLevel);
+            enchantments.remove(sme$currentEnch.enchantment);
+            enchantments.put(sme$upgradedEnch.enchantment, sme$upgradedEnch.enchantmentLevel);
         }
 
         //Clear Enchanted Book enchants bc setEnchantments is handled differently there
@@ -266,7 +265,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
         EnchantmentHelper.setEnchantments(enchantments, itemstackTargetItem);
 
         //Pay xp price and roll RNG seed
-        playerIn.onEnchant(itemstackTargetItem, soManyEnchantments$levelCost);
+        playerIn.onEnchant(itemstackTargetItem, sme$levelCost);
 
         //Pay token price
         if (!playerIn.capabilities.isCreativeMode) {
