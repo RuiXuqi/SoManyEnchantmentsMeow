@@ -3,11 +3,13 @@ package com.shultrea.rin.enchantments.weapon.damagemultiplier;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -58,20 +60,24 @@ public class EnchantmentReviledBlade extends EnchantmentBase {
 		return ModConfig.treasure.reviledBlade;
 	}
 	
-	//TODO
-	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void HandleEnchant(LivingDamageEvent fEvent) {
-		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
-		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
-		ItemStack weapon = attacker.getHeldItemMainhand();
-		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.reviledBlade, weapon);
-		if(enchantmentLevel > 0) {
-			float defenderHealthPercent = fEvent.getEntityLiving().getHealth() / fEvent.getEntityLiving().getMaxHealth();
-			float dmgMod = (1.0f - defenderHealthPercent) * ((enchantmentLevel * 0.1f) + 0.9f);
-			dmgMod = 1.0F + dmgMod;
-			float Damage = fEvent.getAmount();
-			//UtilityAccessor.damageEntity(fEvent.getEntityLiving(), somanyenchantments.PhysicalDamage, (dmgMod * Damage) - 0.001f);
-			fEvent.setAmount(dmgMod * Damage);
+	@SubscribeEvent(priority = EventPriority.LOW)
+	public void onLivingDamageEvent(LivingDamageEvent event) {
+		if(!this.isEnabled()) return;
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
+		if(event.getAmount() <= 1.0F) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
+		if(attacker == null) return;
+		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
+		ItemStack stack = attacker.getHeldItemMainhand();
+		if(stack.isEmpty()) return;
+		
+		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
+		if(level > 0) {
+			if(victim.getMaxHealth() <= 0) return;
+			float percent = 1.0F - MathHelper.clamp(victim.getHealth() / victim.getMaxHealth(), 0.0F, 1.0F);
+			event.setAmount(event.getAmount() * (1.0F + percent * (float)level / 2.0F));
 		}
 	}
 }

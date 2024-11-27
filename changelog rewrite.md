@@ -62,6 +62,15 @@
 - buff reinforced sharpness and remove iframe abuse glitch
 - fix supreme smite missing extra effects
 - heavily simplify water aspect
+- Slightly buff LuckMagnification to bring it a little closer to CriticalStrike
+- Critical Strike and Luck Magnification moved to their own incompat list since they affect crits and not base damage
+- Add Hardcore mode buff to DifficultysEndowment
+- First pass rebalance damagemult enchants, assuming max level:
+- DifficultysEndowment: Hard 1.5x Hardcore 2x
+- AshDestroyer: 2x when victim is on fire
+- ReviledBlade: 1x - 3x depending on victim health, increasing with less health
+- CursedEdge: 3x but self-damaging at 0.25x of dealt damage as magic
+- Instability: 1x - 3.25x depending on item health, increasing with more item damage, still incompat with unbreaking, deals additional damage to item
 
 ## Todo
 - Organize event handler priorities
@@ -135,6 +144,13 @@
 - EnchantmentSpellBreaker
 - EnchantmentTierDamage
 - EnchantmentWaterAspect
+- EnchantmentAshDestroyer
+- EnchantmentCriticalStrike
+- EnchantmentCursedEdge
+- EnchantmentDifficultysEndowment
+- EnchantmentInstability
+- EnchantmentLuckMagnification
+- EnchantmentReviledBlade
 
 - EnchantmentAdept
 - EnchantmentAdvancedMending

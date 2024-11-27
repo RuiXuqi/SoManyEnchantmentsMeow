@@ -1,19 +1,16 @@
 package com.shultrea.rin.enchantments.weapon.damagemultiplier;
 
-import bettercombat.mod.event.RLCombatModifyDamageEvent;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.util.compat.CompatUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
-import com.shultrea.rin.registry.EnchantmentRegistry;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -64,37 +61,25 @@ public class EnchantmentInstability extends EnchantmentCurse {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
-	public static void onLivingDamageEvent(LivingDamageEvent event) {
+	public void onLivingDamageEvent(LivingDamageEvent event) {
+		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(event.getSource().getTrueSource() instanceof EntityPlayer && CompatUtil.isRLCombatLoaded()) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
+		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
+		if(attacker == null) return;
+		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
 		ItemStack stack = attacker.getHeldItemMainhand();
 		if(stack.isEmpty()) return;
-		if(!stack.isItemStackDamageable() || !stack.getItem().isDamageable()) return;
-		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.instability, stack);
-		if(level > 0 && event.getAmount() > 0) {
-			float percentage = ((float)stack.getItemDamage() / (float)stack.getMaxDamage());
-			percentage = 1.0F + percentage * (0.75F * (float)level);
-			event.setAmount(event.getAmount() * percentage);
-			stack.damageItem((int)(event.getAmount() * attacker.world.rand.nextFloat() / (float)(8 - level)) + 1, attacker);
-		}
-	}
-	
-	@Optional.Method(modid = "bettercombatmod")
-	@SubscribeEvent(priority = EventPriority.LOW)
-	public static void modifyDamageEventPost(RLCombatModifyDamageEvent.Post event) {
-		if(event.getEntityPlayer() == null || event.getTarget() == null || event.getStack().isEmpty() || !(event.getTarget() instanceof EntityLivingBase)) return;
 		
-		EntityPlayer player = event.getEntityPlayer();
-		ItemStack stack = event.getStack();
-		if(!stack.isItemStackDamageable() || !stack.getItem().isDamageable()) return;
-		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.instability, stack);
+		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
-			float percentage = ((float)stack.getItemDamage() / (float)stack.getMaxDamage()) * (0.75F * (float)level);
-			float damage = (event.getBaseDamage() + event.getDamageModifier()) * percentage;
-			if(damage > 0) {
-				event.setDamageModifier(event.getDamageModifier() + damage);
-				stack.damageItem((int)((event.getBaseDamage() + event.getDamageModifier()) * player.world.rand.nextFloat() / (float)(8 - level)) + 1, player);
+			if(stack.isItemStackDamageable()) {
+				float percentage = (float)stack.getItemDamage() / (float)stack.getMaxDamage();
+				percentage = 1.0F + percentage * 0.75F * (float)level;
+				event.setAmount(event.getAmount() * percentage);
+				stack.damageItem(1 + (int)(attacker.getRNG().nextFloat() * event.getAmount() / (float)(8 - level)), attacker);
 			}
 		}
 	}

@@ -3,8 +3,10 @@ package com.shultrea.rin.enchantments.weapon.damagemultiplier;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.event.entity.living.LootingLevelEvent;
 import net.minecraftforge.event.entity.player.CriticalHitEvent;
+import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
@@ -65,41 +68,60 @@ public class EnchantmentLuckMagnification extends EnchantmentBase {
 		return ModConfig.treasure.luckMagnification;
 	}
 	
-	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void onCritical(CriticalHitEvent e) {
-		if(e.getEntityPlayer() == null) return;
-		if(e.getTarget() == null) return;
-		IAttributeInstance luck = e.getEntityPlayer().getAttributeMap().getAttributeInstance(SharedMonsterAttributes.LUCK);
-		float amount = (float)luck.getAttributeValue();
-		//I know this is obsolete but for safety checks hehe.
-		if(amount == 0) return;
-		if(e.getEntityPlayer().getHeldItemMainhand() == null) return;
-		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.luckMagnification, e.getEntityPlayer().getHeldItemMainhand());
-		if(level <= 0) return;
-		if(e.getEntityPlayer().getRNG().nextInt(100) < Math.abs(amount * level)) {
-			e.setDamageModifier(e.getDamageModifier() + amount * level * 0.05f);
+	@SubscribeEvent(priority = EventPriority.HIGH)
+	public void onCriticalHitEvent(CriticalHitEvent event) {
+		if(!this.isEnabled()) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isCriticalHitEventStrong(event)) return;
+		EntityLivingBase attacker = event.getEntityLiving();
+		if(attacker == null) return;
+		if(!(event.getTarget() instanceof EntityLivingBase)) return;
+		EntityLivingBase victim = (EntityLivingBase)event.getTarget();
+		ItemStack stack = attacker.getHeldItemMainhand();
+		if(CompatUtil.isRLCombatLoaded()) stack = RLCombatCompat.getCriticalHitEventStack(event, attacker);
+		if(stack.isEmpty()) return;
+		
+		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
+		if(level > 0) {
+			if(event.getResult() == Event.Result.ALLOW || (event.isVanillaCritical() && event.getResult() == Event.Result.DEFAULT)) {
+				IAttributeInstance luck = attacker.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.LUCK);
+				float amount = (float)luck.getAttributeValue();
+				if(amount != 0) {
+					if(attacker.getRNG().nextFloat() < Math.abs(0.02F * amount * (float)level)) {
+						event.setDamageModifier(event.getDamageModifier() + amount * 0.15F * (float)level);
+					}
+				}
+			}
 		}
 	}
 	
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void HandleEnchant(LootingLevelEvent fEvent) {
-		if(!(fEvent.getDamageSource().getTrueSource() instanceof EntityPlayer)) return;
-		EntityPlayer player = (EntityPlayer)fEvent.getDamageSource().getTrueSource();
-		ItemStack sword = player.getHeldItemMainhand();
-		if(sword == null) return;
-		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.luckMagnification, sword);
-		if(level <= 0) return;
-		IAttributeInstance luck = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.LUCK);
-		int modifier = (int)(fEvent.getLootingLevel() + (luck.getAttributeValue() * level / 2));
-		fEvent.setLootingLevel(modifier);
+	@SubscribeEvent(priority = EventPriority.HIGH)
+	public void onLootingLevelEvent(LootingLevelEvent event) {
+		if(!this.isEnabled()) return;
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getDamageSource())) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getDamageSource().getTrueSource();
+		if(attacker == null) return;
+		ItemStack stack = attacker.getHeldItemMainhand();
+		if(stack.isEmpty()) return;
+		
+		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
+		if(level > 0) {
+			IAttributeInstance luck = attacker.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.LUCK);
+			event.setLootingLevel(event.getLootingLevel() + (int)(luck.getAttributeValue() * (double)level / 2.0D));
+		}
 	}
 	
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void magnifyLuck(PlayerTickEvent e) {
-		if(e.player == null) return;
-		if(e.phase == Phase.START) return;
-		if(e.player.getHeldItemMainhand() == null) return;
-		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.luckMagnification, e.player.getHeldItemMainhand());
-		if(level > 0) e.player.addPotionEffect(new PotionEffect(MobEffects.LUCK, 10, level - 1, true, false));
+	@SubscribeEvent(priority = EventPriority.HIGH)
+	public void onPlayerTickEvent(PlayerTickEvent event) {
+		if(!this.isEnabled()) return;
+		if(event.phase != Phase.END) return;
+		EntityPlayer player = event.player;
+		if(player == null) return;
+		if(player.world.isRemote) return;
+		if(player.ticksExisted%9 != 0) return;
+		
+		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, player);
+		if(level > 0) {
+			player.addPotionEffect(new PotionEffect(MobEffects.LUCK, 10, level - 1, true, false));
+		}
 	}
 }
