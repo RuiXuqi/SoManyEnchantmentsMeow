@@ -2,9 +2,9 @@ package com.shultrea.rin.enchantments.weapon.conditionaldamage;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.MobEffects;
@@ -61,24 +61,28 @@ public class EnchantmentViper extends EnchantmentBase {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGH)
-	public void HandleEnchant(LivingHurtEvent fEvent) {
-		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
-		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
+	public void onLivingHurtEvent(LivingHurtEvent event) {
+		if(!this.isEnabled()) return;
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
+		if(event.getAmount() <= 1.0F) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
+		if(attacker == null) return;
+		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
 		ItemStack stack = attacker.getHeldItemMainhand();
-		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.viper, stack);
-		if(enchantmentLevel <= 0) return;
-		float forgeDamage = fEvent.getAmount();
-		float FDamage = 0;
-		if(fEvent.getEntityLiving().isPotionActive(MobEffects.POISON)) {
-			FDamage += 1.25f + 0.75f * enchantmentLevel;
+		if(stack.isEmpty()) return;
+		
+		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
+		if(level > 0) {
+			float damage = 1 + event.getAmount();
+			if(victim.isPotionActive(MobEffects.POISON)) {
+				damage += 1.25F + 0.75F * (float)level;
+			}
+			if(victim.isPotionActive(MobEffects.WITHER)) {
+				damage += 0.5F + 0.5F * (float)level;
+			}
+			event.setAmount(damage);
 		}
-		if(fEvent.getEntityLiving().isPotionActive(MobEffects.WITHER)) {
-			FDamage += 0.5f + 0.5f * enchantmentLevel;
-		}
-		//System.out.println(FDamage + " - Additional Damage Viper");
-
-		//This only adds +1 dmg flat, could just do forgeDamage += 1;
-		forgeDamage += EnchantUtil.modifyDamage(forgeDamage + FDamage, 0.0f, 1.00f, 1.0f, 1);
-		fEvent.setAmount(forgeDamage);
 	}
 }

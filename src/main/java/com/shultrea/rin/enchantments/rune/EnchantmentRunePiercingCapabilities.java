@@ -4,6 +4,8 @@ import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.util.ReflectionUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -71,6 +73,8 @@ public class EnchantmentRunePiercingCapabilities extends EnchantmentBase {
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
+		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
 		EntityLivingBase victim = event.getEntityLiving();

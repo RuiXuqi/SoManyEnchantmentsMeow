@@ -53,6 +53,8 @@
 - Fix advanced mending being applicable with infinity
 - Rework ancient sealed curses to work better
 - Rework and simplify ancient sword mastery with mixin, increases damage increase of damage increasing enchants by 25% per level
+- Rework dark shadows to only be based on attacker's light level, and make blindness chance scaling
+- Add cooled strength/low damage checks to enchants to prevent triggered from click spam
 
 ## Todo
 - Organize event handler priorities
@@ -115,6 +117,9 @@
 - EnchantmentSmelter
 - EnchantmentAncientSealedCurses
 - EnchantmentAncientSwordMastery
+- EnchantmentDarkShadows
+- EnchantmentMortalitas
+- EnchantmentViper
 
 - EnchantmentAdept
 - EnchantmentAdvancedMending

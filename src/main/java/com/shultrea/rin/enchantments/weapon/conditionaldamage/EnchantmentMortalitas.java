@@ -3,10 +3,10 @@ package com.shultrea.rin.enchantments.weapon.conditionaldamage;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -62,36 +62,48 @@ public class EnchantmentMortalitas extends EnchantmentBase {
 		return ModConfig.treasure.mortalitas;
 	}
 	
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void onDamage(LivingHurtEvent e) {
-		if(e.getSource().getTrueSource() != null && e.getSource().getTrueSource() instanceof EntityPlayer && e.getSource().damageType.equals("player")) {
-			if(!EnchantmentBase.isDamageSourceAllowed(e.getSource())) return;
-			EntityPlayer attacker = (EntityPlayer)e.getSource().getTrueSource();
-			ItemStack stack = attacker.getHeldItemMainhand();
-			if(stack.isEmpty()) return;
-			int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.mortalitas, stack);
-			if(level <= 0) return;
-			if(!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
-			float damage = stack.getTagCompound().getFloat("additionalDamage");
-			e.setAmount(e.getAmount() + damage);
+	@SubscribeEvent(priority = EventPriority.HIGH)
+	public void onLivingHurtEvent(LivingHurtEvent event) {
+		if(!this.isEnabled()) return;
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
+		if(event.getAmount() <= 1.0F) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
+		if(attacker == null) return;
+		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
+		ItemStack stack = attacker.getHeldItemMainhand();
+		if(stack.isEmpty()) return;
+		
+		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
+		if(level > 0) {
+			NBTTagCompound compound = stack.getTagCompound();
+			if(compound == null) return;
+			float damage = compound.getFloat("MortalitasDamage");
+			event.setAmount(event.getAmount() + damage);
 		}
 	}
 	
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void Death(LivingDeathEvent fEvent) {
-		if(fEvent.getSource().getTrueSource() == null) return;
-		if(!(fEvent.getSource().getTrueSource() instanceof EntityPlayer)) return;
-		EntityLivingBase victim = fEvent.getEntityLiving();
+	@SubscribeEvent(priority = EventPriority.LOW)
+	public void onLivingDeathEvent(LivingDeathEvent event) {
+		if(!this.isEnabled()) return;
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
+		if(attacker == null) return;
+		EntityLivingBase victim = event.getEntityLiving();
 		if(victim == null) return;
-		EntityPlayer attacker = (EntityPlayer)fEvent.getSource().getTrueSource();
-		ItemStack stack = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
-		if(stack.isEmpty() || stack == null) return;
-		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.mortalitas, stack);
-		if(level <= 0) return;
-		if(!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
-		float amount = stack.getTagCompound().getFloat("additionalDamage");
-		amount = amount + (0.05f / this.getMaxLevel()) * level;
-		amount = MathHelper.clamp(amount, 0, level);
-		stack.getTagCompound().setFloat("additionalDamage", amount);
+		ItemStack stack = attacker.getHeldItemMainhand();
+		if(stack.isEmpty()) return;
+		
+		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
+		if(level > 0) {
+			NBTTagCompound compound = stack.getTagCompound();
+			if(compound == null) compound = new NBTTagCompound();
+			float amount = compound.getFloat("MortalitasDamage");
+			amount += (0.05F / (float)this.getMaxLevel()) * (float)level;
+			amount = MathHelper.clamp(amount, 0, level);
+			compound.setFloat("MortalitasDamage", amount);
+			stack.setTagCompound(compound);
+		}
 	}
 }

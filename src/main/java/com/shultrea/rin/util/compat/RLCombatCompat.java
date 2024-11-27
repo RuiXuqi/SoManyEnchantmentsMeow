@@ -10,4 +10,12 @@ public abstract class RLCombatCompat {
 		if(EnchantCompatHandler.arthropodFromOffhand) return entity.getHeldItemOffhand();
 		return entity.getHeldItemMainhand();
 	}
+	
+	public static boolean isOnEntityDamagedAltStrong() {
+		return EnchantCompatHandler.arthropodCooledStrength > 0.9F;
+	}
+	
+	public static boolean isAttackEntityFromStrong() {
+		return EnchantCompatHandler.attackEntityFromCooledStrength > 0.9F;
+	}
 }
