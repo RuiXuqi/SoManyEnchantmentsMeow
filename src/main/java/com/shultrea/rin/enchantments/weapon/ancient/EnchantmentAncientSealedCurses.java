@@ -4,15 +4,15 @@ import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.util.EnchantUtil;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.List;
 import java.util.Map;
@@ -26,11 +26,6 @@ public class EnchantmentAncientSealedCurses extends EnchantmentBase {
 	@Override
 	public boolean isEnabled() {
 		return ModConfig.enabled.ancientSealedCurses;
-	}
-	
-	@Override
-	public boolean hasSubscriber() {
-		return true;
 	}
 	
 	@Override
@@ -73,41 +68,35 @@ public class EnchantmentAncientSealedCurses extends EnchantmentBase {
 		return TextFormatting.YELLOW.toString();
 	}
 	
-	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void onLivingDamageEvent(LivingDamageEvent event) {
+	@Override
+	public void onEntityDamagedAlt(EntityLivingBase attacker, Entity target, ItemStack weapon, int level) {
 		if(!this.isEnabled()) return;
-		if(!isDamageSourceAllowed(event.getSource())) return;
-		if(!(event.getSource().getTrueSource() instanceof EntityLivingBase)) return;
-		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
-		if(event.getEntityLiving() == null) return;
-		EntityLivingBase victim = event.getEntityLiving();
-		if(event.getAmount() <= 1.0F) return;
-		ItemStack stack = attacker.getHeldItemMainhand();
-		if(stack.isEmpty()) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isOnEntityDamagedAltStrong()) return;
+		if(attacker == null) return;
+		if(!(target instanceof EntityLivingBase)) return;
+		EntityLivingBase victim = (EntityLivingBase)target;
+		if(weapon.isEmpty()) return;
 		
-		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
-		if(level > 0) {
-			Iterable<ItemStack> equipmentList = victim.getEquipmentAndArmor();
-			List<Enchantment> curses = EnchantUtil.getCurses();
-			if(curses.isEmpty()) return;
-			for(ItemStack equipment : equipmentList) {
-				if(equipment.isEmpty()) continue;
-				if(attacker.getRNG().nextFloat() < 0.125F) {
-					Enchantment curse = curses.get(attacker.getRNG().nextInt(curses.size()));
-					int curseLevel = 1 + attacker.getRNG().nextInt(curse.getMaxLevel());
-					if(!curse.canApply(equipment)) continue;
-					
-					Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(equipment);
-					boolean compatible = true;
-					for(Enchantment enchant : enchants.keySet()) {
-						if(curse == enchant || !curse.isCompatibleWith(enchant)) {
-							compatible = false;
-							break;
-						}
+		Iterable<ItemStack> equipmentList = victim.getEquipmentAndArmor();
+		List<Enchantment> curses = EnchantUtil.getCurses();
+		if(curses.isEmpty()) return;
+		for(ItemStack equipment : equipmentList) {
+			if(equipment.isEmpty()) continue;
+			if(attacker.getRNG().nextFloat() < 0.125F) {
+				Enchantment curse = curses.get(attacker.getRNG().nextInt(curses.size()));
+				int curseLevel = 1 + attacker.getRNG().nextInt(curse.getMaxLevel());
+				if(!curse.canApply(equipment)) continue;
+				
+				Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(equipment);
+				boolean compatible = true;
+				for(Enchantment enchant : enchants.keySet()) {
+					if(curse == enchant || !curse.isCompatibleWith(enchant)) {
+						compatible = false;
+						break;
 					}
-					if(compatible) {
-						equipment.addEnchantment(curse, curseLevel);
-					}
+				}
+				if(compatible) {
+					equipment.addEnchantment(curse, curseLevel);
 				}
 			}
 		}

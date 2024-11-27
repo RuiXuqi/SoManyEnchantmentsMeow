@@ -3,7 +3,8 @@ package com.shultrea.rin.enchantments.weapon.damage;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -58,16 +59,25 @@ public class EnchantmentPenetratingEdge extends EnchantmentBase {
 		return ModConfig.treasure.penetratingEdge;
 	}
 	
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void HandleEnchant(LivingHurtEvent fEvent) {
-		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
-		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
-		ItemStack weapon = attacker.getHeldItemMainhand();
-		float armor = fEvent.getEntityLiving().getTotalArmorValue();
-		if(!(armor >= 3)) return;
-		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.penetratingEdge, weapon);
-		if(enchantmentLevel != 0) {
-			fEvent.setAmount(fEvent.getAmount() + ((armor / 3 + 0.5f) + (enchantmentLevel * 0.16f)));
+	@SubscribeEvent(priority = EventPriority.HIGH)
+	public void onLivingHurtEvent(LivingHurtEvent event) {
+		if(!this.isEnabled()) return;
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
+		if(event.getAmount() <= 1.0F) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
+		if(attacker == null) return;
+		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
+		ItemStack stack = attacker.getHeldItemMainhand();
+		if(stack.isEmpty()) return;
+		
+		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
+		if(level > 0) {
+			float armor = victim.getTotalArmorValue();
+			if(armor > 2) {
+				event.setAmount(event.getAmount() + (1.0F + armor / 3.0F) * (float)level);
+			}
 		}
 	}
 }

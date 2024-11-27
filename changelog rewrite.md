@@ -53,6 +53,24 @@
 - Fix advanced mending being applicable with infinity
 - Rework ancient sealed curses to work better
 - Rework and simplify ancient sword mastery with mixin, increases damage increase of damage increasing enchants by 25% per level
+- Rework dark shadows to only be based on attacker's light level, and make blindness chance scaling
+- Add cooled strength/low damage checks to enchants to prevent triggered from click spam
+- merged advanced sharp/smite/arthro into EnchantmentTierDamage
+- simplify and buff damage from Butchering
+- improve defusing from DefusingEdge
+- buff penetrating edge to scale better with more armor
+- buff reinforced sharpness and remove iframe abuse glitch
+- fix supreme smite missing extra effects
+- heavily simplify water aspect
+- Slightly buff LuckMagnification to bring it a little closer to CriticalStrike
+- Critical Strike and Luck Magnification moved to their own incompat list since they affect crits and not base damage
+- Add Hardcore mode buff to DifficultysEndowment
+- First pass rebalance damagemult enchants, assuming max level:
+- DifficultysEndowment: Hard 1.5x Hardcore 2x
+- AshDestroyer: 2x when victim is on fire
+- ReviledBlade: 1x - 3x depending on victim health, increasing with less health
+- CursedEdge: 3x but self-damaging at 0.25x of dealt damage as magic
+- Instability: 1x - 3.25x depending on item health, increasing with more item damage, still incompat with unbreaking, deals additional damage to item
 
 ## Todo
 - Organize event handler priorities
@@ -115,6 +133,24 @@
 - EnchantmentSmelter
 - EnchantmentAncientSealedCurses
 - EnchantmentAncientSwordMastery
+- EnchantmentDarkShadows
+- EnchantmentMortalitas
+- EnchantmentViper
+- EnchantmentButchering
+- EnchantmentDefusingEdge
+- EnchantmentInhumane
+- EnchantmentPenetratingEdge
+- EnchantmentReinforcedSharpness
+- EnchantmentSpellBreaker
+- EnchantmentTierDamage
+- EnchantmentWaterAspect
+- EnchantmentAshDestroyer
+- EnchantmentCriticalStrike
+- EnchantmentCursedEdge
+- EnchantmentDifficultysEndowment
+- EnchantmentInstability
+- EnchantmentLuckMagnification
+- EnchantmentReviledBlade
 
 - EnchantmentAdept
 - EnchantmentAdvancedMending
