@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Random;
+import java.util.Set;
 
 @Mixin(EntityVillager.ListEnchantedBookForEmeralds.class)
 public abstract class EntityVillagerListEnchantedBookForEmeraldsMixin {
@@ -35,12 +36,12 @@ public abstract class EntityVillagerListEnchantedBookForEmeraldsMixin {
             ordinal = 0
     )
     public Enchantment soManyEnchantments_vanillaEntityVillagerListEnchantedBookForEmeralds_addMerchantRecipe_modify(Enchantment enchantment){
-        ResourceLocation[] validEnchants = Enchantment.REGISTRY.getKeys()
-                .stream().filter(EnchantUtil::isNonBlackListedEnchant)
-                .toArray(ResourceLocation[]::new);
+        Set<ResourceLocation> validEnchants = Enchantment.REGISTRY.getKeys();
+        validEnchants.removeIf(e -> EnchantUtil.isBlackListedEnchant(e, 2));
+        ResourceLocation[] validEnchantsArr = validEnchants.toArray(validEnchants.toArray(new ResourceLocation[0]));
 
-        if(validEnchants.length>0) {
-            ResourceLocation chosenEnchant = validEnchants[soManyEnchantments_random.nextInt(validEnchants.length)];
+        if(validEnchantsArr.length>0) {
+            ResourceLocation chosenEnchant = validEnchantsArr[soManyEnchantments_random.nextInt(validEnchants.size())];
             enchantment = Enchantment.REGISTRY.getObject(chosenEnchant);
         }
         return enchantment;

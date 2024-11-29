@@ -167,10 +167,31 @@ public abstract class EnchantUtil {
 		return damage;
 	}
 
-	public static boolean isNonBlackListedEnchant(ResourceLocation chosenEnchant) {
+	public static boolean isBlackListedEnchant(ResourceLocation chosenEnchant, int type) {
+		String[] blacklist = {};
+		boolean isWhitelist = false;
+		switch(type){
+			case 0:
+				blacklist = ModConfig.miscellaneous.blacklistedRandomLevelEnchants;
+				isWhitelist = ModConfig.miscellaneous.blacklistedRandomLevelEnchantsIsWhitelist;
+				break;
+			case 1:
+				blacklist = ModConfig.miscellaneous.blacklistedRandomEnchants;
+				isWhitelist = ModConfig.miscellaneous.blacklistedRandomEnchantsIsWhitelist;
+				break;
+			case 2:
+				blacklist = ModConfig.miscellaneous.blacklistedLibrarianEnchants;
+				isWhitelist = ModConfig.miscellaneous.blacklistedLibrarianEnchantsIsWhitelist;
+				break;
+			case 3:
+				blacklist = ModConfig.miscellaneous.blacklistedEnchTableEnchants;
+				isWhitelist = ModConfig.miscellaneous.blacklistedEnchTableEnchantsIsWhitelist;
+				break;
+		}
+
 		String enchantName = chosenEnchant.toString();
 		if(!enchantName.contains(":")) enchantName = "somanyenchantments:"+enchantName;
-		boolean isInList = Arrays.asList(ModConfig.miscellaneous.blacklistedEnchants).contains(enchantName);
-		return isInList == ModConfig.miscellaneous.blacklistedEnchantsIsWhitelist;
+		boolean isInList = Arrays.asList(blacklist).contains(enchantName);
+		return isInList != isWhitelist;
 	}
 }

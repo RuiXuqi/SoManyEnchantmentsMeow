@@ -114,14 +114,9 @@ public class ModConfig {
 		@Config.Name("Advanced Mending Prioritize Damaged Items")
 		public boolean advancedMendingPrioritizeDamaged = true;
 
-		@Config.Comment("Randomly enchanted loot, enchanting table and librarians will not be able to generate enchantments in this list")
-		@Config.Name("Enchantment Blacklist")
-		public String[] blacklistedEnchants = {
-				"lesserbaneofarthropods",
-				"lesserfireaspect",
-				"lesserflame",
-				"lessersharpness",
-				"lessersmite",
+		@Config.Comment("Librarians will not be able to generate enchantments in this list")
+		@Config.Name("Librarian Enchantment Blacklist")
+		public String[] blacklistedLibrarianEnchants = {
 				"advancedbaneofarthropods",
 				"advancedblastprotection",
 				"advancedefficiency",
@@ -149,8 +144,59 @@ public class ModConfig {
 		};
 
 		@Config.Comment("Enchantment blacklist will be treated as a Whitelist")
-		@Config.Name("Enchantment Whitelist Toggle")
-		public boolean blacklistedEnchantsIsWhitelist = false;
+		@Config.Name("Librarian Enchantment Whitelist Toggle")
+		public boolean blacklistedLibrarianEnchantsIsWhitelist = false;
+
+		@Config.Comment("Loot enchanted with levels (enchant_with_levels) will not be able to generate enchantments in this list")
+		@Config.Name("Level Enchantment Blacklist")
+		public String[] blacklistedRandomLevelEnchants = {
+		};
+
+		@Config.Comment("Level Enchantment blacklist will be treated as a Whitelist")
+		@Config.Name("Level Enchantment Whitelist Toggle")
+		public boolean blacklistedRandomLevelEnchantsIsWhitelist = false;
+
+		@Config.Comment("Enchanting table will not be able to generate enchantments in this list")
+		@Config.Name("Enchanting Table Blacklist")
+		public String[] blacklistedEnchTableEnchants = {
+				"advancedbaneofarthropods",
+				"advancedblastprotection",
+				"advancedefficiency",
+				"advancedfeatherfalling",
+				"advancedfireaspect",
+				"advancedfireprotection",
+				"advancedflame",
+				"advancedknockback",
+				"advancedlooting",
+				"advancedluckofthesea",
+				"advancedlure",
+				"advancedmending",
+				"advancedpower",
+				"advancedprojectileprotection",
+				"advancedprotection",
+				"advancedpunch",
+				"advancedsharpness",
+				"advancedsmite",
+				"advancedthorns"
+//				"supremebaneofarthropods",
+//				"supremefireaspect",
+//				"supremeflame",
+//				"supremesharpness",
+//				"supremesmite"
+		};
+
+		@Config.Comment("Enchantment Table blacklist will be treated as a Whitelist")
+		@Config.Name("Enchantment Table Whitelist Toggle")
+		public boolean blacklistedEnchTableEnchantsIsWhitelist = false;
+
+		@Config.Comment("Fully random books (enchant_randomly) will not be able to generate enchantments in this list")
+		@Config.Name("Random Enchantment Blacklist")
+		public String[] blacklistedRandomEnchants = {
+		};
+
+		@Config.Comment("Random Enchantment blacklist will be treated as a Whitelist")
+		@Config.Name("Random Enchantment Whitelist Toggle")
+		public boolean blacklistedRandomEnchantsIsWhitelist = false;
 
 		@Config.Comment("If set to true, remove anvil repair cost increase when combining two single enchant books with the same lvl (Prot 3 + Prot 3)")
 		@Config.Name("Remove book combination anvil cost increase")

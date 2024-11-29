@@ -19,7 +19,8 @@ public abstract class EnchantmentHelperEnchantBlacklistMixin {
     )
     private static List<EnchantmentData> soManyEnchantments_vanillaEnchantmentHelper_buildEnchantmentList(int level, ItemStack itemStackIn, boolean allowTreasure) {
         List<EnchantmentData> list = EnchantmentHelper.getEnchantmentDatas(level, itemStackIn, allowTreasure);
-        list.removeIf(enchantmentData -> !EnchantUtil.isNonBlackListedEnchant(enchantmentData.enchantment.getRegistryName()));
+        //TODO: this technically doesn't distinguish between enchanting table and enchant_with_levels but between loot pools that can generate treasure or not. Purple bookwyrms would fall into the enchanting table category.
+        list.removeIf(enchantmentData -> EnchantUtil.isBlackListedEnchant(enchantmentData.enchantment.getRegistryName(), allowTreasure ? 0 : 3));
         return list;
     }
 }

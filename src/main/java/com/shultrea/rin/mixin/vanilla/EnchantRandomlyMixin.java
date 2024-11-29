@@ -25,7 +25,7 @@ public abstract class EnchantRandomlyMixin {
             at = @At(value = "TAIL")
     )
     private void soManyEnchantments_vanillaEnchantRandomly_init(LootCondition[] conditionsIn, List<Enchantment> enchantmentsIn, CallbackInfo ci) {
-        this.enchantments.removeIf(e -> !EnchantUtil.isNonBlackListedEnchant(e.getRegistryName()));
+        this.enchantments.removeIf(e -> EnchantUtil.isBlackListedEnchant(e.getRegistryName(), 1));
     }
 
     @Redirect(
@@ -34,7 +34,7 @@ public abstract class EnchantRandomlyMixin {
     )
     boolean soManyEnchantments_vanillaEnchantRandomly_apply(List<Enchantment> instance)
     {
-        instance.removeIf(e -> !EnchantUtil.isNonBlackListedEnchant(e.getRegistryName()));
+        instance.removeIf(e -> EnchantUtil.isBlackListedEnchant(e.getRegistryName(), 1));
         return instance.isEmpty();
     }
 }
