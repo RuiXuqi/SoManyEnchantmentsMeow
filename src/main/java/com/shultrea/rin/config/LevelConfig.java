@@ -342,6 +342,14 @@ public class LevelConfig {
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
 	public int unpredictable = 2;
+	@Config.Name("Ascetic")
+	@Config.RequiresMcRestart
+	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
+	public int ascetic = 3;
+	@Config.Name("Extinguish")
+	@Config.RequiresMcRestart
+	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
+	public int extinguish = 1;
 	//Rune
 	@Config.Name("Rune: Arrow Piercing")
 	@Config.RequiresMcRestart

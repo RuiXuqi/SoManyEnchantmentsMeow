@@ -257,6 +257,12 @@ public class TreasureConfig {
 	@Config.Name("Unpredictable")
 	@Config.RequiresMcRestart
 	public boolean unpredictable = true;
+	@Config.Name("Ascetic")
+	@Config.RequiresMcRestart
+	public boolean ascetic = true;
+	@Config.Name("Extinguish")
+	@Config.RequiresMcRestart
+	public boolean extinguish = true;
 	
 	//Rune
 	@Config.Name("Rune: Arrow Piercing")

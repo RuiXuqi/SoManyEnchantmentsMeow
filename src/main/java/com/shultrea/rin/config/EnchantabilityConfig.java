@@ -262,6 +262,12 @@ public class EnchantabilityConfig {
 	@Config.Name("Unpredictable")
 	@Config.RequiresMcRestart
 	public int[] unpredictable = {20, 10, 40, MIN};
+	@Config.Name("Ascetic")
+	@Config.RequiresMcRestart
+	public int[] ascetic = {15, 10, 40, MIN};
+	@Config.Name("Extinguish")
+	@Config.RequiresMcRestart
+	public int[] extinguish = {25, 10, 40, MIN};
 	//Rune
 	@Config.Name("Rune: Arrow Piercing")
 	@Config.RequiresMcRestart

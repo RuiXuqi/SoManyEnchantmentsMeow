@@ -128,6 +128,8 @@ public class EnchantmentRegistry {
 	public static EnchantmentBase powerless = register(new EnchantmentPowerless("powerless", RarityConfig.get(ModConfig.rarity.powerless), Slots.HAND));
 	public static EnchantmentBase rusted = register(new EnchantmentRusted("rusted", RarityConfig.get(ModConfig.rarity.rusted), Slots.HAND));
 	public static EnchantmentBase unpredictable = register(new EnchantmentUnpredictable("unpredictable", RarityConfig.get(ModConfig.rarity.unpredictable), Slots.HAND));
+	public static EnchantmentBase ascetic = register(new EnchantmentAscetic("ascetic", RarityConfig.get(ModConfig.rarity.ascetic), Slots.HAND));
+	public static EnchantmentBase extinguish = register(new EnchantmentExtinguish("extinguish", RarityConfig.get(ModConfig.rarity.extinguish), Slots.HAND));
 
 	//Rune
 	public static EnchantmentBase runeArrowPiercing = register(new EnchantmentRuneArrowPiercing("rune_arrowpiercing", RarityConfig.get(ModConfig.rarity.runeArrowPiercing), Slots.HAND));

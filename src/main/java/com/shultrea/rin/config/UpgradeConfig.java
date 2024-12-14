@@ -43,7 +43,7 @@ public class UpgradeConfig {
 			"lesserflame, minecraft:flame, advancedflame, supremeflame, extinguish",
 			"minecraft:punch, advancedpunch, dragging",
 			"powerless, minecraft:power, advancedpower, powerless",
-			"minecraft:feather_falling, advancedfeatherfalling, curseofvulnerability",
+			"minecraft:feather_falling, advancedfeatherfalling, none",
 			"minecraft:blast_protection, advancedblastprotection, curseofvulnerability",
 			"minecraft:fire_protection, advancedfireprotection, curseofvulnerability",
 			"minecraft:projectile_protection, advancedprojectileprotection, curseofvulnerability",
