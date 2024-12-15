@@ -6,6 +6,7 @@ import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -82,6 +83,8 @@ public class EnchantmentAscetic extends EnchantmentCurse {
 		if(attacker == null) return;
 		ItemStack stack = attacker.getHeldItemMainhand();
 		if(stack.isEmpty()) return;
+		EntityLivingBase victim = event.getEntityLiving();
+		if(victim instanceof EntityPlayer) return;
 
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level <= 0) return;

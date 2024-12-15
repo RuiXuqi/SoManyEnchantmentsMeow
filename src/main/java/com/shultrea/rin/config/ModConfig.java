@@ -117,6 +117,8 @@ public class ModConfig {
 		@Config.Comment("Librarians will not be able to generate enchantments in this list")
 		@Config.Name("Librarian Enchantment Blacklist")
 		public String[] blacklistedLibrarianEnchants = {
+				"ancienctswordmastery",
+				"ancienctsealedcurses",
 				"advancedbaneofarthropods",
 				"advancedblastprotection",
 				"advancedefficiency",
@@ -159,6 +161,8 @@ public class ModConfig {
 		@Config.Comment("Enchanting table will not be able to generate enchantments in this list")
 		@Config.Name("Enchanting Table Blacklist")
 		public String[] blacklistedEnchTableEnchants = {
+				"ancienctswordmastery",
+				"ancienctsealedcurses",
 				"advancedbaneofarthropods",
 				"advancedblastprotection",
 				"advancedefficiency",
