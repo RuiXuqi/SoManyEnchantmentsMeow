@@ -31,7 +31,7 @@ public class IncompatibleConfig {
 			"minecraft:knockback, advancedknockback, flinging, mujmajnkraftsbettersurvival:fling",
 			"fieryedge, ashdestroyer",
 			"minecraft:looting, advancedlooting, mujmajnkraftsbettersurvival:education, ascetic",
-			"blessededge, lifesteal",
+			"blessededge, lifesteal","combatveterancy",
 			"rune_piercingcapabilities, rune_arrowpiercing, penetratingedge, rune_magicalblessing, rune_revival, rune_resurrection",
 			"viper, darkshadows, mortalitas",
 			"minecraft:infinity, strafe",

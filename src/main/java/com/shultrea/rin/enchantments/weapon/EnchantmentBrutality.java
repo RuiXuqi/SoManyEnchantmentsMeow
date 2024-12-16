@@ -4,6 +4,7 @@ import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -57,14 +58,14 @@ public class EnchantmentBrutality extends EnchantmentBase {
 		if(!(target instanceof EntityLivingBase)) return;
 		EntityLivingBase victim = (EntityLivingBase)target;
 		Iterable<ItemStack> iter = victim.getArmorInventoryList();
-		//TODO: pretty sure x will always be 1 since the armorInventoryList will always have 4 entries, some of them empty. might wanna check against empty
-		int x = 5;
+
+		int armorPieceCount = 0;
 		for(ItemStack item : iter) {
-			x--;
+			if(item != ItemStack.EMPTY)
+				armorPieceCount++;
 		}
 		for(ItemStack item : iter) {
-            item.damageItem((int)(item.getMaxDamage() * (0.0025f * x) + EnchantUtil.RANDOM.nextInt(x + 2)) + 1, victim);
+            item.damageItem((int)(item.getMaxDamage() * 0.0025f * level / armorPieceCount + user.getRNG().nextInt(level + 2)) + 1, victim);
 		}
-		//TODO: enchantment level doesnt factor into this calc at all, so brutality 1 does the same as brutality 1000
 	}
 }

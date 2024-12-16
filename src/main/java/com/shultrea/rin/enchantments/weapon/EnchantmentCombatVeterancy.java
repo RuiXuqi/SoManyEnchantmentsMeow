@@ -78,6 +78,7 @@ public class EnchantmentCombatVeterancy extends EnchantmentBase {
 		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.combatVeterancy, user);
 		if (enchantmentLevel <= 0) return;
 
+		//Every 4 / 3.5 / 3 seconds (for lvl I,II,III), heal for up to 0.5 health, reduce saturation slightly
 		if (user.getEntityWorld().getTotalWorldTime() % (90 - Math.min(enchantmentLevel * 10, 80)) == 0) {
 			if (user.getHealth() > user.getMaxHealth()) return;
 
@@ -85,6 +86,9 @@ public class EnchantmentCombatVeterancy extends EnchantmentBase {
 			if (user instanceof EntityPlayer)
 				((EntityPlayer) user).getFoodStats().addStats(((EntityPlayer) user).getFoodStats().getFoodLevel(), -0.05f);
 		}
+		//Every 2 seconds, gives absorption hearts for up to 0,5,10 extra absorption hearts, not running out.
+		//Slowly heals used up absorption potion effect hearts.
+		//Takes about 25 seconds to fully heal the absorption hearts.
 		if (user.getEntityWorld().getTotalWorldTime() % 40 == 0 && enchantmentLevel >= 3) {
 			float absorptionLevel = 0.0f;
 			if (user.isPotionActive(MobEffects.ABSORPTION))
@@ -96,10 +100,7 @@ public class EnchantmentCombatVeterancy extends EnchantmentBase {
 
 			if (user.getHealth() == user.getMaxHealth()) {
 				if (user.getAbsorptionAmount() < (enchantmentLevel - 1) * 10)
-					user.setAbsorptionAmount(user.getAbsorptionAmount() + 0.20f + (absorptionMax * 0.075f));
-
-				if (user.getAbsorptionAmount() > absorptionMax)
-					user.setAbsorptionAmount(absorptionMax);
+					user.setAbsorptionAmount(Math.min(absorptionMax,user.getAbsorptionAmount() + 0.20f + (absorptionMax * 0.075f)));
 			}
 		}
 	}
