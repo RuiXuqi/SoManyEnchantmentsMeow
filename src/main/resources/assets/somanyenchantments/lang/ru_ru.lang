@@ -24,8 +24,8 @@ enchantment.somanyenchantments.advancedsharpness.desc=Продвинутая в�
 enchantment.advancedsmite=Продвинутая Кара
 enchantment.somanyenchantments.advancedsmite.desc=Продвинутая версия Кары.
 
-enchantment.advancedefficency=Продвинутая Эффективность
-enchantment.somanyenchantments.advancedefficency.desc=Продвинутая версия Эффективности.
+enchantment.advancedefficiency=Продвинутая Эффективность
+enchantment.somanyenchantments.advancedefficiency.desc=Продвинутая версия Эффективности.
 
 enchantment.bluntness=Затупление
 enchantment.somanyenchantments.bluntness.desc=Уменьшает урон у предмета.

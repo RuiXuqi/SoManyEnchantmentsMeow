@@ -1,6 +1,7 @@
 package com.shultrea.rin.registry;
 
 import com.shultrea.rin.config.RarityConfig;
+import com.shultrea.rin.enchantments.weapon.selfheal.*;
 import com.shultrea.rin.util.Slots;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.SoManyEnchantments;

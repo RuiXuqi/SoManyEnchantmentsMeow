@@ -1,4 +1,4 @@
-package com.shultrea.rin.enchantments.armor.thorns;
+package com.shultrea.rin.enchantments.curses;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;

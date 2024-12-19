@@ -79,6 +79,7 @@ public class EnchantmentPurgingBlade extends EnchantmentBase {
 			for (PotionEffect potionEffect : victim.getActivePotionEffects()) {
 				//Removes on average one effect, but can be anything between 0 and all of them
 				if (attacker.getRNG().nextInt(victim.getActivePotionEffects().size()) == 0)
+					//TODO: increase dmg if removing a dmg increasing debuff to somewhat mimic old buggy behavior but not as insane
 					victim.removePotionEffect(potionEffect.getPotion());
 			}
 		}

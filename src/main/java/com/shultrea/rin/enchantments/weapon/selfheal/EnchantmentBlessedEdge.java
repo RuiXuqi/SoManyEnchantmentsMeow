@@ -1,6 +1,5 @@
-package com.shultrea.rin.enchantments.weapon;
+package com.shultrea.rin.enchantments.weapon.selfheal;
 
-import com.lycanitesmobs.LycanitesMobs;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.util.EnchantUtil;

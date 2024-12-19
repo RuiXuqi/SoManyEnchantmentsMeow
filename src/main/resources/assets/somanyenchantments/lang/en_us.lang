@@ -24,8 +24,8 @@ enchantment.somanyenchantments.advancedsharpness.desc=Advanced version of Sharpn
 enchantment.advancedsmite=Advanced Smite
 enchantment.somanyenchantments.advancedsmite.desc=Advanced version of smite.
 
-enchantment.advancedefficency=Advanced Efficiency
-enchantment.somanyenchantments.advancedefficency.desc=Advanced version of efficiency.
+enchantment.advancedefficiency=Advanced Efficiency
+enchantment.somanyenchantments.advancedefficiency.desc=Advanced version of efficiency.
 
 enchantment.bluntness=Bluntness
 enchantment.somanyenchantments.bluntness.desc=Reduces the attack damage of an item.

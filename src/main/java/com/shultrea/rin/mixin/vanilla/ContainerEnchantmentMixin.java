@@ -322,7 +322,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
     @Unique
     private Enchantment soManyEnchantments$getNextEnchInUpgradeOrder(Enchantment currEnch){
         String enchName = currEnch.getRegistryName().toString();
-        if(enchName.contains("somanyenchantments:"))
+        if(enchName.contains(SoManyEnchantments.MODID+":"))
             enchName = enchName.split(":")[1];
         for (String upgradeList : ModConfig.upgrade.enchantUpgradeOrder) {
             if (!upgradeList.contains(enchName)) continue;
@@ -333,7 +333,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
             if (foundIndex >= order.length-1) continue;
 
             String nextEnchName = order[foundIndex+1];
-            if(!nextEnchName.contains(":")) nextEnchName = "somanyenchantments:"+nextEnchName;
+            if(!nextEnchName.contains(":")) nextEnchName = SoManyEnchantments.MODID+":"+nextEnchName;
             Enchantment nextEnchantment = Enchantment.getEnchantmentByLocation(nextEnchName);
             if(nextEnchantment == null){
                 SoManyEnchantments.LOGGER.info("Could not find upgraded enchantment {}", nextEnchName);
@@ -347,7 +347,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
     @Unique
     private Enchantment soManyEnchantments$getCurse(Enchantment currEnch){
         String enchName = currEnch.getRegistryName().toString();
-        if(enchName.contains("somanyenchantments:"))
+        if(enchName.contains(SoManyEnchantments.MODID+":"))
             enchName = enchName.split(":")[1];
         for (String upgradeList : ModConfig.upgrade.enchantUpgradeCursing) {
             if (!upgradeList.contains(enchName)) continue;
@@ -361,7 +361,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
             if(curseEnchName.equals("none"))
                 return null;
             else {
-                if (!curseEnchName.contains(":")) curseEnchName = "somanyenchantments:" + curseEnchName;
+                if (!curseEnchName.contains(":")) curseEnchName = SoManyEnchantments.MODID+":" + curseEnchName;
                 Enchantment curse = Enchantment.getEnchantmentByLocation(curseEnchName);
                 if (curse == null) {
                     SoManyEnchantments.LOGGER.info("Could not find cursed enchantment {}", curseEnchName);

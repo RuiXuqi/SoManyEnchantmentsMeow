@@ -1,5 +1,6 @@
 package com.shultrea.rin.util;
 
+import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.curses.EnchantmentPandorasCurse;
 import net.minecraft.enchantment.Enchantment;
@@ -190,8 +191,8 @@ public abstract class EnchantUtil {
 		}
 
 		String enchantName = chosenEnchant.toString();
-		if(!enchantName.contains(":")) enchantName = "somanyenchantments:"+enchantName;
-		boolean isInList = Arrays.asList(blacklist).contains(enchantName);
+		boolean isInList = Arrays.asList(blacklist).contains(enchantName) ||
+				(chosenEnchant.getNamespace().equals(SoManyEnchantments.MODID) && Arrays.asList(blacklist).contains(chosenEnchant.getPath()));
 		return isInList != isWhitelist;
 	}
 }
