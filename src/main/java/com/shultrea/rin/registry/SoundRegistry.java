@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class SoundRegistry {
 
         public static SoundEvent CRITICAL_STRIKE;
+        public static SoundEvent CRITICAL_STRIKE_FAIL;
         public static SoundEvent ATOMIC_DECONSTRUCT;
         public static SoundEvent PANDORA_REMOVAL;
         public static SoundEvent CULLING_FINISH;
@@ -18,6 +19,7 @@ public class SoundRegistry {
         
         static {
                 CRITICAL_STRIKE = registerSound("critical_strike");
+                CRITICAL_STRIKE_FAIL = registerSound("critical_strike_fail");
                 ATOMIC_DECONSTRUCT = registerSound("atomic_deconstruct");
                 PANDORA_REMOVAL = registerSound("pandora_removal");
                 CULLING_FINISH = registerSound("attack_culling_finished");
@@ -36,6 +38,7 @@ public class SoundRegistry {
                 @SubscribeEvent
                 public static void registerSoundEvent(RegistryEvent.Register<SoundEvent> event) {
                         event.getRegistry().register(CRITICAL_STRIKE);
+                        event.getRegistry().register(CRITICAL_STRIKE_FAIL);
                         event.getRegistry().register(ATOMIC_DECONSTRUCT);
                         event.getRegistry().register(PANDORA_REMOVAL);
                         event.getRegistry().register(CULLING_FINISH);

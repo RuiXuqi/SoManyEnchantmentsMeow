@@ -63,7 +63,7 @@ public class EnchantmentCriticalStrike extends EnchantmentBase {
 		return ModConfig.treasure.criticalStrike;
 	}
 	
-	@SubscribeEvent(priority = EventPriority.HIGH)
+	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onCriticalHitEvent(CriticalHitEvent event) {
 		if(!this.isEnabled()) return;
 		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isCriticalHitEventStrong(event)) return;
@@ -76,21 +76,26 @@ public class EnchantmentCriticalStrike extends EnchantmentBase {
 		
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
+			if(event.getResult() == Event.Result.DENY) return;
 			if(event.getResult() == Event.Result.ALLOW || (event.isVanillaCritical() && event.getResult() == Event.Result.DEFAULT)) {
 				NBTTagCompound compound = stack.getTagCompound();
 				if(compound == null) compound = new NBTTagCompound();
-				int counter = compound.getInteger("CriticalStrikeFailCount");
-				int maxReduction = level * 50;
+				int counter = 1 + compound.getInteger("CriticalStrikeFailCount");
+				int maxChance = 1000 - 50 * level;
+				int chance = 32 * counter;
 				
-				if(attacker.getRNG().nextInt(1000 - maxReduction) >= 32 * (counter + 1)) {
-					compound.setInteger("CriticalStrikeFailCount", counter + 1);
+				if(attacker.getRNG().nextInt(maxChance) >= chance) {
+					compound.setInteger("CriticalStrikeFailCount", counter);
+					attacker.world.playSound(null, attacker.posX, attacker.posY, attacker.posZ, SoundRegistry.CRITICAL_STRIKE_FAIL, SoundCategory.PLAYERS, 0.8F, 1.0F + (float)(2.0F * chance / maxChance));
+					event.setDamageModifier(Math.max(1.5F, event.getDamageModifier()));
 				}
 				else {
 					compound.setInteger("CriticalStrikeFailCount", 0);
-					float crit = 0.4F + 0.4F * (float)level + 0.5F * attacker.getRNG().nextFloat();
+					float crit = 1.0F + 0.5F * (float)level + 0.5F * (float)level * attacker.getRNG().nextFloat();
 					attacker.world.playSound(null, attacker.posX, attacker.posY, attacker.posZ, SoundRegistry.CRITICAL_STRIKE, SoundCategory.PLAYERS, 0.8F, 1.0F / (1.2F + 0.4F * attacker.getRNG().nextFloat()) * 1.6F);
 					event.setDamageModifier(event.getDamageModifier() + crit);
 				}
+				event.setResult(Event.Result.ALLOW);
 				stack.setTagCompound(compound);
 			}
 		}

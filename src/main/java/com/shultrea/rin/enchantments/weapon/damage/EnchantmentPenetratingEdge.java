@@ -76,7 +76,7 @@ public class EnchantmentPenetratingEdge extends EnchantmentBase {
 		if(level > 0) {
 			float armor = victim.getTotalArmorValue();
 			if(armor > 2) {
-				event.setAmount(event.getAmount() + (1.0F + armor / 3.0F) * (float)level);
+				event.setAmount(event.getAmount() + Math.min(15.0F, (armor / 3.0F) * (float)level));
 			}
 		}
 	}

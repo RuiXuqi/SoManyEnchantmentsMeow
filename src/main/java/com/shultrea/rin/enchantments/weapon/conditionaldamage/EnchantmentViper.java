@@ -75,12 +75,12 @@ public class EnchantmentViper extends EnchantmentBase {
 		
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
-			float damage = 1 + event.getAmount();
+			float damage = event.getAmount();
 			if(victim.isPotionActive(MobEffects.POISON)) {
-				damage += 1.25F + 0.75F * (float)level;
+				damage += 1.75F + 0.75F * (float)level;
 			}
 			if(victim.isPotionActive(MobEffects.WITHER)) {
-				damage += 0.5F + 0.5F * (float)level;
+				damage += 1.0F + 0.5F * (float)level;
 			}
 			event.setAmount(damage);
 		}
