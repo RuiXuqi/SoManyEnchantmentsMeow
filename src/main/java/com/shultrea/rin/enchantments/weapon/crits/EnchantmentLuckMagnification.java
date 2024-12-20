@@ -82,13 +82,19 @@ public class EnchantmentLuckMagnification extends EnchantmentBase {
 		
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
+			if(event.getResult() == Event.Result.DENY) return;
+			IAttributeInstance luck = attacker.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.LUCK);
+			float amount = (float)luck.getAttributeValue();
+			if(amount <= 0) return;
+			
+			if(event.getResult() != Event.Result.ALLOW && !event.isVanillaCritical()) {
+				if(attacker.getRNG().nextFloat() < Math.min(0.2F, 0.01F * amount * (float)level)) {
+					event.setResult(Event.Result.ALLOW);
+				}
+			}
 			if(event.getResult() == Event.Result.ALLOW || (event.isVanillaCritical() && event.getResult() == Event.Result.DEFAULT)) {
-				IAttributeInstance luck = attacker.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.LUCK);
-				float amount = (float)luck.getAttributeValue();
-				if(amount != 0) {
-					if(attacker.getRNG().nextFloat() < Math.abs(0.02F * amount * (float)level)) {
-						event.setDamageModifier(event.getDamageModifier() + amount * 0.15F * (float)level);
-					}
+				if(attacker.getRNG().nextFloat() < Math.min(0.2F, 0.02F * amount * (float)level)) {
+					event.setDamageModifier(event.getDamageModifier() + amount * 0.1F * (float)level);
 				}
 			}
 		}

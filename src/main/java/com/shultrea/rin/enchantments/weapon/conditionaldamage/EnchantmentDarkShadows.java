@@ -93,7 +93,7 @@ public class EnchantmentDarkShadows extends EnchantmentBase {
 		int level = EnchantmentHelper.getEnchantmentLevel(this, attacker.getHeldItemMainhand());
 		if(level > 0) {
 			if(attacker.getBrightness() <= 0.1F) {
-				event.setAmount(event.getAmount() + 0.75F * (float)level);
+				event.setAmount(event.getAmount() + 1.0F + 2.5F * (float)level);
 			}
 		}
 	}
