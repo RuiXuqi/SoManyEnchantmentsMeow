@@ -17,7 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 @Mixin(EntityVillager.ListEnchantedBookForEmeralds.class)
 public abstract class EntityVillagerListEnchantedBookForEmeraldsMixin {

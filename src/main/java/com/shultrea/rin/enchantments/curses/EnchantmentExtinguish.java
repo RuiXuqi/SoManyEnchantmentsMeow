@@ -8,8 +8,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
-import java.util.Random;
-
 public class EnchantmentExtinguish extends EnchantmentCurse {
 	
 	public EnchantmentExtinguish(String name, Rarity rarity, EntityEquipmentSlot... slots) {
