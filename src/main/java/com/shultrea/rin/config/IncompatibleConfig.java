@@ -19,11 +19,9 @@ public class IncompatibleConfig {
 			"heavyweight, swifterslashes",
 			"minecraft:unbreaking, rusted",
 			"minecraft:unbreaking, instability",
-			"minecraft:sweeping, arcslash",
-			"minecraft:sweeping, ancientswordmastery",
+			"minecraft:sweeping, arcslash, ancientswordmastery",
 			"minecraft:silk_touch, smelter",
-			"minecraft:silk_touch, minecraft:fortune",
-			"minecraft:luck_of_the_sea, advancedluckofthesea",
+			"minecraft:luck_of_the_sea, advancedluckofthesea, ascetic",
 			"minecraft:lure, advancedlure",
 			"minecraft:mending, advancedmending, minecraft:infinity",
 			"curseofpossession, curseofdecay",
@@ -32,15 +30,15 @@ public class IncompatibleConfig {
 			"minecraft:efficiency, advancedefficiency, inefficient",
 			"minecraft:knockback, advancedknockback, flinging, mujmajnkraftsbettersurvival:fling",
 			"fieryedge, ashdestroyer",
-			"minecraft:looting, advancedlooting, mujmajnkraftsbettersurvival:education",
-			"blessededge, lifesteal",
-			"rune_piercingcapabilities, rune_arrowpiercing, penetratingedge, rune_magicalblessing, rune_revival, rune_resurrection",
+			"minecraft:looting, advancedlooting, mujmajnkraftsbettersurvival:education, ascetic",
+			"blessededge, lifesteal","combatveterancy",
+			"rune_piercingcapabilities, rune_arrowpiercing, rune_magicalblessing, rune_revival, rune_resurrection, mujmajnkraftsbettersurvival:penetration",
 			"viper, darkshadows, mortalitas",
 			"minecraft:infinity, strafe",
 			"minecraft:power, advancedpower, powerless",
 			"minecraft:punch, advancedpunch, dragging, pushing",
 			"subjectpe, subjectenglish, subjectscience, subjectmathematics, subjecthistory",
-			"minecraft:fire_aspect, lesserfireaspect, advancedfireaspect, supremefireaspect, wateraspect",
+			"minecraft:fire_aspect, lesserfireaspect, advancedfireaspect, supremefireaspect, wateraspect, blessededge, fieryedge",
 			"minecraft:flame, lesserflame, advancedflame, supremeflame",
 			"reviledblade, ashdestroyer, instability, difficultysendowment, cursededge",
 			"criticalstrike, luckmagnification",
@@ -51,10 +49,11 @@ public class IncompatibleConfig {
 			"lessersmite, minecraft:smite, advancedsmite, supremesmite, blessededge, reinforcedsharpness, bluntness",
 			"lesserbaneofarthropods, minecraft:bane_of_arthropods, advancedbaneofarthropods, supremebaneofarthropods, reinforcedsharpness, bluntness",
 			"lessersharpness, lessersmite, lesserbaneofarthropods",
-			"advancedsharpness, advancedsmite, advancedbaneofarthropods, supremesharpness, supremesmite, supremebaneofarthropods, spellbreaker",
+			"advancedsharpness, advancedsmite, advancedbaneofarthropods, supremesharpness, supremesmite, supremebaneofarthropods, spellbreaker, penetratingedge",
 			"defusingedge, inhumane, butchering",
 			"splitshot, mujmajnkraftsbettersurvival:multishot",
-			"adept, mujmajnkraftsbettersurvival:education"};
+			"adept, mujmajnkraftsbettersurvival:education"
+	};
 
 	public ArrayList<Enchantment> getIncompatibleEnchantmentsString(Enchantment thisEnch) {
 		ArrayList<Enchantment> incompatEnchs = new ArrayList<>();

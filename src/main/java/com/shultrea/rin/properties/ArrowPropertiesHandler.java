@@ -93,7 +93,12 @@ public class ArrowPropertiesHandler {
 		
 		IArrowProperties properties = arrow.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
 		if(properties == null) return;
-		
+
+		if(EnchantmentRegistry.extinguish.isEnabled()) {
+			int flameLevel = properties.getFlameLevel();
+			if(flameLevel == 0) victim.extinguish();
+		}
+
 		if(EnchantmentRegistry.lesserFlame.isEnabled() || EnchantmentRegistry.advancedFlame.isEnabled() || EnchantmentRegistry.supremeFlame.isEnabled()) {
 			int seconds = getFireSeconds(properties.getFlameLevel());
 			if(seconds > 0) victim.setFire(seconds);
@@ -173,6 +178,13 @@ public class ArrowPropertiesHandler {
 			int levelStrafe = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.strafe, bow);
 			if(RANDOM.nextFloat() < 0.125F * levelStrafe) {
 				properties.setArrowResetsIFrames(true);
+			}
+		}
+
+		if(EnchantmentRegistry.extinguish.isEnabled()) {
+			int levelExtinguish = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.extinguish, bow);
+			if(levelExtinguish > 0) {
+				properties.setFlameLevel(0);
 			}
 		}
 

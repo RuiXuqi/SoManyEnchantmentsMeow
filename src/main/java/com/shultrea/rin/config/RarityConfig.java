@@ -263,6 +263,12 @@ public class RarityConfig {
 	@Config.Name("Unpredictable")
 	@Config.RequiresMcRestart
 	public int unpredictable = VERY_RARE;
+	@Config.Name("Ascetic")
+	@Config.RequiresMcRestart
+	public int ascetic = RARE;
+	@Config.Name("Extinguish")
+	@Config.RequiresMcRestart
+	public int extinguish = VERY_RARE;
 	
 	//Rune
 	@Config.Name("Rune: Arrow Piercing")

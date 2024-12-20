@@ -24,8 +24,8 @@ enchantment.somanyenchantments.advancedsharpness.desc=Version avancée du Tranch
 enchantment.advancedsmite=Châtiment Avancé
 enchantment.somanyenchantments.advancedsmite.desc=Version avancée de Châtiment.
 
-enchantment.advancedefficency=Efficacité Avancée
-enchantment.somanyenchantments.advancedefficency.desc=Version avancée d'Efficacité.
+enchantment.advancedefficiency=Efficacité Avancée
+enchantment.somanyenchantments.advancedefficiency.desc=Version avancée d'Efficacité.
 
 enchantment.bluntness=Cassure
 enchantment.somanyenchantments.bluntness.desc=Réduit les dégâts d'attaque d'un objet.

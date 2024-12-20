@@ -1,8 +1,8 @@
-package com.shultrea.rin.enchantments.armor.thorns;
+package com.shultrea.rin.enchantments.curses;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.enchantments.base.EnchantmentCurse;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,7 +13,7 @@ import net.minecraftforge.common.ISpecialArmor;
 
 import java.util.Random;
 
-public class EnchantmentMeltdown extends EnchantmentBase {
+public class EnchantmentMeltdown extends EnchantmentCurse {
 	
 	public EnchantmentMeltdown(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);

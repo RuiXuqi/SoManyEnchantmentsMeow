@@ -24,8 +24,8 @@ enchantment.somanyenchantments.advancedsharpness.desc=Advanced version of Sharpn
 enchantment.advancedsmite=Advanced Smite
 enchantment.somanyenchantments.advancedsmite.desc=Advanced version of smite.
 
-enchantment.advancedefficency=Advanced Efficiency
-enchantment.somanyenchantments.advancedefficency.desc=Advanced version of efficiency.
+enchantment.advancedefficiency=Advanced Efficiency
+enchantment.somanyenchantments.advancedefficiency.desc=Advanced version of efficiency.
 
 enchantment.bluntness=Bluntness
 enchantment.somanyenchantments.bluntness.desc=Reduces the attack damage of an item.
@@ -201,19 +201,19 @@ enchantment.cactusprotection=Cactus Protection
 enchantment.witherprotection=Wither Protection
 
 enchantment.subjectmathematics=Subject Mathematics
-enchantment.somanyenchantments.subjectmathematics.desc=One of the subject enchantments. Gives extra damage to all like sharpness and also gives you additional damage based on the target's hp.
+enchantment.somanyenchantments.subjectmathematics.desc=Increases damage based on the target's health with a maximum at 50% health.
 
 enchantment.subjectscience=Subject Science
-enchantment.somanyenchantments.subjectscience.desc=Attacks have a chance to explode! Dealing massive damage to the target and nearby entities around it. The owner doesn't take the blast damage and the explosion doesn't damage the terrain.
+enchantment.somanyenchantments.subjectscience.desc=Increases base damage. Attacks have a chance to explode!
 
 enchantment.subjectenglish=Subject English
-enchantment.somanyenchantments.subjectenglish.desc=One of the subject enchantments. Aside from the first extra damage, gives you additional damage on mobs that are 'smarter'(e.g. villagers, wolves, zombie pigmen, snow golems, and etc.).
+enchantment.somanyenchantments.subjectenglish.desc=Increases damage on mobs that are 'smarter'.
 
 enchantment.subjecthistory=Subject History
-enchantment.somanyenchantments.subjecthistory.desc=One of the subject enchantments. Gives extra damage to all like sharpness. Aside from the first extra damage, attacks are stronger the more the world exists longer (in other words, a world that is played for 4 days in real time (total time played of course) gives more additional damage than newly created world).
+enchantment.somanyenchantments.subjecthistory.desc=Increases damage the longer a chunk is inhabited.
 
 enchantment.subjectpe=Subject P.E.
-enchantment.somanyenchantments.subjectpe.desc=One of the subject enchantments. Gives extra damage to all like sharpness. Attacks also have chance to trigger several potion effect related to exercise and health.
+enchantment.somanyenchantments.subjectpe.desc=Attacks have a chance to trigger several potion effects related to exercise and health.
 
 enchantment.subjectphysics=Subject Physics
 enchantment.somanyenchantments.subjectphysics.desc=TBA
@@ -405,6 +405,15 @@ enchantment.truestrike=True Strike
 enchantment.somanyenchantments.truestrike.desc=Allows the user to penetrate through the evasion enchantment by 75% and prevents the user from obtaining the curse of inaccuracy enchantment. 
 
 enchantment.pandorascurse=Pandora's Curse
+
+enchantment.ascetic=Ascetic
+enchantment.somanyenchantments.ascetic.desc=You abandon the need for loot.
+
+enchantment.extinguish=Extinguish
+enchantment.somanyenchantments.extinguish.desc=Extinguishes the target on hit.
+
+
+
 
 potion.potency.4=V
 potion.potency.5=VI

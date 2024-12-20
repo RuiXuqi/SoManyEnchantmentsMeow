@@ -1,4 +1,4 @@
-package com.shultrea.rin.enchantments.weapon.damagemultiplier;
+package com.shultrea.rin.enchantments.weapon.crits;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
@@ -70,7 +70,6 @@ public class EnchantmentCriticalStrike extends EnchantmentBase {
 		EntityLivingBase attacker = event.getEntityLiving();
 		if(attacker == null) return;
 		if(!(event.getTarget() instanceof EntityLivingBase)) return;
-		EntityLivingBase victim = (EntityLivingBase)event.getTarget();
 		ItemStack stack = attacker.getHeldItemMainhand();
 		if(CompatUtil.isRLCombatLoaded()) stack = RLCombatCompat.getCriticalHitEventStack(event, attacker);
 		if(stack.isEmpty()) return;

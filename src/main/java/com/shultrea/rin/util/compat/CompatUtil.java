@@ -8,10 +8,12 @@ public class CompatUtil {
 	private static final String SWITCHBOW_MODID = "switchbow";
 	private static final String INF_MODID = "iceandfire";
 	private static final String SCALINGHEALTH_MODID = "scalinghealth";
+	private static final String LYCANITESMOBS_MODID = "lycanitesmobs";
 	private static Boolean isRLCombatLoaded = null;
 	private static Boolean isSwitchbowLoaded = null;
 	private static Boolean isIceAndFireLoaded = null;
 	private static Boolean isScalingHealthLoaded = null;
+	private static Boolean isLycanitesMobsLoaded = null;
 	
 	public static boolean isRLCombatLoaded() {
 		if(isRLCombatLoaded == null) isRLCombatLoaded = Loader.isModLoaded(RLCOMBAT_MODID) && isRLCombatCorrectVersion();
@@ -31,6 +33,11 @@ public class CompatUtil {
 	public static boolean isScalingHealthLoaded() {
 		if(isScalingHealthLoaded == null) isScalingHealthLoaded = Loader.isModLoaded(SCALINGHEALTH_MODID);
 		return isScalingHealthLoaded;
+	}
+
+	public static boolean isLycanitesMobsLoaded() {
+		if(isLycanitesMobsLoaded == null) isLycanitesMobsLoaded = Loader.isModLoaded(LYCANITESMOBS_MODID);
+		return isLycanitesMobsLoaded;
 	}
 	
 	private static boolean isRLCombatCorrectVersion() {

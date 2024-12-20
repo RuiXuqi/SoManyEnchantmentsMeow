@@ -11,6 +11,7 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.LootingLevelEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -72,12 +73,33 @@ public class EnchantmentButchering extends EnchantmentBase {
 		if(victim == null) return;
 		ItemStack stack = attacker.getHeldItemMainhand();
 		if(stack.isEmpty()) return;
+
+		//if(CompatUtil.isIceAndFireLoaded() && (victim instanceof EntityDragonBase || victim instanceof EntitySeaSerpent)) return;
 		
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
 			if(victim instanceof EntityAnimal) {
-				event.setAmount(event.getAmount() + 2.5F + 1.5F * (float)level);
+					event.setAmount(event.getAmount() + 2.5F + 1.5F * (float)level);
 			}
 		}
+	}
+
+	@SubscribeEvent(priority = EventPriority.HIGH)
+	public void onLootingLevelEvent(LootingLevelEvent event) {
+		if(!this.isEnabled()) return;
+
+		EntityLivingBase attacker = (EntityLivingBase)event.getDamageSource().getTrueSource();
+		if(attacker == null) return;
+
+		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, attacker);
+		if(level <= 0) return;
+
+		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
+		if(!(victim instanceof EntityAnimal)) return;
+
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getDamageSource())) return;
+
+		event.setLootingLevel(event.getLootingLevel() + level);
 	}
 }

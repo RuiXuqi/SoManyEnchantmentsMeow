@@ -258,6 +258,12 @@ public class CanApplyAnvilConfig {
 	@Config.Name("Unpredictable")
 	@Config.RequiresMcRestart
 	public String[] unpredictable = {"SWORD", "BS_WEAPON"};
+	@Config.Name("Ascetic")
+	@Config.RequiresMcRestart
+	public String[] ascetic = {"SWORD", "BS_WEAPON", "AXE", "FISHING_ROD"};
+	@Config.Name("Extinguish")
+	@Config.RequiresMcRestart
+	public String[] extinguish = {"SWORD", "BS_WEAPON", "AXE","BOW"};
 	
 	//Rune
 	@Config.Name("Rune: Arrow Piercing")

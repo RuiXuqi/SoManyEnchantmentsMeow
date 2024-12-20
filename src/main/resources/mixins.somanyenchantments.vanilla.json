@@ -6,16 +6,24 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
+    "vanilla.ContainerEnchantmentMixin",
+    "vanilla.ContainerRepairMixin",
+    "vanilla.EnchantmentHelperEnchantBlacklistMixin",
     "vanilla.EnchantmentHelperMixin",
     "vanilla.EnchantmentProtectionMixin",
+    "vanilla.EnchantRandomlyMixin",
     "vanilla.EntityArrowMixin",
-    "vanilla.IEntityCreeperMixin",
     "vanilla.EntityLivingBaseMixin",
+    "vanilla.EntityVillagerListEnchantedBookForEmeraldsMixin",
+    "vanilla.IEntityCreeperMixin",
     "vanilla.IItemBowMixin",
     "vanilla.ItemMixin",
     "vanilla.ItemStackMixin"
   ],
   "injectors": {
     "maxShiftBy": 10
-  }
+  },
+  "client": [
+    "vanilla.GuiEnchantmentMixin"
+  ]
 }

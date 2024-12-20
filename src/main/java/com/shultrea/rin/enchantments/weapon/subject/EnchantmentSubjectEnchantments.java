@@ -2,20 +2,18 @@ package com.shultrea.rin.enchantments.weapon.subject;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.monster.*;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -169,11 +167,13 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 	}
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void subjectHandler(LivingHurtEvent fEvent) {
+	public void onLivingHurt(LivingHurtEvent fEvent) {
 		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
 		EntityLivingBase attacker = (EntityLivingBase) fEvent.getSource().getTrueSource();
+		if(attacker == null) return;
 		ItemStack stack = ((EntityLivingBase) fEvent.getSource().getTrueSource()).getHeldItemMainhand();
 		if(stack == null) return;
+
 		int levelMath = ModConfig.enabled.subjectMathematics ?
 				EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.subjectMathematics, stack) : 0;
 		int levelHistory =
@@ -183,31 +183,23 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 				ModConfig.enabled.subjectEnglish ? EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.subjectEnglish, stack) :
 						0;
 		if(levelMath > 0) {
-			float hp = fEvent.getEntityLiving().getMaxHealth() * (levelMath * 0.003125f);
-			float currentHp = fEvent.getEntityLiving().getHealth() * (0.025f * levelMath + 0.025f);
-			float FD = EnchantUtil.modifyDamage(fEvent.getAmount(), hp + currentHp, 0.0f, 1.0f, levelMath);
-			fEvent.setAmount(FD);
+			float percHealth = fEvent.getEntityLiving().getHealth()/fEvent.getEntityLiving().getMaxHealth();
+			float maths = MathHelper.clamp(4*percHealth*(1-percHealth),0F,1F);	//quadratic function, 0 for percHealth=0% and percHealth=100%, 1 for percHealth=50%
+			float addedDmg = maths * levelMath * 1.5F;
+			fEvent.setAmount(fEvent.getAmount() + addedDmg);
 		}
 		if(levelHistory > 0) {
-			float history = attacker.getEntityWorld().getTotalWorldTime() / 20 / 3600 / (6-levelHistory);
-			history = Math.min(history, 2.5f * levelHistory);
-			float FD = EnchantUtil.modifyDamage(fEvent.getAmount(), history, 0.0f, 1.0f, levelHistory);
-			fEvent.setAmount(FD);
+			float localDifficulty = attacker.getEntityWorld().getDifficultyForLocation(attacker.getPosition()).getAdditionalDifficulty();
+			float addedDmg = (localDifficulty / 6.75f) * levelHistory * 1.5f;
+			fEvent.setAmount(fEvent.getAmount() + addedDmg);
 		}
 		if(levelEnglish > 0) {
-			if(fEvent.getEntity() instanceof EntityWitch ||
-					fEvent.getEntity() instanceof EntityVillager ||
-					fEvent.getEntity() instanceof EntityWolf ||
-					fEvent.getEntity() instanceof EntitySnowman ||
-					fEvent.getEntity() instanceof EntityIronGolem ||
-					fEvent.getEntity() instanceof EntityPigZombie ||
-					fEvent.getEntity() instanceof EntityVindicator ||
-					fEvent.getEntity() instanceof EntityIllusionIllager ||
-					fEvent.getEntity() instanceof EntityEvoker)
-			{
-				float FD = EnchantUtil.modifyDamage(fEvent.getAmount(), 0.0f, 3.0f, 1.0f, levelEnglish);
-				fEvent.setAmount(FD);
-				if(Math.random() <= 0.4f) fEvent.getEntityLiving().setSilent(true);
+			EntityLivingBase victim = fEvent.getEntityLiving();
+			if(!(victim instanceof EntityLiving)) return;
+			int taskCount = ((EntityLiving) victim).tasks.taskEntries.size();
+			if(taskCount > 12){
+				fEvent.setAmount(fEvent.getAmount() + 1.5F * levelEnglish);
+				if(attacker.getRNG().nextFloat() <= 0.4f) fEvent.getEntityLiving().setSilent(true);
 			}
 		}
 	}
@@ -246,13 +238,11 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 			}
 		}
 	}
-	
+
 	@Override
 	public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType) {
-		if(!isEnabled())
-			return 0.0f;
-		if(damageType == PE)
-			return 0.75f + level * 0.25f;
-		return 0.80f + level * 0.30f;
+		if(damageType == SCIENCE & isEnabled())
+			return 0.8F + level * 0.3F;
+		return 0F;
 	}
 }

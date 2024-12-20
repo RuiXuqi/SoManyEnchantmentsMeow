@@ -1,5 +1,6 @@
 package com.shultrea.rin.util;
 
+import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.curses.EnchantmentPandorasCurse;
 import net.minecraft.enchantment.Enchantment;
@@ -8,12 +9,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -163,5 +166,33 @@ public abstract class EnchantUtil {
 			damage -= level * 0.25F + 1.0F;
 		}
 		return damage;
+	}
+
+	public static boolean isBlackListedEnchant(ResourceLocation chosenEnchant, int type) {
+		String[] blacklist = {};
+		boolean isWhitelist = false;
+		switch(type){
+			case 0:
+				blacklist = ModConfig.miscellaneous.blacklistedRandomLevelEnchants;
+				isWhitelist = ModConfig.miscellaneous.blacklistedRandomLevelEnchantsIsWhitelist;
+				break;
+			case 1:
+				blacklist = ModConfig.miscellaneous.blacklistedRandomEnchants;
+				isWhitelist = ModConfig.miscellaneous.blacklistedRandomEnchantsIsWhitelist;
+				break;
+			case 2:
+				blacklist = ModConfig.miscellaneous.blacklistedLibrarianEnchants;
+				isWhitelist = ModConfig.miscellaneous.blacklistedLibrarianEnchantsIsWhitelist;
+				break;
+			case 3:
+				blacklist = ModConfig.miscellaneous.blacklistedEnchTableEnchants;
+				isWhitelist = ModConfig.miscellaneous.blacklistedEnchTableEnchantsIsWhitelist;
+				break;
+		}
+
+		String enchantName = chosenEnchant.toString();
+		boolean isInList = Arrays.asList(blacklist).contains(enchantName) ||
+				(chosenEnchant.getNamespace().equals(SoManyEnchantments.MODID) && Arrays.asList(blacklist).contains(chosenEnchant.getPath()));
+		return isInList != isWhitelist;
 	}
 }
