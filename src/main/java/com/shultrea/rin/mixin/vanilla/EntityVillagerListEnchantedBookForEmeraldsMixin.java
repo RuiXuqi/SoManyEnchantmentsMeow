@@ -1,6 +1,5 @@
 package com.shultrea.rin.mixin.vanilla;
 
-import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.util.EnchantUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.IMerchant;
