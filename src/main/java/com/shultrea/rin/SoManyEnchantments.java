@@ -1,5 +1,6 @@
 package com.shultrea.rin;
 
+import com.shultrea.rin.config.UpgradeConfig;
 import com.shultrea.rin.util.Types;
 import com.shultrea.rin.properties.*;
 import com.shultrea.rin.util.*;
@@ -21,7 +22,7 @@ public class SoManyEnchantments {
 	
 	public static final String MODID = "somanyenchantments";
 	public static final String NAME = "Rin's So Many Enchantments?";
-	public static final String VERSION = "0.5.5";
+	public static final String VERSION = "1.0.0";
 	public static final Logger LOGGER = LogManager.getLogger(SoManyEnchantments.MODID);
 
 	@Instance(SoManyEnchantments.MODID)
@@ -42,5 +43,6 @@ public class SoManyEnchantments {
 		PotionUtil.initializePotionLists();
 		Types.initEnchantmentTabs();
 		EnchantmentRegistry.initIncompatLists();
+		UpgradeConfig.initUpgradeTokens();
 	}
 }

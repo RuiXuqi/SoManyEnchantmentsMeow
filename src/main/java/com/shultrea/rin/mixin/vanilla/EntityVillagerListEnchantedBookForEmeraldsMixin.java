@@ -44,7 +44,6 @@ public abstract class EntityVillagerListEnchantedBookForEmeraldsMixin {
                 validEnchantsArr.add(r);
         }
 
-        SoManyEnchantments.LOGGER.info("Nischhelm says (SME), valid enchants: {}", validEnchantsArr.size());
         if(!validEnchantsArr.isEmpty()) {
             ResourceLocation chosenEnchant = validEnchantsArr.get(soManyEnchantments_random.nextInt(validEnchantsArr.size()));
             enchantment = Enchantment.REGISTRY.getObject(chosenEnchant);
