@@ -87,6 +87,7 @@ public class EnchantmentButchering extends EnchantmentBase {
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public void onLootingLevelEvent(LootingLevelEvent event) {
 		if(!this.isEnabled()) return;
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getDamageSource())) return;
 
 		EntityLivingBase attacker = (EntityLivingBase)event.getDamageSource().getTrueSource();
 		if(attacker == null) return;
