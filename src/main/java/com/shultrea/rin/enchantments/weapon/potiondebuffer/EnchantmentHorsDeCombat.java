@@ -3,6 +3,8 @@ package com.shultrea.rin.enchantments.weapon.potiondebuffer;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.MobEffects;
@@ -51,22 +53,28 @@ public class EnchantmentHorsDeCombat extends EnchantmentBase {
 		return ModConfig.treasure.horsDeCombat;
 	}
 	
-	//TODO
 	@Override
-	public void onEntityDamagedAlt(EntityLivingBase user, Entity victims, ItemStack stack, int level) {
-		if(!isEnabled()) return;
-		if(!(victims instanceof EntityLivingBase)) return;
-		EntityLivingBase victim = (EntityLivingBase)victims;
-		if(Math.random() * 100 < 10) {
-			if(level == 1 || level == 2) {
-				victim.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 20 + (level * 10), level - 1));
-				victim.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 20 + (level * 10), level * 2));
-			}
-			if(level >= 3) {
-				victim.addPotionEffect(new PotionEffect(MobEffects.HUNGER, 20 + (level * 10), level - 1));
-				victim.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 20 + (level * 10), level - 1));
-				victim.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 20 + (level * 10), level - 1));
-				victim.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 20 + (level * 10), level - 3));
+	public void onEntityDamagedAlt(EntityLivingBase attacker, Entity target, ItemStack weapon, int level) {
+		if(!this.isEnabled()) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isOnEntityDamagedAltStrong()) return;
+		if(attacker == null) return;
+		if(!(target instanceof EntityLivingBase)) return;
+		EntityLivingBase victim = (EntityLivingBase)target;
+		if(weapon.isEmpty()) return;
+		
+		if(!attacker.world.isRemote) {
+			if(attacker.getRNG().nextFloat() <= 0.2F * (float)level) {
+				int index = attacker.getRNG().nextInt(8);
+				switch(index) {
+					case 0: victim.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 20 + level * 10, level - 1));
+					case 1: victim.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 20 + level * 10, level - 1));
+					case 2: victim.addPotionEffect(new PotionEffect(MobEffects.HUNGER, 20 + level * 10, level - 1));
+					case 3: victim.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 20 + level * 10, level - 1));
+					case 4: victim.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 20 + level * 10, level - 1));
+					case 5: victim.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 20 + level * 10, level - 1));
+					case 6: victim.addPotionEffect(new PotionEffect(MobEffects.WITHER, 20 + level * 10, level - 1));
+					case 7: victim.addPotionEffect(new PotionEffect(MobEffects.POISON, 20 + level * 10, level - 1));
+				}
 			}
 		}
 	}

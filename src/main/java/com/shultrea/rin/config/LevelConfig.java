@@ -388,6 +388,10 @@ public class LevelConfig {
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
 	public int subjectPE = 5;
+	@Config.Name("Subject Physics")
+	@Config.RequiresMcRestart
+	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
+	public int subjectPhysics = 4;
 	@Config.Name("Subject Science")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)

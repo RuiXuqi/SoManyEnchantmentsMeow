@@ -3,6 +3,8 @@ package com.shultrea.rin.enchantments.weapon.potiondebuffer;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.MobEffects;
@@ -51,12 +53,22 @@ public class EnchantmentEnvenomed extends EnchantmentBase {
 		return ModConfig.treasure.envenomed;
 	}
 	
-	//TODO
 	@Override
-	public void onEntityDamagedAlt(EntityLivingBase user, Entity entiti, ItemStack stack, int level) {
-		if(!(entiti instanceof EntityLivingBase)) return;
-		EntityLivingBase entity = (EntityLivingBase)entiti;
-		entity.addPotionEffect(new PotionEffect(MobEffects.POISON, 30 + (level * 10), level - 1));
-		entity.addPotionEffect(new PotionEffect(MobEffects.WITHER, 30 + (level * 10), level));
+	public void onEntityDamagedAlt(EntityLivingBase attacker, Entity target, ItemStack weapon, int level) {
+		if(!this.isEnabled()) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isOnEntityDamagedAltStrong()) return;
+		if(attacker == null) return;
+		if(!(target instanceof EntityLivingBase)) return;
+		EntityLivingBase victim = (EntityLivingBase)target;
+		if(weapon.isEmpty()) return;
+		
+		if(!attacker.world.isRemote) {
+			if(attacker.getRNG().nextFloat() <= 0.2F * (float)level) {
+				victim.addPotionEffect(new PotionEffect(MobEffects.POISON, 40 + (10 * level), level - 1));
+				if(level > 2) {
+					victim.addPotionEffect(new PotionEffect(MobEffects.WITHER, 40 + (10 * level), level - 1));
+				}
+			}
+		}
 	}
 }

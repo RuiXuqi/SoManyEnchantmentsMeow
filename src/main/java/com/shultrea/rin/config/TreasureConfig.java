@@ -294,6 +294,9 @@ public class TreasureConfig {
 	@Config.Name("Subject P.E.")
 	@Config.RequiresMcRestart
 	public boolean subjectPE = true;
+	@Config.Name("Subject Physics")
+	@Config.RequiresMcRestart
+	public boolean subjectPhysics = true;
 	@Config.Name("Subject Science")
 	@Config.RequiresMcRestart
 	public boolean subjectScience = true;

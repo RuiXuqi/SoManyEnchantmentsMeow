@@ -3,12 +3,10 @@ package com.shultrea.rin.enchantments.weapon.potiondebuffer;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.*;
 import net.minecraft.entity.monster.EntityMagmaCube;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.monster.EntitySlime;
@@ -63,95 +61,102 @@ public class EnchantmentPurification extends EnchantmentBase {
 		return ModConfig.treasure.purification;
 	}
 
-	//TODO: this is not yet in incompatible list, would be one group per curse
 	@Override
 	public boolean canApplyTogether(Enchantment fTest) {
 		return super.canApplyTogether(fTest) && !fTest.isCurse();
 	}
 	
-	//TODO
 	@Override
-	public void onEntityDamagedAlt(EntityLivingBase user, Entity target, ItemStack stack, int level) {
+	public void onEntityDamagedAlt(EntityLivingBase attacker, Entity target, ItemStack weapon, int level) {
+		if(!this.isEnabled()) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isOnEntityDamagedAltStrong()) return;
+		if(attacker == null) return;
 		if(!(target instanceof EntityLivingBase)) return;
-		if(user.world.isRemote) return;
 		EntityLivingBase victim = (EntityLivingBase)target;
-		int lvl = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.purification, stack);
-		if(lvl <= 0) return;
-		if(victim.getCreatureAttribute() == EnumCreatureAttribute.UNDEAD || victim.isEntityUndead()) {
-			victim.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, lvl * 20, lvl >= 5 ? 0 : 1));
-			victim.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, lvl * 30));
-		}
-		if(victim.getRNG().nextInt(20) < lvl) {
-			if(victim.isDead) return;
-			repeat(victim);
+		if(weapon.isEmpty()) return;
+		
+		if(!attacker.world.isRemote) {
+			if(victim.isDead || victim.getHealth() <= 0.0F) return;
+			if(victim.isEntityUndead()) {
+				victim.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 20 + level * 10, Math.max(0, Math.min(1, level - 1))));
+				victim.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 20 + level * 10, Math.max(0, Math.min(2, level - 1))));
+			}
+			if(victim.getRNG().nextFloat() <= 0.05F * (float)level) {
+				convert(victim);
+			}
 		}
 	}
 	
-	//TODO
-	public boolean repeat(EntityLivingBase eBase) {
-		if(eBase instanceof EntityZombieVillager) {
-			eBase.setSilent(true);
-			eBase.setDead();
-			EntityVillager villager = new EntityVillager(eBase.world);
-			villager.copyLocationAndAnglesFrom(eBase);
-			villager.setProfession((((EntityZombieVillager)eBase).getForgeProfession()));
+	private static void convert(EntityLivingBase entity) {
+		if(entity instanceof EntityZombieVillager) {
+			EntityVillager villager = new EntityVillager(entity.world);
+			villager.copyLocationAndAnglesFrom(entity);
+			villager.setProfession(((EntityZombieVillager)entity).getForgeProfession());
+			villager.finalizeMobSpawn(entity.world.getDifficultyForLocation(new BlockPos(villager)), null, false);
 			villager.setLookingForHome();
-			villager.finalizeMobSpawn(eBase.world.getDifficultyForLocation(new BlockPos(eBase)), null, false);
-			if(villager.isChild()) villager.setGrowingAge(-24000);
-			villager.setNoAI(villager.isAIDisabled());
-			if(villager.hasCustomName()) {
-				villager.setCustomNameTag(villager.getCustomNameTag());
-				villager.setAlwaysRenderNameTag(villager.getAlwaysRenderNameTag());
+			if(entity.isChild()) villager.setGrowingAge(-24000);
+			
+			entity.setSilent(true);
+			entity.world.removeEntity(entity);
+			villager.setNoAI(((EntityLiving)entity).isAIDisabled());
+			
+			if(entity.hasCustomName()) {
+				villager.setCustomNameTag(entity.getCustomNameTag());
+				villager.setAlwaysRenderNameTag(entity.getAlwaysRenderNameTag());
 			}
-			villager.world.spawnEntity(villager);
+			
+			entity.world.spawnEntity(villager);
+			
 			villager.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 200, 0));
 			villager.addPotionEffect(new PotionEffect(MobEffects.INSTANT_HEALTH, 1, 1));
-			villager.world.playEvent(null, 1027, new BlockPos((int)villager.posX, (int)villager.posY, (int)villager.posZ), 0);
-			villager.hurtResistantTime = 15;
-			return true;
+			entity.world.playEvent(null, 1027, new BlockPos((int)villager.posX, (int)villager.posY, (int)villager.posZ), 0);
+			villager.hurtResistantTime = villager.maxHurtResistantTime;
 		}
-		else if(eBase instanceof EntityPigZombie) {
-			eBase.setSilent(true);
-			eBase.setDead();
-			//Mostly copied from #EntityPigZombie
-			EntityPig pig = new EntityPig(eBase.world);
-			pig.copyLocationAndAnglesFrom(eBase);
-			if(pig.isChild()) pig.setGrowingAge(-24000);
-			pig.world.removeEntity(eBase);
-			pig.setNoAI(pig.isAIDisabled());
-			if(pig.hasCustomName()) {
-				pig.setCustomNameTag(pig.getCustomNameTag());
-				pig.setAlwaysRenderNameTag(pig.getAlwaysRenderNameTag());
+		else if(entity instanceof EntityPigZombie) {
+			EntityPig pig = new EntityPig(entity.world);
+			pig.copyLocationAndAnglesFrom(entity);
+			if(entity.isChild()) pig.setGrowingAge(-24000);
+			
+			entity.setSilent(true);
+			entity.world.removeEntity(entity);
+			pig.setNoAI(((EntityPigZombie)entity).isAIDisabled());
+			
+			if(entity.hasCustomName()) {
+				pig.setCustomNameTag(entity.getCustomNameTag());
+				pig.setAlwaysRenderNameTag(entity.getAlwaysRenderNameTag());
 			}
-			pig.world.spawnEntity(pig);
+			
+			entity.world.spawnEntity(pig);
+			
 			pig.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 200, 0));
 			pig.addPotionEffect(new PotionEffect(MobEffects.INSTANT_HEALTH, 1, 1));
-			pig.world.playEvent(null, 1027, new BlockPos((int)pig.posX, (int)pig.posY, (int)pig.posZ), 0);
-			pig.hurtResistantTime = 15;
-			return true;
+			entity.world.playEvent(null, 1027, new BlockPos((int)pig.posX, (int)pig.posY, (int)pig.posZ), 0);
+			pig.hurtResistantTime = pig.maxHurtResistantTime;
 		}
-		else if(eBase instanceof EntityMagmaCube) {
-			eBase.setSilent(true);
-			eBase.setDead();
-			//Mostly copied from #EntityPigZombie
-			EntitySlime slime = new EntitySlime(eBase.world);
-			slime.copyLocationAndAnglesFrom(eBase);
-			NBTTagCompound nbt1 = eBase.serializeNBT();
-			NBTTagCompound nbt2 = slime.serializeNBT();
-			nbt2.setByte("Size", nbt1.getByte("Size"));
-			slime.readEntityFromNBT(nbt2);
-			eBase.setDead();
-			slime.setNoAI(slime.isAIDisabled());
-			if(slime.hasCustomName()) {
-				slime.setCustomNameTag(slime.getCustomNameTag());
-				slime.setAlwaysRenderNameTag(slime.getAlwaysRenderNameTag());
+		else if(entity instanceof EntityMagmaCube) {
+			EntitySlime slime = new EntitySlime(entity.world);
+			slime.copyLocationAndAnglesFrom(entity);
+			
+			NBTTagCompound entityCompound = entity.serializeNBT();
+			NBTTagCompound slimeCompound = slime.serializeNBT();
+			slimeCompound.setInteger("Size", entityCompound.getInteger("Size"));
+			slime.readEntityFromNBT(slimeCompound);
+			
+			entity.setSilent(true);
+			entity.world.removeEntity(entity);
+			slime.setNoAI(((EntityMagmaCube)entity).isAIDisabled());
+			
+			if(entity.hasCustomName()) {
+				slime.setCustomNameTag(entity.getCustomNameTag());
+				slime.setAlwaysRenderNameTag(entity.getAlwaysRenderNameTag());
 			}
-			slime.world.spawnEntity(slime);
+			
+			entity.world.spawnEntity(slime);
+			
+			slime.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 200, 0));
 			slime.addPotionEffect(new PotionEffect(MobEffects.INSTANT_HEALTH, 1, 1));
-			slime.world.playEvent(null, 1027, new BlockPos((int)slime.posX, (int)slime.posY, (int)slime.posZ), 0);
-			slime.hurtResistantTime = 15;
-			return true;
+			entity.world.playEvent(null, 1027, new BlockPos((int)slime.posX, (int)slime.posY, (int)slime.posZ), 0);
+			slime.hurtResistantTime = slime.maxHurtResistantTime;
 		}
-		return false;
 	}
 }

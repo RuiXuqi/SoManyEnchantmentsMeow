@@ -295,6 +295,9 @@ public class CanApplyAnvilConfig {
 	@Config.Name("Subject P.E.")
 	@Config.RequiresMcRestart
 	public String[] subjectPE = {"AXE"};
+	@Config.Name("Subject Physics")
+	@Config.RequiresMcRestart
+	public String[] subjectPhysics = {"AXE"};
 	@Config.Name("Subject Science")
 	@Config.RequiresMcRestart
 	public String[] subjectScience = {"AXE"};

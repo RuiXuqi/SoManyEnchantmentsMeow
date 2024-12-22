@@ -357,6 +357,9 @@ public class CanApplyConfig {
 	@Config.Name("Subject P.E.")
 	@Config.RequiresMcRestart
 	public String[] subjectPE = {"SWORD", "BS_WEAPON"};
+	@Config.Name("Subject Physics")
+	@Config.RequiresMcRestart
+	public String[] subjectPhysics = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Subject Science")
 	@Config.RequiresMcRestart
 	public String[] subjectScience = {"SWORD", "BS_WEAPON"};
