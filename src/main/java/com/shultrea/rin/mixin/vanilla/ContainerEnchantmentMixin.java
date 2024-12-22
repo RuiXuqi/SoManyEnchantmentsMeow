@@ -3,16 +3,14 @@ package com.shultrea.rin.mixin.vanilla;
 import com.google.common.collect.Lists;
 import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.config.ModConfig;
+import com.shultrea.rin.config.UpgradeConfig;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ContainerEnchantment;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -37,18 +35,20 @@ import static net.minecraftforge.common.ForgeHooks.getEnchantPower;
 @Mixin(value = ContainerEnchantment.class, priority = 2000)
 public abstract class ContainerEnchantmentMixin extends Container {
     @Shadow public IInventory tableInventory;
-    @Final @Shadow private World world;
-    @Final @Shadow private BlockPos position;
+    @Shadow @Final private World world;
+    @Shadow @Final private BlockPos position;
     @Shadow public int[] enchantLevels;
     @Shadow public int[] enchantClue;
     @Shadow public int[] worldClue;
     @Shadow @Final private Random rand;
     @Shadow public int xpSeed;
 
-    @Unique private EnchantmentData sme$currentEnch;
-    @Unique private EnchantmentData sme$upgradedEnch;
-    @Unique private EnchantmentData sme$cursedEnch;
-    @Unique private int sme$levelCost;
+    @Unique private EnchantmentData sme$currentEnch = null;
+    @Unique private EnchantmentData sme$upgradedEnch = null;
+    @Unique private EnchantmentData sme$cursedEnch = null;
+    @Unique private int sme$levelCost = -1;
+    @Unique private String sme$upgradeToken = "";
+    @Unique private int sme$tokenCost = 128;
     @Unique private final int sme$upgradeSlot = 0;
 
     @Redirect(
@@ -58,10 +58,9 @@ public abstract class ContainerEnchantmentMixin extends Container {
     Slot soManyEnchantments_init_addSlotToContainer(ContainerEnchantment instance, Slot slot){
         if(slot.getSlotIndex()==1 && slot.xPos==35 && slot.yPos==47) {
             Slot newSlot = new Slot(this.tableInventory, 1, 35, 47) {
-                java.util.List<ItemStack> ores = net.minecraftforge.oredict.OreDictionary.getOres("gemLapis");
 
                 public boolean isItemValid(ItemStack stack) {
-                    for (ItemStack ore : ores)
+                    for (ItemStack ore : net.minecraftforge.oredict.OreDictionary.getOres("gemLapis"))
                         if (net.minecraftforge.oredict.OreDictionary.itemMatches(ore, stack, false))
                             return true;
                     return soManyEnchantments$isUpgradeToken(stack);
@@ -89,6 +88,17 @@ public abstract class ContainerEnchantmentMixin extends Container {
         }
     }
 
+    @Redirect(
+            method = "enchantItem",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getCount()I")
+    )
+    private int denyNonLapisMixin(ItemStack stack){
+        for (ItemStack ore : net.minecraftforge.oredict.OreDictionary.getOres("gemLapis"))
+            if (net.minecraftforge.oredict.OreDictionary.itemMatches(ore, stack, false))
+                return stack.getCount();
+        return -1;
+    }
+
     @Inject(
             method = "onCraftMatrixChanged",
             at = @At(value = "HEAD"),
@@ -98,11 +108,11 @@ public abstract class ContainerEnchantmentMixin extends Container {
         if (inventoryIn != this.tableInventory) return;
         if (this.world.isRemote) return;
 
-        //Correct token?
+        //Acceptable token?
         ItemStack itemstackToken = inventoryIn.getStackInSlot(1);
         if (itemstackToken.isEmpty()) return;
         if (!soManyEnchantments$isUpgradeToken(itemstackToken)) return;
-        if (itemstackToken.getCount() < ModConfig.upgrade.upgradeTokenAmount) return;
+        String currentToken = itemstackToken.getItem().getRegistryName().toString();
 
         //Correct item?
         ItemStack itemstackTargetItem = inventoryIn.getStackInSlot(0);
@@ -136,20 +146,26 @@ public abstract class ContainerEnchantmentMixin extends Container {
         //Get upgradeable enchants
         List<EnchantmentData> upgradeableEnchantments = Lists.<EnchantmentData>newArrayList();
         List<EnchantmentData> upgradedEnchantments = Lists.<EnchantmentData>newArrayList();
+        List<Integer> upgradingTokenAmount = Lists.<Integer>newArrayList();
+        List<String> upgradingToken = Lists.<String>newArrayList();
+
         for (Enchantment currEnch : currentEnchants.keySet()) {
             int enchLvl = currentEnchants.get(currEnch);
 
-            Enchantment nextEnchantment = soManyEnchantments$getNextEnchInUpgradeOrder(currEnch);
+            String[] nextEnchantmentData = soManyEnchantments$getNextEnchInUpgradeOrder(currEnch,currentToken);
+            Enchantment nextEnchantment = Enchantment.getEnchantmentByLocation(nextEnchantmentData[0]);
             int newLvl = 0;
 
-            if (ModConfig.upgrade.allowLevelIncrease && enchLvl < currEnch.getMaxLevel() && !currEnch.isCurse()) {
+            boolean isLevelUpgrade = false;
+            if (ModConfig.upgrade.allowLevelIncrease && enchLvl < currEnch.getMaxLevel() && !currEnch.isCurse() && currentToken.equals(ModConfig.upgrade.upgradeToken)) {
                 nextEnchantment = currEnch;
                 newLvl = enchLvl + 1;
+                isLevelUpgrade = true;
             }
             if (nextEnchantment == null) continue;
+            if (ModConfig.upgrade.onlyAllowCompatible && !soManyEnchantments$isCompatibleWithOtherEnchants(nextEnchantment,currentEnchants,currEnch)) continue;
 
-            //If newLvl not already set by level increase
-            if (newLvl == 0) {
+            if (!isLevelUpgrade) {
                 if (Objects.equals(ModConfig.upgrade.upgradedTierLevelMode, "MINLVL"))
                     newLvl = nextEnchantment.getMinLevel();
                 if (Objects.equals(ModConfig.upgrade.upgradedTierLevelMode, "SUBTRACT"))
@@ -157,6 +173,13 @@ public abstract class ContainerEnchantmentMixin extends Container {
             }
             upgradeableEnchantments.add(new EnchantmentData(currEnch, enchLvl));
             upgradedEnchantments.add(new EnchantmentData(nextEnchantment, newLvl));
+            if(isLevelUpgrade) {
+                upgradingTokenAmount.add(ModConfig.upgrade.upgradeTokenAmount);
+                upgradingToken.add(ModConfig.upgrade.upgradeToken);
+            } else {
+                upgradingTokenAmount.add(Integer.parseInt(nextEnchantmentData[1]));
+                upgradingToken.add(nextEnchantmentData[2]);
+            }
         }
         if (upgradeableEnchantments.isEmpty()) return;
 
@@ -178,6 +201,8 @@ public abstract class ContainerEnchantmentMixin extends Container {
         }
         sme$currentEnch = upgradeableEnchantments.get(upgradingIndex);
         sme$upgradedEnch = upgradedEnchantments.get(upgradingIndex);
+        sme$tokenCost = upgradingTokenAmount.get(upgradingIndex);
+        sme$upgradeToken = upgradingToken.get(upgradingIndex);
 
         //Get possible cursed enchant
         Enchantment curse = soManyEnchantments$getCurse(sme$currentEnch.enchantment);
@@ -194,7 +219,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
             case "ENCHANTABILITY":
                 sme$levelCost = sme$upgradedEnch.enchantment.getMinEnchantability(sme$upgradedEnch.enchantmentLevel);
                 break;
-            /*case "NONE":*/
+            /*case "ONE":*/
             default:
                 break;
         }
@@ -213,26 +238,44 @@ public abstract class ContainerEnchantmentMixin extends Container {
         ci.cancel();
     }
 
+    @Unique
+    private boolean soManyEnchantments$isCompatibleWithOtherEnchants(Enchantment nextEnchantment, Map<Enchantment, Integer> currentEnchants, Enchantment currEnch) {
+        for(Enchantment e: currentEnchants.keySet()){
+            if(!e.equals(currEnch) && !nextEnchantment.isCompatibleWith(e)){
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Inject(
             method = "enchantItem",
             at = @At("HEAD"),
             cancellable = true
     )
     void soManyEnchantments_enchantItem_head(EntityPlayer playerIn, int id, CallbackInfoReturnable<Boolean> cir) {
-        if (this.world.isRemote) return;
-
         ItemStack itemstackTargetItem = this.tableInventory.getStackInSlot(0);
         ItemStack itemstackToken = this.tableInventory.getStackInSlot(1);
 
         if (id != sme$upgradeSlot) return;
+        if(this.enchantLevels[sme$upgradeSlot] <= 0 || itemstackTargetItem.isEmpty()) return;
 
         //Correct token+amount?
-        if ((itemstackToken.isEmpty() || itemstackToken.getCount() < ModConfig.upgrade.upgradeTokenAmount || !soManyEnchantments$isUpgradeToken(itemstackToken)) && !playerIn.capabilities.isCreativeMode)
+        String currentToken = itemstackToken.getItem().getRegistryName().toString();
+        if ((itemstackToken.isEmpty()) && !playerIn.capabilities.isCreativeMode)
             return;
 
         //Enough lvls?
-        if (this.enchantLevels[sme$upgradeSlot] <= 0 || itemstackTargetItem.isEmpty() || (playerIn.experienceLevel < this.enchantLevels[sme$upgradeSlot] && !playerIn.capabilities.isCreativeMode))
+        if (playerIn.experienceLevel < this.enchantLevels[sme$upgradeSlot] && !playerIn.capabilities.isCreativeMode)
             return;
+
+        if (this.world.isRemote) {
+            cir.setReturnValue(true);
+            return;
+        }
+
+        if(sme$currentEnch == null || sme$upgradedEnch == null || sme$upgradeToken.isEmpty() || sme$tokenCost == 128 || sme$levelCost == -1) return;
+        if(itemstackToken.getCount() < sme$tokenCost || !currentToken.equals(sme$upgradeToken)) return;
 
         //Replace enchantment with upgraded or cursed version
         Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(itemstackTargetItem);
@@ -269,7 +312,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
 
         //Pay token price
         if (!playerIn.capabilities.isCreativeMode) {
-            itemstackToken.shrink(ModConfig.upgrade.upgradeTokenAmount);
+            itemstackToken.shrink(sme$tokenCost);
 
             if (itemstackToken.isEmpty()) {
                 this.tableInventory.setInventorySlotContents(1, ItemStack.EMPTY);
@@ -293,6 +336,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
             itemstackTargetItem.setRepairCost(repairCost);
         }
 
+        soManyEnchantments$resetStoredData();
         this.tableInventory.markDirty();
         this.xpSeed = playerIn.getXPSeed();
         this.onCraftMatrixChanged(this.tableInventory);
@@ -305,7 +349,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
 
     @Unique
     private boolean soManyEnchantments$isUpgradeToken(ItemStack stack){
-        return stack.getItem().getRegistryName().toString().equals(ModConfig.upgrade.upgradeToken);
+        return UpgradeConfig.upgradeTokens.contains(stack.getItem().getRegistryName().toString());
     }
 
     @Unique
@@ -320,28 +364,36 @@ public abstract class ContainerEnchantmentMixin extends Container {
     }
 
     @Unique
-    private Enchantment soManyEnchantments$getNextEnchInUpgradeOrder(Enchantment currEnch){
+    private String[] soManyEnchantments$getNextEnchInUpgradeOrder(Enchantment currEnch, String upgradeToken){
         String enchName = currEnch.getRegistryName().toString();
         if(enchName.contains(SoManyEnchantments.MODID+":"))
             enchName = enchName.split(":")[1];
-        for (String upgradeList : ModConfig.upgrade.enchantUpgradeOrder) {
-            if (!upgradeList.contains(enchName)) continue;
+        for (String upgradeLine : ModConfig.upgrade.enchantUpgradeOrder) {
+            if (!upgradeLine.contains(enchName)) continue;
 
-            String[] order = upgradeList.split(" *, *"); //Removing optional whitespace
-            int foundIndex = Arrays.asList(order).indexOf(enchName);
+            String[] lineEntries = upgradeLine.split("\\s*,\\s*"); //Removing optional whitespace
+            if(lineEntries.length < 4) continue;
+
+            int foundIndex = Arrays.asList(lineEntries).indexOf(enchName);
             //If we're already maxed, we don't need to upgrade further
-            if (foundIndex >= order.length-1) continue;
+            if (foundIndex >= lineEntries.length-3) continue;
 
-            String nextEnchName = order[foundIndex+1];
+            //Correct token?
+            String requiredToken = lineEntries[lineEntries.length-2];
+            if(!Objects.equals(upgradeToken, requiredToken)) continue;
+
+            String requiredTokenAmount = lineEntries[lineEntries.length-1];
+
+            String nextEnchName = lineEntries[foundIndex+1];
             if(!nextEnchName.contains(":")) nextEnchName = SoManyEnchantments.MODID+":"+nextEnchName;
             Enchantment nextEnchantment = Enchantment.getEnchantmentByLocation(nextEnchName);
             if(nextEnchantment == null){
                 SoManyEnchantments.LOGGER.info("Could not find upgraded enchantment {}", nextEnchName);
-                return null;
+                return new String[]{"sme$error_not_found","",""};
             }
-            return nextEnchantment;
+            return new String[]{nextEnchName, requiredTokenAmount, requiredToken};
         }
-        return null;
+        return new String[]{"sme$not_found","",""};
     }
 
     @Unique
@@ -372,5 +424,53 @@ public abstract class ContainerEnchantmentMixin extends Container {
 
         }
         return null;
+    }
+
+    @Unique
+    private void soManyEnchantments$resetStoredData(){
+        sme$currentEnch = null;
+        sme$upgradedEnch = null;
+        sme$cursedEnch = null;
+        sme$levelCost = -1;
+        sme$upgradeToken = "";
+        sme$tokenCost = 128;
+    }
+
+    @Inject(
+            method = "getLapisAmount",
+            at = @At(value = "HEAD"),
+            cancellable = true
+    )
+    private void soManyEnchantments_sendOneLapisToGUIifUpgradingMixin(CallbackInfoReturnable<Integer> cir) {
+        ItemStack stack = this.tableInventory.getStackInSlot(1);
+        for (ItemStack ore : net.minecraftforge.oredict.OreDictionary.getOres("gemLapis"))
+            if (net.minecraftforge.oredict.OreDictionary.itemMatches(ore, stack, false))
+                return;
+        if (!stack.isEmpty()) {
+            if (stack.getCount() >= sme$tokenCost && stack.getItem().getRegistryName().toString().equals(sme$upgradeToken))
+                cir.setReturnValue(1);
+            else
+                cir.setReturnValue(0);
+        }
+    }
+
+    @Inject(
+            method = "broadcastData",
+            at = @At(value = "HEAD")
+    )
+    void soManyEnchantments_sendTokenDataMixin(IContainerListener crafting, CallbackInfo ci){
+        crafting.sendWindowProperty(this, 10, sme$tokenCost);
+        crafting.sendWindowProperty(this, 11, UpgradeConfig.upgradeTokens.indexOf(sme$upgradeToken));
+    }
+
+    @Inject(
+            method = "updateProgressBar",
+            at = @At(value = "HEAD")
+    )
+    void soManyEnchantments_receiveTokenDataMixin(int id, int data, CallbackInfo ci){
+        if(id==10)
+            sme$tokenCost = data;
+        if(id==11 && data != -1)
+            sme$upgradeToken = UpgradeConfig.upgradeTokens.get(data);
     }
 }

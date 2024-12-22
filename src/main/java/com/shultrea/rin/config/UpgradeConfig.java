@@ -2,29 +2,37 @@ package com.shultrea.rin.config;
 
 import net.minecraftforge.common.config.Config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UpgradeConfig {
-	@Config.Comment("Enchantments will be upgraded in this order")
+	@Config.Comment("Enchantments will be upgraded in this order. [ench1, ench2, ..., itemToUse, amountOfItem]")
 	@Config.Name("Enchantment upgrade order")
 	public String[] enchantUpgradeOrder = {
-			"lessersharpness, minecraft:sharpness, advancedsharpness, supremesharpness",
-			"lessersmite, minecraft:smite, advancedsmite, supremesmite",
-			"lesserbaneofarthropods, minecraft:bane_of_arthropods, advancedbaneofarthropods, supremebaneofarthropods",
-			"lesserfireaspect, minecraft:fire_aspect, advancedfireaspect, supremefireaspect",
-			"minecraft:knockback, advancedknockback",
-			"minecraft:looting, advancedlooting",
-			"minecraft:efficiency, advancedefficiency",
-			"minecraft:luck_of_the_sea, advancedluckofthesea",
-			"minecraft:lure, advancedlure",
-			"minecraft:mending, advancedmending",
-			"lesserflame, minecraft:flame, advancedflame, supremeflame",
-			"minecraft:punch, advancedpunch",
-			"minecraft:power, advancedpower",
-			"minecraft:feather_falling, advancedfeatherfalling",
-			"minecraft:blast_protection, advancedblastprotection",
-			"minecraft:fire_protection, advancedfireprotection",
-			"minecraft:projectile_protection, advancedprojectileprotection",
-			"minecraft:protection, advancedprotection",
-			"minecraft:thorns, burningthorns, advancedthorns"
+			"lessersharpness, minecraft:sharpness, advancedsharpness, minecraft:prismarine_shard, 16",
+			"lessersmite, minecraft:smite, advancedsmite, minecraft:prismarine_shard, 16",
+			"lesserbaneofarthropods, minecraft:bane_of_arthropods, advancedbaneofarthropods, minecraft:prismarine_shard, 16",
+			"lesserfireaspect, minecraft:fire_aspect, advancedfireaspect, minecraft:prismarine_shard, 16",
+			"minecraft:knockback, advancedknockback, minecraft:prismarine_shard, 16",
+			"minecraft:looting, advancedlooting, minecraft:prismarine_shard, 16",
+			"minecraft:efficiency, advancedefficiency, minecraft:prismarine_shard, 16",
+			"minecraft:luck_of_the_sea, advancedluckofthesea, minecraft:prismarine_shard, 16",
+			"minecraft:lure, advancedlure, minecraft:prismarine_shard, 16",
+			"minecraft:mending, advancedmending, minecraft:prismarine_shard, 16",
+			"lesserflame, minecraft:flame, advancedflame, minecraft:prismarine_shard, 16",
+			"minecraft:punch, advancedpunch, minecraft:prismarine_shard, 16",
+			"minecraft:power, advancedpower, minecraft:prismarine_shard, 16",
+			"minecraft:feather_falling, advancedfeatherfalling, minecraft:prismarine_shard, 16",
+			"minecraft:blast_protection, advancedblastprotection, minecraft:prismarine_shard, 16",
+			"minecraft:fire_protection, advancedfireprotection, minecraft:prismarine_shard, 16",
+			"minecraft:projectile_protection, advancedprojectileprotection, minecraft:prismarine_shard, 16",
+			"minecraft:protection, advancedprotection, minecraft:prismarine_shard, 16",
+			"minecraft:thorns, burningthorns, advancedthorns, minecraft:prismarine_shard, 16",
+			"advancedflame, supremeflame, minecraft:nether_star, 1",
+			"advancedfireaspect, supremefireaspect, minecraft:nether_star, 1",
+			"advancedsharpness, supremesharpness, minecraft:nether_star, 1",
+			"advancedsmite, supremesmite, minecraft:nether_star, 1",
+			"advancedbaneofarthropods, supremebaneofarthropods, minecraft:nether_star, 1"
 	};
 
 	@Config.Comment("Enchantments will be turned into their curse form. Curse is last in list. none means it will be removed instead")
@@ -51,12 +59,12 @@ public class UpgradeConfig {
 			"minecraft:thorns, burningthorns, advancedthorns, meltdown"
 	};
 
-	@Config.Comment("Upgrading enchantments will use up this material")
-	@Config.Name("Upgrade Token")
-	public String upgradeToken = "minecraft:nether_star";
+	@Config.Comment("Upgrading enchantment levels (not tiers) will use up this material")
+	@Config.Name("Upgrade Token for levels")
+	public String upgradeToken = "minecraft:prismarine_shard";
 
-	@Config.Comment("Upgrading enchantments will use up this amount of the token material")
-	@Config.Name("Upgrade Token Amount")
+	@Config.Comment("Upgrading enchantment levels will use up this amount of the token material")
+	@Config.Name("Upgrade Token for levels - Amount")
 	public int upgradeTokenAmount = 1;
 
 	@Config.Comment("Mode how many XP levels are used while upgrading enchants: NONE=no xp cost, ANVIL=how much the resulting enchant would cost on anvil, ENCHANTABILITY=minimum enchantability of the resulting enchant")
@@ -70,6 +78,10 @@ public class UpgradeConfig {
 	@Config.Comment("Set to true to allow upgrading enchants only on enchanted books with one enchantment")
 	@Config.Name("Only allow upgrading for single enchant books")
 	public boolean onlyAllowOnBooks = false;
+
+	@Config.Comment("Only allow upgrading tiers of enchantments if the upgraded enchantment is compatible with the other enchants on the item")
+	@Config.Name("Only allow compatible")
+	public boolean onlyAllowCompatible = true;
 
 	@Config.Comment("Chance to turn into curse or to remove entirely instead of upgrading")
 	@Config.Name("Cursing Chance")
@@ -110,4 +122,16 @@ public class UpgradeConfig {
 	@Config.Comment("How many bookshelves are needed to be able to upgrade")
 	@Config.Name("Amount of bookshelves needed")
 	public int bookshelvesNeeded = 30;
+
+	public static List<String> upgradeTokens = new ArrayList<>();
+
+	public static void initUpgradeTokens(){
+		if(ModConfig.upgrade.allowLevelIncrease) upgradeTokens.add(ModConfig.upgrade.upgradeToken);
+		for(String line : ModConfig.upgrade.enchantUpgradeOrder){
+			String[] split = line.split("\\s*,\\s*");
+			if(split.length>3){
+				upgradeTokens.add(split[split.length-2]);
+			}
+		}
+	}
 }

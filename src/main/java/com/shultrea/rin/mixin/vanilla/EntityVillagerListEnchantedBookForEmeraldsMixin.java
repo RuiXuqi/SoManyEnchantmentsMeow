@@ -17,7 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 @Mixin(EntityVillager.ListEnchantedBookForEmeralds.class)
 public abstract class EntityVillagerListEnchantedBookForEmeraldsMixin {
@@ -45,7 +44,6 @@ public abstract class EntityVillagerListEnchantedBookForEmeraldsMixin {
                 validEnchantsArr.add(r);
         }
 
-        SoManyEnchantments.LOGGER.info("Nischhelm says (SME), valid enchants: {}", validEnchantsArr.size());
         if(!validEnchantsArr.isEmpty()) {
             ResourceLocation chosenEnchant = validEnchantsArr.get(soManyEnchantments_random.nextInt(validEnchantsArr.size()));
             enchantment = Enchantment.REGISTRY.getObject(chosenEnchant);

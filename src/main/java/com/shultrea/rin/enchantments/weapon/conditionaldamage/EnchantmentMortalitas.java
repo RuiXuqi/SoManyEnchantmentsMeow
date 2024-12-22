@@ -83,6 +83,8 @@ public class EnchantmentMortalitas extends EnchantmentBase {
 			event.setAmount(event.getAmount() + damage);
 		}
 	}
+
+	//TODO: decrease counter over time
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void onLivingDeathEvent(LivingDeathEvent event) {
