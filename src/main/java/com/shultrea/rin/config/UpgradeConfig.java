@@ -32,7 +32,8 @@ public class UpgradeConfig {
 			"advancedfireaspect, supremefireaspect, minecraft:nether_star, 1",
 			"advancedsharpness, supremesharpness, minecraft:nether_star, 1",
 			"advancedsmite, supremesmite, minecraft:nether_star, 1",
-			"advancedbaneofarthropods, supremebaneofarthropods, minecraft:nether_star, 1"
+			"advancedbaneofarthropods, supremebaneofarthropods, minecraft:nether_star, 1",
+			"advancedprotection, supremeprotection, minecraft:dragon_egg, 1"
 	};
 
 	@Config.Comment("Enchantments will be turned into their curse form. Curse is last in list. none means it will be removed instead")
@@ -55,7 +56,7 @@ public class UpgradeConfig {
 			"minecraft:blast_protection, advancedblastprotection, curseofvulnerability",
 			"minecraft:fire_protection, advancedfireprotection, curseofvulnerability",
 			"minecraft:projectile_protection, advancedprojectileprotection, curseofvulnerability",
-			"minecraft:protection, advancedprotection, curseofvulnerability",
+			"minecraft:protection, advancedprotection, supremeprotection, curseofvulnerability",
 			"minecraft:thorns, burningthorns, advancedthorns, meltdown"
 	};
 

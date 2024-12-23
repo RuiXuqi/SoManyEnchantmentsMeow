@@ -385,4 +385,7 @@ public class EnabledConfig {
 	@Config.Name("Supreme Smite")
 	@Config.RequiresMcRestart
 	public boolean supremeSmite = true;
+	@Config.Name("Supreme Protection")
+	@Config.RequiresMcRestart
+	public boolean supremeProtection = true;
 }
