@@ -61,13 +61,17 @@ public class EnchantmentCombatVeterancy extends EnchantmentBase {
 		return ModConfig.treasure.combatVeterancy;
 	}
 
-	//TODO
+	//TODO: onLivingDamage decrease overall dmg taken by like 15% or smth
+
+	//TODO IDEAS: only while sneaking, at higher health trigger alr, two-handed/single-handed only (no offfhand)?
+
 	@SubscribeEvent(priority = EventPriority.LOW)
-	public void onRegen(LivingHealEvent e) {
+	public void onLivingHeal(LivingHealEvent e) {
 		EntityLivingBase user = e.getEntityLiving();
 		if (user == null) return;
 		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.combatVeterancy, user);
 		if (enchantmentLevel > 0)
+			//TODO: balance this against rejuvenation which is x2, x4 and x6 for lvl I, II, III respectively
 			e.setAmount(e.getAmount() * (1.05f + 0.15f * enchantmentLevel));
 	}
 
@@ -82,6 +86,7 @@ public class EnchantmentCombatVeterancy extends EnchantmentBase {
 		if (user.getEntityWorld().getTotalWorldTime() % (90 - Math.min(enchantmentLevel * 10, 80)) == 0) {
 			if (user.getHealth() > user.getMaxHealth()) return;
 
+			//TODO: regen 3 heals ~4.8 HP per 3 seconds, combat vet 3 heals 0.5 HP (x1.5) per 3 seconds
 			user.heal(0.15f * enchantmentLevel + 0.05f);
 			if (user instanceof EntityPlayer)
 				((EntityPlayer) user).getFoodStats().addStats(((EntityPlayer) user).getFoodStats().getFoodLevel(), -0.05f);
@@ -89,6 +94,8 @@ public class EnchantmentCombatVeterancy extends EnchantmentBase {
 		//Every 2 seconds, gives absorption hearts for up to 0,5,10 extra absorption hearts, not running out.
 		//Slowly heals used up absorption potion effect hearts.
 		//Takes about 25 seconds to fully heal the absorption hearts.
+
+		//TODO: maybe like leather armor ticking it every tick but low absorption?
 		if (user.getEntityWorld().getTotalWorldTime() % 40 == 0 && enchantmentLevel >= 3) {
 			float absorptionLevel = 0.0f;
 			if (user.isPotionActive(MobEffects.ABSORPTION))
@@ -98,7 +105,8 @@ public class EnchantmentCombatVeterancy extends EnchantmentBase {
 
 			if (user.getAbsorptionAmount() >= absorptionMax) return;
 
-			if (user.getHealth() == user.getMaxHealth()) {
+			if(!user.isSneaking()) return;
+			if (user.getHealth() >= user.getMaxHealth()*0.9F) {
 				if (user.getAbsorptionAmount() < (enchantmentLevel - 1) * 10)
 					user.setAbsorptionAmount(Math.min(absorptionMax,user.getAbsorptionAmount() + 0.20f + (absorptionMax * 0.075f)));
 			}

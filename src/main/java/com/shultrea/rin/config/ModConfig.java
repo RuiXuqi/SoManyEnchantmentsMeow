@@ -142,7 +142,8 @@ public class ModConfig {
 				"supremefireaspect",
 				"supremeflame",
 				"supremesharpness",
-				"supremesmite"
+				"supremesmite",
+				"pandorascurse"
 		};
 
 		@Config.Comment("Enchantment blacklist will be treated as a Whitelist")
