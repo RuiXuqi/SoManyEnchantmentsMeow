@@ -176,56 +176,41 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 		ItemStack stack = attacker.getHeldItemMainhand();
 		if(stack.isEmpty()) return;
 		
-		if(this.damageType == BIOLOGY) {
-			int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
-			if(level > 0) {
+		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
+		if(level > 0) {
+			if(this.damageType == BIOLOGY) {
 				if(!(victim instanceof EntityLiving)) return;
 				int taskCount = ((EntityLiving)victim).tasks.taskEntries.size();
 				if(taskCount > 15 - level) {
 					event.setAmount(event.getAmount() + 2.5F * (float)level);
 				}
 			}
-		}
-		else if(this.damageType == CHEMISTRY) {
-			int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
-			if(level > 0) {
+			else if(this.damageType == CHEMISTRY) {
 				int count = attacker.getActivePotionEffects().size();
 				if(count > 0) {
 					event.setAmount(event.getAmount() + 0.25F * (float)level * (float)count);
 				}
 			}
-		}
-		else if(this.damageType == ENGLISH) {
-			int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
-			if(level > 0) {
+			else if(this.damageType == ENGLISH) {
 				int count = victim.getName().length();
 				if(count > 0) {
 					event.setAmount(event.getAmount() + 0.25F * (float)level * (float)count);
 				}
 			}
-		}
-		else if(this.damageType == HISTORY) {
-			int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
-			if(level > 0) {
+			else if(this.damageType == HISTORY) {
 				float dmg = 1.5F * (float)level * attacker.world.getDifficultyForLocation(attacker.getPosition()).getAdditionalDifficulty() / 6.75F;
 				if(dmg > 0) {
 					event.setAmount(event.getAmount() + dmg);
 				}
 			}
-		}
-		else if(this.damageType == MATHEMATICS) {
-			int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
-			if(level > 0) {
+			else if(this.damageType == MATHEMATICS) {
 				float perc = victim.getHealth() / victim.getMaxHealth();
 				float dmg = 1.5F * (float)level * MathHelper.clamp(4.0F*perc*(1.0F-perc),0F,1F);
 				if(dmg > 0) {
 					event.setAmount(event.getAmount() + dmg);
 				}
 			}
-		}
-		else if(this.damageType == PHYSICS) {
-			int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
-			if(level > 0) {
+			else if(this.damageType == PHYSICS) {
 				AxisAlignedBB victimAABB = victim.getEntityBoundingBox();
 				AxisAlignedBB attackerAABB = attacker.getEntityBoundingBox();
 				double victimSize = (victimAABB.maxX - victimAABB.minX) * (victimAABB.maxY - victimAABB.minY) * (victimAABB.maxZ - victimAABB.minZ);

@@ -158,7 +158,9 @@
 - HorsDeCombat
 - Levitator
 - Purification
-
+- BlessedEdge
+- CombatVeterancy
+- Lifesteal
 - SubjectEnchantments
 
 - Adept
