@@ -283,6 +283,12 @@ public class CanApplyAnvilConfig {
 	public String[] runeRevival = {};
 	
 	//Subject
+	@Config.Name("Subject Biology")
+	@Config.RequiresMcRestart
+	public String[] subjectBiology = {"AXE"};
+	@Config.Name("Subject Chemistry")
+	@Config.RequiresMcRestart
+	public String[] subjectChemistry = {"AXE"};
 	@Config.Name("Subject English")
 	@Config.RequiresMcRestart
 	public String[] subjectEnglish = {"AXE"};
@@ -298,9 +304,6 @@ public class CanApplyAnvilConfig {
 	@Config.Name("Subject Physics")
 	@Config.RequiresMcRestart
 	public String[] subjectPhysics = {"AXE"};
-	@Config.Name("Subject Science")
-	@Config.RequiresMcRestart
-	public String[] subjectScience = {"AXE"};
 	//Lesser
 	@Config.Name("Lesser Bane of Arthropods")
 	@Config.RequiresMcRestart

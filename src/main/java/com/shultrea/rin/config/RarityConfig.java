@@ -288,6 +288,12 @@ public class RarityConfig {
 	public int runeRevival = VERY_RARE;
 	
 	//Subject
+	@Config.Name("Subject Biology")
+	@Config.RequiresMcRestart
+	public int subjectBiology = VERY_RARE;
+	@Config.Name("Subject Chemistry")
+	@Config.RequiresMcRestart
+	public int subjectChemistry = VERY_RARE;
 	@Config.Name("Subject English")
 	@Config.RequiresMcRestart
 	public int subjectEnglish = VERY_RARE;
@@ -300,9 +306,9 @@ public class RarityConfig {
 	@Config.Name("Subject P.E.")
 	@Config.RequiresMcRestart
 	public int subjectPE = VERY_RARE;
-	@Config.Name("Subject Science")
+	@Config.Name("Subject Physics")
 	@Config.RequiresMcRestart
-	public int subjectScience = VERY_RARE;
+	public int subjectPhysics = VERY_RARE;
 	//Lesser
 	@Config.Name("Lesser Bane of Arthropods")
 	@Config.RequiresMcRestart

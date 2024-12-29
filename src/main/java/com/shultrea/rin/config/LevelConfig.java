@@ -372,18 +372,26 @@ public class LevelConfig {
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
 	public int runeRevival = 2;
 	//Subject
+	@Config.Name("Subject Biology")
+	@Config.RequiresMcRestart
+	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
+	public int subjectBiology = 5;
+	@Config.Name("Subject Chemistry")
+	@Config.RequiresMcRestart
+	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
+	public int subjectChemistry = 5;
 	@Config.Name("Subject English")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
-	public int subjectEnglish = 4;
+	public int subjectEnglish = 5;
 	@Config.Name("Subject History")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
-	public int subjectHistory = 4;
+	public int subjectHistory = 5;
 	@Config.Name("Subject Mathematics")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
-	public int subjectMathematics = 4;
+	public int subjectMathematics = 5;
 	@Config.Name("Subject P.E.")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
@@ -391,11 +399,7 @@ public class LevelConfig {
 	@Config.Name("Subject Physics")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
-	public int subjectPhysics = 4;
-	@Config.Name("Subject Science")
-	@Config.RequiresMcRestart
-	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
-	public int subjectScience = 4;
+	public int subjectPhysics = 5;
 	//Lesser
 	@Config.Name("Lesser Bane of Arthropods")
 	@Config.RequiresMcRestart

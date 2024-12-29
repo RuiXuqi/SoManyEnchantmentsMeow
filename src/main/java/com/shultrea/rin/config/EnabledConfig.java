@@ -280,6 +280,12 @@ public class EnabledConfig {
 	@Config.RequiresMcRestart
 	public boolean runeRevival = true;
 	//Subject
+	@Config.Name("Subject Biology")
+	@Config.RequiresMcRestart
+	public boolean subjectBiology = true;
+	@Config.Name("Subject Chemistry")
+	@Config.RequiresMcRestart
+	public boolean subjectChemistry = true;
 	@Config.Name("Subject English")
 	@Config.RequiresMcRestart
 	public boolean subjectEnglish = true;
@@ -295,9 +301,6 @@ public class EnabledConfig {
 	@Config.Name("Subject Physics")
 	@Config.RequiresMcRestart
 	public boolean subjectPhysics = true;
-	@Config.Name("Subject Science")
-	@Config.RequiresMcRestart
-	public boolean subjectScience = true;
 	//Lesser
 	@Config.Name("Lesser Bane of Arthropods")
 	@Config.RequiresMcRestart

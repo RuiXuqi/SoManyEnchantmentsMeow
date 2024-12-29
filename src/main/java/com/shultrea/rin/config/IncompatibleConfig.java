@@ -37,7 +37,7 @@ public class IncompatibleConfig {
 			"minecraft:infinity, strafe",
 			"minecraft:power, advancedpower, powerless",
 			"minecraft:punch, advancedpunch, dragging, pushing",
-			"subjectpe, subjectenglish, subjectscience, subjectmathematics, subjecthistory",
+			"subjectbiology, subjectchemistry, subjectenglish, subjecthistory, subjectmathematics, subjectpe, subjectphysics",
 			"minecraft:fire_aspect, lesserfireaspect, advancedfireaspect, supremefireaspect, wateraspect, blessededge, fieryedge",
 			"minecraft:flame, lesserflame, advancedflame, supremeflame",
 			"reviledblade, ashdestroyer, instability, difficultysendowment, cursededge",

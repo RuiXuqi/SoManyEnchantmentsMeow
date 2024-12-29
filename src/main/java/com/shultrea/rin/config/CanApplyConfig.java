@@ -345,6 +345,12 @@ public class CanApplyConfig {
 	public String[] runeRevival = {"SWORD", "BS_WEAPON"};
 	
 	//Subject
+	@Config.Name("Subject Biology")
+	@Config.RequiresMcRestart
+	public String[] subjectBiology = {"SWORD", "BS_WEAPON"};
+	@Config.Name("Subject Chemistry")
+	@Config.RequiresMcRestart
+	public String[] subjectChemistry = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Subject English")
 	@Config.RequiresMcRestart
 	public String[] subjectEnglish = {"SWORD", "BS_WEAPON"};
@@ -360,9 +366,6 @@ public class CanApplyConfig {
 	@Config.Name("Subject Physics")
 	@Config.RequiresMcRestart
 	public String[] subjectPhysics = {"SWORD", "BS_WEAPON"};
-	@Config.Name("Subject Science")
-	@Config.RequiresMcRestart
-	public String[] subjectScience = {"SWORD", "BS_WEAPON"};
 	//Lesser
 	@Config.Name("Lesser Bane of Arthropods")
 	@Config.RequiresMcRestart

@@ -285,24 +285,27 @@ public class EnchantabilityConfig {
 	@Config.RequiresMcRestart
 	public int[] runeRevival = {30,30,60, MIN};
 	//Subject
+	@Config.Name("Subject Biology")
+	@Config.RequiresMcRestart
+	public int[] subjectBiology = {8, 14, 22, MIN};
+	@Config.Name("Subject Chemistry")
+	@Config.RequiresMcRestart
+	public int[] subjectChemistry = {8, 14, 22, MIN};
 	@Config.Name("Subject English")
 	@Config.RequiresMcRestart
-	public int[] subjectEnglish = {5, 9, 21, MIN};
+	public int[] subjectEnglish = {8, 14, 22, MIN};
 	@Config.Name("Subject History")
 	@Config.RequiresMcRestart
-	public int[] subjectHistory = {7,15,23, MIN};
+	public int[] subjectHistory = {8, 14, 22, MIN};
 	@Config.Name("Subject Mathematics")
 	@Config.RequiresMcRestart
-	public int[] subjectMathematics = {8,13,25, MIN};
+	public int[] subjectMathematics = {8, 14, 22, MIN};
 	@Config.Name("Subject P.E.")
 	@Config.RequiresMcRestart
-	public int[] subjectPE = {6, 10, 20, MIN};
+	public int[] subjectPE = {8, 14, 22, MIN};
 	@Config.Name("Subject Physics")
 	@Config.RequiresMcRestart
-	public int[] subjectPhysics = {8, 14, 24, MIN};
-	@Config.Name("Subject Science")
-	@Config.RequiresMcRestart
-	public int[] subjectScience = {9, 14, 28, MIN};
+	public int[] subjectPhysics = {8, 14, 22, MIN};
 	//Lesser
 	@Config.Name("Lesser Bane of Arthropods")
 	@Config.RequiresMcRestart

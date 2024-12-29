@@ -141,12 +141,13 @@ public class EnchantmentRegistry {
 	//public static EnchantmentBase runeStarfall;
 
 	//Subject
-	public static EnchantmentBase subjectMathematics = register(new EnchantmentSubjectEnchantments("subjectmathematics", RarityConfig.get(ModConfig.rarity.subjectMathematics),0));
-	public static EnchantmentBase subjectScience = register(new EnchantmentSubjectEnchantments("subjectscience", RarityConfig.get(ModConfig.rarity.subjectScience),1));
-	public static EnchantmentBase subjectHistory = register(new EnchantmentSubjectEnchantments("subjecthistory", RarityConfig.get(ModConfig.rarity.subjectHistory),2));
-	//public static Enchantment subjectPhysics = register(new EnchantmentSubjectEnchantments("subjectphysics", RarityConfig.get(ModConfig.rarity.subjectPhysics),3));
-	public static EnchantmentBase subjectEnglish = register(new EnchantmentSubjectEnchantments("subjectenglish", RarityConfig.get(ModConfig.rarity.subjectEnglish),4));
+	public static EnchantmentBase subjectBiology = register(new EnchantmentSubjectEnchantments("subjectbiology", RarityConfig.get(ModConfig.rarity.subjectBiology),0));
+	public static EnchantmentBase subjectChemistry = register(new EnchantmentSubjectEnchantments("subjectchemistry", RarityConfig.get(ModConfig.rarity.subjectChemistry),1));
+	public static EnchantmentBase subjectEnglish = register(new EnchantmentSubjectEnchantments("subjectenglish", RarityConfig.get(ModConfig.rarity.subjectEnglish),2));
+	public static EnchantmentBase subjectHistory = register(new EnchantmentSubjectEnchantments("subjecthistory", RarityConfig.get(ModConfig.rarity.subjectHistory),3));
+	public static EnchantmentBase subjectMathematics = register(new EnchantmentSubjectEnchantments("subjectmathematics", RarityConfig.get(ModConfig.rarity.subjectMathematics),4));
 	public static EnchantmentBase subjectPE = register(new EnchantmentSubjectEnchantments("subjectpe", RarityConfig.get(ModConfig.rarity.subjectPE),5));
+	public static EnchantmentBase subjectPhysics = register(new EnchantmentSubjectEnchantments("subjectphysics", RarityConfig.get(ModConfig.rarity.subjectPhysics),6));
 
 	//Lesser
 	public static EnchantmentBase lesserBaneOfArthropods = register(new EnchantmentTierDamage("lesserbaneofarthropods", RarityConfig.get(ModConfig.rarity.lesserBaneOfArthropods),6));
