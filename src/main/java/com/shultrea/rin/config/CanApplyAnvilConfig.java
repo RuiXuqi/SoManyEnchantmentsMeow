@@ -251,7 +251,7 @@ public class CanApplyAnvilConfig {
 	public String[] pandorasCurse = {"ALL_ITEMS"};
 	@Config.Name("Powerless")
 	@Config.RequiresMcRestart
-	public String[] powerless = {"BOW"};
+	public String[] powerless = {"BOW", "SW_CROSSBOW"};
 	@Config.Name("Rusted")
 	@Config.RequiresMcRestart
 	public String[] rusted = {"BREAKABLE","NOT_GOLD"};
@@ -263,7 +263,7 @@ public class CanApplyAnvilConfig {
 	public String[] ascetic = {"SWORD", "BS_WEAPON", "AXE", "FISHING_ROD"};
 	@Config.Name("Extinguish")
 	@Config.RequiresMcRestart
-	public String[] extinguish = {"SWORD", "BS_WEAPON", "AXE","BOW"};
+	public String[] extinguish = {"SWORD", "BS_WEAPON", "AXE","BOW", "SW_CROSSBOW"};
 	
 	//Rune
 	@Config.Name("Rune: Arrow Piercing")

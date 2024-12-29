@@ -142,7 +142,9 @@ public class ModConfig {
 				"supremefireaspect",
 				"supremeflame",
 				"supremesharpness",
-				"supremesmite"
+				"supremesmite",
+				"pandorascurse",
+				"supremeprotection"
 		};
 
 		@Config.Comment("Enchantment blacklist will be treated as a Whitelist")
@@ -152,6 +154,7 @@ public class ModConfig {
 		@Config.Comment("Loot enchanted with levels (enchant_with_levels) will not be able to generate enchantments in this list")
 		@Config.Name("Level Enchantment Blacklist")
 		public String[] blacklistedRandomLevelEnchants = {
+				"supremeprotection"
 		};
 
 		@Config.Comment("Level Enchantment blacklist will be treated as a Whitelist")
@@ -181,12 +184,13 @@ public class ModConfig {
 				"advancedpunch",
 				"advancedsharpness",
 				"advancedsmite",
-				"advancedthorns"
-//				"supremebaneofarthropods",
-//				"supremefireaspect",
-//				"supremeflame",
-//				"supremesharpness",
-//				"supremesmite"
+				"advancedthorns",
+				"supremebaneofarthropods",
+				"supremefireaspect",
+				"supremeflame",
+				"supremesharpness",
+				"supremesmite",
+				"supremeprotection"
 		};
 
 		@Config.Comment("Enchantment Table blacklist will be treated as a Whitelist")
@@ -196,6 +200,7 @@ public class ModConfig {
 		@Config.Comment("Fully random books (enchant_randomly) will not be able to generate enchantments in this list")
 		@Config.Name("Random Enchantment Blacklist")
 		public String[] blacklistedRandomEnchants = {
+				"supremeprotection"
 		};
 
 		@Config.Comment("Random Enchantment blacklist will be treated as a Whitelist")

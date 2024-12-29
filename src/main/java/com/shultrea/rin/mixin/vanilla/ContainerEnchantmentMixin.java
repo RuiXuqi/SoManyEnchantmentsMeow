@@ -163,7 +163,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
                 isLevelUpgrade = true;
             }
             if (nextEnchantment == null) continue;
-            if (ModConfig.upgrade.onlyAllowCompatible && !soManyEnchantments$isCompatibleWithOtherEnchants(nextEnchantment,currentEnchants,currEnch)) continue;
+            if (!isLevelUpgrade && ModConfig.upgrade.onlyAllowCompatible && !soManyEnchantments$isCompatibleWithOtherEnchants(nextEnchantment,currentEnchants,currEnch)) continue;
 
             if (!isLevelUpgrade) {
                 if (Objects.equals(ModConfig.upgrade.upgradedTierLevelMode, "MINLVL"))

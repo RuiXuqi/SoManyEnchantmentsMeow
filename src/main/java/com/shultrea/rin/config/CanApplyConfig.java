@@ -64,11 +64,13 @@ public class CanApplyConfig {
 	public String[] customTypes = {
 			"BATTLEAXE;(mujmajnkraftsbettersurvival\\:item.*battleaxe)|(spartan(defiled|fire|weaponry)\\:battleaxe.*)",
 			"BS_WEAPON;mujmajnkraftsbettersurvival\\:item.*(dagger|nunchaku|hammer|battleaxe)",
-			"NOT_GOLD;.*gold.*;NOT"};
+			"NOT_GOLD;.*gold.*;NOT",
+			"SW_CROSSBOW;(spartan(defiled|fire|weaponry)\\:crossbow.*"
+	};
 
 	@Config.Name("Adept")
 	@Config.RequiresMcRestart
-	public String[] adept = {"SWORD","AXE","BOW", "BATTLEAXE", "BS_WEAPON"};
+	public String[] adept = {"SWORD", "AXE", "BOW", "BATTLEAXE", "BS_WEAPON", "SW_CROSSBOW"};
 	@Config.Name("Ancient Sealed Curses")
 	@Config.RequiresMcRestart
 	public String[] ancientSealedCurses = {"SWORD", "BS_WEAPON"};
@@ -206,7 +208,7 @@ public class CanApplyConfig {
 	public String[] physicalProtection = {"ARMOR"};
 	@Config.Name("Dragging")
 	@Config.RequiresMcRestart
-	public String[] dragging = {"BOW"};
+	public String[] dragging = {"BOW","SW_CROSSBOW"};
 	@Config.Name("Purging Blade")
 	@Config.RequiresMcRestart
 	public String[] purgingBlade = {"SWORD", "BS_WEAPON"};
@@ -313,7 +315,7 @@ public class CanApplyConfig {
 	public String[] pandorasCurse = {"ALL_ITEMS"};
 	@Config.Name("Powerless")
 	@Config.RequiresMcRestart
-	public String[] powerless = {"BOW"};
+	public String[] powerless = {"BOW", "SW_CROSSBOW"};
 	@Config.Name("Rusted")
 	@Config.RequiresMcRestart
 	public String[] rusted = {"BREAKABLE","NOT_GOLD"};
@@ -325,12 +327,12 @@ public class CanApplyConfig {
 	public String[] ascetic = {"SWORD", "BS_WEAPON", "AXE", "FISHING_ROD"};
 	@Config.Name("Extinguish")
 	@Config.RequiresMcRestart
-	public String[] extinguish = {"SWORD", "BS_WEAPON", "AXE","BOW"};
+	public String[] extinguish = {"SWORD", "BS_WEAPON", "AXE","BOW", "SW_CROSSBOW"};
 
 	//Rune
 	@Config.Name("Rune: Arrow Piercing")
 	@Config.RequiresMcRestart
-	public String[] runeArrowPiercing = {"BOW"};
+	public String[] runeArrowPiercing = {"BOW", "SW_CROSSBOW"};
 	@Config.Name("Rune: Magical Blessing")
 	@Config.RequiresMcRestart
 	public String[] runeMagicalBlessing = {"SWORD", "BS_WEAPON"};
@@ -375,7 +377,7 @@ public class CanApplyConfig {
 	public String[] lesserFireAspect = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Lesser Flame")
 	@Config.RequiresMcRestart
-	public String[] lesserFlame = {"BOW"};
+	public String[] lesserFlame = {"BOW", "SW_CROSSBOW"};
 	@Config.Name("Lesser Sharpness")
 	@Config.RequiresMcRestart
 	public String[] lesserSharpness = {"SWORD", "BS_WEAPON"};
@@ -404,7 +406,7 @@ public class CanApplyConfig {
 	public String[] advancedFireProtection = {"ARMOR"};
 	@Config.Name("Advanced Flame")
 	@Config.RequiresMcRestart
-	public String[] advancedFlame = {"BOW"};
+	public String[] advancedFlame = {"BOW", "SW_CROSSBOW"};
 	@Config.Name("Advanced Knockback")
 	@Config.RequiresMcRestart
 	public String[] advancedKnockback = {"SWORD", "BS_WEAPON"};
@@ -422,7 +424,7 @@ public class CanApplyConfig {
 	public String[] advancedMending = {"BREAKABLE"};
 	@Config.Name("Advanced Power")
 	@Config.RequiresMcRestart
-	public String[] advancedPower = {"BOW"};
+	public String[] advancedPower = {"BOW", "SW_CROSSBOW"};
 	@Config.Name("Advanced Projectile Protection")
 	@Config.RequiresMcRestart
 	public String[] advancedProjectileProtection = {"ARMOR"};
@@ -431,7 +433,7 @@ public class CanApplyConfig {
 	public String[] advancedProtection = {"ARMOR"};
 	@Config.Name("Advanced Punch")
 	@Config.RequiresMcRestart
-	public String[] advancedPunch = {"BOW"};
+	public String[] advancedPunch = {"BOW", "SW_CROSSBOW"};
 	@Config.Name("Advanced Sharpness")
 	@Config.RequiresMcRestart
 	public String[] advancedSharpness = {"SWORD", "BS_WEAPON"};
@@ -450,7 +452,7 @@ public class CanApplyConfig {
 	public String[] supremeFireAspect = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Supreme Flame")
 	@Config.RequiresMcRestart
-	public String[] supremeFlame = {"BOW"};
+	public String[] supremeFlame = {"BOW", "SW_CROSSBOW"};
 	@Config.Name("Supreme Sharpness")
 	@Config.RequiresMcRestart
 	public String[] supremeSharpness = {"SWORD", "BS_WEAPON"};

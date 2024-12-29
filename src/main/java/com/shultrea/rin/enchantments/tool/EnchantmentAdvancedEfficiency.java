@@ -18,7 +18,8 @@ public class EnchantmentAdvancedEfficiency extends EnchantmentBase {
 	public EnchantmentAdvancedEfficiency(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
 	}
-	
+
+	//TODO slow af for some reason
 	public static int getValue(int original, EntityLivingBase entity) {
 		if(!EnchantmentRegistry.advancedEfficiency.isEnabled()) return 0;
 		if(entity == null) return 0;

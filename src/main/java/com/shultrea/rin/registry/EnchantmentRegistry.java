@@ -182,6 +182,7 @@ public class EnchantmentRegistry {
 	public static EnchantmentBase supremeFlame = register(new EnchantmentTierFlame("supremeflame", RarityConfig.get(ModConfig.rarity.supremeFlame),2));
 	public static EnchantmentBase supremeSharpness = register(new EnchantmentTierDamage("supremesharpness", RarityConfig.get(ModConfig.rarity.supremeSharpness),2));
 	public static EnchantmentBase supremeSmite = register(new EnchantmentTierDamage("supremesmite", RarityConfig.get(ModConfig.rarity.supremeSmite),5));
+	public static EnchantmentBase supremeProtection = register(new EnchantmentSupremeProtection("supremeprotection", Enchantment.Rarity.VERY_RARE, Slots.BODY));
 
 	private static EnchantmentBase register(EnchantmentBase enchantment) {
 		if(!ModConfig.miscellaneous.dontRegisterDisabledEnchants || enchantment.isEnabled()) {
