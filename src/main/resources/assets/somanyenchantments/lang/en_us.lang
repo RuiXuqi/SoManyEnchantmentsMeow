@@ -209,13 +209,13 @@ enchantment.subjecthistory=Subject History
 enchantment.somanyenchantments.subjecthistory.desc=Increases damage the longer a chunk is inhabited.
 
 enchantment.subjectmathematics=Subject Mathematics
-enchantment.somanyenchantments.subjectmathematics.desc=Increases damage based on the target's health with a maximum at 50% health.
+enchantment.somanyenchantments.subjectmathematics.desc=Increases damage based on the users xp level.
 
 enchantment.subjectpe=Subject P.E.
 enchantment.somanyenchantments.subjectpe.desc=Attacks have a chance to give the user several buffs related to exercise and health.
 
 enchantment.subjectphysics=Subject Physics
-enchantment.somanyenchantments.subjectphysics.desc=TBA
+enchantment.somanyenchantments.subjectphysics.desc=Increases damage depending on the size difference between user and target.
 
 enchantment.horsdecombat=Hors De Combat
 enchantment.somanyenchantments.horsdecombat.desc=Attacks have a chance to cripple (applies potion effect related to cripple).
