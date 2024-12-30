@@ -78,6 +78,7 @@ public class EnchantmentSolsBlessing extends EnchantmentBase {
 	public void onHurtEvent(LivingHurtEvent e) {
 		if(!EnchantmentBase.isDamageSourceAllowed(e.getSource())) return;
 		EntityLivingBase attacker = (EntityLivingBase)e.getSource().getTrueSource();
+		if(attacker == null) return;
 		float damage = EnchantUtil.modifyDamageForTime(attacker, true, attacker.getHeldItemMainhand(), this);
 		e.setAmount(damage + e.getAmount());
 	}

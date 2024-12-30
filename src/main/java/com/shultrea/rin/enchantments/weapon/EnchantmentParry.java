@@ -61,7 +61,8 @@ public class EnchantmentParry extends EnchantmentBase {
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.parry;
 	}
-	
+
+	//TODO
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
 	public void HandleEnchant(LivingAttackEvent e) {
 		if(e.getSource().damageType != "player" && e.getSource().damageType != "mob" && e.getSource().damageType == "arrow")
@@ -89,10 +90,10 @@ public class EnchantmentParry extends EnchantmentBase {
 			e.setCanceled(true);
 			if(victim instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer)victim;
-				player.hurtResistantTime = 15;
+				player.hurtResistantTime = player.maxHurtResistantTime-5;
 			}
 			else {
-				e.getEntityLiving().hurtResistantTime = 15;
+				e.getEntityLiving().hurtResistantTime = e.getEntityLiving().maxHurtResistantTime-5;
 			}
 		}
 	}

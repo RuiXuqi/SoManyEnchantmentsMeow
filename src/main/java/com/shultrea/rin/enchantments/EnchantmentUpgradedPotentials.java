@@ -3,12 +3,15 @@ package com.shultrea.rin.enchantments;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import java.util.Map;
 
 public class EnchantmentUpgradedPotentials extends EnchantmentBase {
 	
@@ -62,11 +65,12 @@ public class EnchantmentUpgradedPotentials extends EnchantmentBase {
 		ItemStack left = event.getLeft();
 		ItemStack right = event.getRight();
 		if(left.isEmpty() || right.isEmpty()) return;
-		
 		if(right.getItem() == Items.ENCHANTED_BOOK) {
-			int level = EnchantmentHelper.getEnchantmentLevel(this, right);
-			if(level > 0) {
-				if(left.isStackable() || EnchantmentHelper.getEnchantments(left).isEmpty() || EnchantmentHelper.getEnchantmentLevel(this, left) > 0) {
+			//FIX: EnchantmentHelper.getEnchantmentLevel doesn't work for books, so need to use this workaround
+			Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(right);
+			if(enchantments.getOrDefault(this,0) > 0) {
+				enchantments = EnchantmentHelper.getEnchantments(left);
+				if(left.isStackable() || enchantments.isEmpty() || enchantments.getOrDefault(this,0) > 0) {
 					event.setCanceled(true);
 					return;
 				}
