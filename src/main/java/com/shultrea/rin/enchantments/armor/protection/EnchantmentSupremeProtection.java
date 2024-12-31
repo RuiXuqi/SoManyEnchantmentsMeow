@@ -60,7 +60,7 @@ public class EnchantmentSupremeProtection extends EnchantmentBase {
 	
 	@Override
 	public int calcModifierDamage(int level, DamageSource source) {
-		return source.canHarmInCreative() ? 0 : 1000;
+		return source.canHarmInCreative() ? 0 : 8;
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOW)

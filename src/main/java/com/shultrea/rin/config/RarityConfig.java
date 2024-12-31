@@ -162,7 +162,7 @@ public class RarityConfig {
 	public int pushing = VERY_RARE;
 	@Config.Name("Rain's Bestowment")
 	@Config.RequiresMcRestart
-	public int rainsBestowment = VERY_RARE;
+	public int rainsBestowment = RARE;
 	@Config.Name("Reviled Blade")
 	@Config.RequiresMcRestart
 	public int reviledBlade = VERY_RARE;
@@ -174,7 +174,7 @@ public class RarityConfig {
 	public int smelter = VERY_RARE;
 	@Config.Name("Sol's Blessing")
 	@Config.RequiresMcRestart
-	public int solsBlessing = VERY_RARE;
+	public int solsBlessing = RARE;
 	@Config.Name("Spell Breaker")
 	@Config.RequiresMcRestart
 	public int spellBreaker = RARE;
@@ -192,7 +192,7 @@ public class RarityConfig {
 	public int swifterSlashes = VERY_RARE;
 	@Config.Name("Thunderstorm's Bestowment")
 	@Config.RequiresMcRestart
-	public int thunderstormsBestowment = VERY_RARE;
+	public int thunderstormsBestowment = RARE;
 	@Config.Name("True Strike")
 	@Config.RequiresMcRestart
 	public int trueStrike = RARE;
@@ -219,7 +219,7 @@ public class RarityConfig {
 	public int plowing = RARE;
 	@Config.Name("Winter's Grace")
 	@Config.RequiresMcRestart
-	public int wintersGrace = VERY_RARE;
+	public int wintersGrace = RARE;
 	//Curses
 	@Config.Name("Bluntness")
 	@Config.RequiresMcRestart
@@ -290,25 +290,25 @@ public class RarityConfig {
 	//Subject
 	@Config.Name("Subject Biology")
 	@Config.RequiresMcRestart
-	public int subjectBiology = VERY_RARE;
+	public int subjectBiology = RARE;
 	@Config.Name("Subject Chemistry")
 	@Config.RequiresMcRestart
-	public int subjectChemistry = VERY_RARE;
+	public int subjectChemistry = RARE;
 	@Config.Name("Subject English")
 	@Config.RequiresMcRestart
-	public int subjectEnglish = VERY_RARE;
+	public int subjectEnglish = RARE;
 	@Config.Name("Subject History")
 	@Config.RequiresMcRestart
-	public int subjectHistory = VERY_RARE;
+	public int subjectHistory = RARE;
 	@Config.Name("Subject Mathematics")
 	@Config.RequiresMcRestart
-	public int subjectMathematics = VERY_RARE;
+	public int subjectMathematics = RARE;
 	@Config.Name("Subject P.E.")
 	@Config.RequiresMcRestart
-	public int subjectPE = VERY_RARE;
+	public int subjectPE = RARE;
 	@Config.Name("Subject Physics")
 	@Config.RequiresMcRestart
-	public int subjectPhysics = VERY_RARE;
+	public int subjectPhysics = RARE;
 	//Lesser
 	@Config.Name("Lesser Bane of Arthropods")
 	@Config.RequiresMcRestart

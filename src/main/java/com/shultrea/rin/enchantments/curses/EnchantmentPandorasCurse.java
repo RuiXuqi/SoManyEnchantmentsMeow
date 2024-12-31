@@ -85,7 +85,7 @@ public class EnchantmentPandorasCurse extends EnchantmentCurse {
 		if(!this.isEnabled()) return;
 		if(event.phase != Phase.END || event.player == null || event.player.world.isRemote) return;
 		
-		if(event.player.ticksExisted%ModConfig.miscellaneous.pandorasCurseInterval == 0) {
+		if(event.player.ticksExisted % ModConfig.miscellaneous.pandorasCurseInterval == 0) {
 			InventoryPlayer inv = event.player.inventory;
 			ItemStack cursedStack = ItemStack.EMPTY;
 			int curseLevel = 0;

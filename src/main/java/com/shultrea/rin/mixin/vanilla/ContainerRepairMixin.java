@@ -1,5 +1,6 @@
 package com.shultrea.rin.mixin.vanilla;
 
+import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.config.ModConfig;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -18,30 +19,45 @@ import java.util.Map;
 public abstract class ContainerRepairMixin {
     @Shadow @Final private IInventory inputSlots;
 
+    @Shadow public abstract void updateRepairOutput();
+
+    @Shadow @Final private IInventory outputSlot;
+
     @Redirect(
-            method = "updateRepairOutput",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;setRepairCost(I)V")
+            method = "onCraftMatrixChanged",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/inventory/ContainerRepair;updateRepairOutput()V")
     )
-    void soManyEnchantments_updateRepairOutput_setRepairCost(ItemStack itemStack, int cost){
+    void soManyEnchantments_onCraftMatrixChanged_updateRepairOutput(ContainerRepair instance){
         //Default behavior
-        itemStack.setRepairCost(cost);
+        this.updateRepairOutput();
 
         if(!ModConfig.miscellaneous.removeBookCombinationAnvilCost) return;
-
-        ItemStack itemstackL = this.inputSlots.getStackInSlot(0);
-        ItemStack itemstackR = this.inputSlots.getStackInSlot(1);
+        ItemStack itemStackL = this.inputSlots.getStackInSlot(0);
+        ItemStack itemStackR = this.inputSlots.getStackInSlot(1);
         //Both enchanted books
-        if(itemstackL.getItem()!= Items.ENCHANTED_BOOK) return;
-        if(itemstackR.getItem()!= Items.ENCHANTED_BOOK) return;
+        if(itemStackL.getItem()!= Items.ENCHANTED_BOOK) return;
+        if(itemStackR.getItem()!= Items.ENCHANTED_BOOK) return;
+
+        //Both books no repair cost
+        int repairCostL = itemStackL.getRepairCost();
+        int repairCostR = itemStackR.getRepairCost();
+        if(repairCostL > 0 || repairCostR > 0) return;
 
         //Only one enchant, same enchant, same level
-        Map<Enchantment, Integer> enchsL = EnchantmentHelper.getEnchantments(itemstackL);
-        Map<Enchantment, Integer> enchsR = EnchantmentHelper.getEnchantments(itemstackR);
+        Map<Enchantment, Integer> enchsL = EnchantmentHelper.getEnchantments(itemStackL);
+        Map<Enchantment, Integer> enchsR = EnchantmentHelper.getEnchantments(itemStackR);
         if(enchsL.size() != 1 || enchsR.size() != 1) return;
         if(!enchsL.keySet().toArray()[0].equals(enchsR.keySet().toArray()[0])) return;
         if(!enchsL.values().toArray()[0].equals(enchsR.values().toArray()[0])) return;
 
-        //Repair cost action backwards, c*2+1 turns to (c-1)/2
-        itemStack.setRepairCost((cost-1)/2);
+        //Reset repair cost
+        ItemStack itemStackOutput = this.outputSlot.getStackInSlot(0);
+        itemStackOutput.setRepairCost(0);
+
+        //Also remove the tag for people equating tag count to repair cost existing or not
+        if(!itemStackOutput.hasTagCompound()) return;
+        if(!itemStackOutput.getTagCompound().hasKey("RepairCost")) return;
+        itemStackOutput.getTagCompound().removeTag("RepairCost");
+        this.outputSlot.setInventorySlotContents(0,itemStackOutput);
     }
 }
