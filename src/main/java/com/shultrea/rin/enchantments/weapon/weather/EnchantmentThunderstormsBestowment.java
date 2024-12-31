@@ -4,13 +4,10 @@ import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -63,59 +60,33 @@ public class EnchantmentThunderstormsBestowment extends EnchantmentBase {
 		return ModConfig.treasure.thunderstormsBestowment;
 	}
 	
-	public boolean isValidPlayer(Entity entity) {
-		if(entity instanceof EntityPlayer) {
-			if(((EntityPlayer)entity).getHeldItemMainhand() != null) {
-				return level(((EntityPlayer)entity).getHeldItemMainhand()) > 0;
-			}
-		}
-		return false;
-	}
-	
-	public boolean isValidMob(Entity entity) {
-		if(entity instanceof EntityMob || entity instanceof EntityAnimal) {
-			if(((EntityMob)entity).getHeldItemMainhand() != null) {
-				if(level(((EntityMob)entity).getHeldItemMainhand()) > 0) {
-					return true;
-				}
-			}
-			if(((EntityAnimal)entity).getHeldItemMainhand() != null) {
-				return level(((EntityAnimal)entity).getHeldItemMainhand()) > 0;
-			}
-		}
-		return false;
-	}
-	
-	public int level(ItemStack stack) {
-		return EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.thunderstormsBestowment, stack);
-	}
-	
-	/**
-	 *
-	 */
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void HandleEnchant(LivingHurtEvent fEvent) {
-		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
-		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
-		ItemStack stack = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
-		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.thunderstormsBestowment, stack);
-		if(enchantmentLevel <= 0) return;
-		float damage = fEvent.getAmount();
-		if(EnchantUtil.canEntitySeeSky(attacker)) {
+	@SubscribeEvent(priority = EventPriority.HIGH)
+	public void onLivingHurtEvent(LivingHurtEvent event) {
+		if(!this.isEnabled()) return;
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
+		if(event.getAmount() <= 1.0F) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
+		if(attacker == null) return;
+		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
+		ItemStack stack = attacker.getHeldItemMainhand();
+		if(stack.isEmpty()) return;
+		
+		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
+		if(level > 0) {
 			if(attacker.world.isThundering()) {
-				float modifiedDamage = EnchantUtil.modifyDamage(damage, 0.0f, 1.25f, 1.00f, enchantmentLevel);
-				fEvent.setAmount(modifiedDamage);
-			} else {
-				float modifiedDamage = EnchantUtil.modifyDamage(damage, 0.00f, -0.5f, 1.0f, enchantmentLevel);
-				fEvent.setAmount(modifiedDamage);
-				if(fEvent.getEntity().world.rand.nextInt(800) < 2 + (enchantmentLevel * 2)) {
-					EnchantUtil.setThundering(fEvent.getEntityLiving().getEntityWorld());
+				float dmg = 1.5F + 1.25F * (float)level;
+				if(!EnchantUtil.canEntitySeeSky(attacker)) {
+					dmg -= 1.0F + 1.0F * (float)level;
+				}
+				event.setAmount(event.getAmount() + dmg);
+			}
+			else {
+				if(attacker.getRNG().nextFloat() < 0.001F * (float)level) {
+					EnchantUtil.setThundering(attacker.world);
 				}
 			}
-		}
-		else {
-			float modifiedDamage = EnchantUtil.modifyDamage(damage, -0.05f, -0.75f, 1.0f, enchantmentLevel);
-			fEvent.setAmount(modifiedDamage);
 		}
 	}
 }

@@ -53,7 +53,7 @@ public class LevelConfig {
 	@Config.Name("Clearskies' Favor")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
-	public int clearskiesFavor = 6;
+	public int clearskiesFavor = 5;
 	@Config.Name("Combat Veterancy")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
@@ -209,7 +209,7 @@ public class LevelConfig {
 	@Config.Name("Rain's Bestowment")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
-	public int rainsBestowment = 6;
+	public int rainsBestowment = 5;
 	@Config.Name("Reviled Blade")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
@@ -249,7 +249,7 @@ public class LevelConfig {
 	@Config.Name("Thunderstorm's Bestowment")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
-	public int thunderstormsBestowment = 6;
+	public int thunderstormsBestowment = 5;
 	@Config.Name("True Strike")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
@@ -285,7 +285,7 @@ public class LevelConfig {
 	@Config.Name("Winter's Grace")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
-	public int wintersGrace = 6;
+	public int wintersGrace = 5;
 	//Curses
 	@Config.Name("Bluntness")
 	@Config.RequiresMcRestart

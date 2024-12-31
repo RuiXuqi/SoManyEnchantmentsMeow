@@ -4,7 +4,8 @@ import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -59,24 +60,33 @@ public class EnchantmentClearskiesFavor extends EnchantmentBase {
 		return ModConfig.treasure.clearskiesFavor;
 	}
 	
-	//TODO
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void HandleEnchant(LivingHurtEvent fEvent) {
-		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
-		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
-		ItemStack stack = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
-		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.clearskiesFavor, stack);
-		if(enchantmentLevel <= 0) return;
-		if(!attacker.world.isRaining() && EnchantUtil.canEntitySeeSky(attacker)) {
-			float FDamage = EnchantUtil.modifyDamage(fEvent.getAmount(), 0.5f, 0.75f, 1.00f, enchantmentLevel);
-			fEvent.setAmount(FDamage);
-		}
-		else if(attacker.world.isRaining() || attacker.world.isThundering()) {
-			if(Math.random() * 2000 < 3 + (enchantmentLevel * 2)) {
-				EnchantUtil.setClearWeather(fEvent.getEntityLiving().getEntityWorld());
+	@SubscribeEvent(priority = EventPriority.HIGH)
+	public void onLivingHurtEvent(LivingHurtEvent event) {
+		if(!this.isEnabled()) return;
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
+		if(event.getAmount() <= 1.0F) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
+		if(attacker == null) return;
+		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
+		ItemStack stack = attacker.getHeldItemMainhand();
+		if(stack.isEmpty()) return;
+		
+		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
+		if(level > 0) {
+			if(!attacker.world.isRaining() && !attacker.world.isThundering()) {
+				float dmg = 1.0F + 0.75F * (float)level;
+				if(!EnchantUtil.canEntitySeeSky(attacker)) {
+					dmg -= 0.5F + 0.5F * (float)level;
+				}
+				event.setAmount(event.getAmount() + dmg);
 			}
-			float modifiedDamage = EnchantUtil.modifyDamage(fEvent.getAmount(), 0.0f, -0.6f, 1.0f, enchantmentLevel);
-			fEvent.setAmount(modifiedDamage);
+			else {
+				if(attacker.getRNG().nextFloat() < 0.003F * (float)level) {
+					EnchantUtil.setClearWeather(attacker.world);
+				}
+			}
 		}
 	}
 }

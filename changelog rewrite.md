@@ -162,6 +162,12 @@
 - CombatVeterancy
 - Lifesteal
 - SubjectEnchantments
+- ClearskiesFavor
+- LunarsBlessing
+- RainsBestowment
+- SolsBlessing
+- ThunderstormsBestowment
+- WintersGrace
 
 - Adept
 - AdvancedMending

@@ -151,22 +151,6 @@ public abstract class EnchantUtil {
 		float f = MathHelper.clamp(enchantModifiers * 1.5F, 0.0F, 60.0F);
 		return damage * (1.0F - f / 80.0F);
 	}
-	
-	/**
-	 * Returns damage modifier based on day/night
-	 */
-	public static float modifyDamageForTime(EntityLivingBase attacker, boolean mustBeDaytime, ItemStack stack, Enchantment enchantment) {
-		if(stack.isEmpty()) return 0;
-		int level = EnchantmentHelper.getEnchantmentLevel(enchantment, stack);
-		if(level == 0) return 0;
-		boolean isCorrectDayTime = attacker.world.isDaytime() == mustBeDaytime;
-		if(!isCorrectDayTime) return 0;
-		float damage = level * 0.5F + 1.5F;
-		if(!EnchantUtil.canEntitySeeSky(attacker)) {
-			damage -= level * 0.25F + 1.0F;
-		}
-		return damage;
-	}
 
 	public static boolean isBlackListedEnchant(ResourceLocation chosenEnchant, int type) {
 		String[] blacklist = {};
