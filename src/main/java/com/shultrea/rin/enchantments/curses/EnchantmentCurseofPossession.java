@@ -73,7 +73,7 @@ public class EnchantmentCurseofPossession extends EnchantmentCurse {
 		if(level > 0) {
 			ItemStack copyStack = origStack.copy();
 			boolean flag = player.inventory.addItemStackToInventory(copyStack);
-			if(!flag) {
+			if(!flag && !player.world.isRemote) {
 				EntityItem entityItem = player.entityDropItem(copyStack, (-0.3F + player.getEyeHeight()));
 				if(entityItem != null) {
 					entityItem.setOwner(player.getName());
@@ -103,7 +103,7 @@ public class EnchantmentCurseofPossession extends EnchantmentCurse {
 						return;
 					}
 				}
-				item.lifespan = 5;
+				item.lifespan = 200; //10 seconds to pick up if inventory full or player dead
 				item.setPickupDelay(10);
 			}
 		}
