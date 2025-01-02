@@ -85,9 +85,9 @@ public class EnabledConfig {
 	@Config.Name("Flinging")
 	@Config.RequiresMcRestart
 	public boolean flinging = true;
-	@Config.Name("Freezing")
+	@Config.Name("Cryogenic")
 	@Config.RequiresMcRestart
-	public boolean freezing = true;
+	public boolean cryogenic = true;
 	@Config.Name("Hors De Combat")
 	@Config.RequiresMcRestart
 	public boolean horsDeCombat = true;

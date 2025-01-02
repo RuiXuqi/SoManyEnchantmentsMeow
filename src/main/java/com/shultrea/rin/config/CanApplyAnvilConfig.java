@@ -85,9 +85,9 @@ public class CanApplyAnvilConfig {
 	@Config.Name("Flinging")
 	@Config.RequiresMcRestart
 	public String[] flinging = {};
-	@Config.Name("Freezing")
+	@Config.Name("Cryogenic")
 	@Config.RequiresMcRestart
-	public String[] freezing = {};
+	public String[] cryogenic = {};
 	@Config.Name("Hors De Combat")
 	@Config.RequiresMcRestart
 	public String[] horsDeCombat = {};

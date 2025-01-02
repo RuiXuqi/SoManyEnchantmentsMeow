@@ -4,6 +4,8 @@ import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.SoundRegistry;
+import com.shultrea.rin.util.DamageSources;
+import com.shultrea.rin.util.ReflectionUtil;
 import com.shultrea.rin.util.compat.CompatUtil;
 import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -78,9 +80,9 @@ public class EnchantmentAtomicDeconstructor extends EnchantmentBase {
 		if(level > 0) {
 			if(victim.isNonBoss() || ModConfig.miscellaneous.atomicDeconstructorBosses) {
 				if(!attacker.world.isRemote && attacker.world.rand.nextFloat() < 0.001F * (float)level) {
-					victim.hurtResistantTime = 0;
-					victim.onKillCommand();
 					attacker.world.playSound(null, attacker.posX, attacker.posY, attacker.posZ, SoundRegistry.ATOMIC_DECONSTRUCT, SoundCategory.PLAYERS, 2.0F, 1.0F /(attacker.world.rand.nextFloat() * 0.4F + 1.2F)* 1.4F);
+					event.setCanceled(true);
+					ReflectionUtil.damageEntityNoAbsorption(victim, DamageSources.DECONSTRUCTED, Float.MAX_VALUE);
 				}
 			}
 		}

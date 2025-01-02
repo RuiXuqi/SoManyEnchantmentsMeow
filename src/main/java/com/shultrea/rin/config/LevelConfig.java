@@ -114,10 +114,10 @@ public class LevelConfig {
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
 	public int flinging = 2;
-	@Config.Name("Freezing")
+	@Config.Name("Cryogenic")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
-	public int freezing = 3;
+	public int cryogenic = 3;
 	@Config.Name("Hors De Combat")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)

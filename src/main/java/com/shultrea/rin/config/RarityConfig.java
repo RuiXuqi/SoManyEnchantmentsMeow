@@ -91,9 +91,9 @@ public class RarityConfig {
 	@Config.Name("Flinging")
 	@Config.RequiresMcRestart
 	public int flinging = UNCOMMON;
-	@Config.Name("Freezing")
+	@Config.Name("Cryogenic")
 	@Config.RequiresMcRestart
-	public int freezing = RARE;
+	public int cryogenic = RARE;
 	@Config.Name("Hors De Combat")
 	@Config.RequiresMcRestart
 	public int horsDeCombat = RARE;

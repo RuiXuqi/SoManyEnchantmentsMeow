@@ -149,9 +149,9 @@ public class CanApplyConfig {
 	@Config.Name("Flinging")
 	@Config.RequiresMcRestart
 	public String[] flinging = {"SWORD", "BS_WEAPON"};
-	@Config.Name("Freezing")
+	@Config.Name("Cryogenic")
 	@Config.RequiresMcRestart
-	public String[] freezing = {"SWORD", "BS_WEAPON"};
+	public String[] cryogenic = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Hors De Combat")
 	@Config.RequiresMcRestart
 	public String[] horsDeCombat = {"SWORD", "BS_WEAPON"};

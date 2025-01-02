@@ -16,6 +16,8 @@
 - Sharper(ed) Edge = Reinforced Sharpness
 - Pulling/Drag = Dragging
 - Clear Skies' Favor = Clearskies' Favor
+- Lunars Blessing = Lunas Blessing (Matches Sols Blessing, Luna - Sol / Lunar - Solar)
+- Freezing = Cryogenic
 
 ## Code cleanup by Enchant
 - Pushing.repelEntitiesInAABBFromPoint math cleanup
@@ -25,7 +27,7 @@
   - this is to allow them on shields for example or on any other equipment on main/offhand if wanted
 - Burning Thorns properly does dura dmg now (was searching for an item that has Thorns, not burn thorns)
 - Added IEnchantmentFire to move fireticks per level to enchant and be able to call that from arc slash
-- Freezing code cleanup having 5 lines per block thats turned to ice and having lots of code to differentiate between players and non-players just to add one extra amplifier
+- Cryogenic code cleanup having 5 lines per block thats turned to ice and having lots of code to differentiate between players and non-players just to add one extra amplifier
 - Cleaned up OtherHandler."enchHand", renamed to subjectHandler
 - Flame Tier Types set to Bow (why was it Weapon=Sword?)
 - Cleaned up TierDamage - only actual change is entitydamagedalt mistakingly checking 5 and 6 instead of 4 and 5 (both BoA's)
@@ -73,6 +75,7 @@
 - Rework Culling to properly give all skulls, make it autokill targets if an attack would leave them below a certain % of health instead of nonsense jumping mechanics
 - Make TrueStrike bypass both Evasion and Parry, give it a slight chance to iframe bypass so its useful outside of pvp
 - Rework Unsheathing to give bonus damage to the first attack after unsheathing a weapon for a small period of time
+- Add death messages for culling and atomic deconstructor
 
 ## Todo
 - Organize event handler priorities
@@ -156,7 +159,7 @@
 - Desolator
 - DisorientatingBlade
 - Envenomed
-- Freezing
+- Cryogenic
 - HorsDeCombat
 - Levitator
 - Purification

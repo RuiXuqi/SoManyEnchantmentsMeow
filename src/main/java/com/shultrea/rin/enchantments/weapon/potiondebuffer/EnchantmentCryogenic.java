@@ -22,15 +22,15 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentFreezing extends EnchantmentBase {
+public class EnchantmentCryogenic extends EnchantmentBase {
 	
-	public EnchantmentFreezing(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+	public EnchantmentCryogenic(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
 	}
 	
 	@Override
 	public boolean isEnabled() {
-		return ModConfig.enabled.freezing;
+		return ModConfig.enabled.cryogenic;
 	}
 	
 	@Override
@@ -40,32 +40,32 @@ public class EnchantmentFreezing extends EnchantmentBase {
 	
 	@Override
 	public int getMaxLevel() {
-		return ModConfig.level.freezing;
+		return ModConfig.level.cryogenic;
 	}
 
 	@Override
 	public int getMinEnchantability(int level) {
-		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.freezing, level);
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.cryogenic, level);
 	}
 
 	@Override
 	public int getMaxEnchantability(int level) {
-		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.freezing, level);
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.cryogenic, level);
 	}
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApply.freezing, stack) && super.canApplyAtEnchantingTable(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.cryogenic, stack) && super.canApplyAtEnchantingTable(stack);
 	}
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.freezing, stack) || super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.cryogenic, stack) || super.canApply(stack);
 	}
 	
 	@Override
 	public boolean isTreasureEnchantment() {
-		return ModConfig.treasure.freezing;
+		return ModConfig.treasure.cryogenic;
 	}
 	
 	@Override

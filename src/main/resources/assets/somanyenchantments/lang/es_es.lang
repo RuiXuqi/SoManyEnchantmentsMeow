@@ -282,8 +282,8 @@ enchantment.somanyenchantments.supremefireaspect.desc=Versión máxima, el nivel
 enchantment.arcslash=Corte en arco
 enchantment.somanyenchantments.arcslash.desc=Variante de Filo arrasador que no depende del descanso del ataque para poder cortar de nuevo (ataque de área cuerpo a cuerpo).
 
-enchantment.freezing=Congelante
-enchantment.somanyenchantments.freezing.desc=Aplica Lentitud garantizada y un efecto de Fatiga al minar en cada golpe. Cada golpe también aumenta el amplificador del efecto y si llega a VIII, existe la posibilidad de que la criatura quede encerrada y congelada en hielo. Daña la espada si se activa.
+enchantment.cryogenic=Congelante
+enchantment.somanyenchantments.cryogenic.desc=Aplica Lentitud garantizada y un efecto de Fatiga al minar en cada golpe. Cada golpe también aumenta el amplificador del efecto y si llega a VIII, existe la posibilidad de que la criatura quede encerrada y congelada en hielo. Daña la espada si se activa.
 
 enchantment.advancedmending=Reparación extrema
 enchantment.somanyenchantments.advancedmending.desc=Versión avanzada de Reparación.

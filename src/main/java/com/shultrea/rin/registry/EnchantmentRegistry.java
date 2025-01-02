@@ -48,7 +48,6 @@ public class EnchantmentRegistry {
 	public static EnchantmentBase arcSlash = register(new EnchantmentArcSlash("arcslash", RarityConfig.get(ModConfig.rarity.arcSlash), Slots.MAINHAND));
 	public static EnchantmentBase ashDestroyer = register(new EnchantmentAshDestroyer("ashdestroyer", RarityConfig.get(ModConfig.rarity.ashDestroyer), Slots.MAINHAND));
 	public static EnchantmentBase atomicDeconstructor = register(new EnchantmentAtomicDeconstructor("atomicdeconstructor", RarityConfig.get(ModConfig.rarity.atomicDeconstructor), Slots.MAINHAND));
-	//public static EnchantmentBase biomePresence;
 	public static EnchantmentBase blessedEdge = register(new EnchantmentBlessedEdge("blessededge", RarityConfig.get(ModConfig.rarity.blessedEdge), Slots.MAINHAND));
 	public static EnchantmentBase brutality = register(new EnchantmentBrutality("brutality", RarityConfig.get(ModConfig.rarity.brutality), Slots.MAINHAND));
 	public static EnchantmentBase burningShield = register(new EnchantmentBurningShield("burningshield", RarityConfig.get(ModConfig.rarity.burningShield), Slots.HAND));
@@ -58,9 +57,9 @@ public class EnchantmentRegistry {
 	public static EnchantmentBase combatVeterancy = register(new EnchantmentCombatVeterancy("combatveterancy", RarityConfig.get(ModConfig.rarity.combatVeterancy), Slots.MAINHAND));
 	public static EnchantmentBase counterAttack = register(new EnchantmentCounterAttack("counterattack", RarityConfig.get(ModConfig.rarity.counterAttack), Slots.MAINHAND));
 	public static EnchantmentBase criticalStrike = register(new EnchantmentCriticalStrike("criticalstrike", RarityConfig.get(ModConfig.rarity.criticalStrike), Slots.MAINHAND));
+	public static EnchantmentBase cryogenic = register(new EnchantmentCryogenic("cryogenic", RarityConfig.get(ModConfig.rarity.cryogenic), Slots.MAINHAND));
 	public static EnchantmentBase culling = register(new EnchantmentCulling("culling", RarityConfig.get(ModConfig.rarity.culling), Slots.HAND));
 	public static EnchantmentBase darkShadows = register(new EnchantmentDarkShadows("darkshadows", RarityConfig.get(ModConfig.rarity.darkShadows), Slots.MAINHAND));
-	//public static EnchantmentBase debug;
 	public static EnchantmentBase defusingEdge = register(new EnchantmentDefusingEdge("defusingedge", RarityConfig.get(ModConfig.rarity.defusingEdge), Slots.MAINHAND));
 	public static EnchantmentBase desolator = register(new EnchantmentDesolator("desolator", RarityConfig.get(ModConfig.rarity.desolator), Slots.MAINHAND));
 	public static EnchantmentBase difficultysEndowment = register(new EnchantmentDifficultysEndowment("difficultysendowment", RarityConfig.get(ModConfig.rarity.difficultysEndowment), Slots.MAINHAND));
@@ -72,7 +71,6 @@ public class EnchantmentRegistry {
 	public static EnchantmentBase evasion = register(new EnchantmentEvasion("evasion", RarityConfig.get(ModConfig.rarity.evasion), Slots.LEGS));
 	public static EnchantmentBase fieryEdge = register(new EnchantmentFieryEdge("fieryedge", RarityConfig.get(ModConfig.rarity.fieryEdge), Slots.MAINHAND));
 	public static EnchantmentBase flinging = register(new EnchantmentFlinging("flinging", RarityConfig.get(ModConfig.rarity.flinging), Slots.MAINHAND));
-	public static EnchantmentBase freezing = register(new EnchantmentFreezing("freezing", RarityConfig.get(ModConfig.rarity.freezing), Slots.MAINHAND));
 	public static EnchantmentBase horsDeCombat = register(new EnchantmentHorsDeCombat("horsdecombat", RarityConfig.get(ModConfig.rarity.horsDeCombat), Slots.MAINHAND));
 	public static EnchantmentBase inhumane = register(new EnchantmentInhumane("inhumane", RarityConfig.get(ModConfig.rarity.inhumane), Slots.MAINHAND));
 	public static EnchantmentBase innerBerserk = register(new EnchantmentInnerBerserk("innerberserk", RarityConfig.get(ModConfig.rarity.innerBerserk), Slots.CHEST));
@@ -86,7 +84,6 @@ public class EnchantmentRegistry {
 	public static EnchantmentBase magmaWalker = register(new EnchantmentMagmaWalker("magmawalker", RarityConfig.get(ModConfig.rarity.magmaWalker), Slots.FEET));
 	public static EnchantmentBase meltdown = register(new EnchantmentMeltdown("meltdown", RarityConfig.get(ModConfig.rarity.meltdown), Slots.CHEST));
 	public static EnchantmentBase moisturized = register(new EnchantmentMoisturized("moisturized", RarityConfig.get(ModConfig.rarity.moisturized), Slots.MAINHAND));
-	//public static EnchantmentBase multiFisher;
 	public static EnchantmentBase mortalitas = register(new EnchantmentMortalitas("mortalitas", RarityConfig.get(ModConfig.rarity.mortalitas), Slots.MAINHAND));
 	public static EnchantmentBase naturalBlocking = register(new EnchantmentNaturalBlocking("naturalblocking", RarityConfig.get(ModConfig.rarity.naturalBlocking), Slots.HAND));
 	public static EnchantmentBase parry = register(new EnchantmentParry("parry", RarityConfig.get(ModConfig.rarity.parry), Slots.MAINHAND));
@@ -117,6 +114,7 @@ public class EnchantmentRegistry {
 	public static EnchantmentBase wintersGrace = register(new EnchantmentWintersGrace("wintersgrace", RarityConfig.get(ModConfig.rarity.wintersGrace), Slots.MAINHAND));
 
 	//Curses
+	public static EnchantmentBase ascetic = register(new EnchantmentAscetic("ascetic", RarityConfig.get(ModConfig.rarity.ascetic), Slots.HAND));
 	public static EnchantmentBase bluntness = register(new EnchantmentBluntness("bluntness", RarityConfig.get(ModConfig.rarity.bluntness), Slots.HAND));
 	public static EnchantmentBase cursedEdge = register(new EnchantmentCursedEdge("cursededge", RarityConfig.get(ModConfig.rarity.cursedEdge), Slots.HAND));
 	public static EnchantmentBase curseOfDecay = register(new EnchantmentCurseofDecay("curseofdecay", RarityConfig.get(ModConfig.rarity.curseOfDecay), Slots.HAND));
@@ -124,6 +122,7 @@ public class EnchantmentRegistry {
 	public static EnchantmentBase curseOfInaccuracy = register(new EnchantmentCurseofInaccuracy("curseofinaccuracy", RarityConfig.get(ModConfig.rarity.curseOfInaccuracy), Slots.HAND));
 	public static EnchantmentBase curseOfPossession = register(new EnchantmentCurseofPossession("curseofpossession", RarityConfig.get(ModConfig.rarity.curseOfPossession), Slots.ALL));
 	public static EnchantmentBase curseOfVulnerability = register(new EnchantmentCurseofVulnerability("curseofvulnerability", RarityConfig.get(ModConfig.rarity.curseOfVulnerability), Slots.BODY));
+	public static EnchantmentBase extinguish = register(new EnchantmentExtinguish("extinguish", RarityConfig.get(ModConfig.rarity.extinguish), Slots.HAND));
 	public static EnchantmentBase heavyWeight = register(new EnchantmentHeavyWeight("heavyweight", RarityConfig.get(ModConfig.rarity.heavyWeight), Slots.MAINHAND));
 	public static EnchantmentBase inefficient = register(new EnchantmentInefficient("inefficient", RarityConfig.get(ModConfig.rarity.inefficient), Slots.MAINHAND));
 	public static EnchantmentBase instability = register(new EnchantmentInstability("instability", RarityConfig.get(ModConfig.rarity.instability), Slots.MAINHAND));
@@ -131,8 +130,6 @@ public class EnchantmentRegistry {
 	public static EnchantmentBase powerless = register(new EnchantmentPowerless("powerless", RarityConfig.get(ModConfig.rarity.powerless), Slots.HAND));
 	public static EnchantmentBase rusted = register(new EnchantmentRusted("rusted", RarityConfig.get(ModConfig.rarity.rusted), Slots.HAND));
 	public static EnchantmentBase unpredictable = register(new EnchantmentUnpredictable("unpredictable", RarityConfig.get(ModConfig.rarity.unpredictable), Slots.HAND));
-	public static EnchantmentBase ascetic = register(new EnchantmentAscetic("ascetic", RarityConfig.get(ModConfig.rarity.ascetic), Slots.HAND));
-	public static EnchantmentBase extinguish = register(new EnchantmentExtinguish("extinguish", RarityConfig.get(ModConfig.rarity.extinguish), Slots.HAND));
 
 	//Rune
 	public static EnchantmentBase runeArrowPiercing = register(new EnchantmentRuneArrowPiercing("rune_arrowpiercing", RarityConfig.get(ModConfig.rarity.runeArrowPiercing), Slots.HAND));
@@ -140,7 +137,6 @@ public class EnchantmentRegistry {
 	public static EnchantmentBase runePiercingCapabilities = register(new EnchantmentRunePiercingCapabilities("rune_piercingcapabilities", RarityConfig.get(ModConfig.rarity.runePiercingCapabilities), Slots.MAINHAND));
 	public static EnchantmentBase runeResurrection = register(new EnchantmentRuneResurrection("rune_resurrection", RarityConfig.get(ModConfig.rarity.runeResurrection), Slots.HAND));
 	public static EnchantmentBase runeRevival = register(new EnchantmentRuneRevival("rune_revival", RarityConfig.get(ModConfig.rarity.runeRevival), Slots.HAND));
-	//public static EnchantmentBase runeStarfall;
 
 	//Subject
 	public static EnchantmentBase subjectBiology = register(new EnchantmentSubjectEnchantments("subjectbiology", RarityConfig.get(ModConfig.rarity.subjectBiology),0));
@@ -182,10 +178,10 @@ public class EnchantmentRegistry {
 	public static EnchantmentBase supremeBaneOfArthropods = register(new EnchantmentTierDamage("supremebaneofarthropods", RarityConfig.get(ModConfig.rarity.supremeBaneOfArthropods),8));
 	public static EnchantmentBase supremeFireAspect = register(new EnchantmentTierFA("supremefireaspect", RarityConfig.get(ModConfig.rarity.supremeFireAspect),2));
 	public static EnchantmentBase supremeFlame = register(new EnchantmentTierFlame("supremeflame", RarityConfig.get(ModConfig.rarity.supremeFlame),2));
+	public static EnchantmentBase supremeProtection = register(new EnchantmentSupremeProtection("supremeprotection", Enchantment.Rarity.VERY_RARE, Slots.BODY));
 	public static EnchantmentBase supremeSharpness = register(new EnchantmentTierDamage("supremesharpness", RarityConfig.get(ModConfig.rarity.supremeSharpness),2));
 	public static EnchantmentBase supremeSmite = register(new EnchantmentTierDamage("supremesmite", RarityConfig.get(ModConfig.rarity.supremeSmite),5));
-	public static EnchantmentBase supremeProtection = register(new EnchantmentSupremeProtection("supremeprotection", Enchantment.Rarity.VERY_RARE, Slots.BODY));
-
+	
 	private static EnchantmentBase register(EnchantmentBase enchantment) {
 		if(!ModConfig.miscellaneous.dontRegisterDisabledEnchants || enchantment.isEnabled()) {
 			enchantmentSet.add(enchantment);

@@ -43,7 +43,7 @@ public class IncompatibleConfig {
 			"reviledblade, ashdestroyer, instability, difficultysendowment, cursededge",
 			"criticalstrike, luckmagnification",
 			"clearskiesfavor, rainsbestowment, thunderstormsbestowment, wintersgrace, solsblessing, lunasblessing",
-			"purification, levitator, desolator, disorientatingblade, envenomed, horsdecombat, freezing",
+			"purification, levitator, desolator, disorientatingblade, envenomed, horsdecombat, cryogenic",
 			"minecraft:protection, minecraft:fire_protection, minecraft:blast_protection, minecraft:projectile_protection, magicprotection, physicalprotection, advancedprotection, advancedfireprotection, advancedblastprotection, advancedprojectileprotection, curseofvulnerability, supremeprotection",
 			"lessersharpness, minecraft:sharpness, advancedsharpness, supremesharpness, reinforcedsharpness, bluntness",
 			"lessersmite, minecraft:smite, advancedsmite, supremesmite, blessededge, reinforcedsharpness, bluntness",

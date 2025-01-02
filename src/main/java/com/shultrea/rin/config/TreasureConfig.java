@@ -85,9 +85,9 @@ public class TreasureConfig {
 	@Config.Name("Flinging")
 	@Config.RequiresMcRestart
 	public boolean flinging = false;
-	@Config.Name("Freezing")
+	@Config.Name("Cryogenic")
 	@Config.RequiresMcRestart
-	public boolean freezing = false;
+	public boolean cryogenic = false;
 	@Config.Name("Hors De Combat")
 	@Config.RequiresMcRestart
 	public boolean horsDeCombat = false;

@@ -279,8 +279,8 @@ enchantment.somanyenchantments.supremefireaspect.desc=Version suprême et le niv
 enchantment.arcslash=Coup d'Arc
 enchantment.somanyenchantments.arcslash.desc=Variante d'Affilage qui ne dépend pas du temps de recharge de l'attaque pour pouvoir fendre (attaque de zone en mêlée).
 
-enchantment.freezing=Congélation
-enchantment.somanyenchantments.freezing.desc=Applique un effet garanti de potion de lenteur et de fatigue minière à chaque coup. Chaque coup augmente également l'amplificateur de l'effet de la potion et s'il atteint VIII, il y a une chance que le mob soit encastré dans de la glace givrée. Endommage l'épée si elle se déclenche.
+enchantment.cryogenic=Congélation
+enchantment.somanyenchantments.cryogenic.desc=Applique un effet garanti de potion de lenteur et de fatigue minière à chaque coup. Chaque coup augmente également l'amplificateur de l'effet de la potion et s'il atteint VIII, il y a une chance que le mob soit encastré dans de la glace givrée. Endommage l'épée si elle se déclenche.
 
 enchantment.advancedmending=Racommodage Avancé
 enchantment.somanyenchantments.advancedmending.desc=Une version avancé de racommodage.

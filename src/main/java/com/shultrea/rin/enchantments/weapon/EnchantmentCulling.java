@@ -91,7 +91,7 @@ public class EnchantmentCulling extends EnchantmentBase {
 					attacker.world.spawnParticle(EnumParticleTypes.VILLAGER_ANGRY, victim.posX, victim.posY + 1.0F, victim.posZ, victim.getRNG().nextGaussian() * 0.02D, victim.getRNG().nextGaussian() * 0.02D, victim.getRNG().nextGaussian() * 0.02D);
 				}
 				event.setCanceled(true);
-				ReflectionUtil.damageEntityNoAbsorption(victim, DamageSources.Culled, Math.max(event.getAmount(), victim.getMaxHealth()) * 10.0F);
+				ReflectionUtil.damageEntityNoAbsorption(victim, DamageSources.CULLED, Math.max(event.getAmount(), victim.getMaxHealth()) * 10.0F);
 			}
 		}
 	}
@@ -99,7 +99,7 @@ public class EnchantmentCulling extends EnchantmentBase {
 	@SubscribeEvent
 	public void onLivingDropsEvent(LivingDropsEvent event) {
 		if(!this.isEnabled()) return;
-		if(event.getSource() != DamageSources.Culled) return;
+		if(event.getSource() != DamageSources.CULLED) return;
 		EntityLivingBase entity = event.getEntityLiving();
 		if(entity == null) return;
 		if(entity.world.isRemote) return;

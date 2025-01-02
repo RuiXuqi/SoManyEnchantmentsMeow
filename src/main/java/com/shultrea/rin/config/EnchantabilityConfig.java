@@ -90,9 +90,9 @@ public class EnchantabilityConfig {
 	@Config.Name("Flinging")
 	@Config.RequiresMcRestart
 	public int[] flinging = {5, 10, 26, MIN};
-	@Config.Name("Freezing")
+	@Config.Name("Cryogenic")
 	@Config.RequiresMcRestart
-	public int[] freezing = {24, 13, 40, MIN};
+	public int[] cryogenic = {24, 13, 40, MIN};
 	@Config.Name("Hors De Combat")
 	@Config.RequiresMcRestart
 	public int[] horsDeCombat = {20, 10, 40, SUPER};
