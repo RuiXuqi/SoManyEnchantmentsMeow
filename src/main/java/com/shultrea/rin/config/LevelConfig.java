@@ -54,10 +54,10 @@ public class LevelConfig {
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
 	public int clearskiesFavor = 5;
-	@Config.Name("Combat Veterancy")
+	@Config.Name("Combat Medic")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
-	public int combatVeterancy = 3;
+	public int combatMedic = 3;
 	@Config.Name("Counter Attack")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)

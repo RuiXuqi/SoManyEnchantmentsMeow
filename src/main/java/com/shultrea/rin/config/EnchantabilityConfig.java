@@ -45,9 +45,9 @@ public class EnchantabilityConfig {
 	@Config.Name("Clearskies' Favor")
 	@Config.RequiresMcRestart
 	public int[] clearskiesFavor = {15, 15, 30, MIN};
-	@Config.Name("Combat Veterancy")
+	@Config.Name("Combat Medic")
 	@Config.RequiresMcRestart
-	public int[] combatVeterancy = {25,15,25, MIN};
+	public int[] combatMedic = {25,15,25, MIN};
 	@Config.Name("Counter Attack")
 	@Config.RequiresMcRestart
 	public int[] counterAttack = {20,15,40, MIN};

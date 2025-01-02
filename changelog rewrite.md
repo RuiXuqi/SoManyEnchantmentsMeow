@@ -18,6 +18,7 @@
 - Clear Skies' Favor = Clearskies' Favor
 - Lunars Blessing = Lunas Blessing (Matches Sols Blessing, Luna - Sol / Lunar - Solar)
 - Freezing = Cryogenic
+- Combat Veterancy = Combat Medic
 
 ## Code cleanup by Enchant
 - Pushing.repelEntitiesInAABBFromPoint math cleanup
@@ -32,7 +33,7 @@
 - Flame Tier Types set to Bow (why was it Weapon=Sword?)
 - Cleaned up TierDamage - only actual change is entitydamagedalt mistakingly checking 5 and 6 instead of 4 and 5 (both BoA's)
 - Cleaned up Weather Enchants except for rain having an if bracket thats never called - unsure whether to fix and thus nerf it or to delete it
-- Cleaned up CombatVeterancy code - seems op
+- Cleaned up CombatMedic code - seems op
 - Cleaned up CounterAttack - mainly deleting commented out code and replaced 20 with maxhurtresistanttime
 - fixed unreasonable always proccing (roll was wrong) and not stopping to go through entity list after one random target was found
 - cleaned up rune magical blessing and fixed it only working (and crashing) if the player DOESNT have it
@@ -76,6 +77,7 @@
 - Make TrueStrike bypass both Evasion and Parry, give it a slight chance to iframe bypass so its useful outside of pvp
 - Rework Unsheathing to give bonus damage to the first attack after unsheathing a weapon for a small period of time
 - Add death messages for culling and atomic deconstructor
+- Moved Combat Medic from hand enchant to head enchant
 
 ## Todo
 - Organize event handler priorities
@@ -164,7 +166,7 @@
 - Levitator
 - Purification
 - BlessedEdge
-- CombatVeterancy
+- CombatMedic
 - Lifesteal
 - SubjectEnchantments
 - ClearskiesFavor

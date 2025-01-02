@@ -61,13 +61,13 @@ public class EnchantmentAdvancedProtection extends EnchantmentBase {
 	public int calcModifierDamage(int level, DamageSource source) {
 		return source.canHarmInCreative() ? 0 : level * 2;
 	}
-
+	
 	@SubscribeEvent(priority = EventPriority.LOW)
-	public void livingHurtEvent_extraProtection(LivingHurtEvent fEvent) {
+	public void onLivingHurtEvent_extraProtection(LivingHurtEvent event) {
 		if(!ModConfig.miscellaneous.extraProtectionEffects) return;
 		if(!this.isEnabled()) return;
-		int modifier = (int)(4.75f * EnchantUtil.getTotalArmorEnchantmentLevel(this, fEvent.getEntityLiving()));
-		float damage = EnchantUtil.getDamageAfterMagicAbsorb(fEvent.getAmount(), modifier);
-		fEvent.setAmount(damage);
+		int modifier = (int)(4.75F * EnchantUtil.getTotalArmorEnchantmentLevel(this, event.getEntityLiving()));
+		float damage = EnchantUtil.getDamageAfterMagicAbsorb(event.getAmount(), modifier);
+		event.setAmount(damage);
 	}
 }

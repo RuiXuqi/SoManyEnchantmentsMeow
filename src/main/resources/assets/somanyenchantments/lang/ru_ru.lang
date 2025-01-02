@@ -48,8 +48,8 @@ enchantment.somanyenchantments.spellbreaker.desc=Наносит дополнит
 enchantment.wateraspect=Водный аспект
 enchantment.somanyenchantments.wateraspect.desc=Наносит дополнительный урон Ифритам, Эндерменам, Магмовым кубам и врагам, которые погружены в воду. Вы также наносите дополнительный урон, если вы погружены в воду. Повреждения складываются при условии, что они соответствуют требованиям.
 
-enchantment.combatveterancy=Ветеран битвы
-enchantment.somanyenchantments.combatveterancy.desc=Увеличивает скорость исцеления игрока. Включает в себя мгновенные лечебные эффекты, такие как зелья здоровья.
+enchantment.combatmedic=Ветеран битвы
+enchantment.somanyenchantments.combatmedic.desc=Увеличивает скорость исцеления игрока. Включает в себя мгновенные лечебные эффекты, такие как зелья здоровья.
 
 enchantment.parry=Парирование
 enchantment.somanyenchantments.parry.desc=Атаки ближнего боя, сделанные противниками, могут быть парированы, и они будут отброшены, как если бы они получили урон. Другими словами, атаки врагов могут быть заблокированы.

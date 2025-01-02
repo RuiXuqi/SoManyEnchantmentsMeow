@@ -40,9 +40,9 @@ public class CanApplyAnvilConfig {
 	@Config.Name("Clearskies' Favor")
 	@Config.RequiresMcRestart
 	public String[] clearskiesFavor = {};
-	@Config.Name("Combat Veterancy")
+	@Config.Name("Combat Medic")
 	@Config.RequiresMcRestart
-	public String[] combatVeterancy = {};
+	public String[] combatMedic = {};
 	@Config.Name("Counter Attack")
 	@Config.RequiresMcRestart
 	public String[] counterAttack = {};

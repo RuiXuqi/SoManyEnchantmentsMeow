@@ -11,15 +11,15 @@ import net.minecraftforge.event.entity.living.LivingHealEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentCombatVeterancy extends EnchantmentBase {
+public class EnchantmentCombatMedic extends EnchantmentBase {
 
-	public EnchantmentCombatVeterancy(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+	public EnchantmentCombatMedic(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return ModConfig.enabled.combatVeterancy;
+		return ModConfig.enabled.combatMedic;
 	}
 
 	@Override
@@ -29,32 +29,32 @@ public class EnchantmentCombatVeterancy extends EnchantmentBase {
 
 	@Override
 	public int getMaxLevel() {
-		return ModConfig.level.combatVeterancy;
+		return ModConfig.level.combatMedic;
 	}
 
 	@Override
 	public int getMinEnchantability(int level) {
-		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.combatVeterancy, level);
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.combatMedic, level);
 	}
 
 	@Override
 	public int getMaxEnchantability(int level) {
-		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.combatVeterancy, level);
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.combatMedic, level);
 	}
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApply.combatVeterancy, stack) && super.canApplyAtEnchantingTable(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.combatMedic, stack) && super.canApplyAtEnchantingTable(stack);
 	}
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.combatVeterancy, stack) || super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.combatMedic, stack) || super.canApply(stack);
 	}
 
 	@Override
 	public boolean isTreasureEnchantment() {
-		return ModConfig.treasure.combatVeterancy;
+		return ModConfig.treasure.combatMedic;
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOW)

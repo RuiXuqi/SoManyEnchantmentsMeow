@@ -40,9 +40,9 @@ public class EnabledConfig {
 	@Config.Name("Clearskies' Favor")
 	@Config.RequiresMcRestart
 	public boolean clearskiesFavor = true;
-	@Config.Name("Combat Veterancy")
+	@Config.Name("Combat Medic")
 	@Config.RequiresMcRestart
-	public boolean combatVeterancy = true;
+	public boolean combatMedic = true;
 	@Config.Name("Counter Attack")
 	@Config.RequiresMcRestart
 	public boolean counterAttack = true;

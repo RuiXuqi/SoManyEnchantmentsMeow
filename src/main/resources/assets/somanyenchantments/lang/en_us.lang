@@ -1,212 +1,206 @@
 enchantment.adept=Adept
-enchantment.somanyenchantments.adept.desc=Multiplies XP drops. Bonus XP multiplied is lesser when its a boss.
+enchantment.somanyenchantments.adept.desc=Increases dropped XP, scaling higher against bosses.
 
 enchantment.ancientsealedcurses=Ancient Sealed Curses
-enchantment.somanyenchantments.ancientsealedcurses.desc=An ancient enchantment that causes attacks to curse the held and worn equipment/s of an entity.
+enchantment.somanyenchantments.ancientsealedcurses.desc=An ancient enchantment that causes attacks to curse the equipment of the enemy.
 
 enchantment.ancientswordmastery=Ancient Sword Mastery
-enchantment.somanyenchantments.ancientswordmastery.desc=An ancient enchantment that somewhat make the user proficient at their sword. At level 3, it also makes damaging-enchantments 1.5x more effective. May not work on other mods' enchantments.
+enchantment.somanyenchantments.ancientswordmastery.desc=An ancient enchantment that amplifies the damage increases from other sharpness enchantments.
 
 enchantment.arcslash=Arc Slash
-enchantment.somanyenchantments.arcslash.desc=Variant of sweeping edge that doesn't rely on the attack cooldown to be able to cleave (melee area attack).
+enchantment.somanyenchantments.arcslash.desc=A variant of sweeping edge that trades slightly less damage for sweeping more often.
 
 enchantment.ashdestroyer=Ash Destroyer
-enchantment.somanyenchantments.ashdestroyer.desc=Deals extra damage if the enemy is on fire.
+enchantment.somanyenchantments.ashdestroyer.desc=Amplifies damage if the enemy is burning.
 
 enchantment.atomicdeconstructor=Atomic Deconstructor
-enchantment.somanyenchantments.atomicdeconstructor.desc=Your attacks has a very low chance that can gurantee a instant kill.
+enchantment.somanyenchantments.atomicdeconstructor.desc=Has a low chance to instantly shred the enemy from existence.
 
 enchantment.blessededge=Blessed Edge
-enchantment.somanyenchantments.blessededge.desc=Variant of smite, deals extra damage to undead and heals you for a percentage of your damage dealt.
+enchantment.somanyenchantments.blessededge.desc=Deals amplified damage against the undead and heals the user for a portion of the damage dealt.
 
 enchantment.brutality=Brutality
-enchantment.somanyenchantments.brutality.desc=Damage dealt against armor/s worn by entities is increased.
+enchantment.somanyenchantments.brutality.desc=Increases damage dealt to the armor of the enemy.
 
 enchantment.burningshield=Burning Shield
-enchantment.somanyenchantments.burningshield.desc=Reflects a portion of damage done by attackers while burning them. Doesn't negate shield disabling attacks.
+enchantment.somanyenchantments.burningshield.desc=Reflects a portion of damage done by attackers, and sets them alight.
 
 enchantment.burningthorns=Burning Thorns
-enchantment.somanyenchantments.burningthorns.desc=When triggered, in addition to thorns' effect, burns your opponents too.
+enchantment.somanyenchantments.burningthorns.desc=Improved version of thorns that additionally sets the attacker on fire.
 
 enchantment.butchering=Butchering
-enchantment.somanyenchantments.butchering.desc=Deals extra damage to animals.
+enchantment.somanyenchantments.butchering.desc=Deals increased damage to animals, additionally increases the loot dropped by slain animals.
 
 enchantment.clearskiesfavor=Clearskies' Favor
-enchantment.somanyenchantments.clearskiesfavor.desc=One of the weather enchantments. Deals extra damage to all if the weather is clear and deals lesser if it is not clear.
+enchantment.somanyenchantments.clearskiesfavor.desc=Increases damage dealt during clear weather with an extra boost if exposed to the sky.
 
-enchantment.combatveterancy=Combat Veterancy
-enchantment.somanyenchantments.combatveterancy.desc=Amplifies the healing rate of the user. This includes instant healinge effects like instant health potions.
+enchantment.combatmedic=Combat Medic
+enchantment.somanyenchantments.combatmedic.desc=Amplifies the user's healing.
 
 enchantment.counterattack=Counter Attack
-enchantment.somanyenchantments.counterattack.desc=Melee attacks done from enemies has a chance to make you attack them automatically.
+enchantment.somanyenchantments.counterattack.desc=Gives you a chance to automatically retaliate to a melee attack.
 
 enchantment.criticalstrike=Critical Strike
-enchantment.somanyenchantments.criticalstrike.desc=Gives your attack a chance to deal extra damage based on your attack damage. Uses pseudo-random distribution instead of true random distribution.
+enchantment.somanyenchantments.criticalstrike.desc=Gives your critical hits an increasing chance to turn into a super-critical hit for greatly amplified damage.
 
 enchantment.cryogenic=Cryogenic
-enchantment.somanyenchantments.cryogenic.desc=Applies a guranteed slowness and mining fatigue potion effect on each hit. Each hit also increases the amplifier of the potion effect and if it reaches VIII, there is a chance that the mob will be encased in frosted ice. Damages the sword if it procs.
+enchantment.somanyenchantments.cryogenic.desc=Gives a chance to apply stacking slowness and fatigue to an enemy, which when over a certain threshold can freeze the enemy into a block of ice.
 
 enchantment.culling=Culling
-enchantment.somanyenchantments.culling.desc=While attacking enemies with low hp, gives you a jump boost and an opportunity to instantly kill that enemy by jumping and falling with velocity not less than 0.34D in motion Y (in other words, you must be falling with velocity already). If the act is success, that mob has a chance to drop its specific mob head. If failed on the other hand, gives you critical like damage that stacks with critical but drains your hunger. If overused, the technique will rapidly your hunger.
+enchantment.somanyenchantments.culling.desc=If an attack would leave an enemy with health below a certain threshold, instantly kills the enemy instead. If successful, also drops the head of that enemy.
 
 enchantment.darkshadows=Dark Shadows
-enchantment.somanyenchantments.darkshadows.desc=Attacks deal extra damage if both user and the target is on dim areas. Level III and above applies blindness.
+enchantment.somanyenchantments.darkshadows.desc=Your attacks deal increased damage when striking from the shadows, and additionally can blind enemies.
 
 enchantment.defusingedge=Defusing Edge
-enchantment.somanyenchantments.defusingedge.sec=Deals extra damage to creepers and has a chance
+enchantment.somanyenchantments.defusingedge.sec=Defuses and deals increased damage to creepers.
 
 enchantment.desolator=Desolator
-enchantment.somanyenchantments.desolator.desc=Attacks have a chance to apply negative resistance. If target has positive resistance active, gives extra damage instead. Also applies weakness.
+enchantment.somanyenchantments.desolator.desc=Attacks have a chance to apply negative resistance and weakness.
 
 enchantment.difficultysendowment=Difficulty's Endowment
-enchantment.somanyenchantments.difficultysendowment.desc=Increases or decreases your damage based on your world's difficulty.
+enchantment.somanyenchantments.difficultysendowment.desc=Amplifies or decreases your attacks damage based on world difficulty.
 
 enchantment.disarmament=Disarmament
-enchantment.somanyenchantments.disarmament.desc=Grants you a chance to disarm your opponent in two ways: applies severe weakness or forces them to drop their held item.
+enchantment.somanyenchantments.disarmament.desc=Grants a chance to disarm your opponent's weapons.
 
 enchantment.disorientatingblade=Disorientating Blade
-enchantment.somanyenchantments.disorientatingblade.desc=Attacks have a chance to disorient (applies potion effect related to disorientation).
-
-enchantment.dragging=Dragging
-enchantment.somanyenchantments.dragging.desc=Turnabout "Reverse Hierarchy" version of Punch. In layman's term, the opposite of punch.
+enchantment.somanyenchantments.disorientatingblade.desc=Attacks have a chance to apply blindness and nausea to the enemy.
 
 enchantment.empowereddefence=Empowered Defence
-enchantment.somanyenchantments.empowereddefence.desc=Empowers the shield's defence. Gives you a chance to negate shield from being disabled and being damaged while knockbacking the attacker farther and damages them based on their attack damage.
+enchantment.somanyenchantments.empowereddefence.desc=Empowers your shield's defence, giving a chance to block and reflect an attack with additional knockback.
 
 enchantment.envenomed=Envenomed
-enchantment.somanyenchantments.envenomed.desc=Attacks apply poison and wither. Poison depends whether if its applicable to a mob or not.
+enchantment.somanyenchantments.envenomed.desc=Attacks have a chance to apply poison and wither to the enemy.
 
 enchantment.evasion=Evasion
-enchantment.somanyenchantments.evasion.desc=Grants the user a chance to evade attacks. If the attack is evaded, the user performs a jump-like action (can be disabled in the config).
+enchantment.somanyenchantments.evasion.desc=Grants the user a chance to evade and ignore attacks.
 
 enchantment.fieryedge=Fiery Edge
-enchantment.somanyenchantments.fieryedge.desc=A variant of fire aspect that burns mobs for extended period of time. Also gives the user a chance to ignore the invulnerability of an entity if its on fire.
+enchantment.somanyenchantments.fieryedge.desc=A variant of fire aspect that additionally gives a chance to ignore the invulnerability frames of an enemy on fire.
 
 enchantment.flinging=Flinging
-enchantment.somanyenchantments.flinging.desc=Similar to Knockback, but the knockback is in a vertical motion.
+enchantment.somanyenchantments.flinging.desc=A variant of knockback that instead launches the enemy upwards.
 
 enchantment.horsdecombat=Hors De Combat
-enchantment.somanyenchantments.horsdecombat.desc=Attacks have a chance to cripple (applies potion effect related to cripple).
+enchantment.somanyenchantments.horsdecombat.desc=Attacks have a chance to cripple the enemy with various effects.
 
 enchantment.inhumane=Inhumane
-enchantment.somanyenchantments.inhumane.desc=Attacks deal extra damage against illagers.
+enchantment.somanyenchantments.inhumane.desc=Attacks deal extra damage against and apply weakness to Illagers.
 
 enchantment.innerberserk=Inner Berserk
-enchantment.somanyenchantments.innerberserk.desc=Increases the damage the user deals the more the lower the user's health is.
+enchantment.somanyenchantments.innerberserk.desc=Amplifies the damage the user deals the lower the user's health is.
 
 enchantment.jaggedrake=Jagged Rake
-enchantment.somanyenchantments.jaggedrake.desc=Greatly increases hoe damage.
+enchantment.somanyenchantments.jaggedrake.desc=Increases damage dealt by hoes.
 
 enchantment.levitator=Levitator
-enchantment.somanyenchantments.levitator.desc=Attacks now applies levitation.
+enchantment.somanyenchantments.levitator.desc=Grants the ability for attacks to apply levitation to enemies.
 
 enchantment.lifesteal=Lifesteal
-enchantment.somanyenchantments.lifesteal.desc=Heals you based on your damage dealt.
+enchantment.somanyenchantments.lifesteal.desc=Heals the user for a portion of damage dealt.
 
 enchantment.lightweight=Light Weight
-enchantment.somanyenchantments.lightweight.desc=The user (must be a player) jumps higher. Minimum requirement for taking fall damage is extended.
+enchantment.somanyenchantments.lightweight.desc=Increases the users jump height, additionally lowers and limits the user's fall damage.
 
 enchantment.luckmagnification=Luck Magnification
-enchantment.somanyenchantments.luckmagnification.desc=The user (must be a player) is subjected to luck amplification.
+enchantment.somanyenchantments.luckmagnification.desc=Amplifies the user's luck, making luck affect critical hits and looting.
 
 enchantment.lunasblessing=Luna's Blessing
-enchantment.somanyenchantments.lunasblessing.desc=One of the two day and night enchantments. Deals extra damage and applies blindness if its night and lesser if its day.
+enchantment.somanyenchantments.lunasblessing.desc=Increases damage dealt during the night with an extra boost if exposed to the sky, additionally applies blindness to the enemy.
 
 enchantment.magicprotection=Magic Protection
-enchantment.somanyenchantments.magicprotection.desc=Reduces damage from magic attacks.
+enchantment.somanyenchantments.magicprotection.desc=A variant of protection that is more effective against magic damage.
 
 enchantment.magmawalker=Magma Walker
-enchantment.somanyenchantments.magmawalker.desc=Enables the user to walk in lava, turning them into magma blocks. Like Frost Walker, negates the damage done by magma blocks.
-
-enchantment.meltdown=Meltdown
-enchantment.somanyenchantments.meltdown.desc=Grants you a chance to explode if you're attacked. The explosion doesn't harm you but damages the armor severely.
+enchantment.somanyenchantments.magmawalker.desc=A variant of frost walker that instead applies to lava.
 
 enchantment.moisturized=Moisturized
-enchantment.somanyenchantments.moisturized.desc=Tilling will make the farmland automatically wet.
+enchantment.somanyenchantments.moisturized.desc=Tilling will automatically make the resulting farmland wet.
 
 enchantment.mortalitas=Mortalitas
-enchantment.somanyenchantments.mortalitas.desc=For each death by a weapon enchanted with this enchantment, the killer gains a little damage. In the same fashion, if a victim gets killed using a weapon enchanted with this enchantment, the victim loses a fraction of its damage proportional to this enchantment's level based on the killer's weapon.
+enchantment.somanyenchantments.mortalitas.desc=Each kill with this enchantment empowers the weapon, increasing future damage dealt.
 
 enchantment.naturalblocking=Natural Blocking
-enchantment.somanyenchantments.naturalblocking.desc=When wielding a shield, The Shield will naturally block a percentage of damage taken. This damage is dealt on the shield instead of the wielder.
+enchantment.somanyenchantments.naturalblocking.desc=When wielding a shield, it will naturally block a portion of damage taken and damage the shield instead.
 
 enchantment.parry=Parry
-enchantment.somanyenchantments.parry.desc=Melee attacks done from enemies has a chance to be parried and they will be knockbacked as if they are damaged. In other words, attacks from enemies has a chance to be blocked.
+enchantment.somanyenchantments.parry.desc=Grants a chance to parry melee attacks and instead knock the attacker back while still triggering invulnerability frames.
 
 enchantment.penetratingedge=Penetrating Edge
-enchantment.somanyenchantments.penetratingedge.desc=Adversaries with high armor will take extra damage.
+enchantment.somanyenchantments.penetratingedge.desc=Increases damage against enemies with higher armor.
 
 enchantment.physicalprotection=Physical Protection
-enchantment.somanyenchantments.physicalprotection.desc=Reduces the damage taken from melee attacks.
+enchantment.somanyenchantments.physicalprotection.desc=A variant of protection that is more effective against melee attacks.
 
 enchantment.purgingblade=Purging Blade
-enchantment.somanyenchantments.purgingblade.desc=Gives your attack a chance to purge one of the enemies' potion effect. It doesn't matter whether the potion effect is positive or negative.
+enchantment.somanyenchantments.purgingblade.desc=Grants a chance on attacks to purge an effect from an enemy, amplifying the attack damage when purging stronger effects.
 
 enchantment.purification=Purification
-enchantment.somanyenchantments.purification.desc=Purifies certain entities if they are purifiable.
+enchantment.somanyenchantments.purification.desc=Grants a chance to purify enemies such as Zombie Villagers, Pig Zombies, and Magma Cubes.
 
 enchantment.pushing=Pushing
-enchantment.somanyenchantments.pushing.desc=Blesses the bow with an ability to repel nearby entities while charging.
+enchantment.somanyenchantments.pushing.desc=Blesses your bow with an aura that repels nearby enemies while pulling the bow back.
 
 enchantment.rainsbestowment=Rain's Bestowment
-enchantment.somanyenchantments.rainsbestowment.desc=One of the weather enchantments. Deals extra damage to all while raining and lesser damage if its not raining.
+enchantment.somanyenchantments.rainsbestowment.desc=Increases damage dealt while raining with an extra boost if exposed to the sky.
 
 enchantment.reviledblade=Reviled Blade
-enchantment.somanyenchantments.reviledblade.desc=Your damage grows the more the lower your opponent's health is.
+enchantment.somanyenchantments.reviledblade.desc=Amplifies the damage dealt the lower the health of the enemy.
 
 enchantment.reinforcedsharpness=Reinforced Sharpness
-enchantment.somanyenchantments.reinforcedsharpness.desc=Increases the damage of tools.
+enchantment.somanyenchantments.reinforcedsharpness.desc=A variant of sharpness for tools.
 
 enchantment.smelter=Smelter
-enchantment.somanyenchantments.smelter.desc=Harvesting a block gives you the smelted result of it. Works with fortune.
+enchantment.somanyenchantments.smelter.desc=Harvesting a block will attempt to smelt the drops if applicable, additionally works with fortune.
 
 enchantment.solsblessing=Sol's Blessing
-enchantment.somanyenchantments.solsblessing.desc=One of the two day and night enchantments. Deals extra damage and applies glowing if its day and lesser if its night.
+enchantment.somanyenchantments.solsblessing.desc=Increases damage dealt during the day with an extra boost if exposed to the sky, additionally applies glowing to the enemy.
 
 enchantment.spellbreaker=Spell Breaker
-enchantment.somanyenchantments.spellbreaker.desc=Deals bonus damage to enemies with magic like Witches, Evokers and Illusioners.
+enchantment.somanyenchantments.spellbreaker.desc=Deals increased damage for each effect an enemy has, with bonus damage against Evokers and Witches.
 
 enchantment.splitshot=Splitshot
-enchantment.somanyenchantments.splitshot.desc=Duplicates the arrow fired by the bow. Amount of arrows varies on the enchantment's level and each arrows fired damages the bow by 1.
+enchantment.somanyenchantments.splitshot.desc=Splits arrows fired by the bow into multiple arrows.
 
 enchantment.strafe=Strafe
 enchantment.somanyenchantments.strafe.desc=Increases bow draw speed.
 
 enchantment.strengthenedvitality=Strengthened Vitality
-enchantment.somanyenchantments.strengthenedvitality.desc=Increases your health depending on your max health.
+enchantment.somanyenchantments.strengthenedvitality.desc=Amplifies the user's max health.
 
 enchantment.swifterslashes=Swifter Slashes
-enchantment.somanyenchantments.swifterslashes.desc=Gives you an additional attack speed. Moreover, it gives you a chance to pierce mob invulnerability period, allowing you to attack rapidly, but with the cost of reduced damage.
+enchantment.somanyenchantments.swifterslashes.desc=Greatly increases attack speed, gives a chance to bypass invulnerability frames at the cost of reduced damage.
 
 enchantment.thunderstormsbestowment=Thunderstorm's Bestowment
-enchantment.somanyenchantments.thunderstormsbestowment.desc=One of the weather enchantments. Deals extra damage to all during thunderstorms and lesser damage if its not during thunderstorms. Deals normal damage if its raining.
+enchantment.somanyenchantments.thunderstormsbestowment.desc=Increases damage dealt while thunder-storming with an extra boost if exposed to the sky.
 
 enchantment.truestrike=True Strike
-enchantment.somanyenchantments.truestrike.desc=Allows the user to penetrate through the evasion enchantment by 75% and prevents the user from obtaining the curse of inaccuracy enchantment.
+enchantment.somanyenchantments.truestrike.desc=Allows the user to bypass evasion and parry enchantments, additionally gives a chance to bypass invulnerability frames.
 
 enchantment.underwaterstrider=Underwater Strider
-enchantment.somanyenchantments.underwaterstrider.desc=Faster swim speed if the player in question is fully submerged underground.
+enchantment.somanyenchantments.underwaterstrider.desc=Amplifies the user's swim speed.
 
 enchantment.unreasonable=Unreasonable
-enchantment.somanyenchantments.unreasonable.desc=Destroys the reasoning of an entity, making it mad at random entities nearby it.
+enchantment.somanyenchantments.unreasonable.desc=Destroys the reasoning of an entity, making it target random entities near it instead of the user.
 
 enchantment.unsheathing=Unsheathing
-enchantment.somanyenchantments.unsheathing.desc=When taking damage (there must be an attacker), the sword will automatically switch place with whatever the user is currently holding. Does not work if the sword is not in the main hotbar.
+enchantment.somanyenchantments.unsheathing.desc=When the user unsheathes their weapon, amplifies their attack damage if they attack within a short period of time.
 
 enchantment.upgradedpotentials=Upgraded Potentials
-enchantment.somanyenchantments.upgradedpotentials.desc=Reduces XP cost in anvil enchanting.
+enchantment.somanyenchantments.upgradedpotentials.desc=Reduces the XP repair cost when applied in an anvil.
 
 enchantment.viper=Viper
-enchantment.somanyenchantments.viper.desc=Deals extra damage to targets with poison and/or wither.
+enchantment.somanyenchantments.viper.desc=Increases damage dealt against enemies with poison or wither.
 
 enchantment.wateraspect=Water Aspect
-enchantment.somanyenchantments.wateraspect.desc=Deals bonus damage to Blazes, Endermen, Magma Cube, and to enemies who are soaked in water. You also deal bonus damage if you are also soaked in water. The damage stacks provided they meet the requirements.
+enchantment.somanyenchantments.wateraspect.desc=Increases damage dealt if the user and/or the enemy is in water, with bonus damage against Endermen, Blazes, and Magma Cubes.
 
 enchantment.plowing=Plowing
-enchantment.somanyenchantments.plowing.desc=Tilling area is increased while damages the hoe depending on the number of tilled dirt.
+enchantment.somanyenchantments.plowing.desc=Tilling area is increased to a radius of multiple blocks.
 
 enchantment.wintersgrace=Winter's Grace
-enchantment.somanyenchantments.wintersgrace.desc=One of the weather enchantments though it functions in biomes with low temperature. Deals extra damage to all and applies several negative potion effects with each hit related to hypothermia.
+enchantment.somanyenchantments.wintersgrace.desc=Increases damage dealt in cold environments with extra boosts if exposed to the sky and if snowing, additionally has a chance to apply slowness and fatigue to the enemy.
 
 #Curses
 
@@ -214,71 +208,77 @@ enchantment.ascetic=Ascetic
 enchantment.somanyenchantments.ascetic.desc=You abandon the need for loot.
 
 enchantment.bluntness=Bluntness
-enchantment.somanyenchantments.bluntness.desc=Reduces the attack damage of an item.
+enchantment.somanyenchantments.bluntness.desc=Decreases the attack damage of a weapon.
 
 enchantment.cursededge=Cursed Edge
-enchantment.somanyenchantments.cursededge.desc=While you deal extra damage, you will also take damage based from your attack damage.
+enchantment.somanyenchantments.cursededge.desc=Amplifies the damage your attack deals at the cost of severely reflecting a portion of the attack back at yourself.
 
 enchantment.curseofdecay=Curse of Decay
 enchantment.somanyenchantments.curseofdecay.desc=Curses an item to decay very fast if left in the ground.
 
 enchantment.curseofholding=Curse of Holding
-enchantment.somanyenchantments.curseofholding.desc=Curses a player if it is holding this item. Does not curse entities for technical reasons like decreasing TPS in a server.
+enchantment.somanyenchantments.curseofholding.desc=Curses the user when equipped, applying various negative effects.
 
 enchantment.curseofinaccuracy=Curse of Inaccuracy
-enchantment.somanyenchantments.curseofinaccuracy.desc=Curses the user in their attacks, causing melee attacks to miss and launching arrows from bow to be inaccurate.
+enchantment.somanyenchantments.curseofinaccuracy.desc=Curses the user's accuracy, causing melee attacks to have a chance to miss and making arrows inaccurate.
 
 enchantment.curseofpossession=Curse of Possession
-enchantment.somanyenchantments.curseofpossession.desc=Items are unable to leave in the player's inventory
+enchantment.somanyenchantments.curseofpossession.desc=Curses items to not be able to be dropped, disappearing if forced to drop.
 
 enchantment.curseofvulnerability=Curse of Vulnerability
 enchantment.somanyenchantments.curseofvulnerability.desc=Amplifies the user's damage taken.
+
+enchantment.dragging=Dragging
+enchantment.somanyenchantments.dragging.desc=Drags enemies shot closer to the user.
 
 enchantment.extinguish=Extinguish
 enchantment.somanyenchantments.extinguish.desc=Extinguishes the target on hit.
 
 enchantment.heavyweight=Heavy Weight
-enchantment.somanyenchantments.heavyweight.desc=Reduces attack speed.
+enchantment.somanyenchantments.heavyweight.desc=Greatly reduces attack speed.
 
 enchantment.inefficient=Inefficient
-enchantment.somanyenchantments.inefficient.desc=Reduces mining speed.
+enchantment.somanyenchantments.inefficient.desc=Greatly reduces mining speed.
 
 enchantment.instability=Instability
-enchantment.somanyenchantments.instability.desc=A form of curse that increases the damage of a tool the lower the durability it has. The tool suffers by taking damage proportional to the damage it inflicted.
+enchantment.somanyenchantments.instability.desc=Amplifies the damage your attack deals when your weapon is more damaged, at the cost of severely damaging the weapon based on the attack damage.
+
+enchantment.meltdown=Meltdown
+enchantment.somanyenchantments.meltdown.desc=A variant of thorns that causes the user to explode and severely damages the armor.
 
 enchantment.pandorascurse=Pandora's Curse
-enchantment.somanyenchantments.pandorascurse.desc=
+enchantment.somanyenchantments.pandorascurse.desc=Now you know, now you suffer.
 
 enchantment.powerless=Powerless
-enchantment.somanyenchantments.powerless.desc=Reduces arrow damage fired from a bow.
+enchantment.somanyenchantments.powerless.desc=Decreases the damage of arrows fired from a bow.
 
 enchantment.rusted=Rusted
-enchantment.somanyenchantments.rusted.desc=Decays (Damages) the item if it stays in the user's inventory.
+enchantment.somanyenchantments.rusted.desc=Curses the item with rust, greatly increasing the amount of durability damage taken.
 
 enchantment.unpredictable=Unpredictable
-enchantment.somanyenchantments.unpredictable.desc=Literally makes your damage unpredictable from negative to positive while negative heals. Damage that is randomized is based on your damage.
+enchantment.somanyenchantments.unpredictable.desc=Randomizes the attack damage dealt, including a chance to instead heal the enemy.
 
 #Rune
 
 enchantment.rune_arrowpiercing=Rune: Arrow Piercing
-enchantment.somanyenchantments.rune_arrowpiercing.desc=Arrows now pierce against armor.
+enchantment.somanyenchantments.rune_arrowpiercing.desc=Allows for a portion of arrow damage to pierce armor.
 
 enchantment.rune_magicalblessing=Rune: Magical Blessing
-enchantment.somanyenchantments.rune_magicalblessing.desc=Converts your damage into magic (in other words, it is as if you have dealt a magic damage) by 25% with each level. Also grants an extra damage like sharpness.
+enchantment.somanyenchantments.rune_magicalblessing.desc=Increases damage dealt, converts a portion of damage dealt to magic damage, and applies random negative effects to the enemy.
 
 enchantment.rune_piercingcapabilities=Rune: Piercing Capabilities
-enchantment.somanyenchantments.rune_piercingcapabilities.desc=One of the runes. Allows your attack to pierce through an enemy's armor by 25% with each level.
+enchantment.somanyenchantments.rune_piercingcapabilities.desc=Allows for a portion of attack damage to pierce armor.
 
 enchantment.rune_resurrection=Rune: Resurrection
-enchantment.somanyenchantments.rune_resurrection.desc=When the user (must be a player) dies, they will respawn at their death point with their items intact.
+enchantment.somanyenchantments.rune_resurrection.desc=A consumable enchant that acts as an emergency totem of undying.
 
 enchantment.rune_revival=Rune: Revival
-enchantment.somanyenchantments.rune_revival.desc=Gives the item a chance to resurrect if the item is about to be destroyed depending on the level. The durability restored is also depending on the level
+enchantment.somanyenchantments.rune_revival.desc=Grants a chance to save and repair an item when it would break based on its maximum durability.
 
 #Subject
 
 enchantment.subjectbiology=Subject Biology
-enchantment.somanyenchantments.subjectbiology.desc=Increases damage on mobs that are 'smarter'.
+enchantment.somanyenchantments.subjectbiology.desc=Increases damage against enemies that are 'smarter'.
 
 enchantment.subjectchemistry=Subject Chemistry
 enchantment.somanyenchantments.subjectchemistry.desc=Increases damage when the user has more active potion effects.
@@ -301,19 +301,19 @@ enchantment.somanyenchantments.subjectphysics.desc=Increases damage depending on
 #Lesser
 
 enchantment.lesserbaneofarthropods=Lesser Bane of Arthropods
-enchantment.somanyenchantments.lesserbaneofarthropods.desc=Lowest tier of Bane of Arthropods.
+enchantment.somanyenchantments.lesserbaneofarthropods.desc=Lesser version of Bane of Arthropods.
 
 enchantment.lesserfireaspect=Lesser Fire Aspect
-enchantment.somanyenchantments.lesserfireaspect.desc=Lowest tier of Fire Aspect.
+enchantment.somanyenchantments.lesserfireaspect.desc=Lesser version of Fire Aspect.
 
 enchantment.lesserflame=Lesser Flame
-enchantment.somanyenchantments.lesserflame.desc=Lowest tier of Flame.
+enchantment.somanyenchantments.lesserflame.desc=Lesser version of Flame.
 
 enchantment.lessersharpness=Lesser Sharpness
-enchantment.somanyenchantments.lessersharpness.desc=Lowest tier of Sharpness.
+enchantment.somanyenchantments.lessersharpness.desc=Lesser version of Sharpness.
 
 enchantment.lessersmite=Lesser Smite
-enchantment.somanyenchantments.lessersmite.desc=Lowest tier of Smite.
+enchantment.somanyenchantments.lessersmite.desc=Lesser version of Smite.
 
 #Advanced
 
@@ -321,7 +321,7 @@ enchantment.advancedbaneofarthropods=Advanced Bane of Arthropods
 enchantment.somanyenchantments.advancedbaneofarthropods.desc=Advanced version of Bane of Arthropods.
 
 enchantment.advancedblastprotection=Advanced Blast Protection
-enchantment.somanyenchantments.advancedblastprotection.desc=Advanced version of Blast Protection. Instead of giving you knockback resistance to explosion, gives you knockback resistance attribute that depends on the level.
+enchantment.somanyenchantments.advancedblastprotection.desc=Advanced version of Blast Protection.
 
 enchantment.advancedefficiency=Advanced Efficiency
 enchantment.somanyenchantments.advancedefficiency.desc=Advanced version of efficiency.
@@ -330,16 +330,16 @@ enchantment.advancedfeatherfalling=Advanced Feather Falling
 enchantment.somanyenchantments.advancedfeatherfalling.desc=Advanced version of Feather Falling.
 
 enchantment.advancedfireaspect=Advanced Fire Aspect
-enchantment.somanyenchantments.advancedfireaspect.desc=Advanced tier of Fire Aspect.
+enchantment.somanyenchantments.advancedfireaspect.desc=Advanced version of Fire Aspect.
 
 enchantment.advancedfireprotection=Advanced Fire Protection
 enchantment.somanyenchantments.advancedfireprotection.desc=Advanced version of Fire Protection.
 
 enchantment.advancedflame=Advanced Flame
-enchantment.somanyenchantments.advancedflame.desc=Advanced tier of Flame.
+enchantment.somanyenchantments.advancedflame.desc=Advanced version of Flame.
 
 enchantment.advancedknockback=Advanced Knockback
-enchantment.somanyenchantments.advancedknockback.desc=Advanced variant of knockback.
+enchantment.somanyenchantments.advancedknockback.desc=Advanced version of knockback.
 
 enchantment.advancedlooting=Advanced Looting
 enchantment.somanyenchantments.advancedlooting.desc=Advanced version of looting.
@@ -351,7 +351,7 @@ enchantment.advancedlure=Advanced Lure
 enchantment.somanyenchantments.advancedlure.desc=Advanced version of Lure.
 
 enchantment.advancedmending=Advanced Mending
-enchantment.somanyenchantments.advancedmending.desc=Advanced tier of Mending.
+enchantment.somanyenchantments.advancedmending.desc=Advanced version of Mending.
 
 enchantment.advancedpower=Advanced Power
 enchantment.somanyenchantments.advancedpower.desc=Advanced version of power.
@@ -377,22 +377,22 @@ enchantment.somanyenchantments.advancedthorns.desc=Advanced version of Thorns.
 #Supreme
 
 enchantment.supremebaneofarthropods=Supreme Bane of Arthropods
-enchantment.somanyenchantments.supremebaneofarthropods.desc=Supreme version or the most powerful tier of Bane of Arthropods.
+enchantment.somanyenchantments.supremebaneofarthropods.desc=Supreme version of Bane of Arthropods.
 
 enchantment.supremefireaspect=Supreme Fire Aspect
-enchantment.somanyenchantments.supremefireaspect.desc=Highest tier of Fire Aspect.
+enchantment.somanyenchantments.supremefireaspect.desc=Supreme version of Fire Aspect.
 
 enchantment.supremeflame=Supreme Flame
-enchantment.somanyenchantments.supremeflame.desc=Highest tier of Flame.
+enchantment.somanyenchantments.supremeflame.desc=Supreme version of Flame.
 
 enchantment.supremeprotection=Supreme Protection
 enchantment.somanyenchantments.supremeprotection.desc=This was supposed to be a meme.
 
 enchantment.supremesharpness=Supreme Sharpness
-enchantment.somanyenchantments.supremesharpness.desc=Supreme version or the most powerful tier of Sharpness.
+enchantment.somanyenchantments.supremesharpness.desc=Supreme version of Sharpness.
 
 enchantment.supremesmite=Supreme Smite
-enchantment.somanyenchantments.supremesmite.desc=Supreme version or the most powerful tier of Smite.
+enchantment.somanyenchantments.supremesmite.desc=Supreme version of Smite.
 
 potion.potency.4=V
 potion.potency.5=VI

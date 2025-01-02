@@ -10,6 +10,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -17,6 +18,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  * Enchantment handled in com.shultrea.rin.mixin.vanilla.ItemMixin
  */
 public class EnchantmentSwifterSlashes extends EnchantmentBase {
+	
+	private boolean bypassingIframe = false;
+	private EntityLivingBase bypassingEntity = null;
 	
 	public EnchantmentSwifterSlashes(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
@@ -62,7 +66,7 @@ public class EnchantmentSwifterSlashes extends EnchantmentBase {
 		return ModConfig.treasure.swifterSlashes;
 	}
 	
-	@SubscribeEvent(priority = EventPriority.LOW)
+	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onLivingAttackEvent(LivingAttackEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
@@ -79,7 +83,22 @@ public class EnchantmentSwifterSlashes extends EnchantmentBase {
 		if(level > 0) {
 			if(attacker.getRNG().nextFloat() < 0.01F * (float)level && (float)victim.hurtResistantTime > (float)victim.maxHurtResistantTime / 2.0F) {
 				victim.hurtResistantTime = 0;
+				bypassingIframe = true;
+				bypassingEntity = attacker;
 			}
 		}
+	}
+	
+	//TODO: simpler way to handle this? hurt takes place after the iframe check so it needs to be changed earlier
+	@SubscribeEvent(priority = EventPriority.LOW, receiveCanceled = true)
+	public void onLivingHurtEvent(LivingHurtEvent event) {
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
+		if(attacker == null) return;
+		
+		if(bypassingIframe && bypassingEntity == attacker) {
+			event.setAmount(event.getAmount() / 2.0F);
+		}
+		bypassingEntity = null;
+		bypassingIframe = false;
 	}
 }

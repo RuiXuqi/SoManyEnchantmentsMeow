@@ -77,12 +77,12 @@ public class EnchantmentAdvancedBlastProtection extends EnchantmentBase {
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOW)
-	public void livingHurtEvent_extraProtection(LivingHurtEvent fEvent) {
+	public void onLivingHurtEvent_extraProtection(LivingHurtEvent event) {
 		if(!ModConfig.miscellaneous.extraProtectionEffects) return;
 		if(!this.isEnabled()) return;
-		if(!fEvent.getSource().isExplosion()) return;
-		int modifier = (int)(7.5f * EnchantUtil.getTotalArmorEnchantmentLevel(this, fEvent.getEntityLiving()));
-		float damage = EnchantUtil.getDamageAfterMagicAbsorb(fEvent.getAmount(), modifier);
-		fEvent.setAmount(damage);
+		if(!event.getSource().isExplosion()) return;
+		int modifier = (int)(7.5F * EnchantUtil.getTotalArmorEnchantmentLevel(this, event.getEntityLiving()));
+		float damage = EnchantUtil.getDamageAfterMagicAbsorb(event.getAmount(), modifier);
+		event.setAmount(damage);
 	}
 }

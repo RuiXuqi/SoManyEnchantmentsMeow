@@ -48,8 +48,8 @@ enchantment.somanyenchantments.spellbreaker.desc=Inflige daño adicional a los e
 enchantment.wateraspect=Aspecto acuático
 enchantment.somanyenchantments.wateraspect.desc=Inflige daño adicional a blazes, endermen, cubos de magma y a enemigos a los que les afecte el agua. También inflige daño adicional si te encuentras en el agua. El daño puede ser acumulable siempre que cumplan los requisitos.
 
-enchantment.combatveterancy=Veteranía de combate
-enchantment.somanyenchantments.combatveterancy.desc=Amplifica la tasa de curación del usuario. Esto incluye efectos de curación instantánea como pociones de salud instantáneas.
+enchantment.combatmedic=Veteranía de combate
+enchantment.somanyenchantments.combatmedic.desc=Amplifica la tasa de curación del usuario. Esto incluye efectos de curación instantánea como pociones de salud instantáneas.
 
 enchantment.parry=Rechazar
 enchantment.somanyenchantments.parry.desc=Los ataques cuerpo a cuerpo de los enemigos tienen la posibilidad de ser rechazados y además, los agresores serán derribados como si hubieran sido dañados. En otras palabras, los ataques de los enemigos tienen la posibilidad de ser bloqueados.

@@ -48,8 +48,8 @@ enchantment.somanyenchantments.spellbreaker.desc=Inflige des dégâts supplémen
 enchantment.wateraspect=Aura de l'Eau
 enchantment.somanyenchantments.wateraspect.desc=Inflige des dégâts bonus aux Blazes, aux Enderman, au Cube de Magma et aux ennemis qui sont faible à l'eau. Vous infligez également des dégâts bonus si vous êtes également trempé dans l'eau. Les dégâts s'empilent à condition de remplir les conditions requises.
 
-enchantment.combatveterancy=Combattant Vétérinaire
-enchantment.somanyenchantments.combatveterancy.desc=Amplifie le taux de soins de l'utilisateur. Cela inclut les effets de soins instantanée comme les potions de soins instantanées.
+enchantment.combatmedic=Combattant Vétérinaire
+enchantment.somanyenchantments.combatmedic.desc=Amplifie le taux de soins de l'utilisateur. Cela inclut les effets de soins instantanée comme les potions de soins instantanées.
 
 enchantment.parry=Esquive Furtive
 enchantment.somanyenchantments.parry.desc=Les attaques de mêlée effectuées par les ennemis ont une chance d'être parées et elles seront assommées comme si elles étaient endommagées. En d'autres termes, les attaques des ennemis ont une chance d'être bloquées.

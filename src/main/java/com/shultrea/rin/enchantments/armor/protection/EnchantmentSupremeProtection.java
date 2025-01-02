@@ -64,9 +64,13 @@ public class EnchantmentSupremeProtection extends EnchantmentBase {
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOW)
-	public void onLivingHurt(LivingHurtEvent event) {
+	public void onLivingHurtEvent_extraProtection(LivingHurtEvent event) {
+		if(!ModConfig.miscellaneous.extraProtectionEffects) return;
 		if(!this.isEnabled()) return;
-		int armorPieceCount = EnchantUtil.getTotalArmorEnchantmentLevel(this, event.getEntityLiving())/getMaxLevel();
-		event.setAmount(event.getAmount()*(1F-armorPieceCount*0.05F));
+		int totalLevel = EnchantUtil.getTotalArmorEnchantmentLevel(this, event.getEntityLiving());
+		if(totalLevel > 0) {
+			float modifier = 1.0F - (0.05F * (float)totalLevel / (float)getMaxLevel());
+			event.setAmount(event.getAmount() * modifier);
+		}
 	}
 }

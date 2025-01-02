@@ -104,9 +104,9 @@ public class CanApplyConfig {
 	@Config.Name("Clearskies' Favor")
 	@Config.RequiresMcRestart
 	public String[] clearskiesFavor = {"SWORD", "BS_WEAPON"};
-	@Config.Name("Combat Veterancy")
+	@Config.Name("Combat Medic")
 	@Config.RequiresMcRestart
-	public String[] combatVeterancy = {"SWORD", "BS_WEAPON"};
+	public String[] combatMedic = {"ARMOR_HEAD"};
 	@Config.Name("Counter Attack")
 	@Config.RequiresMcRestart
 	public String[] counterAttack = {"SWORD", "BS_WEAPON"};

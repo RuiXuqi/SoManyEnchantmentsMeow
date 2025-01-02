@@ -95,7 +95,7 @@ public class EnchantmentUnsheathing extends EnchantmentBase {
 			if(attacker.ticksExisted - ((IEntityPlayerMixin)attacker).soManyEnchantments$getLastUnsheatheTrigger() < 100) return;
 			if(attacker.ticksExisted - ((IEntityPlayerMixin)attacker).soManyEnchantments$getLastSwapTime() < 10 + 10 * level) {
 				((IEntityPlayerMixin)attacker).soManyEnchantments$setLastUnsheatheTrigger(attacker.ticksExisted);
-				event.setAmount(event.getAmount() * (1.0F + 0.5F * (float)level));
+				event.setAmount(event.getAmount() * (1.0F + 0.25F * (float)level));
 			}
 		}
 	}

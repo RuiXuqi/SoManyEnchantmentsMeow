@@ -61,14 +61,14 @@ public class EnchantmentAdvancedFeatherFalling extends EnchantmentBase {
 	public int calcModifierDamage(int level, DamageSource source) {
 		return source.canHarmInCreative() ? 0 : source == DamageSource.FALL ? level * 5 : 0;
 	}
-
+	
 	@SubscribeEvent(priority = EventPriority.LOW)
-	public void livingHurtEvent_extraProtection(LivingHurtEvent fEvent) {
+	public void onLivingHurtEvent_extraProtection(LivingHurtEvent event) {
 		if(!ModConfig.miscellaneous.extraProtectionEffects) return;
 		if(!this.isEnabled()) return;
-		if(fEvent.getSource() != DamageSource.FALL) return;
-		int modifier = (int)(9.0F * EnchantUtil.getTotalArmorEnchantmentLevel(this, fEvent.getEntityLiving()));
-		float damage = EnchantUtil.getDamageAfterMagicAbsorb(fEvent.getAmount(), modifier);
-		fEvent.setAmount(damage);
+		if(event.getSource() != DamageSource.FALL) return;
+		int modifier = (int)(9.0F * EnchantUtil.getTotalArmorEnchantmentLevel(this, event.getEntityLiving()));
+		float damage = EnchantUtil.getDamageAfterMagicAbsorb(event.getAmount(), modifier);
+		event.setAmount(damage);
 	}
 }

@@ -46,9 +46,9 @@ public class RarityConfig {
 	@Config.Name("Clearskies' Favor")
 	@Config.RequiresMcRestart
 	public int clearskiesFavor = RARE;
-	@Config.Name("Combat Veterancy")
+	@Config.Name("Combat Medic")
 	@Config.RequiresMcRestart
-	public int combatVeterancy = RARE;
+	public int combatMedic = RARE;
 	@Config.Name("Counter Attack")
 	@Config.RequiresMcRestart
 	public int counterAttack = RARE;

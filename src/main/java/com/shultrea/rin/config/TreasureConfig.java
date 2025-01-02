@@ -40,9 +40,9 @@ public class TreasureConfig {
 	@Config.Name("Clearskies' Favor")
 	@Config.RequiresMcRestart
 	public boolean clearskiesFavor = false;
-	@Config.Name("Combat Veterancy")
+	@Config.Name("Combat Medic")
 	@Config.RequiresMcRestart
-	public boolean combatVeterancy = false;
+	public boolean combatMedic = false;
 	@Config.Name("Counter Attack")
 	@Config.RequiresMcRestart
 	public boolean counterAttack = false;
