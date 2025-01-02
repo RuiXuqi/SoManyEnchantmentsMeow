@@ -117,9 +117,9 @@ public class EnchantabilityConfig {
 	@Config.Name("Luck Magnification")
 	@Config.RequiresMcRestart
 	public int[] luckMagnification = {15, 15, 30, SUPER};
-	@Config.Name("Lunar's Blessing")
+	@Config.Name("Luna's Blessing")
 	@Config.RequiresMcRestart
-	public int[] lunarsBlessing = {16, 12, 40, MIN};
+	public int[] lunasBlessing = {16, 12, 40, MIN};
 	@Config.Name("Magic Protection")
 	@Config.RequiresMcRestart
 	public int[] magicProtection = {12, 14, 45, MIN};

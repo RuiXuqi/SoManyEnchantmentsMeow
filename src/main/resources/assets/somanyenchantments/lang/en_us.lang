@@ -98,8 +98,8 @@ enchantment.somanyenchantments.penetratingedge.desc=Adversaries with high armor 
 enchantment.clearskiesfavor=Clearskies' Favor
 enchantment.somanyenchantments.clearskiesfavor.desc=One of the weather enchantments. Deals extra damage to all if the weather is clear and deals lesser if it is not clear.
 
-enchantment.lunarsblessing=Lunar's Blessing
-enchantment.somanyenchantments.lunarsblessing.desc=One of the two day and night enchantments. Deals extra damage and applies blindness if its night and lesser if its day.
+enchantment.lunasblessing=Luna's Blessing
+enchantment.somanyenchantments.lunasblessing.desc=One of the two day and night enchantments. Deals extra damage and applies blindness if its night and lesser if its day.
 
 
 enchantment.rainsbestowment=Rain's Bestowment

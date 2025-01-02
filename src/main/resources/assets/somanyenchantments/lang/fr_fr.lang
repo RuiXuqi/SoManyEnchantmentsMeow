@@ -98,8 +98,8 @@ enchantment.somanyenchantments.penetratingedge.desc=Les adversaires ayant une ar
 enchantment.clearskiesfavor=Faveur de Clearskies
 enchantment.somanyenchantments.clearskiesfavor.desc=Un des enchantements météorologiques. Il inflige des dégâts supplémentaires à tous si le temps est clair et des dégâts moindres s'il ne l'est pas.
 
-enchantment.lunarsblessing=Bénédiction Lunaire
-enchantment.somanyenchantments.lunarsblessing.desc=L'un des deux enchantements de jour et de nuit. Il inflige des dégâts supplémentaires et rend aveugle si c'est la nuit et moins si c'est le jour.
+enchantment.lunasblessing=Bénédiction Lunaire
+enchantment.somanyenchantments.lunasblessing.desc=L'un des deux enchantements de jour et de nuit. Il inflige des dégâts supplémentaires et rend aveugle si c'est la nuit et moins si c'est le jour.
 
 enchantment.rainsbestowment=Don Pluvieux
 enchantment.somanyenchantments.rainsbestowment.desc=Un des enchantements météorologiques. Il inflige des dégâts supplémentaires à tout le monde lorsqu'il pleut et des dégâts moindres s'il ne pleut pas.

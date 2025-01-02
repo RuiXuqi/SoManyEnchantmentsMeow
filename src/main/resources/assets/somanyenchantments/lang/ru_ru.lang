@@ -98,8 +98,8 @@ enchantment.somanyenchantments.penetratingedge.desc=Противники с вы
 enchantment.clearskiesfavor=Дар чистого неба
 enchantment.somanyenchantments.clearskiesfavor.desc=Одно из погодных чар. Наносит дополнительный урон всем, если погода ясна, и наносит меньше, если идет дождь.
 
-enchantment.lunarsblessing=Дар луны
-enchantment.somanyenchantments.lunarsblessing.desc=Один из двух дневных и ночных чар. Наносит дополнительный урон и накладывает слепоту, если ночь, и меньше, если день.
+enchantment.lunasblessing=Дар луны
+enchantment.somanyenchantments.lunasblessing.desc=Один из двух дневных и ночных чар. Наносит дополнительный урон и накладывает слепоту, если ночь, и меньше, если день.
 
 enchantment.rainsbestowment=Дар дождя
 enchantment.somanyenchantments.rainsbestowment.desc=Одно из погодных чар. Наносит дополнительный урон всем во время дождя и меньший урон, если не идет дождь.

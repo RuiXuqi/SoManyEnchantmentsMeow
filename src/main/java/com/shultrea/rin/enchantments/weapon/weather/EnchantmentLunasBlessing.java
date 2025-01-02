@@ -17,15 +17,15 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentLunarsBlessing extends EnchantmentBase {
+public class EnchantmentLunasBlessing extends EnchantmentBase {
 	
-	public EnchantmentLunarsBlessing(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+	public EnchantmentLunasBlessing(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
 	}
 	
 	@Override
 	public boolean isEnabled() {
-		return ModConfig.enabled.lunarsBlessing;
+		return ModConfig.enabled.lunasBlessing;
 	}
 	
 	@Override
@@ -35,32 +35,32 @@ public class EnchantmentLunarsBlessing extends EnchantmentBase {
 	
 	@Override
 	public int getMaxLevel() {
-		return ModConfig.level.lunarsBlessing;
+		return ModConfig.level.lunasBlessing;
 	}
 
 	@Override
 	public int getMinEnchantability(int level) {
-		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.lunarsBlessing, level);
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.lunasBlessing, level);
 	}
 
 	@Override
 	public int getMaxEnchantability(int level) {
-		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.lunarsBlessing, level);
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.lunasBlessing, level);
 	}
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApply.lunarsBlessing, stack) && super.canApplyAtEnchantingTable(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.lunasBlessing, stack) && super.canApplyAtEnchantingTable(stack);
 	}
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.lunarsBlessing, stack) || super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.lunasBlessing, stack) || super.canApply(stack);
 	}
 	
 	@Override
 	public boolean isTreasureEnchantment() {
-		return ModConfig.treasure.lunarsBlessing;
+		return ModConfig.treasure.lunasBlessing;
 	}
 	
 	@Override

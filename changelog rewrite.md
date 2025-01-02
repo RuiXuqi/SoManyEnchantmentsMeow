@@ -16,7 +16,6 @@
 - Sharper(ed) Edge = Reinforced Sharpness
 - Pulling/Drag = Dragging
 - Clear Skies' Favor = Clearskies' Favor
-- Luna's Blessing = Lunar's Blessing
 
 ## Code cleanup by Enchant
 - Pushing.repelEntitiesInAABBFromPoint math cleanup
@@ -166,7 +165,7 @@
 - Lifesteal
 - SubjectEnchantments
 - ClearskiesFavor
-- LunarsBlessing
+- LunasBlessing
 - RainsBestowment
 - SolsBlessing
 - ThunderstormsBestowment

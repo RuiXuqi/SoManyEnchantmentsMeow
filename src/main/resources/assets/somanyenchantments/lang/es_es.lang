@@ -98,8 +98,8 @@ enchantment.somanyenchantments.penetratingedge.desc=Los adversarios con armadura
 enchantment.clearskiesfavor=Favor de los cielos despejados
 enchantment.somanyenchantments.clearskiesfavor.desc=Uno de los encantamientos del clima. Inflige daño adicional si el cielo está despejado, pero inflinge menor daño si no lo está.
 
-enchantment.lunarsblessing=Bendición de la Luna
-enchantment.somanyenchantments.lunarsblessing.desc=Uno de los dos encantamientos diurnos y nocturnos. Inflige daño adicional y aplica ceguera si es de noche, pero inflinge menor daño si es de día.
+enchantment.lunasblessing=Bendición de la Luna
+enchantment.somanyenchantments.lunasblessing.desc=Uno de los dos encantamientos diurnos y nocturnos. Inflige daño adicional y aplica ceguera si es de noche, pero inflinge menor daño si es de día.
 
 enchantment.rainsbestowment=Concesión de la lluvia
 enchantment.somanyenchantments.rainsbestowment.desc=Uno de los encantamientos del clima. Inflige daño adicional mientras llueva, pero inflinge menor daño si no llueve.

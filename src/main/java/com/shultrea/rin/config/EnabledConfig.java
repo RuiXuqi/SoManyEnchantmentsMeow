@@ -112,9 +112,9 @@ public class EnabledConfig {
 	@Config.Name("Luck Magnification")
 	@Config.RequiresMcRestart
 	public boolean luckMagnification = true;
-	@Config.Name("Lunars Blessing")
+	@Config.Name("Lunas Blessing")
 	@Config.RequiresMcRestart
-	public boolean lunarsBlessing = true;
+	public boolean lunasBlessing = true;
 	@Config.Name("Magic Protection")
 	@Config.RequiresMcRestart
 	public boolean magicProtection = true;

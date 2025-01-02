@@ -150,10 +150,10 @@ public class LevelConfig {
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
 	public int luckMagnification = 2;
-	@Config.Name("Lunars Blessing")
+	@Config.Name("Lunas Blessing")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
-	public int lunarsBlessing = 5;
+	public int lunasBlessing = 5;
 	@Config.Name("Magic Protection")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)

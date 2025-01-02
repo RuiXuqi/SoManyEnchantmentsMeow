@@ -176,9 +176,9 @@ public class CanApplyConfig {
 	@Config.Name("Luck Magnification")
 	@Config.RequiresMcRestart
 	public String[] luckMagnification = {"SWORD","AXE", "BATTLEAXE", "BS_WEAPON"};
-	@Config.Name("Lunars Blessing")
+	@Config.Name("Lunas Blessing")
 	@Config.RequiresMcRestart
-	public String[] lunarsBlessing = {"SWORD", "BS_WEAPON"};
+	public String[] lunasBlessing = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Magic Protection")
 	@Config.RequiresMcRestart
 	public String[] magicProtection = {"ARMOR"};

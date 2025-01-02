@@ -81,7 +81,7 @@ public class EnchantmentRegistry {
 	public static EnchantmentBase lifesteal = register(new EnchantmentLifesteal("lifesteal", RarityConfig.get(ModConfig.rarity.lifesteal), Slots.MAINHAND));
 	public static EnchantmentBase lightWeight = register(new EnchantmentLightWeight("lightweight", RarityConfig.get(ModConfig.rarity.lightWeight), Slots.FEET));
 	public static EnchantmentBase luckMagnification = register(new EnchantmentLuckMagnification("luckmagnification", RarityConfig.get(ModConfig.rarity.luckMagnification), Slots.MAINHAND));
-	public static EnchantmentBase lunarsBlessing = register(new EnchantmentLunarsBlessing("lunarsblessing", RarityConfig.get(ModConfig.rarity.lunarsBlessing), Slots.MAINHAND));
+	public static EnchantmentBase lunasBlessing = register(new EnchantmentLunasBlessing("lunasblessing", RarityConfig.get(ModConfig.rarity.lunasBlessing), Slots.MAINHAND));
 	public static EnchantmentBase magicProtection = register(new EnchantmentMagicProtection("magicprotection", RarityConfig.get(ModConfig.rarity.magicProtection), Slots.BODY));
 	public static EnchantmentBase magmaWalker = register(new EnchantmentMagmaWalker("magmawalker", RarityConfig.get(ModConfig.rarity.magmaWalker), Slots.FEET));
 	public static EnchantmentBase meltdown = register(new EnchantmentMeltdown("meltdown", RarityConfig.get(ModConfig.rarity.meltdown), Slots.CHEST));

@@ -112,9 +112,9 @@ public class CanApplyAnvilConfig {
 	@Config.Name("Luck Magnification")
 	@Config.RequiresMcRestart
 	public String[] luckMagnification = {};
-	@Config.Name("Lunars Blessing")
+	@Config.Name("Lunas Blessing")
 	@Config.RequiresMcRestart
-	public String[] lunarsBlessing = {};
+	public String[] lunasBlessing = {};
 	@Config.Name("Magic Protection")
 	@Config.RequiresMcRestart
 	public String[] magicProtection = {};

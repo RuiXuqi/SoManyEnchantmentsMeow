@@ -118,9 +118,9 @@ public class RarityConfig {
 	@Config.Name("Luck Magnification")
 	@Config.RequiresMcRestart
 	public int luckMagnification = RARE;
-	@Config.Name("Lunars Blessing")
+	@Config.Name("Lunas Blessing")
 	@Config.RequiresMcRestart
-	public int lunarsBlessing = RARE;
+	public int lunasBlessing = RARE;
 	@Config.Name("Magic Protection")
 	@Config.RequiresMcRestart
 	public int magicProtection = UNCOMMON;
