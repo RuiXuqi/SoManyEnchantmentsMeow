@@ -1,4 +1,4 @@
-package com.shultrea.rin.enchantments.weapon.damage;
+package com.shultrea.rin.enchantments.tool;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
