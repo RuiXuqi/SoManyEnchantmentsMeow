@@ -96,7 +96,7 @@ public class ArrowPropertiesHandler {
 
 		if(EnchantmentRegistry.extinguish.isEnabled()) {
 			int flameLevel = properties.getFlameLevel();
-			if(flameLevel == 0) victim.extinguish();
+			if(flameLevel == -1) victim.extinguish();
 		}
 
 		if(EnchantmentRegistry.lesserFlame.isEnabled() || EnchantmentRegistry.advancedFlame.isEnabled() || EnchantmentRegistry.supremeFlame.isEnabled()) {
@@ -184,7 +184,7 @@ public class ArrowPropertiesHandler {
 		if(EnchantmentRegistry.extinguish.isEnabled()) {
 			int levelExtinguish = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.extinguish, bow);
 			if(levelExtinguish > 0) {
-				properties.setFlameLevel(0);
+				properties.setFlameLevel(-1);
 			}
 		}
 

@@ -1,12 +1,13 @@
 package com.shultrea.rin.util;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 import java.lang.reflect.Method;
 
-//TODO is any of this truly needed
 public abstract class ReflectionUtil {
 	
 	/**
@@ -52,16 +53,10 @@ public abstract class ReflectionUtil {
 	}
 	
 	/**
-	 * Damages target without posting an event!
+	 * Damages target without absorption and posts no events
 	 */
-	public static void damageEntityNoEvent(EntityLivingBase target, DamageSource damageSrc, float damageAmount) {
+	public static void damageEntityNoAbsorption(EntityLivingBase target, DamageSource damageSrc, float damageAmount) {
 		if(!target.isEntityInvulnerable(damageSrc)) {
-			if(damageAmount <= 0) return;
-			damageAmount = applyArmorCalculations(target, damageSrc, damageAmount);
-			damageAmount = applyPotionDamageCalculations(target, damageSrc, damageAmount);
-			float f = damageAmount;
-			damageAmount = Math.max(damageAmount - target.getAbsorptionAmount(), 0.0F);
-			target.setAbsorptionAmount(target.getAbsorptionAmount() - (f - damageAmount));
 			if(damageAmount > 0.0F) {
 				float f1 = target.getHealth();
 				target.getCombatTracker().trackDamage(damageSrc, f1, damageAmount);
@@ -72,18 +67,44 @@ public abstract class ReflectionUtil {
 	}
 	
 	/**
-	 * Damages target but LivingDamageEvent is fired!
+	 * Damages target with absorption but posts no events
+	 */
+	public static void damageEntityNoEvent(EntityLivingBase target, DamageSource damageSrc, float damageAmount) {
+		if(!target.isEntityInvulnerable(damageSrc)) {
+			if(damageAmount <= 0) return;
+			if(target instanceof EntityPlayer) damageAmount = ISpecialArmor.ArmorProperties.applyArmor(target, ((EntityPlayer)target).inventory.armorInventory, damageSrc, damageAmount);
+			else damageAmount = applyArmorCalculations(target, damageSrc, damageAmount);
+			if(damageAmount <= 0) return;
+			damageAmount = applyPotionDamageCalculations(target, damageSrc, damageAmount);
+			float f = damageAmount;
+			damageAmount = Math.max(damageAmount - target.getAbsorptionAmount(), 0.0F);
+			target.setAbsorptionAmount(target.getAbsorptionAmount() - (f - damageAmount));
+			if(damageAmount > 0.0F) {
+				if(target instanceof EntityPlayer) ((EntityPlayer)target).addExhaustion(damageSrc.getHungerDamage());
+				float f1 = target.getHealth();
+				target.getCombatTracker().trackDamage(damageSrc, f1, damageAmount);
+				target.setHealth(f1 - damageAmount); // Forge: moved to fix MC-121048
+				target.setAbsorptionAmount(target.getAbsorptionAmount() - damageAmount);
+			}
+		}
+	}
+	
+	/**
+	 * Damages target with absorption and only posts LivingDamageEvent
 	 */
 	public static void damageEntityLivingDamageEvent(EntityLivingBase target, DamageSource damageSrc, float damageAmount) {
 		if(!target.isEntityInvulnerable(damageSrc)) {
 			if(damageAmount <= 0) return;
-			damageAmount = applyArmorCalculations(target, damageSrc, damageAmount);
+			if(target instanceof EntityPlayer) damageAmount = ISpecialArmor.ArmorProperties.applyArmor(target, ((EntityPlayer)target).inventory.armorInventory, damageSrc, damageAmount);
+			else damageAmount = applyArmorCalculations(target, damageSrc, damageAmount);
+			if(damageAmount <= 0) return;
 			damageAmount = applyPotionDamageCalculations(target, damageSrc, damageAmount);
 			float f = damageAmount;
 			damageAmount = Math.max(damageAmount - target.getAbsorptionAmount(), 0.0F);
 			target.setAbsorptionAmount(target.getAbsorptionAmount() - (f - damageAmount));
 			damageAmount = net.minecraftforge.common.ForgeHooks.onLivingDamage(target, damageSrc, damageAmount);
 			if(damageAmount > 0.0F) {
+				if(target instanceof EntityPlayer) ((EntityPlayer)target).addExhaustion(damageSrc.getHungerDamage());
 				float f1 = target.getHealth();
 				target.getCombatTracker().trackDamage(damageSrc, f1, damageAmount);
 				target.setHealth(f1 - damageAmount); // Forge: moved to fix MC-121048

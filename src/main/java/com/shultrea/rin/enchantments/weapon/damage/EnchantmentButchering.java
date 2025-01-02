@@ -79,7 +79,7 @@ public class EnchantmentButchering extends EnchantmentBase {
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
 			if(victim instanceof EntityAnimal) {
-					event.setAmount(event.getAmount() + 2.5F + 1.5F * (float)level);
+				event.setAmount(event.getAmount() + 2.5F + 1.5F * (float)level);
 			}
 		}
 	}
@@ -88,19 +88,13 @@ public class EnchantmentButchering extends EnchantmentBase {
 	public void onLootingLevelEvent(LootingLevelEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getDamageSource())) return;
-
 		EntityLivingBase attacker = (EntityLivingBase)event.getDamageSource().getTrueSource();
 		if(attacker == null) return;
 
 		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, attacker);
-		if(level <= 0) return;
-
-		EntityLivingBase victim = event.getEntityLiving();
-		if(victim == null) return;
-		if(!(victim instanceof EntityAnimal)) return;
-
-		if(!EnchantmentBase.isDamageSourceAllowed(event.getDamageSource())) return;
-
-		event.setLootingLevel(event.getLootingLevel() + level);
+		if(level > 0) {
+			if(!(event.getEntityLiving() instanceof EntityAnimal)) return;
+			event.setLootingLevel(event.getLootingLevel() + level);
+		}
 	}
 }

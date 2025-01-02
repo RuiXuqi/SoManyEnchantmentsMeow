@@ -48,10 +48,17 @@ public class EnchantmentExtinguish extends EnchantmentCurse {
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.extinguish;
 	}
-
+	
 	@Override
-	public void onEntityDamagedAlt(EntityLivingBase user, Entity target, ItemStack stack, int level) {
+	public void onEntityDamagedAlt(EntityLivingBase attacker, Entity target, ItemStack weapon, int level) {
+		if(!this.isEnabled()) return;
+		if(attacker == null) return;
 		if(!(target instanceof EntityLivingBase)) return;
-		target.extinguish();
+		EntityLivingBase victim = (EntityLivingBase)target;
+		if(weapon.isEmpty()) return;
+		
+		if(!attacker.world.isRemote) {
+			target.extinguish();
+		}
 	}
 }

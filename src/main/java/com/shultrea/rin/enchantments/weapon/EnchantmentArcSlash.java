@@ -5,6 +5,7 @@ import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import com.shultrea.rin.util.EnchantUtil;
+import com.shultrea.rin.util.compat.CompatUtil;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -20,13 +21,15 @@ import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 
 public class EnchantmentArcSlash extends EnchantmentBase {
+	
+	private boolean handlingArcSlash = false;
 	
 	public EnchantmentArcSlash(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
@@ -72,68 +75,88 @@ public class EnchantmentArcSlash extends EnchantmentBase {
 		return ModConfig.treasure.arcSlash;
 	}
 	
-	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
-	public void HandleEnchant(LivingDamageEvent fEvent) {
-		if(!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
-		EntityLivingBase attacker = (EntityLivingBase)fEvent.getSource().getTrueSource();
-		ItemStack stack = ((EntityLivingBase)fEvent.getSource().getTrueSource()).getHeldItemMainhand();
-		//Cap out cleave level to avoid large AABB checks
-		int enchantmentLevel = Math.min(10, EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.arcSlash, stack));
-		int lf = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.fieryEdge, stack) * EnchantmentFieryEdge.getFireSeconds()*5/6;
-		lf += EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT, stack) * 3;
-		lf += EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.advancedFireAspect, stack) * EnchantmentTierFA.getFireSeconds(1)*3/4;
-		lf += EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.supremeFireAspect, stack) * EnchantmentTierFA.getFireSeconds(2)*3/4;
-		lf += EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.lesserFireAspect, stack) * EnchantmentTierFA.getFireSeconds(0)*3/4;
-		if(enchantmentLevel <= 0) return;
-		int levitationLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.levitator, stack);
-		// We have a cleaving level, let's figure out our damage value.
-		float splashDamage = fEvent.getAmount() * (enchantmentLevel * 0.25f);
-		// Next, find our entities to hit.
-		AxisAlignedBB boundBox = new AxisAlignedBB(attacker.posX - 5 - enchantmentLevel, attacker.posY - 5 - enchantmentLevel, attacker.posZ - 5 - enchantmentLevel, attacker.posX + 5 + enchantmentLevel, attacker.posY + 5 + enchantmentLevel, attacker.posZ + 5 + enchantmentLevel);
-		//@SuppressWarnings("unchecked")
-		ArrayList<Entity> targetEntities = new ArrayList<Entity>(attacker.getEntityWorld().getEntitiesWithinAABBExcludingEntity(fEvent.getEntity(), boundBox));
-		// Let's remove all the entries that aren't within range of our attacker
-        for (Entity target : targetEntities) {
-            if (!(target instanceof EntityLivingBase)) continue;
-            if (target == attacker) continue;
-            if (target == fEvent.getEntityLiving()) continue;
-            //Old value was 4.00f
-            if (target.getDistance(attacker) > 3.00f + enchantmentLevel * 0.25f) continue;
-            Vec3d attackerCheck = new Vec3d(target.posX - attacker.posX, target.posY - attacker.posY, target.posZ - attacker.posZ);
-            double angle = Math.toDegrees(Math.acos(attackerCheck.normalize().dotProduct(attacker.getLookVec())));
-            if (angle < MathHelper.clamp(60.0D + (enchantmentLevel * 10), 60, 359)) {
-                // This is within our arc, let's deal our damage.
-                DamageSource source = null;
-                if (attacker instanceof EntityPlayer) {
-                    source = new EntityDamageSource("playerCleave", attacker);//.setDamageBypassesArmor();
-                    target.attackEntityFrom(source, splashDamage);
-                    target.setFire(lf);
-                    if (levitationLevel > 0)
-                        ((EntityLivingBase) target).addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 30 + (levitationLevel * 12), 1 + levitationLevel));
-                }
-                if (attacker instanceof EntityMob) {
-                    source = new EntityDamageSource("mobCleave", attacker);//.setDamageBypassesArmor();
-                    target.attackEntityFrom(source, splashDamage);
-                    target.setFire(lf);
-                    if (levitationLevel > 0)
-                        ((EntityLivingBase) target).addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 30 + (levitationLevel * 12), 1 + levitationLevel));
-                }
-                if (source == null) {
-                    target.attackEntityFrom(DamageSource.GENERIC, splashDamage);
-                }
-                if (attacker instanceof EntityLivingBase) {
-                    // Apply knockback
-                    int modKnockback = 1;
-                    modKnockback += EnchantmentHelper.getKnockbackModifier(attacker) * 0.5f;
-                    if (attacker.isSprinting()) modKnockback++;
-                    //Entity victim = fEvent.getEntityLiving();
-                    if (modKnockback > 0)
-                        //target.setVelocity((double)(-MathHelper.sin(attacker.rotationYaw * (float)Math.PI / 180.0F) * (float)modKnockback * 0.85F), 0.2D, (double)(MathHelper.cos(attacker.rotationYaw * (float)Math.PI / 180.0F) * (float)modKnockback * 0.85F));
-                        EnchantUtil.knockBackIgnoreKBRes(target, 0.3F * modKnockback, attacker.posX - target.posX, attacker.posZ - target.posZ);
-                }
-            }
-        }
-		// Stop the player sprinting
-		attacker.setSprinting(false);
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	public void onLivingHurtEvent(LivingHurtEvent event) {
+		if(!this.isEnabled()) return;
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
+		//Handle RLCombat separately using Sweep event
+		if(CompatUtil.isRLCombatLoaded()) return;
+		if(event.getAmount() <= 1.0F) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
+		if(attacker == null) return;
+		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
+		ItemStack stack = attacker.getHeldItemMainhand();
+		if(stack.isEmpty()) return;
+		
+		//Attempt to avoid recursion
+		if(this.handlingArcSlash) return;
+		
+		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
+		if(level > 0) {
+			this.handlingArcSlash = true;
+			
+			int fireLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_ASPECT, stack);
+			if(EnchantmentRegistry.fieryEdge.isEnabled()) {
+				int lvl = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.fieryEdge, stack);
+				if(lvl > 0) fireLevel += EnchantmentFieryEdge.getLevelMult(lvl);
+			}
+			if(EnchantmentRegistry.lesserFireAspect.isEnabled()) {
+				int lvl = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.lesserFireAspect, stack);
+				if(lvl > 0) fireLevel += EnchantmentTierFA.getLevelMult(lvl, 0);
+			}
+			if(EnchantmentRegistry.advancedFireAspect.isEnabled()) {
+				int lvl = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.advancedFireAspect, stack);
+				if(lvl > 0) fireLevel += EnchantmentTierFA.getLevelMult(lvl, 1);
+			}
+			if(EnchantmentRegistry.supremeFireAspect.isEnabled()) {
+				int lvl = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.supremeFireAspect, stack);
+				if(lvl > 0) fireLevel += EnchantmentTierFA.getLevelMult(lvl, 2);
+			}
+			fireLevel /= 2;
+			
+			int levitationLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.levitator, stack);
+			
+			float damage = event.getAmount() * 0.25F * (float)level;
+			AxisAlignedBB boundBox = new AxisAlignedBB(attacker.posX - 5 - level, attacker.posY - 5 - level, attacker.posZ - 5 - level, attacker.posX + 5 + level, attacker.posY + 5 + level, attacker.posZ + 5 + level);
+			ArrayList<Entity> targetEntities = new ArrayList<Entity>(attacker.getEntityWorld().getEntitiesWithinAABBExcludingEntity(event.getEntity(), boundBox));
+			for(Entity target : targetEntities) {
+				if(!(target instanceof EntityLivingBase)) continue;
+				if(target == attacker) continue;
+				if(target == victim) continue;
+				if(target.getDistance(attacker) > 3.00F + 0.25F * (float)level) continue;
+				
+				Vec3d attackerCheck = new Vec3d(target.posX - attacker.posX, target.posY - attacker.posY, target.posZ - attacker.posZ);
+				double angle = Math.toDegrees(Math.acos(attackerCheck.normalize().dotProduct(attacker.getLookVec())));
+				if(angle < MathHelper.clamp(60.0D + (level * 10), 60, 359)) {
+					DamageSource source = null;
+					if(attacker instanceof EntityPlayer) {
+						source = new EntityDamageSource("playerCleave", attacker);
+						target.attackEntityFrom(source, damage);
+						target.setFire(fireLevel * 4);
+						if(levitationLevel > 0 && !attacker.world.isRemote) ((EntityLivingBase)target).addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 30 + (levitationLevel * 12), 1 + levitationLevel));
+					}
+					if(attacker instanceof EntityMob) {
+						source = new EntityDamageSource("mobCleave", attacker);
+						target.attackEntityFrom(source, damage);
+						target.setFire(fireLevel * 4);
+						if(levitationLevel > 0 && !attacker.world.isRemote) ((EntityLivingBase)target).addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 30 + (levitationLevel * 12), 1 + levitationLevel));
+					}
+					if(source == null) {
+						target.attackEntityFrom(DamageSource.GENERIC, damage);
+					}
+					
+					int levelKnockback = 1;
+					levelKnockback += EnchantmentHelper.getKnockbackModifier(attacker);
+					if(attacker.isSprinting()) levelKnockback++;
+					levelKnockback /= 2;
+					
+					if(levelKnockback > 0) EnchantUtil.knockBackIgnoreKBRes(target, 0.3F * levelKnockback, attacker.posX - target.posX, attacker.posZ - target.posZ);
+				}
+			}
+			attacker.setSprinting(false);
+			
+			this.handlingArcSlash = false;
+		}
 	}
 }

@@ -71,6 +71,9 @@
 - ReviledBlade: 1x - 3x depending on victim health, increasing with less health
 - CursedEdge: 3x but self-damaging at 0.25x of dealt damage as magic
 - Instability: 1x - 3.25x depending on item health, increasing with more item damage, still incompat with unbreaking, deals additional damage to item
+- Rework Culling to properly give all skulls, make it autokill targets if an attack would leave them below a certain % of health instead of nonsense jumping mechanics
+- Make TrueStrike bypass both Evasion and Parry, give it a slight chance to iframe bypass so its useful outside of pvp
+- Rework Unsheathing to give bonus damage to the first attack after unsheathing a weapon for a small period of time
 
 ## Todo
 - Organize event handler priorities
@@ -168,7 +171,23 @@
 - SolsBlessing
 - ThunderstormsBestowment
 - WintersGrace
-
+- AdvancedKnockback
+- AdvancedLooting
+- ArcSlash
+- AtomicDeconstructor
+- Brutality
+- CounterAttack
+- Culling
+- Disarmament
+- FieryEdge
+- Flinging
+- Parry
+- PurgingBlade
+- SwifterSlashes
+- TierFA
+- TrueStrike
+- Unreasonable
+- Unsheathing
 - Adept
 - AdvancedMending
 - UpgradedPotentials

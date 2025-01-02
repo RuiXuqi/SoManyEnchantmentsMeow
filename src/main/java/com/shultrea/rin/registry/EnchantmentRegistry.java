@@ -26,6 +26,8 @@ import com.shultrea.rin.enchantments.weapon.damagemultiplier.*;
 import com.shultrea.rin.enchantments.weapon.potiondebuffer.*;
 import com.shultrea.rin.enchantments.weapon.subject.EnchantmentSubjectEnchantments;
 import com.shultrea.rin.enchantments.weapon.weather.*;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -194,6 +196,9 @@ public class EnchantmentRegistry {
 	public static void handleSubscribers() {
 		for(EnchantmentBase enchantment : enchantmentSet) {
 			if(enchantment.isEnabled() && enchantment.hasSubscriber()) MinecraftForge.EVENT_BUS.register(enchantment);
+		}
+		if(CompatUtil.isRLCombatLoaded()) {
+			MinecraftForge.EVENT_BUS.register(RLCombatCompat.class);
 		}
 	}
 

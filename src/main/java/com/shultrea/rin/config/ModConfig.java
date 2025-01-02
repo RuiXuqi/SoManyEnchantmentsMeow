@@ -102,10 +102,6 @@ public class ModConfig {
 		@Config.RangeInt(min = 200)
 		public int pandorasCurseInterval = 600;
 		
-		@Config.Comment("Whether or not Atomic Deconstructor should attempt to replicate /kill damage (More effective, but may cause bugs)")
-		@Config.Name("Atomic Deconstructor /kill")
-		public boolean atomicDeconstructorMaxDamage = false;
-		
 		@Config.Comment("Whether or not Atomic Deconstructor should work on bosses (May cause bugs)")
 		@Config.Name("Atomic Deconstructor Works on Bosses")
 		public boolean atomicDeconstructorBosses = false;
@@ -210,6 +206,10 @@ public class ModConfig {
 		@Config.Comment("If set to true, remove anvil repair cost increase when combining two single enchant books with the same lvl (Prot 3 + Prot 3)")
 		@Config.Name("Remove book combination anvil cost increase")
 		public boolean removeBookCombinationAnvilCost = false;
+		
+		@Config.Comment("If set to true, Curse of Possession will delete cursed items dropped from inventory on death when no player can be found")
+		@Config.Name("Curse Of Possession Death Deletion")
+		public boolean curseOfPossessionDeathDeletion = true;
 	}
 	
 	@Mod.EventBusSubscriber(modid = SoManyEnchantments.MODID)

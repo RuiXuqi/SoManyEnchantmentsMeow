@@ -3,27 +3,25 @@ package com.shultrea.rin.enchantments.weapon;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import com.shultrea.rin.util.DamageSources;
 import com.shultrea.rin.util.ReflectionUtil;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.*;
+import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import java.util.Random;
 
 public class EnchantmentCulling extends EnchantmentBase {
 
@@ -72,97 +70,113 @@ public class EnchantmentCulling extends EnchantmentBase {
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void onLivingDamage(LivingDamageEvent fEvent) {
-		if (!EnchantmentBase.isDamageSourceAllowed(fEvent.getSource())) return;
-		EntityLivingBase attacker = (EntityLivingBase) fEvent.getSource().getTrueSource();
-		if (attacker == null) return;
-		ItemStack itemStack = ((EntityLivingBase) fEvent.getSource().getTrueSource()).getHeldItemMainhand();
-		int enchantmentLevel = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.culling, itemStack);
-		if (enchantmentLevel <= 0) return;
-
-		float maxHealth = fEvent.getEntityLiving().getMaxHealth();
-		float currentHealthPercent = fEvent.getEntityLiving().getHealth() / maxHealth;
-
-		float bossModifier = fEvent.getEntityLiving().isNonBoss() ? 1F : 0.5F;
-		float absoluteHealthThreshold = fEvent.getEntityLiving() instanceof EntityPlayer ? 0F : 4F + enchantmentLevel * 2F;
-
-		boolean isLowHealth = fEvent.getEntityLiving().getHealth() <= absoluteHealthThreshold || currentHealthPercent <= 0.09F + enchantmentLevel * bossModifier * 0.07F;
-
-		if (isLowHealth) {
-			attacker.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 20 + enchantmentLevel * 5, 1));
-		}
-		if (attacker.fallDistance > 0.34F) {
-			attacker.addPotionEffect(new PotionEffect(MobEffects.SATURATION, 4, -1, false, false));
-			if (!isLowHealth) {
-				float damagePhysical = fEvent.getAmount() * (0.71F + enchantmentLevel * bossModifier * 0.33F);
-				ReflectionUtil.damageEntityNoEvent(fEvent.getEntityLiving(), DamageSources.PhysicalDamage, damagePhysical);
-			} else {
-				double X = fEvent.getEntity().posX;
-				double Y = fEvent.getEntity().posY;
-				double Z = fEvent.getEntity().posZ;
-				Random random = attacker.getRNG();
-				for (int i = 0; i < 20; ++i) {
-					double d0 = random.nextGaussian() * 0.02D;
-					double d1 = random.nextGaussian() * 0.02D;
-					double d2 = random.nextGaussian() * 0.02D;
-					attacker.world.spawnParticle(EnumParticleTypes.VILLAGER_ANGRY, (float) X + random.nextFloat(), Y + ((double) random.nextFloat() * 2), (float) Z + random.nextFloat(), d0, d1, d2);
+	public void onLivingDamageEvent(LivingDamageEvent event) {
+		if(!this.isEnabled()) return;
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
+		if(event.getAmount() <= 1.0F) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
+		if(attacker == null) return;
+		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
+		ItemStack stack = attacker.getHeldItemMainhand();
+		if(stack.isEmpty()) return;
+		
+		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
+		if(level > 0 && !attacker.world.isRemote) {
+			float curHealth = victim.getHealth();
+			if(curHealth - event.getAmount() <= 0) return;
+			if((curHealth - event.getAmount()) / victim.getMaxHealth() <= 0.075F + 0.025F * (float)level) {
+				for(int i = 0; i < 8; ++i) {
+					attacker.world.spawnParticle(EnumParticleTypes.VILLAGER_ANGRY, victim.posX, victim.posY + 1.0F, victim.posZ, victim.getRNG().nextGaussian() * 0.02D, victim.getRNG().nextGaussian() * 0.02D, victim.getRNG().nextGaussian() * 0.02D);
 				}
-				attacker.addPotionEffect(new PotionEffect(MobEffects.SPEED, 60 + (enchantmentLevel * 20), enchantmentLevel - 1));
-				float damageCull = maxHealth * 10F;
-				ReflectionUtil.damageEntityNoEvent(fEvent.getEntityLiving(), DamageSources.Culled, damageCull);
+				event.setCanceled(true);
+				ReflectionUtil.damageEntityNoAbsorption(victim, DamageSources.Culled, Math.max(event.getAmount(), victim.getMaxHealth()) * 10.0F);
 			}
-			fEvent.setCanceled(true);
 		}
 	}
 
 	@SubscribeEvent
-	public void onLivingDrops(LivingDropsEvent fEvent) {
-		if (fEvent.getSource() != DamageSources.Culled) return;
-		if (!(fEvent.getSource().getTrueSource() instanceof EntityLivingBase)) return;
-		EntityLivingBase attacker = (EntityLivingBase) fEvent.getSource().getTrueSource();
-		if (attacker == null) return;
-		if (EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.culling, attacker) <= 0) return;
-
-		if (attacker.getRNG().nextFloat() <= 0.35F) {
-			ItemStack itemHead = null;
-			if (fEvent.getEntity() instanceof EntityCreeper) itemHead = new ItemStack(Items.SKULL, 1, 4);
-			if (fEvent.getEntity() instanceof EntitySkeleton) itemHead = new ItemStack(Items.SKULL, 1, 0);
-			if (fEvent.getEntity() instanceof EntityZombie) itemHead = new ItemStack(Items.SKULL, 1, 2);
-			if (fEvent.getEntity() instanceof EntityPlayer) {
-				itemHead = new ItemStack(Items.SKULL, 1, 3);
-				itemHead.setTagCompound(new NBTTagCompound());
-				itemHead.getTagCompound().setString("SkullOwner", fEvent.getEntityLiving().getName());
+	public void onLivingDropsEvent(LivingDropsEvent event) {
+		if(!this.isEnabled()) return;
+		if(event.getSource() != DamageSources.Culled) return;
+		EntityLivingBase entity = event.getEntityLiving();
+		if(entity == null) return;
+		if(entity.world.isRemote) return;
+		
+		if(entity.getRNG().nextFloat() <= 0.25F) {
+			ItemStack skull;
+			if(entity instanceof EntitySkeleton) skull = new ItemStack(Items.SKULL, 1, 0);
+			else if(entity instanceof EntityWitherSkeleton) skull = new ItemStack(Items.SKULL, 1, 1);
+			else if(entity instanceof EntityZombie && !(entity instanceof EntityPigZombie)) skull = new ItemStack(Items.SKULL, 1, 2);
+			else if(entity instanceof EntityCreeper) skull = new ItemStack(Items.SKULL, 1, 4);
+			else if(entity instanceof EntityPlayer) {
+				skull = new ItemStack(Items.SKULL, 1, 3);
+				NBTTagCompound compound = new NBTTagCompound();
+				compound.setString("SkullOwner", entity.getName());
+				skull.setTagCompound(compound);
 			}
-			if (fEvent.getEntity() instanceof EntitySpider) {
-				itemHead = new ItemStack(Items.SKULL, 1, 3);
-				itemHead.setTagCompound(new NBTTagCompound());
-				itemHead.getTagCompound().setString("SkullOwner", "MHF_Spider");
+			else {
+				skull = new ItemStack(Items.SKULL, 1, 3);
+				NBTTagCompound compound = new NBTTagCompound();
+				
+				if(entity instanceof EntityBlaze) {
+					compound.setString("SkullOwner", "MHF_Blaze");
+				}
+				else if(entity instanceof EntityPigZombie) {
+					compound.setString("SkullOwner", "MHF_PigZombie");
+				}
+				else if(entity instanceof EntityCaveSpider) {
+					compound.setString("SkullOwner", "MHF_CaveSpider");
+				}
+				else if(entity instanceof EntitySpider) {
+					compound.setString("SkullOwner", "MHF_Spider");
+				}
+				else if(entity instanceof EntityChicken) {
+					compound.setString("SkullOwner", "MHF_Chicken");
+				}
+				else if(entity instanceof EntityMooshroom) {
+					compound.setString("SkullOwner", "MHF_MushroomCow");
+				}
+				else if(entity instanceof EntityCow) {
+					compound.setString("SkullOwner", "MHF_Cow");
+				}
+				else if(entity instanceof EntityEnderman) {
+					compound.setString("SkullOwner", "MHF_Enderman");
+				}
+				else if(entity instanceof EntityGhast) {
+					compound.setString("SkullOwner", "MHF_Ghast");
+				}
+				else if(entity instanceof EntityIronGolem) {
+					compound.setString("SkullOwner", "MHF_Golem");
+				}
+				else if(entity instanceof EntityMagmaCube) {
+					compound.setString("SkullOwner", "MHF_LavaSlime");
+				}
+				else if(entity instanceof EntityOcelot) {
+					compound.setString("SkullOwner", "MHF_Ocelot");
+				}
+				else if(entity instanceof EntityPig) {
+					compound.setString("SkullOwner", "MHF_Pig");
+				}
+				else if(entity instanceof EntitySheep) {
+					compound.setString("SkullOwner", "MHF_Sheep");
+				}
+				else if(entity instanceof EntitySlime) {
+					compound.setString("SkullOwner", "MHF_Slime");
+				}
+				else if(entity instanceof EntitySquid) {
+					compound.setString("SkullOwner", "MHF_Squid");
+				}
+				else if(entity instanceof EntityVillager) {
+					compound.setString("SkullOwner", "MHF_Villager");
+				}
+				else return;
+				
+				skull.setTagCompound(compound);
 			}
-			if (fEvent.getEntity() instanceof EntityCaveSpider) {
-				itemHead = new ItemStack(Items.SKULL, 1, 3);
-				itemHead.setTagCompound(new NBTTagCompound());
-				itemHead.getTagCompound().setString("SkullOwner", "MHF_CaveSpider");
-			}
-			if (fEvent.getEntity() instanceof EntityEnderman) {
-				itemHead = new ItemStack(Items.SKULL, 1, 3);
-				itemHead.setTagCompound(new NBTTagCompound());
-				itemHead.getTagCompound().setString("SkullOwner", "MHF_Enderman");
-			}
-			if (fEvent.getEntity() instanceof EntityPigZombie) {
-				itemHead = new ItemStack(Items.SKULL, 1, 3);
-				itemHead.setTagCompound(new NBTTagCompound());
-				itemHead.getTagCompound().setString("SkullOwner", "MHF_PigZombie");
-			}
-			if (fEvent.getEntity() instanceof EntityBlaze) {
-				itemHead = new ItemStack(Items.SKULL, 1, 3);
-				itemHead.setTagCompound(new NBTTagCompound());
-				itemHead.getTagCompound().setString("SkullOwner", "MHF_Blaze");
-			}
-			if (itemHead != null) {
-				EntityItem entityItem = new EntityItem(fEvent.getEntity().world, fEvent.getEntity().posX, fEvent.getEntity().posY, fEvent.getEntity().posZ, itemHead);
-				fEvent.getDrops().add(entityItem);
-			}
-
+			EntityItem entityItem = new EntityItem(entity.world, entity.posX, entity.posY, entity.posZ, skull);
+			event.getDrops().add(entityItem);
 		}
 	}
 }

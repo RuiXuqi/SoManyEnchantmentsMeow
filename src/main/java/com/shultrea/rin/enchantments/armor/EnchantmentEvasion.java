@@ -61,20 +61,20 @@ public class EnchantmentEvasion extends EnchantmentBase {
 		return ModConfig.treasure.evasion;
 	}
 	
-	@SubscribeEvent(priority = EventPriority.HIGH)
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onLivingAttackEvent(LivingAttackEvent event) {
 		if(!this.isEnabled()) return;
 		if(event.getSource().isProjectile()) return;
+		if(event.getEntityLiving() == null) return;
 		EntityLivingBase victim = event.getEntityLiving();
-		if(victim == null) return;
 		if(!(event.getSource().getImmediateSource() instanceof EntityLivingBase)) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getImmediateSource();
 		
-		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(this, victim);
-		if(enchantmentLevel > 0) {
+		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, victim);
+		if(level > 0) {
 			if(EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.trueStrike, attacker.getHeldItemMainhand()) > 0) return;
 			
-			if(victim.getRNG().nextFloat() < 0.05F + ((float)enchantmentLevel * 0.15F)) {
+			if(victim.getRNG().nextFloat() < 0.05F + ((float)level * 0.15F)) {
 				if(!victim.world.isRemote && ModConfig.miscellaneous.evasionDodgeEffect) {
 					double randX = 0.65 + victim.getRNG().nextDouble() * 0.25f;
 					randX = victim.getRNG().nextBoolean() ? randX * -1 : randX;
@@ -84,7 +84,9 @@ public class EnchantmentEvasion extends EnchantmentBase {
 				}
 				victim.getEntityWorld().playSound(null, victim.posX, victim.posY, victim.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.PLAYERS, 0.3f, victim.getRNG().nextFloat() * 2.25f + 0.75f);
 				event.setCanceled(true);
-				victim.hurtResistantTime = victim.maxHurtResistantTime + (5 * (enchantmentLevel - 1));
+				if((float)victim.hurtResistantTime <= (float)victim.maxHurtResistantTime / 2.0F) {
+					victim.hurtResistantTime = victim.maxHurtResistantTime + (5 * (level - 1));
+				}
 			}
 		}
 	}

@@ -18,14 +18,18 @@ public class EnchantmentAdvancedLooting extends EnchantmentBase {
 		super(name, rarity, slots);
 	}
 	
-	public static int getValue(int original, EntityLivingBase entity) {
+	public static int getLevelValue(EntityLivingBase entity) {
 		if(!EnchantmentRegistry.advancedLooting.isEnabled()) return 0;
 		if(entity == null) return 0;
 		ItemStack stack = entity.getHeldItemMainhand();
-		int levelLooting = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.advancedLooting, stack);
-		if(levelLooting <= 0) return 0;
-		int toReturn = original + 2 + ((levelLooting - 1) * 2);
-		if(Math.random() < 0.25f) toReturn = toReturn + 2 + (levelLooting * 2);
+		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.advancedLooting, stack);
+		if(level <= 0) return 0;
+		return getLevelMult(level);
+	}
+	
+	public static int getLevelMult(int level) {
+		int toReturn = 2 + 2 * level;
+		if(Math.random() < 0.25F) toReturn = 3 + 3 * level;
 		return toReturn;
 	}
 	
@@ -63,31 +67,4 @@ public class EnchantmentAdvancedLooting extends EnchantmentBase {
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.advancedLooting;
 	}
-	
-	/*
-	@SubscribeEvent(priority = EventPriority.LOWEST) 
-	public void HandleEnchant(LootingLevelEvent fEvent)
-	{	
-		if(!(fEvent.getDamageSource().getTrueSource() instanceof EntityPlayer))
-			return;
-		
-		EntityPlayer player = (EntityPlayer) fEvent.getDamageSource().getTrueSource();
-		ItemStack sword = player.getHeldItemMainhand();
-					
-		if(sword == null)
-			return;
-		
-		int levelLooting = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.AdvancedLooting, sword);
-			
-		if(levelLooting <= 0)
-			return;
-		
-		fEvent.setLootingLevel(fEvent.getLootingLevel() + 2 + ((levelLooting - 1) * 2));
-			
-		if(Math.random() < 0.25f){
-			
-		fEvent.setLootingLevel(fEvent.getLootingLevel() + 2 + (levelLooting * 2));
-		}	 
-	}
-	*/
 }

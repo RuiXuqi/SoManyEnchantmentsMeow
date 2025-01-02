@@ -17,12 +17,16 @@ public class EnchantmentAdvancedLuckOfTheSea extends EnchantmentBase {
 		super(name, rarity, slots);
 	}
 	
-	public static int getValue(ItemStack stack) {
+	public static int getLevelValue(ItemStack stack) {
 		if(!EnchantmentRegistry.advancedLuckOfTheSea.isEnabled()) return 0;
 		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.advancedLuckOfTheSea, stack);
 		if(level <= 0) return 0;
-		int toReturn = level * 2 + 2;
-		if(Math.random() < 0.15f) toReturn = level * 3 + 3;
+		return getLevelMult(level);
+	}
+	
+	public static int getLevelMult(int level) {
+		int toReturn = 2 + 2 * level;
+		if(Math.random() < 0.25F) toReturn = 3 + 3 * level;
 		return toReturn;
 	}
 	

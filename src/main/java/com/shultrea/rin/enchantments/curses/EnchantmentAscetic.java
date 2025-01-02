@@ -60,19 +60,19 @@ public class EnchantmentAscetic extends EnchantmentCurse {
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.ascetic;
 	}
-
-	@SubscribeEvent(priority = EventPriority.HIGH)
+	
+	@SubscribeEvent(priority = EventPriority.LOW)
 	public void onLootingLevelEvent(LootingLevelEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getDamageSource())) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getDamageSource().getTrueSource();
 		if(attacker == null) return;
-		ItemStack stack = attacker.getHeldItemMainhand();
-		if(stack.isEmpty()) return;
 		
-		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
-		if(level <= 0) return;
-		event.setLootingLevel(Math.max(0,event.getLootingLevel()-level));
+		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, attacker);
+		if(level > 0) {
+			if(attacker.world.isRemote) return;
+			event.setLootingLevel(Math.max(0, event.getLootingLevel() - level));
+		}
 	}
 
 	@SubscribeEvent(priority = EventPriority.HIGH)
@@ -81,15 +81,18 @@ public class EnchantmentAscetic extends EnchantmentCurse {
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
-		ItemStack stack = attacker.getHeldItemMainhand();
-		if(stack.isEmpty()) return;
 		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
 		if(victim instanceof EntityPlayer) return;
 
-		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
-		if(level <= 0) return;
-		if(attacker.getRNG().nextFloat() < level/4.){
-			event.setCanceled(true);
+		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, attacker);
+		if(level > 0) {
+			if(attacker.world.isRemote) return;
+			//Don't delete boss drops, just in case
+			if(!victim.isNonBoss()) return;
+			if(attacker.getRNG().nextFloat() < 0.25F * (float)level){
+				event.setCanceled(true);
+			}
 		}
 	}
 
@@ -98,13 +101,13 @@ public class EnchantmentAscetic extends EnchantmentCurse {
 		if(!this.isEnabled()) return;
 		EntityLivingBase user = event.getEntityLiving();
 		if(user == null) return;
-		ItemStack stack = user.getHeldItemMainhand();
-		if(stack.isEmpty()) return;
 
 		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, user);
-		if(level <= 0) return;
-		if(user.getRNG().nextFloat() < level/4.){
-			event.setCanceled(true);
+		if(level > 0) {
+			if(user.world.isRemote) return;
+			if(user.getRNG().nextFloat() < 0.25F * (float)level){
+				event.setCanceled(true);
+			}
 		}
 	}
 }

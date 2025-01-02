@@ -266,15 +266,15 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 			} else if (this.damageType == MATHEMATICS) {
 				int count;
 				if (attacker instanceof EntityPlayer)
-					//xp lvls, not raw xp, divided by 4 to start adding dmg from xp lvl 8. maxes out at xp lvl 256
-					count = ((EntityPlayer) attacker).experienceLevel / 4;
+					//xp lvls, not raw xp, divided by 2 to start adding dmg from xp lvl 4. maxes out at xp lvl 128
+					count = ((EntityPlayer) attacker).experienceLevel / 2;
 				else
 					//half minutes alive. dmg maxes out at 32 minutes
 					count = attacker.ticksExisted / 600;
 				float dmg = 0.25F * (float) level * (float) MathHelper.log2(Math.max(1, count));
 				if (dmg > 0) {
-					//+0 dmg until xp lvl 8, then +0.35*enchlvl per doubling of xp lvl
-					//<lvl 8: +0, lvl 8: +1.25, lvl 16: +2.5, lvl 32: +3.25, lvl 64: +5, lvl 128: +6.25, lvl 256: +7.5
+					//+0 dmg until xp lvl 4, then +0.35*enchlvl per doubling of xp lvl
+					//<lvl 4: +0, lvl 4: +1.25, lvl 8: +2.5, lvl 16: +3.25, lvl 32: +5, lvl 64: +6.25, lvl 128: +7.5
 					dmg = Math.min(dmg, 7.5F);
 					event.setAmount(event.getAmount() + dmg);
 				}

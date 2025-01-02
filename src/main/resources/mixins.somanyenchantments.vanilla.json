@@ -14,6 +14,7 @@
     "vanilla.EnchantRandomlyMixin",
     "vanilla.EntityArrowMixin",
     "vanilla.EntityLivingBaseMixin",
+    "vanilla.EntityPlayerMixin",
     "vanilla.EntityVillagerListEnchantedBookForEmeraldsMixin",
     "vanilla.IEntityCreeperMixin",
     "vanilla.IItemBowMixin",

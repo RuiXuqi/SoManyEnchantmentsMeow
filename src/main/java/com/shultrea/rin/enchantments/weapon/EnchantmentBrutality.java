@@ -3,6 +3,8 @@ package com.shultrea.rin.enchantments.weapon;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -49,21 +51,25 @@ public class EnchantmentBrutality extends EnchantmentBase {
 		return ModConfig.treasure.brutality;
 	}
 	
-	//TODO
 	@Override
-	public void onEntityDamagedAlt(EntityLivingBase user, Entity target, ItemStack stack, int level) {
-		if(!ModConfig.enabled.brutality) return;
+	public void onEntityDamagedAlt(EntityLivingBase attacker, Entity target, ItemStack weapon, int level) {
+		if(!this.isEnabled()) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isOnEntityDamagedAltStrong()) return;
+		if(attacker == null) return;
 		if(!(target instanceof EntityLivingBase)) return;
 		EntityLivingBase victim = (EntityLivingBase)target;
+		if(weapon.isEmpty()) return;
+		
 		Iterable<ItemStack> iter = victim.getArmorInventoryList();
 
 		int armorPieceCount = 0;
-		for(ItemStack item : iter) {
-			if(item != ItemStack.EMPTY)
-				armorPieceCount++;
+		for(ItemStack stack : iter) {
+			if(!stack.isEmpty()) armorPieceCount++;
 		}
-		for(ItemStack item : iter) {
-            item.damageItem((int)(item.getMaxDamage() * 0.0025f * level / armorPieceCount + user.getRNG().nextInt(level + 2)) + 1, victim);
+		for(ItemStack stack : iter) {
+			if(!stack.isEmpty() && stack.isItemStackDamageable()) {
+				stack.damageItem((int)(stack.getMaxDamage() * 0.0025F * (float)level / armorPieceCount + victim.getRNG().nextInt(level + 2)) + 1, victim);
+			}
 		}
 	}
 }

@@ -103,7 +103,12 @@ public class EnchantmentCurseofPossession extends EnchantmentCurse {
 						return;
 					}
 				}
-				item.lifespan = 200; //10 seconds to pick up if inventory full or player dead
+				if(ModConfig.miscellaneous.curseOfPossessionDeathDeletion) {
+					item.lifespan = 5;
+				}
+				else {
+					item.lifespan = 200; //10 seconds to pick up if inventory full or player dead
+				}
 				item.setPickupDelay(10);
 			}
 		}

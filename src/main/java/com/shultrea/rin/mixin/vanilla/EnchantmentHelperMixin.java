@@ -5,7 +5,10 @@ import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.enchantments.fishing.EnchantmentAdvancedLuckOfTheSea;
 import com.shultrea.rin.enchantments.fishing.EnchantmentAdvancedLure;
 import com.shultrea.rin.enchantments.tool.EnchantmentAdvancedEfficiency;
+import com.shultrea.rin.enchantments.weapon.EnchantmentAdvancedKnockback;
 import com.shultrea.rin.enchantments.weapon.EnchantmentAdvancedLooting;
+import com.shultrea.rin.enchantments.weapon.EnchantmentFieryEdge;
+import com.shultrea.rin.enchantments.weapon.EnchantmentTierFA;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import com.shultrea.rin.util.compat.CompatUtil;
 import com.shultrea.rin.util.compat.RLCombatCompat;
@@ -71,6 +74,28 @@ public abstract class EnchantmentHelperMixin {
 	}
 	
 	/**
+	 * Handling for Advanced Knockback enchant
+	 */
+	@ModifyReturnValue(
+			method = "getKnockbackModifier",
+			at = @At("RETURN")
+	)
+	private static int soManyEnchantments_vanillaEnchantmentHelper_getKnockbackModifier(int original, EntityLivingBase entity) {
+		return original + EnchantmentAdvancedKnockback.getLevelValue(entity);
+	}
+	
+	/**
+	 * Handling for Fire Aspect Tier and Fiery Edge enchants
+	 */
+	@ModifyReturnValue(
+			method = "getFireAspectModifier",
+			at = @At("RETURN")
+	)
+	private static int soManyEnchantments_vanillaEnchantmentHelper_getFireAspectModifier(int original, EntityLivingBase entity) {
+		return original + EnchantmentTierFA.getLevelValue(entity) + EnchantmentFieryEdge.getLevelValue(entity);
+	}
+	
+	/**
 	 * Handling for Advanced Efficiency enchant
 	 */
 	@ModifyReturnValue(
@@ -78,7 +103,7 @@ public abstract class EnchantmentHelperMixin {
 			at = @At("RETURN")
 	)
 	private static int soManyEnchantments_vanillaEnchantmentHelper_getEfficiencyModifier(int original, EntityLivingBase entity) {
-		return Math.max(original, EnchantmentAdvancedEfficiency.getValue(original, entity));
+		return original + EnchantmentAdvancedEfficiency.getLevelValue(entity);
 	}
 	
 	/**
@@ -89,7 +114,7 @@ public abstract class EnchantmentHelperMixin {
 			at = @At("RETURN")
 	)
 	private static int soManyEnchantments_vanillaEnchantmentHelper_getFishingLuckBonus(int original, ItemStack stack) {
-		return Math.max(original, EnchantmentAdvancedLuckOfTheSea.getValue(stack));
+		return original + EnchantmentAdvancedLuckOfTheSea.getLevelValue(stack);
 	}
 	
 	/**
@@ -100,7 +125,7 @@ public abstract class EnchantmentHelperMixin {
 			at = @At("RETURN")
 	)
 	private static int soManyEnchantments_vanillaEnchantmentHelper_getFishingSpeedBonus(int original, ItemStack stack) {
-		return Math.max(original, EnchantmentAdvancedLure.getValue(stack));
+		return original + EnchantmentAdvancedLure.getLevelValue(stack);
 	}
 	
 	/**
@@ -111,6 +136,6 @@ public abstract class EnchantmentHelperMixin {
 			at = @At("RETURN")
 	)
 	private static int soManyEnchantments_vanillaEnchantmentHelper_getLootingModifier(int original, EntityLivingBase entity) {
-		return Math.max(original, EnchantmentAdvancedLooting.getValue(original, entity));
+		return original + EnchantmentAdvancedLooting.getLevelValue(entity);
 	}
 }

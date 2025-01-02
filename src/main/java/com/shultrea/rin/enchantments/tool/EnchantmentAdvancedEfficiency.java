@@ -20,13 +20,17 @@ public class EnchantmentAdvancedEfficiency extends EnchantmentBase {
 	}
 
 	//TODO slow af for some reason
-	public static int getValue(int original, EntityLivingBase entity) {
+	public static int getLevelValue(EntityLivingBase entity) {
 		if(!EnchantmentRegistry.advancedEfficiency.isEnabled()) return 0;
 		if(entity == null) return 0;
 		ItemStack stack = entity.getHeldItemMainhand();
-		int levelEfficiency = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.advancedEfficiency, stack);
-		if(levelEfficiency <= 0) return 0;
-		return original + MathHelper.floor(levelEfficiency * 2.5f);
+		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.advancedEfficiency, stack);
+		if(level <= 0) return 0;
+		return getLevelMult(level);
+	}
+	
+	public static int getLevelMult(int level) {
+		return MathHelper.floor(level * 2.5F);
 	}
 	
 	@Override

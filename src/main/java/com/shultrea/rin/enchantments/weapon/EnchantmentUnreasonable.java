@@ -3,23 +3,19 @@ package com.shultrea.rin.enchantments.weapon;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
 
 public class EnchantmentUnreasonable extends EnchantmentBase {
 
@@ -66,56 +62,43 @@ public class EnchantmentUnreasonable extends EnchantmentBase {
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.unreasonable;
 	}
-
-	//TODO
-	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void onAttack(LivingAttackEvent event) {
-		if (event.isCanceled() || event.getAmount() <= 0) return;
-		if (event.getSource().getTrueSource() == null || !event.getSource().damageType.equals("player")) return;
-		EntityLivingBase attacker = (EntityLivingBase) event.getSource().getTrueSource();
-		EntityLivingBase victim = event.getEntityLiving();
-		World world = victim.getEntityWorld();
-		if (victim instanceof EntityPlayer) return;
-		if (victim.getHealth() > victim.getMaxHealth()) return;
-
-		int enchantmentLevel = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.unreasonable, attacker);
-
-		Random random = victim.getRNG();
-		if (random.nextInt(200) >= enchantmentLevel * 10) return;
-
-		//Cap AABB size to 55 to avoid incredibly large AABB checks in the event that someone acquires or cheats in a high enchantmentLevel book
-		int bbSize = Math.min(5 + enchantmentLevel * 5, 55);
-		List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(attacker, victim.getEntityBoundingBox().grow(bbSize));
-		list = list.stream().filter(v -> v instanceof EntityLiving).collect(Collectors.toList());
-		EntityLiving randomTarget = (EntityLiving) list.get(random.nextInt(list.size()));
-
-		if (victim.getDistanceSq(randomTarget) > 8 + enchantmentLevel * 28) return;
-		victim.setRevengeTarget(randomTarget);
-		//Check if the victim has been given a revenge target or already has one
-		if (world instanceof WorldServer) {
-			//Schedule the task, otherwise the attacker will become the target every time
-			((WorldServer) world).addScheduledTask(() -> {
-				try {
-					//Make absolutely sure that the three entities involved still exist
-					if (victim != null && attacker != null && randomTarget != null) {
-						//A dead victim can't get angry
-						if (!victim.isDead) {
-							//Double check that the victim class is ready for casting
-							if (victim instanceof EntityLiving) {
-								//Prevent monsters from targeting themselves
-								if (!victim.getUniqueID().equals(randomTarget.getUniqueID())) {
-									//Get mad!
-									EntityLiving victimLiving = (EntityLiving) victim;
-									victimLiving.setRevengeTarget(randomTarget);
-									victimLiving.setAttackTarget(randomTarget);
+	
+	@SubscribeEvent(priority = EventPriority.LOW)
+	public void onLivingAttackEvent(LivingAttackEvent event) {
+		if(!this.isEnabled()) return;
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
+		if(event.getAmount() <= 1.0F) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
+		if(attacker == null) return;
+		if(!(event.getEntityLiving() instanceof EntityLiving)) return;
+		EntityLiving victim = (EntityLiving)event.getEntityLiving();
+		ItemStack stack = attacker.getHeldItemMainhand();
+		if(stack.isEmpty()) return;
+		
+		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
+		if(level > 0) {
+			if(attacker.world.isRemote) return;
+			if(attacker.getRNG().nextFloat() < 0.05F * (float)level) {
+				List<EntityLiving> entities = attacker.world.getEntitiesWithinAABB(EntityLiving.class, victim.getEntityBoundingBox().grow(Math.min(3 + 3 * level, 16)), e -> e != attacker && e != victim);
+				if(entities.isEmpty()) return;
+				EntityLiving target = entities.get(attacker.getRNG().nextInt(entities.size()));
+				if(attacker.world instanceof WorldServer) {
+					((WorldServer)attacker.world).addScheduledTask(() -> {
+						try {
+							if(victim != null && target != null) {
+								if(!victim.isDead && !target.isDead) {
+									if(!victim.getUniqueID().equals(target.getUniqueID())) {
+										victim.setRevengeTarget(target);
+										victim.setAttackTarget(target);
+									}
 								}
 							}
 						}
-					}
-				} catch (Exception ex) {
-					//Task failed
+						catch(Exception ignored) {}
+					});
 				}
-			});
+			}
 		}
 	}
 }

@@ -3,8 +3,8 @@ package com.shultrea.rin.enchantments.weapon;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
-import net.minecraft.enchantment.EnchantmentHelper;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -51,12 +51,21 @@ public class EnchantmentFlinging extends EnchantmentBase {
 		return ModConfig.treasure.flinging;
 	}
 	
-	//TODO
 	@Override
-	public void onEntityDamagedAlt(EntityLivingBase user, Entity target, ItemStack stack, int level) {
-		int levelknockBack = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.flinging, stack);
-		double Y = levelknockBack * 0.1875D + 0.075f;
-		target.motionY += Y;
-		target.velocityChanged = true;
+	public void onEntityDamagedAlt(EntityLivingBase attacker, Entity target, ItemStack weapon, int level) {
+		if(!this.isEnabled()) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isOnEntityDamagedAltStrong()) return;
+		if(attacker == null) return;
+		if(!(target instanceof EntityLivingBase)) return;
+		EntityLivingBase victim = (EntityLivingBase)target;
+		if(weapon.isEmpty()) return;
+		
+		if(!attacker.world.isRemote) {
+			victim.isAirBorne = true;
+			double knockback = 0.075D + 0.1875D * (double)level;
+			victim.motionY += knockback;
+			if(!Double.isFinite(victim.motionY)) victim.motionY = 0;
+			victim.velocityChanged = true;
+		}
 	}
 }

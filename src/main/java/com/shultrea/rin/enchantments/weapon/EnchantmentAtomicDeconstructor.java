@@ -1,17 +1,17 @@
 package com.shultrea.rin.enchantments.weapon;
 
-import bettercombat.mod.event.RLCombatModifyDamageEvent;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.registry.EnchantmentRegistry;
 import com.shultrea.rin.registry.SoundRegistry;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -61,20 +61,27 @@ public class EnchantmentAtomicDeconstructor extends EnchantmentBase {
 		return ModConfig.treasure.atomicDeconstructor;
 	}
 	
-	//TODO
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public static void modifyAttackDamagePost(RLCombatModifyDamageEvent.Post event) {
-		if(event.getEntityPlayer() == null || event.getStack().isEmpty() || event.getTarget() == null || !(event.getTarget() instanceof EntityLivingBase)) return;
-
-		EntityLivingBase target = (EntityLivingBase)event.getTarget();
-		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.atomicDeconstructor, event.getStack());
-		if(level > 0 && event.getCooledStrength() > 0.9F && (target.isNonBoss() || ModConfig.miscellaneous.atomicDeconstructorBosses)) {
-			if(target.world.rand.nextFloat() < 0.001F*(float)level) {
-				target.hurtResistantTime = 0;
-				if(!ModConfig.miscellaneous.atomicDeconstructorMaxDamage || !target.attackEntityFrom(DamageSource.OUT_OF_WORLD, Float.MAX_VALUE)) {
-					event.setDamageModifier(target.getMaxHealth() * 100.0F);
+	public void onLivingHurtEvent(LivingHurtEvent event) {
+		if(!this.isEnabled()) return;
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
+		if(event.getAmount() <= 1.0F) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
+		if(attacker == null) return;
+		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
+		ItemStack stack = attacker.getHeldItemMainhand();
+		if(stack.isEmpty()) return;
+		
+		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
+		if(level > 0) {
+			if(victim.isNonBoss() || ModConfig.miscellaneous.atomicDeconstructorBosses) {
+				if(!attacker.world.isRemote && attacker.world.rand.nextFloat() < 0.001F * (float)level) {
+					victim.hurtResistantTime = 0;
+					victim.onKillCommand();
+					attacker.world.playSound(null, attacker.posX, attacker.posY, attacker.posZ, SoundRegistry.ATOMIC_DECONSTRUCT, SoundCategory.PLAYERS, 2.0F, 1.0F /(attacker.world.rand.nextFloat() * 0.4F + 1.2F)* 1.4F);
 				}
-				event.getEntityPlayer().world.playSound(null, event.getEntityPlayer().posX, event.getEntityPlayer().posY, event.getEntityPlayer().posZ, SoundRegistry.ATOMIC_DECONSTRUCT, SoundCategory.PLAYERS, 2.0F, 1.0F /(event.getEntityPlayer().world.rand.nextFloat() * 0.4F + 1.2F)* 1.4F);
 			}
 		}
 	}
