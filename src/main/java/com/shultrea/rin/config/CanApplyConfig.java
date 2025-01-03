@@ -65,7 +65,7 @@ public class CanApplyConfig {
 			"BATTLEAXE;(mujmajnkraftsbettersurvival\\:item.*battleaxe)|(spartan(defiled|fire|weaponry)\\:battleaxe.*)",
 			"BS_WEAPON;mujmajnkraftsbettersurvival\\:item.*(dagger|nunchaku|hammer|battleaxe)",
 			"NOT_GOLD;.*gold.*;NOT",
-			"SW_CROSSBOW;(spartan(defiled|fire|weaponry)\\:crossbow.*"
+			"SW_CROSSBOW;spartan(defiled|fire|weaponry)\\:crossbow.*"
 	};
 
 	@Config.Name("Adept")
