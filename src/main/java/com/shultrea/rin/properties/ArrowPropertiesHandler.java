@@ -2,14 +2,14 @@ package com.shultrea.rin.properties;
 
 import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.registry.EnchantmentRegistry;
-import com.shultrea.rin.util.ReflectionUtil;
+import com.shultrea.rin.util.IEntityDamageSourceMixin;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EntityDamageSourceIndirect;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -60,7 +60,6 @@ public class ArrowPropertiesHandler {
 		properties.setPropertiesHandled(true);
 	}
 	
-	//TODO SpartanWeaponry compat or a better way of splitting damage
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onArrowHitHurt(LivingHurtEvent event) {
 		if(!(event.getSource().getImmediateSource() instanceof EntityArrow)) return;
@@ -75,10 +74,10 @@ public class ArrowPropertiesHandler {
 		if(EnchantmentRegistry.runeArrowPiercing.isEnabled()) {
 			int pierceLevel = properties.getArmorPiercingLevel();
 			if(pierceLevel > 0) {
-				EntityLivingBase shooter = (EntityLivingBase)event.getSource().getTrueSource();
-				float damage = event.getAmount() * 0.25F * pierceLevel;
-				event.setAmount(event.getAmount() - damage);
-				ReflectionUtil.damageEntityLivingDamageEvent(victim, new EntityDamageSourceIndirect("arrow", arrow, shooter).setDamageBypassesArmor(), damage);
+				float percent = 0.25F * (float)pierceLevel;
+				if(event.getSource() instanceof EntityDamageSource) {
+					((IEntityDamageSourceMixin)event.getSource()).soManyEnchantments$setPiercingPercent(percent);
+				}
 			}
 		}
 	}

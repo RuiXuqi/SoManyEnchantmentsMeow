@@ -264,7 +264,7 @@ enchantment.rune_arrowpiercing=Rune: Arrow Piercing
 enchantment.somanyenchantments.rune_arrowpiercing.desc=Allows for a portion of arrow damage to pierce armor.
 
 enchantment.rune_magicalblessing=Rune: Magical Blessing
-enchantment.somanyenchantments.rune_magicalblessing.desc=Increases damage dealt, converts a portion of damage dealt to magic damage, and applies random negative effects to the enemy.
+enchantment.somanyenchantments.rune_magicalblessing.desc=Increases damage dealt, converts the attack damage to magical damage, allows a portion of damage to bypass armor, and applies random negative effects to the enemy.
 
 enchantment.rune_piercingcapabilities=Rune: Piercing Capabilities
 enchantment.somanyenchantments.rune_piercingcapabilities.desc=Allows for a portion of attack damage to pierce armor.
@@ -413,9 +413,6 @@ potion.potency.19=XX
 
 death.attack.deconstructed=%1$s was reduced to atoms
 death.attack.deconstructed.player=%1$s was deconstructed by %2$s
-
-death.attack.culled=%1$s didn't make the cut
-death.attack.culled.player=%1$s was culled from the herd by %2$s
 
 enchantment.level.11=XI
 enchantment.level.12=XII

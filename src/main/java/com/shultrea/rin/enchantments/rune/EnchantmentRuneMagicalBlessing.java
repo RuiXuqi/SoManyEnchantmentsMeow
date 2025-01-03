@@ -2,16 +2,14 @@ package com.shultrea.rin.enchantments.rune;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
+import com.shultrea.rin.util.IEntityDamageSourceMixin;
 import com.shultrea.rin.util.PotionUtil;
-import com.shultrea.rin.util.ReflectionUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.util.compat.CompatUtil;
 import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.monster.EntityWitch;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -79,7 +77,6 @@ public class EnchantmentRuneMagicalBlessing extends EnchantmentBase {
 		return 0.75F * (float)level;
 	}
 	
-	//TODO SpartanWeaponry compat or a better way of splitting damage
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
@@ -93,10 +90,11 @@ public class EnchantmentRuneMagicalBlessing extends EnchantmentBase {
 
 		int level = EnchantmentHelper.getEnchantmentLevel(this, attacker.getHeldItemMainhand());
 		if(level > 0) {
-			float damage = event.getAmount() * 0.25F * (float)level;
-			event.setAmount(event.getAmount() - damage);
-			if(victim instanceof EntityWitch) damage *= 0.5F;
-			ReflectionUtil.damageEntityLivingDamageEvent(victim, new EntityDamageSource(attacker instanceof EntityPlayer ? "player" : "mob", attacker).setMagicDamage(), damage);
+			if(event.getSource() instanceof EntityDamageSource) {
+				float percent = 0.25F * (float)level;
+				((IEntityDamageSourceMixin)event.getSource()).soManyEnchantments$setPiercingPercent(percent);
+				event.getSource().setMagicDamage();
+			}
 			
 			if(!attacker.world.isRemote) {
 				if(attacker.getRNG().nextBoolean()) {

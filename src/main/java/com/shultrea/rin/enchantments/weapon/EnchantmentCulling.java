@@ -3,8 +3,8 @@ package com.shultrea.rin.enchantments.weapon;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.util.DamageSources;
-import com.shultrea.rin.util.ReflectionUtil;
+import com.shultrea.rin.registry.SoundRegistry;
+import com.shultrea.rin.util.IEntityDamageSourceMixin;
 import com.shultrea.rin.util.compat.CompatUtil;
 import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -17,7 +17,9 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -90,8 +92,15 @@ public class EnchantmentCulling extends EnchantmentBase {
 				for(int i = 0; i < 8; ++i) {
 					attacker.world.spawnParticle(EnumParticleTypes.VILLAGER_ANGRY, victim.posX, victim.posY + 1.0F, victim.posZ, victim.getRNG().nextGaussian() * 0.02D, victim.getRNG().nextGaussian() * 0.02D, victim.getRNG().nextGaussian() * 0.02D);
 				}
-				event.setCanceled(true);
-				ReflectionUtil.damageEntityNoAbsorption(victim, DamageSources.CULLED, Math.max(event.getAmount(), victim.getMaxHealth()) * 10.0F);
+				if(attacker.getRNG().nextFloat() < 0.001F) {
+					//get out of my head get out of my head
+					attacker.world.playSound(null, attacker.posX, attacker.posY, attacker.posZ, SoundRegistry.CULLING, SoundCategory.PLAYERS, 2.0F, 1.0F);
+				}
+				
+				event.setAmount(Math.max(event.getAmount(), victim.getMaxHealth()) * 10.0F);
+				if(event.getSource() instanceof EntityDamageSource) {
+					((IEntityDamageSourceMixin)event.getSource()).soManyEnchantments$setCulling();
+				}
 			}
 		}
 	}
@@ -99,7 +108,8 @@ public class EnchantmentCulling extends EnchantmentBase {
 	@SubscribeEvent
 	public void onLivingDropsEvent(LivingDropsEvent event) {
 		if(!this.isEnabled()) return;
-		if(event.getSource() != DamageSources.CULLED) return;
+		if(!(event.getSource() instanceof EntityDamageSource)) return;
+		if(!((IEntityDamageSourceMixin)event.getSource()).soManyEnchantments$getCulling()) return;
 		EntityLivingBase entity = event.getEntityLiving();
 		if(entity == null) return;
 		if(entity.world.isRemote) return;

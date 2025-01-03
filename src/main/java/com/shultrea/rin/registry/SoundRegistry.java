@@ -13,18 +13,14 @@ public class SoundRegistry {
         public static SoundEvent CRITICAL_STRIKE_FAIL;
         public static SoundEvent ATOMIC_DECONSTRUCT;
         public static SoundEvent PANDORA_REMOVAL;
-        public static SoundEvent CULLING_FINISH;
-        public static SoundEvent CULLING_FAIL;
-        public static SoundEvent ATTACK_WATERASPECT;
+        public static SoundEvent CULLING;
         
         static {
                 CRITICAL_STRIKE = registerSound("critical_strike");
                 CRITICAL_STRIKE_FAIL = registerSound("critical_strike_fail");
                 ATOMIC_DECONSTRUCT = registerSound("atomic_deconstruct");
                 PANDORA_REMOVAL = registerSound("pandora_removal");
-                CULLING_FINISH = registerSound("attack_culling_finished");
-                CULLING_FAIL = registerSound("attack_culling_failed");
-                ATTACK_WATERASPECT = registerSound("attack_wateraspect_hit");
+                CULLING = registerSound("culling");
         }
         
         private static SoundEvent registerSound(String name) {
@@ -41,9 +37,7 @@ public class SoundRegistry {
                         event.getRegistry().register(CRITICAL_STRIKE_FAIL);
                         event.getRegistry().register(ATOMIC_DECONSTRUCT);
                         event.getRegistry().register(PANDORA_REMOVAL);
-                        event.getRegistry().register(CULLING_FINISH);
-                        event.getRegistry().register(CULLING_FAIL);
-                        event.getRegistry().register(ATTACK_WATERASPECT);
+                        event.getRegistry().register(CULLING);
                 }
         }
 }

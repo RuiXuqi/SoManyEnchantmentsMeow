@@ -2,13 +2,12 @@ package com.shultrea.rin.enchantments.rune;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.util.ReflectionUtil;
+import com.shultrea.rin.util.IEntityDamageSourceMixin;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.util.compat.CompatUtil;
 import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntityDamageSource;
@@ -68,7 +67,6 @@ public class EnchantmentRunePiercingCapabilities extends EnchantmentBase {
 		return TextFormatting.GREEN.toString();
 	}
 	
-	//TODO SpartanWeaponry compat or a better way of splitting damage
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
@@ -81,12 +79,12 @@ public class EnchantmentRunePiercingCapabilities extends EnchantmentBase {
 		if(victim == null) return;
 		if(event.getSource().isUnblockable()) return;
 		
-		
 		int level = EnchantmentHelper.getEnchantmentLevel(this, attacker.getHeldItemMainhand());
 		if(level > 0) {
-			float damage = event.getAmount() * 0.25F * (float)level;
-			event.setAmount(event.getAmount() - damage);
-			ReflectionUtil.damageEntityLivingDamageEvent(victim, new EntityDamageSource(attacker instanceof EntityPlayer ? "player" : "mob", attacker).setDamageBypassesArmor(), damage);
+			if(event.getSource() instanceof EntityDamageSource) {
+				float percent = 0.25F * (float)level;
+				((IEntityDamageSourceMixin)event.getSource()).soManyEnchantments$setPiercingPercent(percent);
+			}
 		}
 	}
 }

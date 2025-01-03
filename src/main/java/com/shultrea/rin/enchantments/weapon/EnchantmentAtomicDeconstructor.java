@@ -5,7 +5,6 @@ import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.SoundRegistry;
 import com.shultrea.rin.util.DamageSources;
-import com.shultrea.rin.util.ReflectionUtil;
 import com.shultrea.rin.util.compat.CompatUtil;
 import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -13,11 +12,13 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentAtomicDeconstructor extends EnchantmentBase {
+	
+	private boolean deconstructing = false;
 	
 	public EnchantmentAtomicDeconstructor(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
@@ -63,8 +64,8 @@ public class EnchantmentAtomicDeconstructor extends EnchantmentBase {
 		return ModConfig.treasure.atomicDeconstructor;
 	}
 	
-	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void onLivingHurtEvent(LivingHurtEvent event) {
+	@SubscribeEvent(priority = EventPriority.HIGH)
+	public void onLivingAttackEvent(LivingAttackEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
 		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
@@ -76,13 +77,17 @@ public class EnchantmentAtomicDeconstructor extends EnchantmentBase {
 		ItemStack stack = attacker.getHeldItemMainhand();
 		if(stack.isEmpty()) return;
 		
+		if(deconstructing) return;
+		
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
 			if(victim.isNonBoss() || ModConfig.miscellaneous.atomicDeconstructorBosses) {
 				if(!attacker.world.isRemote && attacker.world.rand.nextFloat() < 0.001F * (float)level) {
 					attacker.world.playSound(null, attacker.posX, attacker.posY, attacker.posZ, SoundRegistry.ATOMIC_DECONSTRUCT, SoundCategory.PLAYERS, 2.0F, 1.0F /(attacker.world.rand.nextFloat() * 0.4F + 1.2F)* 1.4F);
 					event.setCanceled(true);
-					ReflectionUtil.damageEntityNoAbsorption(victim, DamageSources.DECONSTRUCTED, Float.MAX_VALUE);
+					deconstructing = true;
+					victim.attackEntityFrom(DamageSources.DECONSTRUCTED, Float.MAX_VALUE);
+					deconstructing = false;
 				}
 			}
 		}

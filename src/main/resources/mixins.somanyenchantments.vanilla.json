@@ -8,6 +8,7 @@
   "mixins": [
     "vanilla.ContainerEnchantmentMixin",
     "vanilla.ContainerRepairMixin",
+    "vanilla.EntityDamageSourceMixin",
     "vanilla.EnchantmentHelperEnchantBlacklistMixin",
     "vanilla.EnchantmentHelperMixin",
     "vanilla.EnchantmentProtectionMixin",

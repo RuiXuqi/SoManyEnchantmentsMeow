@@ -9,10 +9,4 @@ public abstract class DamageSources {
 	 * bypasses armor and is absolute.
 	 */
 	public static final DamageSource DECONSTRUCTED = new DamageSource("deconstructed").setDamageIsAbsolute().setDamageBypassesArmor().setDamageAllowedInCreativeMode();
-	
-	/**
-	 * Culled is a damage source added by this mod that is used to finish off low health opponents. Like Deconstruct, it
-	 * bypasses armor and is absolute.
-	 */
-	public static final DamageSource CULLED = new DamageSource("culled").setDamageIsAbsolute().setDamageBypassesArmor();
 }
