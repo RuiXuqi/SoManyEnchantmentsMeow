@@ -1,4 +1,4 @@
-package com.shultrea.rin.enchantments.weapon.selfheal;
+package com.shultrea.rin.enchantments.armor;
 
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;

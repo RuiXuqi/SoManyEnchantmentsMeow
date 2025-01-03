@@ -75,7 +75,6 @@ public class EnchantmentLuckMagnification extends EnchantmentBase {
 		EntityLivingBase attacker = event.getEntityLiving();
 		if(attacker == null) return;
 		if(!(event.getTarget() instanceof EntityLivingBase)) return;
-		EntityLivingBase victim = (EntityLivingBase)event.getTarget();
 		ItemStack stack = attacker.getHeldItemMainhand();
 		if(CompatUtil.isRLCombatLoaded()) stack = RLCombatCompat.getCriticalHitEventStack(event, attacker);
 		if(stack.isEmpty()) return;
