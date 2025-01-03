@@ -88,11 +88,7 @@ public class ModConfig {
 		@Config.Comment("Enables extra protection effects")
 		@Config.Name("Extra Protection Effects")
 		public boolean extraProtectionEffects = true;
-		
-		@Config.Comment("If curses should be allowed to be applied at enchanting tables")
-		@Config.Name("Curses Apply At Enchanting Table")
-		public boolean canCursesBeAppliedAtEnchantingTable = false;
-		
+
 		@Config.Comment("If curses should be allowed to apply to books")
 		@Config.Name("Curses Apply To Books")
 		public boolean canCursesBeAppliedToBooks = false;
