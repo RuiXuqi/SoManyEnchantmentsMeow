@@ -92,6 +92,7 @@ public class EnchantmentSwifterSlashes extends EnchantmentBase {
 	//TODO: simpler way to handle this? hurt takes place after the iframe check so it needs to be changed earlier
 	@SubscribeEvent(priority = EventPriority.LOW, receiveCanceled = true)
 	public void onLivingHurtEvent(LivingHurtEvent event) {
+		if(!(event.getSource().getTrueSource() instanceof EntityLivingBase)) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
 		
