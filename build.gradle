@@ -36,6 +36,7 @@ dependencies {
     implementation fg.deobf("curse.maven:scalinghealth-${scalinghealth_version}")
     implementation fg.deobf("curse.maven:lycanitesmobs-${lycanites_version}")
     implementation fg.deobf("curse.maven:spartanweaponry-${spartanweaponry_version}")
+    implementation fg.deobf("curse.maven:spawnercontrol-${spawnercontrol_version}")
 }
 
 mixin {

@@ -5,6 +5,7 @@ import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.util.compat.CompatUtil;
 import com.shultrea.rin.util.compat.RLCombatCompat;
+import com.shultrea.rin.util.compat.SpawnerControlCompat;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.*;
 import net.minecraft.entity.monster.EntityMagmaCube;
@@ -96,6 +97,8 @@ public class EnchantmentPurification extends EnchantmentBase {
 			villager.setLookingForHome();
 			if(entity.isChild()) villager.setGrowingAge(-24000);
 			
+			if(CompatUtil.isSpawnerControlLoaded()) SpawnerControlCompat.increaseSpawnerCount(entity);
+			
 			entity.setSilent(true);
 			entity.world.removeEntity(entity);
 			villager.setNoAI(((EntityLiving)entity).isAIDisabled());
@@ -116,6 +119,8 @@ public class EnchantmentPurification extends EnchantmentBase {
 			EntityPig pig = new EntityPig(entity.world);
 			pig.copyLocationAndAnglesFrom(entity);
 			if(entity.isChild()) pig.setGrowingAge(-24000);
+			
+			if(CompatUtil.isSpawnerControlLoaded()) SpawnerControlCompat.increaseSpawnerCount(entity);
 			
 			entity.setSilent(true);
 			entity.world.removeEntity(entity);
@@ -141,6 +146,8 @@ public class EnchantmentPurification extends EnchantmentBase {
 			NBTTagCompound slimeCompound = slime.serializeNBT();
 			slimeCompound.setInteger("Size", entityCompound.getInteger("Size"));
 			slime.readEntityFromNBT(slimeCompound);
+			
+			if(CompatUtil.isSpawnerControlLoaded()) SpawnerControlCompat.increaseSpawnerCount(entity);
 			
 			entity.setSilent(true);
 			entity.world.removeEntity(entity);
