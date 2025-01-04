@@ -29,7 +29,8 @@ public abstract class ItemMixin {
 	 */
 	@ModifyReturnValue(
 			method = "getAttributeModifiers",
-			at = @At("RETURN")
+			at = @At("RETURN"),
+			remap = false
 	)
 	private Multimap<String, AttributeModifier> soManyEnchantments_vanillaItem_getAttributeModifiers(Multimap<String, AttributeModifier> original, EntityEquipmentSlot slot, ItemStack stack) {
 		if(stack.isEmpty() || slot != EntityEquipmentSlot.MAINHAND) return original;
