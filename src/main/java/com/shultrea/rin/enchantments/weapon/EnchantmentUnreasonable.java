@@ -71,6 +71,7 @@ public class EnchantmentUnreasonable extends EnchantmentBase {
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
+		if(attacker.world.isRemote) return;
 		if(!(event.getEntityLiving() instanceof EntityLiving)) return;
 		EntityLiving victim = (EntityLiving)event.getEntityLiving();
 		ItemStack stack = attacker.getHeldItemMainhand();

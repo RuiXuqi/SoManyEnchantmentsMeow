@@ -67,6 +67,8 @@ public class EnchantmentEvasion extends EnchantmentBase {
 		if(event.getSource().isProjectile()) return;
 		if(event.getEntityLiving() == null) return;
 		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
+		if(victim.world.isRemote) return;
 		if(!(event.getSource().getImmediateSource() instanceof EntityLivingBase)) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getImmediateSource();
 		

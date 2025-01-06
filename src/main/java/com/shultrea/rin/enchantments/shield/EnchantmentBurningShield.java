@@ -65,6 +65,7 @@ public class EnchantmentBurningShield extends EnchantmentBase {
 		if(!this.isEnabled()) return;
 		EntityLivingBase victim = event.getEntityLiving();
 		if(victim == null) return;
+		if(victim.world.isRemote) return;
 		if(!(event.getSource().getImmediateSource() instanceof EntityLivingBase)) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getImmediateSource();
 		if(!EnchantUtil.canBlockDamageSource(event.getSource(), victim)) return;

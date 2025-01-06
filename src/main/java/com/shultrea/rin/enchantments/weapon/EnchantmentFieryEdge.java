@@ -85,6 +85,7 @@ public class EnchantmentFieryEdge extends EnchantmentBase {
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
+		if(attacker.world.isRemote) return;
 		EntityLivingBase victim = event.getEntityLiving();
 		if(victim == null) return;
 		ItemStack stack = attacker.getHeldItemMainhand();

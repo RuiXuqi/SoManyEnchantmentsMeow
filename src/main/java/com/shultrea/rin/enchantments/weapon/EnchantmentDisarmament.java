@@ -70,6 +70,7 @@ public class EnchantmentDisarmament extends EnchantmentBase {
 		if(attacker == null) return;
 		EntityLivingBase victim = event.getEntityLiving();
 		if(victim == null) return;
+		if(victim.world.isRemote) return;
 		ItemStack stack = attacker.getHeldItemMainhand();
 		if(stack.isEmpty()) return;
 		

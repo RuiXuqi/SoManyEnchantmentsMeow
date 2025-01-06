@@ -67,6 +67,7 @@ public class EnchantmentCurseofInaccuracy extends EnchantmentCurse {
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
 		EntityLivingBase entity = (EntityLivingBase)event.getSource().getTrueSource();
 		if(entity == null) return;
+		if(entity.world.isRemote) return;
 		ItemStack weapon = entity.getHeldItemMainhand();
 		if(weapon.isEmpty()) return;
 		

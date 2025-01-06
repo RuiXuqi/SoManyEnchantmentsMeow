@@ -66,6 +66,8 @@ public class EnchantmentCounterAttack extends EnchantmentBase {
 		if(event.getSource().isProjectile()) return;
 		if(!(event.getEntityLiving() instanceof EntityPlayer)) return;
 		EntityPlayer victim = (EntityPlayer)event.getEntityLiving();
+		if(victim==null) return;
+		if(victim.world.isRemote) return;
 		if(!(event.getSource().getImmediateSource() instanceof EntityLivingBase)) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getImmediateSource();
 		
