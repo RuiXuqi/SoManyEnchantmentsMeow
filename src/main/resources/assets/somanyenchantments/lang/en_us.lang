@@ -53,7 +53,7 @@ enchantment.darkshadows=Dark Shadows
 enchantment.somanyenchantments.darkshadows.desc=Your attacks deal increased damage when striking from the shadows, and additionally can blind enemies.
 
 enchantment.defusingedge=Defusing Edge
-enchantment.somanyenchantments.defusingedge.sec=Defuses and deals increased damage to creepers.
+enchantment.somanyenchantments.defusingedge.desc=Defuses and deals increased damage to creepers.
 
 enchantment.desolator=Desolator
 enchantment.somanyenchantments.desolator.desc=Attacks have a chance to apply negative resistance and weakness.
