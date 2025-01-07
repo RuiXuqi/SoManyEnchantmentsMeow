@@ -3,9 +3,11 @@ package com.shultrea.rin.enchantments.weapon;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.mixin.vanilla.IEntityLivingMixin;
 import com.shultrea.rin.util.compat.CompatUtil;
 import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -77,13 +79,14 @@ public class EnchantmentDisarmament extends EnchantmentBase {
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
 			if(attacker.getRNG().nextFloat() < 0.02F * (float)level) {
-				if(attacker.world.isRemote) return;
 				if(!victim.getHeldItemMainhand().isEmpty()) {
+					if(victim instanceof EntityLiving && attacker.getRNG().nextFloat() >= ((IEntityLivingMixin)victim).getInventoryHandsDropChances()[0]) return;
 					victim.entityDropItem(victim.getHeldItemMainhand(), 0.5F);
 					victim.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
 				}
 				else if(!victim.getHeldItemOffhand().isEmpty()) {
-					victim.entityDropItem(victim.getHeldItemOffhand(), 0.5f);
+					if(victim instanceof EntityLiving && attacker.getRNG().nextFloat() >= ((IEntityLivingMixin)victim).getInventoryHandsDropChances()[1]) return;
+					victim.entityDropItem(victim.getHeldItemOffhand(), 0.5F);
 					victim.setHeldItem(EnumHand.OFF_HAND, ItemStack.EMPTY);
 				}
 			}
