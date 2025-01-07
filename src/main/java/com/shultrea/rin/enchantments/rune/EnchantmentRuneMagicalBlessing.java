@@ -77,6 +77,7 @@ public class EnchantmentRuneMagicalBlessing extends EnchantmentBase {
 		return 0.75F * (float)level;
 	}
 	
+	//Has to be highest for PotionCore Magic Boost compat
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;

@@ -82,7 +82,8 @@ public class EnchantmentRunePiercingCapabilities extends EnchantmentBase {
 		int level = EnchantmentHelper.getEnchantmentLevel(this, attacker.getHeldItemMainhand());
 		if(level > 0) {
 			if(event.getSource() instanceof EntityDamageSource) {
-				float percent = 0.25F * (float)level;
+				float currPercent = ((IEntityDamageSourceMixin)event.getSource()).soManyEnchantments$getPiercingPercent();
+				float percent = Math.min(currPercent + 0.25F * (float)level, 1.0F);
 				((IEntityDamageSourceMixin)event.getSource()).soManyEnchantments$setPiercingPercent(percent);
 			}
 		}

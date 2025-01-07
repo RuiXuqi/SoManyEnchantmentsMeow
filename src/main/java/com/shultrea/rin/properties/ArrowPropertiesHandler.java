@@ -74,8 +74,9 @@ public class ArrowPropertiesHandler {
 		if(EnchantmentRegistry.runeArrowPiercing.isEnabled()) {
 			int pierceLevel = properties.getArmorPiercingLevel();
 			if(pierceLevel > 0) {
-				float percent = 0.25F * (float)pierceLevel;
 				if(event.getSource() instanceof EntityDamageSource) {
+					float currPercent = ((IEntityDamageSourceMixin)event.getSource()).soManyEnchantments$getPiercingPercent();
+					float percent = Math.min(currPercent + 0.25F * (float)pierceLevel, 1.0F);
 					((IEntityDamageSourceMixin)event.getSource()).soManyEnchantments$setPiercingPercent(percent);
 				}
 			}
