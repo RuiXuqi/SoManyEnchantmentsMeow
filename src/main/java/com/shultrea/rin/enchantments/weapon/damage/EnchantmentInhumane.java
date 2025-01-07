@@ -5,13 +5,18 @@ import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.util.compat.CompatUtil;
 import com.shultrea.rin.util.compat.RLCombatCompat;
-import net.minecraft.entity.Entity;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.monster.EntityVex;
+import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentInhumane extends EnchantmentBase {
 	
@@ -22,6 +27,11 @@ public class EnchantmentInhumane extends EnchantmentBase {
 	@Override
 	public boolean isEnabled() {
 		return ModConfig.enabled.inhumane;
+	}
+	
+	@Override
+	public boolean hasSubscriber() {
+		return true;
 	}
 	
 	@Override
@@ -54,22 +64,29 @@ public class EnchantmentInhumane extends EnchantmentBase {
 		return ModConfig.treasure.inhumane;
 	}
 	
-	@Override
-	public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType) {
-		return creatureType == EnumCreatureAttribute.ILLAGER ? 2.5F * (float)level : 0.0F;
-	}
-	
-	@Override
-	public void onEntityDamagedAlt(EntityLivingBase attacker, Entity target, ItemStack weapon, int level) {
+	@SubscribeEvent(priority = EventPriority.HIGH)
+	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isOnEntityDamagedAltStrong()) return;
+		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
+		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
+		if(event.getAmount() <= 1.0F) return;
+		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
-		if(!(target instanceof EntityLivingBase)) return;
-		EntityLivingBase victim = (EntityLivingBase)target;
-		if(weapon.isEmpty()) return;
+		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
+		ItemStack stack = attacker.getHeldItemMainhand();
+		if(stack.isEmpty()) return;
 		
-		if(!attacker.world.isRemote && victim.getCreatureAttribute() == EnumCreatureAttribute.ILLAGER) {
-			victim.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 70 + (level * 10), 1));
+		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
+		if(level > 0) {
+			if(victim.getCreatureAttribute() == EnumCreatureAttribute.ILLAGER ||
+					victim instanceof EntityWitch ||
+					victim instanceof EntityVex) {
+				if(!attacker.world.isRemote) {
+					victim.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 70 + (level * 10), 1));
+				}
+				event.setAmount(event.getAmount() + 2.5F * (float)level);
+			}
 		}
 	}
 }

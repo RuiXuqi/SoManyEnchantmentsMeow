@@ -79,7 +79,7 @@ public class EnchantmentButchering extends EnchantmentBase {
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
 			if(victim instanceof EntityAnimal) {
-				event.setAmount(event.getAmount() + 2.5F + 1.5F * (float)level);
+				event.setAmount(event.getAmount() + 2.0F * (float)level);
 			}
 		}
 	}
