@@ -75,8 +75,10 @@ public class EnchantmentParry extends EnchantmentBase {
 		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, victim);
 		if(level > 0) {
 			if(EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.trueStrike, attacker.getHeldItemMainhand()) > 0) return;
+			//Slightly boost chance of proc when combined with Counter Attack
+			int levelCounter = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.counterAttack, victim);
 			
-			if(victim.getRNG().nextFloat() < 0.1F + 0.1F * (float)level) {
+			if(victim.getRNG().nextFloat() < 0.05F + (0.05F * (float)level) + (0.01F * (float)levelCounter)) {
 				if(!victim.world.isRemote) {
 					EnchantUtil.knockBackIgnoreKBRes(attacker, 0.3F + 0.15F * (float)level, victim.posX - attacker.posX, victim.posZ - attacker.posZ);
 				}

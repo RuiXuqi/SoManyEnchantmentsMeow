@@ -3,18 +3,18 @@ package com.shultrea.rin.enchantments.weapon;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentCounterAttack extends EnchantmentBase {
-	
-	private boolean handlingCounterAttack = false;
 	
 	public EnchantmentCounterAttack(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
@@ -71,15 +71,13 @@ public class EnchantmentCounterAttack extends EnchantmentBase {
 		if(!(event.getSource().getImmediateSource() instanceof EntityLivingBase)) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getImmediateSource();
 		
-		//Attempt to avoid recursion
-		if(this.handlingCounterAttack) return;
-		
 		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, victim);
 		if(level > 0) {
-			if(victim.getRNG().nextFloat() < 0.05F + 0.05F * (float)level) {
-				this.handlingCounterAttack = true;
-				victim.attackTargetEntityWithCurrentItem(attacker);
-				this.handlingCounterAttack = false;
+			//Slightly boost chance of proc when combined with Parry
+			int levelParry = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.parry, victim);
+			if(victim.getRNG().nextFloat() < 0.05F + (0.05F * (float)level) + (0.01F * (float)levelParry)) {
+				//Non-magical thorns based on attack damage
+				attacker.attackEntityFrom((new EntityDamageSource("thorns", victim)).setIsThornsDamage(), event.getAmount() * 0.2F * (float)level);
 			}
 		}
 	}
