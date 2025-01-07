@@ -77,7 +77,7 @@ public class EnchantmentRuneMagicalBlessing extends EnchantmentBase {
 		return 0.75F * (float)level;
 	}
 	
-	@SubscribeEvent(priority = EventPriority.LOWEST)
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
@@ -91,7 +91,8 @@ public class EnchantmentRuneMagicalBlessing extends EnchantmentBase {
 		int level = EnchantmentHelper.getEnchantmentLevel(this, attacker.getHeldItemMainhand());
 		if(level > 0) {
 			if(event.getSource() instanceof EntityDamageSource) {
-				float percent = 0.25F * (float)level;
+				float currPercent = ((IEntityDamageSourceMixin)event.getSource()).soManyEnchantments$getPiercingPercent();
+				float percent = Math.min(currPercent + 0.25F * (float)level, 1.0F);
 				((IEntityDamageSourceMixin)event.getSource()).soManyEnchantments$setPiercingPercent(percent);
 				event.getSource().setMagicDamage();
 			}

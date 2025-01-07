@@ -2,6 +2,7 @@ package com.shultrea.rin.mixin.vanilla;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.enchantments.curses.EnchantmentExtinguish;
 import com.shultrea.rin.enchantments.fishing.EnchantmentAdvancedLuckOfTheSea;
 import com.shultrea.rin.enchantments.fishing.EnchantmentAdvancedLure;
 import com.shultrea.rin.enchantments.tool.EnchantmentAdvancedEfficiency;
@@ -92,7 +93,8 @@ public abstract class EnchantmentHelperMixin {
 			at = @At("RETURN")
 	)
 	private static int soManyEnchantments_vanillaEnchantmentHelper_getFireAspectModifier(int original, EntityLivingBase entity) {
-		return original + EnchantmentTierFA.getLevelValue(entity) + EnchantmentFieryEdge.getLevelValue(entity);
+		boolean hasExtinguish = EnchantmentExtinguish.getLevelValue(entity)>0;
+		return hasExtinguish ? 0 : original + EnchantmentTierFA.getLevelValue(entity) + EnchantmentFieryEdge.getLevelValue(entity);
 	}
 	
 	/**

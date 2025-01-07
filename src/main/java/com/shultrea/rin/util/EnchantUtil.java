@@ -80,22 +80,6 @@ public abstract class EnchantUtil {
 	}
 	
 	/**
-	 * Used to calculate modified damage
-	 * @param damage - The original damage.
-	 * @param constant - The constant damage you want to add in the calculation.
-	 * @param multiplier - Multiplies the given value based on the enchantment's level you want to add in the
-	 * calculation.
-	 * @param trueMultiplier - Multiplies the damage based on the total damage and not the level of the enchantment you
-	 * want to add in the calculation. Avoid using zero as this negates your damage.
-	 * @param level - The enchantment level.
-	 * @return The finished calculated damage.
-	 */
-	public static float modifyDamage(float damage, float constant, float multiplier, float trueMultiplier, int level) {
-		if(damage <= 1.0F) return 1.0F;
-		return (damage + constant + level * multiplier) * trueMultiplier;
-	}
-	
-	/**
 	 * An improved vanilla knockback mechanic that ignores the knockback resistance of a mob
 	 */
 	public static void knockBackIgnoreKBRes(Entity entityIn, float strength, double xRatio, double zRatio) {

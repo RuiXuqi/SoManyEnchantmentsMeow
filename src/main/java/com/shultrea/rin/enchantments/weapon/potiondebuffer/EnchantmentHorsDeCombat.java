@@ -66,14 +66,14 @@ public class EnchantmentHorsDeCombat extends EnchantmentBase {
 			if(attacker.getRNG().nextFloat() <= 0.2F * (float)level) {
 				int index = attacker.getRNG().nextInt(8);
 				switch(index) {
-					case 0: victim.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 20 + level * 10, level - 1));
-					case 1: victim.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 20 + level * 10, level - 1));
-					case 2: victim.addPotionEffect(new PotionEffect(MobEffects.HUNGER, 20 + level * 10, level - 1));
-					case 3: victim.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 20 + level * 10, level - 1));
-					case 4: victim.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 20 + level * 10, level - 1));
-					case 5: victim.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 20 + level * 10, level - 1));
-					case 6: victim.addPotionEffect(new PotionEffect(MobEffects.WITHER, 20 + level * 10, level - 1));
-					case 7: victim.addPotionEffect(new PotionEffect(MobEffects.POISON, 20 + level * 10, level - 1));
+					case 0: victim.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 20 + level * 10, level - 1)); break;
+					case 1: victim.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 20 + level * 10, level - 1)); break;
+					case 2: victim.addPotionEffect(new PotionEffect(MobEffects.HUNGER, 20 + level * 10, level - 1)); break;
+					case 3: victim.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 20 + level * 10, level - 1)); break;
+					case 4: victim.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 20 + level * 10, level - 1)); break;
+					case 5: victim.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 20 + level * 10, level - 1)); break;
+					case 6: victim.addPotionEffect(new PotionEffect(MobEffects.WITHER, 20 + level * 10, level - 1)); break;
+					case 7: victim.addPotionEffect(new PotionEffect(MobEffects.POISON, 20 + level * 10, level - 1)); break;
 				}
 			}
 		}
