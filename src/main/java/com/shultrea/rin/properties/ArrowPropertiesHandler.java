@@ -94,14 +94,14 @@ public class ArrowPropertiesHandler {
 		IArrowProperties properties = arrow.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
 		if(properties == null) return;
 
-		if(EnchantmentRegistry.extinguish.isEnabled()) {
-			int flameLevel = properties.getFlameLevel();
-			if(flameLevel == -1) victim.extinguish();
-		}
-
 		if(EnchantmentRegistry.lesserFlame.isEnabled() || EnchantmentRegistry.advancedFlame.isEnabled() || EnchantmentRegistry.supremeFlame.isEnabled()) {
 			int seconds = getFireSeconds(properties.getFlameLevel());
 			if(seconds > 0) victim.setFire(seconds);
+		}
+		
+		if(EnchantmentRegistry.extinguish.isEnabled()) {
+			int flameLevel = properties.getFlameLevel();
+			if(flameLevel == -1) victim.extinguish();
 		}
 		
 		if(EnchantmentRegistry.dragging.isEnabled()) {
@@ -181,13 +181,6 @@ public class ArrowPropertiesHandler {
 			}
 		}
 
-		if(EnchantmentRegistry.extinguish.isEnabled()) {
-			int levelExtinguish = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.extinguish, bow);
-			if(levelExtinguish > 0) {
-				properties.setFlameLevel(-1);
-			}
-		}
-
 		if(EnchantmentRegistry.lesserFlame.isEnabled()) {
 			int levelLessFlame = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.lesserFlame, bow);
 			if(levelLessFlame > 0) {
@@ -209,6 +202,14 @@ public class ArrowPropertiesHandler {
 			if(levelSupFlame > 0) {
 				arrow.setFire(400);
 				properties.setFlameLevel(3);
+			}
+		}
+		
+		if(EnchantmentRegistry.extinguish.isEnabled()) {
+			int levelExtinguish = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.extinguish, bow);
+			if(levelExtinguish > 0) {
+				arrow.extinguish();
+				properties.setFlameLevel(-1);
 			}
 		}
 	}
