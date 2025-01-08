@@ -63,7 +63,7 @@ public class EnchantmentUnreasonable extends EnchantmentBase {
 		return ModConfig.treasure.unreasonable;
 	}
 	
-	@SubscribeEvent(priority = EventPriority.LOW)
+	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onLivingAttackEvent(LivingAttackEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;

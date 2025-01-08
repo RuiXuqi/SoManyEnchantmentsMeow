@@ -6,7 +6,6 @@ import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntityDamageSource;
@@ -60,15 +59,16 @@ public class EnchantmentCounterAttack extends EnchantmentBase {
 		return ModConfig.treasure.counterAttack;
 	}
 	
-	@SubscribeEvent(priority = EventPriority.LOW)
+	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void onLivingAttackEvent(LivingAttackEvent event) {
 		if(!this.isEnabled()) return;
 		if(event.getSource().isProjectile()) return;
-		if(!(event.getEntityLiving() instanceof EntityPlayer)) return;
-		EntityPlayer victim = (EntityPlayer)event.getEntityLiving();
-		if(victim==null) return;
+		EntityLivingBase victim = event.getEntityLiving();
+		if(victim == null) return;
 		if(victim.world.isRemote) return;
 		if(!(event.getSource().getImmediateSource() instanceof EntityLivingBase)) return;
+		//Only affect actual attacks
+		if(!"player".equals(event.getSource().damageType) && !"mob".equals(event.getSource().damageType)) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getImmediateSource();
 		
 		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, victim);
@@ -76,7 +76,7 @@ public class EnchantmentCounterAttack extends EnchantmentBase {
 			//Slightly boost chance of proc when combined with Parry
 			int levelParry = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentRegistry.parry, victim);
 			if(victim.getRNG().nextFloat() < 0.05F + (0.05F * (float)level) + (0.01F * (float)levelParry)) {
-				//Non-magical thorns based on attack damage
+				//Non-magic thorns damage reflection
 				attacker.attackEntityFrom((new EntityDamageSource("thorns", victim)).setIsThornsDamage(), event.getAmount() * 0.2F * (float)level);
 			}
 		}

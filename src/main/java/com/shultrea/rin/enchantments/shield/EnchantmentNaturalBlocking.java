@@ -57,6 +57,7 @@ public class EnchantmentNaturalBlocking extends EnchantmentBase {
 		return ModConfig.treasure.naturalBlocking;
 	}
 	
+	//Applies at normal to reduce damage after additions but before multiplications
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;

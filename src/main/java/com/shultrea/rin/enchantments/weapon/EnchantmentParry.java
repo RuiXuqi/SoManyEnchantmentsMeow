@@ -61,15 +61,16 @@ public class EnchantmentParry extends EnchantmentBase {
 		return ModConfig.treasure.parry;
 	}
 	
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	@SubscribeEvent(priority = EventPriority.LOW)
 	public void onLivingAttackEvent(LivingAttackEvent event) {
 		if(!this.isEnabled()) return;
 		if(event.getSource().isProjectile()) return;
-		if(event.getEntityLiving() == null) return;
 		EntityLivingBase victim = event.getEntityLiving();
-		if(victim==null) return;
+		if(victim == null) return;
 		if(victim.world.isRemote) return;
 		if(!(event.getSource().getImmediateSource() instanceof EntityLivingBase)) return;
+		//Only affect actual attacks
+		if(!"player".equals(event.getSource().damageType) && !"mob".equals(event.getSource().damageType)) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getImmediateSource();
 		
 		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, victim);

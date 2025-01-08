@@ -6,7 +6,6 @@ import com.shultrea.rin.util.EnchantUtil;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntityDamageSource;
@@ -60,20 +59,24 @@ public class EnchantmentBurningShield extends EnchantmentBase {
 		return ModConfig.treasure.burningShield;
 	}
 
-	@SubscribeEvent(priority = EventPriority.LOW)
+	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void onLivingAttackEvent(LivingAttackEvent event) {
 		if(!this.isEnabled()) return;
+		if(event.getSource().isProjectile()) return;
 		EntityLivingBase victim = event.getEntityLiving();
 		if(victim == null) return;
 		if(victim.world.isRemote) return;
 		if(!(event.getSource().getImmediateSource() instanceof EntityLivingBase)) return;
+		//Only affect actual attacks
+		if(!"player".equals(event.getSource().damageType) && !"mob".equals(event.getSource().damageType)) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getImmediateSource();
 		if(!EnchantUtil.canBlockDamageSource(event.getSource(), victim)) return;
 
 		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, victim);
 		if(level > 0 && victim.getRNG().nextFloat() < 0.4F + 0.1F * (float)level) {
 			float revengeDamage = event.getAmount() * 0.1F * (float)level;
-			attacker.attackEntityFrom(new EntityDamageSource(victim instanceof EntityPlayer ? "player" : "mob", victim).setFireDamage(), revengeDamage);
+			//Non-armor-piercing onFire damage reflection
+			attacker.attackEntityFrom(new EntityDamageSource("onFire", victim).setFireDamage(), revengeDamage);
 			attacker.setFire(4 + 2 * level);
 		}
 	}
