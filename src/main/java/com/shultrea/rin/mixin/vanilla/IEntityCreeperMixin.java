@@ -13,4 +13,7 @@ public interface IEntityCreeperMixin {
 	
 	@Accessor(value = "timeSinceIgnited")
 	void setTimeSinceIgnited(int timeSinceIgnited);
+	
+	@Accessor(value = "explosionRadius")
+	void setExplosionRadius(int explosionRadius);
 }

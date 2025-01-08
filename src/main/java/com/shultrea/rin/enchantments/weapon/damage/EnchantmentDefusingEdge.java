@@ -83,6 +83,8 @@ public class EnchantmentDefusingEdge extends EnchantmentBase {
 				creeper.getDataManager().set(((IEntityCreeperMixin)victim).getIGNITED(), false);
 				creeper.setCreeperState(0);
 				((IEntityCreeperMixin)victim).setTimeSinceIgnited(0);
+				//Make explosion small if it does go off for semi-compat with mods like ESM
+				((IEntityCreeperMixin)victim).setExplosionRadius(1);
 			}
 		}
 	}
