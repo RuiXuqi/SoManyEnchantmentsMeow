@@ -4,7 +4,9 @@ import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.LycanitesMobsCompat;
 import com.shultrea.rin.util.compat.RLCombatCompat;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -121,8 +123,13 @@ public class EnchantmentCryogenic extends EnchantmentBase {
 					BlockPos pos = new BlockPos(victim.posX, victim.posY, victim.posZ);
 					for(BlockPos.MutableBlockPos mutablePos1 : BlockPos.getAllInBoxMutable(pos.add(-1, -1, -1), pos.add(1, 2, 1))) {
 						if(attacker.world.getBlockState(mutablePos1).getMaterial() == Material.AIR) {
-							attacker.world.setBlockState(mutablePos1, Blocks.FROSTED_ICE.getDefaultState());
-							attacker.world.scheduleUpdate(mutablePos1.toImmutable(), Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 60, 120));
+							Block freezeBlock = null;
+							if(CompatUtil.isLycanitesMobsLoaded()) freezeBlock = LycanitesMobsCompat.getFrostCloud();
+							if(freezeBlock == null) freezeBlock = Blocks.FROSTED_ICE;
+							attacker.world.setBlockState(mutablePos1, freezeBlock.getDefaultState());
+							if(freezeBlock == Blocks.FROSTED_ICE) {
+								attacker.world.scheduleUpdate(mutablePos1.toImmutable(), Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 60, 120));
+							}
 						}
 					}
 					attacker.world.playSound(null, victim.posX, victim.posY, victim.posZ, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 0.8f, -1f);

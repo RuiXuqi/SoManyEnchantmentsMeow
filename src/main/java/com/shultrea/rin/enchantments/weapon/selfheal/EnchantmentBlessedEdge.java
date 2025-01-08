@@ -4,6 +4,7 @@ import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.LycanitesMobsCompat;
 import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,11 +13,9 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class EnchantmentBlessedEdge extends EnchantmentBase {
 
@@ -80,7 +79,7 @@ public class EnchantmentBlessedEdge extends EnchantmentBase {
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
 			Potion smitedEffect = null;
-			if(CompatUtil.isLycanitesMobsLoaded()) smitedEffect = ForgeRegistries.POTIONS.getValue(new ResourceLocation("lycanitesmobs", "smited"));
+			if(CompatUtil.isLycanitesMobsLoaded()) smitedEffect = LycanitesMobsCompat.getSmitedPotion();
 			if(smitedEffect != null) victim.addPotionEffect(new PotionEffect(smitedEffect, 200, 0));
 			
 			if(victim.getCreatureAttribute() == EnumCreatureAttribute.UNDEAD) {
