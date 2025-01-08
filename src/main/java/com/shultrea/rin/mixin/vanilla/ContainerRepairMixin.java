@@ -1,6 +1,5 @@
 package com.shultrea.rin.mixin.vanilla;
 
-import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.config.ModConfig;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -11,44 +10,43 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Map;
 
-@Mixin(value = ContainerRepair.class, priority = 2000)
+@Mixin(ContainerRepair.class)
 public abstract class ContainerRepairMixin {
+    
     @Shadow @Final private IInventory inputSlots;
-
-    @Shadow public abstract void updateRepairOutput();
-
     @Shadow @Final private IInventory outputSlot;
 
-    @Redirect(
+    //TODO: this only applies to single enchant book + single enchant book
+    //TODO: should it also apply to level upgrading when there are multiple enchants?
+    @Inject(
             method = "onCraftMatrixChanged",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/inventory/ContainerRepair;updateRepairOutput()V")
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/inventory/ContainerRepair;updateRepairOutput()V", shift = At.Shift.AFTER)
     )
-    void soManyEnchantments_onCraftMatrixChanged_updateRepairOutput(ContainerRepair instance){
-        //Default behavior
-        this.updateRepairOutput();
-
+    private void soManyEnchantments_vanillaContainerRepair_onCraftMatrixChanged(IInventory inventoryIn, CallbackInfo ci) {
         if(!ModConfig.miscellaneous.removeBookCombinationAnvilCost) return;
-        ItemStack itemStackL = this.inputSlots.getStackInSlot(0);
-        ItemStack itemStackR = this.inputSlots.getStackInSlot(1);
+        
+        ItemStack left = this.inputSlots.getStackInSlot(0);
+        ItemStack right = this.inputSlots.getStackInSlot(1);
         //Both enchanted books
-        if(itemStackL.getItem()!= Items.ENCHANTED_BOOK) return;
-        if(itemStackR.getItem()!= Items.ENCHANTED_BOOK) return;
+        if(left.getItem() != Items.ENCHANTED_BOOK) return;
+        if(right.getItem() != Items.ENCHANTED_BOOK) return;
 
         //Both books no repair cost
-        int repairCostL = itemStackL.getRepairCost();
-        int repairCostR = itemStackR.getRepairCost();
-        if(repairCostL > 0 || repairCostR > 0) return;
+        int costLeft = left.getRepairCost();
+        int costRight = right.getRepairCost();
+        if(costLeft > 0 || costRight > 0) return;
 
         //Only one enchant, same enchant, same level
-        Map<Enchantment, Integer> enchsL = EnchantmentHelper.getEnchantments(itemStackL);
-        Map<Enchantment, Integer> enchsR = EnchantmentHelper.getEnchantments(itemStackR);
-        if(enchsL.size() != 1 || enchsR.size() != 1) return;
-        if(!enchsL.keySet().toArray()[0].equals(enchsR.keySet().toArray()[0])) return;
-        if(!enchsL.values().toArray()[0].equals(enchsR.values().toArray()[0])) return;
+        Map<Enchantment, Integer> enchLeft = EnchantmentHelper.getEnchantments(left);
+        Map<Enchantment, Integer> enchRight = EnchantmentHelper.getEnchantments(right);
+        if(enchLeft.size() != 1 || enchRight.size() != 1) return;
+        if(!enchLeft.keySet().toArray()[0].equals(enchRight.keySet().toArray()[0])) return;
+        if(!enchLeft.values().toArray()[0].equals(enchRight.values().toArray()[0])) return;
 
         //Reset repair cost
         ItemStack itemStackOutput = this.outputSlot.getStackInSlot(0);
