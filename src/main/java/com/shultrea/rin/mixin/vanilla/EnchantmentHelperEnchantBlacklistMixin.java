@@ -1,6 +1,6 @@
 package com.shultrea.rin.mixin.vanilla;
 
-import com.shultrea.rin.util.EnchantUtil;
+import com.shultrea.rin.config.ModConfig;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
@@ -19,16 +19,26 @@ public abstract class EnchantmentHelperEnchantBlacklistMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/enchantment/EnchantmentHelper;getEnchantmentDatas(ILnet/minecraft/item/ItemStack;Z)Ljava/util/List;")
     )
     private static List<EnchantmentData> soManyEnchantments_vanillaEnchantmentHelper_buildEnchantmentList(int level, ItemStack itemStackIn, boolean allowTreasure) {
-        List<EnchantmentData> list = EnchantmentHelper.getEnchantmentDatas(level, itemStackIn, allowTreasure);
-
+        List<EnchantmentData> enchantmentDatas = EnchantmentHelper.getEnchantmentDatas(level, itemStackIn, allowTreasure);
+        
         List<EnchantmentData> toRemove = new ArrayList<>();
-        for(EnchantmentData ed : list){
-            //TODO: this technically doesn't distinguish between enchanting table and enchant_with_levels but between loot pools that can generate treasure or not. Purple bookwyrms would fall into the enchanting table category.
-            if(EnchantUtil.isBlackListedEnchant(ed.enchantment.getRegistryName(),allowTreasure ? 0 : 3))
-                toRemove.add(ed);
+        //TODO: this technically doesn't distinguish between enchanting table and enchant_with_levels, instead between loot pools that can generate treasure or not.
+        //TODO: Purple bookwyrms would fall into the enchanting table category.
+        if(allowTreasure) {
+            for(EnchantmentData enchantmentData : enchantmentDatas) {
+                if(ModConfig.miscellaneous.blacklistedRandomLevelEnchantsIsWhitelist != ModConfig.getRandomLevelEnchantsBlacklist().contains(enchantmentData.enchantment)) {
+                    toRemove.add(enchantmentData);
+                }
+            }
         }
-        list.removeAll(toRemove);
-
-        return list;
+        else {
+            for(EnchantmentData enchantmentData : enchantmentDatas) {
+                if(ModConfig.miscellaneous.blacklistedEnchTableEnchantsIsWhitelist != ModConfig.getEnchantTableEnchantsBlacklist().contains(enchantmentData.enchantment)) {
+                    toRemove.add(enchantmentData);
+                }
+            }
+        }
+        enchantmentDatas.removeAll(toRemove);
+        return enchantmentDatas;
     }
 }

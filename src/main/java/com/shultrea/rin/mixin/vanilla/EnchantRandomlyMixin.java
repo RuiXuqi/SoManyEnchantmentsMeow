@@ -1,8 +1,7 @@
 package com.shultrea.rin.mixin.vanilla;
 
-import com.shultrea.rin.util.EnchantUtil;
+import com.shultrea.rin.config.ModConfig;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
 import net.minecraft.world.storage.loot.functions.EnchantRandomly;
 import org.spongepowered.asm.mixin.Final;
@@ -16,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mixin(value = EnchantRandomly.class, priority = 2000)
+@Mixin(EnchantRandomly.class)
 public abstract class EnchantRandomlyMixin {
 
     @Final @Shadow
@@ -28,26 +27,22 @@ public abstract class EnchantRandomlyMixin {
     )
     private void soManyEnchantments_vanillaEnchantRandomly_init(LootCondition[] conditionsIn, List<Enchantment> enchantmentsIn, CallbackInfo ci) {
         List<Enchantment> toRemove = new ArrayList<>();
-        for(Enchantment e : this.enchantments){
-            if(EnchantUtil.isBlackListedEnchant(e.getRegistryName(),1))
-                toRemove.add(e);
+        for(Enchantment enchant : this.enchantments) {
+            if(ModConfig.miscellaneous.blacklistedRandomEnchantsIsWhitelist != ModConfig.getRandomEnchantsBlacklist().contains(enchant)) {
+                toRemove.add(enchant);
+            }
         }
         this.enchantments.removeAll(toRemove);
     }
 
     @Redirect(
             method = "apply",
-            at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z")
+            at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z")
     )
-    boolean soManyEnchantments_vanillaEnchantRandomly_apply(List<Enchantment> instance)
-    {
-        List<Enchantment> toRemove = new ArrayList<>();
-        for(Enchantment e : instance){
-            if(EnchantUtil.isBlackListedEnchant(e.getRegistryName(),1))
-                toRemove.add(e);
+    private boolean soManyEnchantments_vanillaEnchantRandomly_apply(List<Enchantment> instance, Object enchantment) {
+        if(ModConfig.miscellaneous.blacklistedRandomEnchantsIsWhitelist == ModConfig.getRandomEnchantsBlacklist().contains((Enchantment)enchantment)) {
+            instance.add((Enchantment)enchantment);
         }
-        instance.removeAll(toRemove);
-
-        return instance.isEmpty();
+        return true;
     }
 }
