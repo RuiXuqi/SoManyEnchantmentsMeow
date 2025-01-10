@@ -3,6 +3,7 @@ package com.shultrea.rin.enchantments.weapon.potiondebuffer;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.util.IEntityVillagerMixin;
 import com.shultrea.rin.util.compat.CompatUtil;
 import com.shultrea.rin.util.compat.RLCombatCompat;
 import com.shultrea.rin.util.compat.SpawnerControlCompat;
@@ -94,6 +95,9 @@ public class EnchantmentPurification extends EnchantmentBase {
 			villager.copyLocationAndAnglesFrom(entity);
 			villager.setProfession(((EntityZombieVillager)entity).getForgeProfession());
 			villager.finalizeMobSpawn(entity.world.getDifficultyForLocation(new BlockPos(villager)), null, false);
+
+			setVillagerTradesFromZombieVillager((EntityZombieVillager) entity, villager);
+
 			villager.setLookingForHome();
 			if(entity.isChild()) villager.setGrowingAge(-24000);
 			
@@ -164,6 +168,16 @@ public class EnchantmentPurification extends EnchantmentBase {
 			slime.addPotionEffect(new PotionEffect(MobEffects.INSTANT_HEALTH, 1, 1));
 			entity.world.playEvent(null, 1027, new BlockPos((int)slime.posX, (int)slime.posY, (int)slime.posZ), 0);
 			slime.hurtResistantTime = slime.maxHurtResistantTime;
+		}
+	}
+
+	//Also used in mixin.vanilla.EntityZombieVillagerMixin
+	public static void setVillagerTradesFromZombieVillager(EntityZombieVillager deadZombieVill, EntityVillager villager){
+		if(ModConfig.miscellaneous.zombieVillagersKeepTrades) {
+			if (deadZombieVill.getEntityData().hasKey("villagerTags")) {
+				NBTTagCompound villagerTags = (NBTTagCompound) deadZombieVill.getEntityData().getTag("villagerTags");
+				((IEntityVillagerMixin) villager).soManyEnchantments$setTradesFromNBT(villagerTags);
+			}
 		}
 	}
 }

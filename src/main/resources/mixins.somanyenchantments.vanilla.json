@@ -21,7 +21,11 @@
     "vanilla.IEntityLivingMixin",
     "vanilla.IItemBowMixin",
     "vanilla.ItemMixin",
-    "vanilla.ItemStackMixin"
+    "vanilla.ItemStackMixin",
+    "vanilla.zombieskeeptrades.EntityVillagerMixin",
+    "vanilla.zombieskeeptrades.EntityZombieMixin",
+    "vanilla.zombieskeeptrades.EntityZombieVillagerMixin",
+    "vanilla.zombieskeeptrades.MerchantRecipeMixin"
   ],
   "injectors": {
     "maxShiftBy": 10
