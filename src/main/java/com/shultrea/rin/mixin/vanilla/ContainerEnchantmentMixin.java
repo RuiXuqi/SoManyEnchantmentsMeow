@@ -88,17 +88,6 @@ public abstract class ContainerEnchantmentMixin extends Container {
         }
     }
 
-    @Redirect(
-            method = "enchantItem",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getCount()I")
-    )
-    private int denyNonLapisMixin(ItemStack stack){
-        for (ItemStack ore : net.minecraftforge.oredict.OreDictionary.getOres("gemLapis"))
-            if (net.minecraftforge.oredict.OreDictionary.itemMatches(ore, stack, false))
-                return stack.getCount();
-        return -1;
-    }
-
     @Inject(
             method = "onCraftMatrixChanged",
             at = @At(value = "HEAD"),
@@ -347,6 +336,30 @@ public abstract class ContainerEnchantmentMixin extends Container {
         cir.setReturnValue(true);
     }
 
+    @Redirect(
+            method = "enchantItem",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getCount()I")
+    )
+    private int denyNonLapisMixin(ItemStack stack){
+        for (ItemStack ore : net.minecraftforge.oredict.OreDictionary.getOres("gemLapis"))
+            if (net.minecraftforge.oredict.OreDictionary.itemMatches(ore, stack, false))
+                return stack.getCount();
+        return -1;
+    }
+
+    @Inject(
+            method = "enchantItem",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/inventory/ContainerEnchantment;getEnchantmentList(Lnet/minecraft/item/ItemStack;II)Ljava/util/List;"),
+            cancellable = true
+    )
+    private void denyEnchantingEnchantedItemMixin(EntityPlayer playerIn, int id, CallbackInfoReturnable<Boolean> cir){
+        //Enchanting table only checks if item is enchanted in onCraftMatrixChanged, so there can be ways to enchant the same item multiple times
+        // for example by sending multiple enchanting packets during lag spikes
+        ItemStack stackToEnchant = this.tableInventory.getStackInSlot(0);
+        if(!stackToEnchant.isItemEnchantable())
+            cir.setReturnValue(false);
+    }
+
     @Unique
     private boolean soManyEnchantments$isUpgradeToken(ItemStack stack){
         return UpgradeConfig.upgradeTokens.contains(stack.getItem().getRegistryName().toString());
@@ -354,6 +367,7 @@ public abstract class ContainerEnchantmentMixin extends Container {
 
     @Unique
     private int soManyEnchantments$getRarityMultiplier(Enchantment.Rarity rarity, boolean isBook){
+        //Vanilla lvl cost multipliers when using anvil
         switch(rarity){
             case COMMON: return 1;
             case UNCOMMON: return isBook ? 1 : 2;
