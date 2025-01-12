@@ -2,6 +2,7 @@ package com.shultrea.rin.mixin.vanilla;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.enchantments.curses.EnchantmentDragging;
 import com.shultrea.rin.enchantments.curses.EnchantmentExtinguish;
 import com.shultrea.rin.enchantments.fishing.EnchantmentAdvancedLuckOfTheSea;
 import com.shultrea.rin.enchantments.fishing.EnchantmentAdvancedLure;
@@ -75,18 +76,19 @@ public abstract class EnchantmentHelperMixin {
 	}
 	
 	/**
-	 * Handling for Advanced Knockback enchant
+	 * Handling for Advanced Knockback and Dragging enchant
 	 */
 	@ModifyReturnValue(
 			method = "getKnockbackModifier",
 			at = @At("RETURN")
 	)
 	private static int soManyEnchantments_vanillaEnchantmentHelper_getKnockbackModifier(int original, EntityLivingBase entity) {
-		return original + EnchantmentAdvancedKnockback.getLevelValue(entity);
+		boolean hasDragging = EnchantmentDragging.getLevelValue(entity) > 0;
+		return hasDragging ? 0 : original + EnchantmentAdvancedKnockback.getLevelValue(entity);
 	}
 	
 	/**
-	 * Handling for Fire Aspect Tier and Fiery Edge enchants
+	 * Handling for Fire Aspect Tier, Extinguish and Fiery Edge enchants
 	 */
 	@ModifyReturnValue(
 			method = "getFireAspectModifier",
