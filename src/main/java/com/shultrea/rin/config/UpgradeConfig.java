@@ -126,11 +126,11 @@ public class UpgradeConfig {
 	@Config.Name("Allow Enchantment Tier Upgrades")
 	public boolean allowTierUpgrades = true;
 	
-	@Config.Comment("Allows enchantment levels to be upgraded")
+	@Config.Comment("Allows enchantment levels to be upgraded. If enabled, tiers will only be upgraded when the enchant is on its maximum level first")
 	@Config.Name("Allow Enchantment Level Upgrades")
 	public boolean allowLevelUpgrades = true;
 
-	@Config.Comment("Mode of how anvil repair cost is increased. ANVIL= normal exponential anvil behavior, ADD= add a flat amount, MULT= multiply by a number" + "\n" +
+	@Config.Comment("Mode of how anvil repair cost is increased" + "\n" +
 			"0: No additional repair cost" + "\n" +
 			"1: Default exponential cost anvil calculation" + "\n" +
 			"2: Adds a defined amount to existing cost" + "\n" +

@@ -60,6 +60,10 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
             at= @At(value = "INVOKE", target = "Lnet/minecraft/inventory/ContainerEnchantment;addSlotToContainer(Lnet/minecraft/inventory/Slot;)Lnet/minecraft/inventory/Slot;", ordinal = 1)
     )
     private Slot soManyEnchantments_vanillaContainerEnchantment_init(ContainerEnchantment instance, Slot slot) {
+        //Initialise upgradeTokenCost as -1 to avoid minimal graphical glitches on first use of container
+        for(int i=0;i<3; i++)
+            soManyEnchantments$upgradeTokenCost[i] = -1;
+
         if(slot.getSlotIndex() == 1 && slot.xPos == 35 && slot.yPos == 47) {
             return addSlotToContainer(new Slot(this.tableInventory, 1, 35, 47) {
                 @Override
@@ -132,22 +136,16 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
     @Overwrite
     public void onCraftMatrixChanged(IInventory inventoryIn) {
         if(inventoryIn == this.tableInventory) {
-            //Clear everything first regardless to avoid edge cases?
-            for(int i = 0; i < 3; ++i) {
-                this.enchantLevels[i] = 0;
-                this.enchantClue[i] = -1;
-                this.worldClue[i] = -1;
-                this.soManyEnchantments$currentPotentials[i] = null;
-                this.soManyEnchantments$upgradeTokenCost[i] = -1;
-                this.soManyEnchantments$bookshelfPower = 0;
-                this.soManyEnchantments$tokenIsLapis = false;
-            }
-            
             ItemStack targetItem = inventoryIn.getStackInSlot(0);
             ItemStack tokenItem = inventoryIn.getStackInSlot(1);
             this.soManyEnchantments$tokenIsLapis = soManyEnchantments$isTokenLapis(tokenItem);
 
-            if(!targetItem.isEmpty() && !this.world.isRemote) {
+            boolean itemIsEnchantable = targetItem.isItemEnchantable();
+            boolean itemIsUpgradeable = (targetItem.isItemEnchanted() || targetItem.getItem() == Items.ENCHANTED_BOOK) && (ModConfig.upgrade.allowLevelUpgrades || ModConfig.upgrade.allowTierUpgrades);
+
+            if(!targetItem.isEmpty() && (itemIsEnchantable || itemIsUpgradeable)) {
+                if(this.world.isRemote) return;
+
                 //Get bookshelf power
                 float bookshelfPower = 0;
                 for(int z = -1; z <= 1; ++z) {
@@ -166,7 +164,9 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                 }
                 
                 //Enchanting
-                if(targetItem.isItemEnchantable()) {
+                if(itemIsEnchantable) {
+                    soManyEnchantments$resetValuesUpgrading();
+
                     this.rand.setSeed((long)this.xpSeed);
                     
                     for(int i1 = 0; i1 < 3; ++i1) {
@@ -195,7 +195,9 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                     this.detectAndSendChanges();
                 }
                 //Upgrading
-                else if((targetItem.isItemEnchanted() || targetItem.getItem() == Items.ENCHANTED_BOOK) && (ModConfig.upgrade.allowLevelUpgrades || ModConfig.upgrade.allowTierUpgrades)) {
+                else if(itemIsUpgradeable) {
+                    soManyEnchantments$resetValuesEnchanting();
+
                     //Check book only
                     if(ModConfig.upgrade.onlyAllowOnBooks && targetItem.getItem() != Items.ENCHANTED_BOOK) return;
                     
@@ -316,7 +318,29 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                     this.detectAndSendChanges();
                 }
             }
+            else {
+                soManyEnchantments$resetValuesEnchanting();
+                soManyEnchantments$resetValuesUpgrading();
+            }
         }
+    }
+
+    @Unique
+    private void soManyEnchantments$resetValuesEnchanting(){
+        for(int i = 0; i < 3; ++i) {
+            this.enchantLevels[i] = 0;
+            this.enchantClue[i] = -1;
+            this.worldClue[i] = -1;
+        }
+    }
+
+    @Unique
+    private void soManyEnchantments$resetValuesUpgrading(){
+        for(int i = 0; i < 3; ++i) {
+            this.soManyEnchantments$currentPotentials[i] = null;
+            this.soManyEnchantments$upgradeTokenCost[i] = -1;
+        }
+        this.soManyEnchantments$bookshelfPower = 0;
     }
     
     /**

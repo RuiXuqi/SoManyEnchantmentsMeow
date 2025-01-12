@@ -201,7 +201,7 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
                         rainbow.tick();
                         
                         xpColor = 4226832;//XP cost invalid
-                        tokenCostColor = 16711680;//Token cost invalid
+                        tokenCostColor = 11028807;//Token cost invalid
                         
                         this.mc.getTextureManager().bindTexture(soManyEnchantments$upgradeTokenTexture);
                         Gui.drawModalRectWithCustomSizedTexture(i1 + 1, j + 15 + 19 * button, 0, 0, 16, 16, 16, 16);
