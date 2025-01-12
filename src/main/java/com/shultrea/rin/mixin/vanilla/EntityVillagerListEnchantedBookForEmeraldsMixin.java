@@ -21,7 +21,7 @@ public abstract class EntityVillagerListEnchantedBookForEmeraldsMixin {
             method = "addMerchantRecipe",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/util/registry/RegistryNamespaced;getRandomObject(Ljava/util/Random;)Ljava/lang/Object;")
     )
-    private Enchantment soManyEnchantments_vanillaEntityVillagerListEnchantedBookForEmeralds_addMerchantRecipe(Enchantment original, IMerchant merchant, MerchantRecipeList recipeList, Random random) {
+    private Object soManyEnchantments_vanillaEntityVillagerListEnchantedBookForEmeralds_addMerchantRecipe(Object original, IMerchant merchant, MerchantRecipeList recipeList, Random random) {
         List<Enchantment> validEnchantsArr = new ArrayList<>();
         for(Enchantment enchant : ForgeRegistries.ENCHANTMENTS.getValuesCollection()) {
             if(ModConfig.miscellaneous.blacklistedLibrarianEnchantsIsWhitelist == ModConfig.getLibrarianEnchantsBlacklist().contains(enchant)) {

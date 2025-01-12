@@ -1,372 +1,534 @@
 package com.shultrea.rin.mixin.vanilla;
 
-import com.google.common.collect.Lists;
-import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.config.UpgradeConfig;
+import com.shultrea.rin.util.IContainerEnchantmentMixin;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.*;
+import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
+import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.oredict.OreDictionary;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.*;
 
-import static net.minecraftforge.common.ForgeHooks.getEnchantPower;
-
-@Mixin(value = ContainerEnchantment.class, priority = 2000)
-public abstract class ContainerEnchantmentMixin extends Container {
+@Mixin(ContainerEnchantment.class)
+public abstract class ContainerEnchantmentMixin extends Container implements IContainerEnchantmentMixin {
+    
     @Shadow public IInventory tableInventory;
-    @Shadow @Final private World world;
-    @Shadow @Final private BlockPos position;
     @Shadow public int[] enchantLevels;
     @Shadow public int[] enchantClue;
     @Shadow public int[] worldClue;
+    @Shadow @Final private World world;
+    @Shadow @Final private BlockPos position;
     @Shadow @Final private Random rand;
     @Shadow public int xpSeed;
-
-    @Unique private EnchantmentData sme$currentEnch = null;
-    @Unique private EnchantmentData sme$upgradedEnch = null;
-    @Unique private EnchantmentData sme$cursedEnch = null;
-    @Unique private int sme$levelCost = -1;
-    @Unique private String sme$upgradeToken = "";
-    @Unique private int sme$tokenCost = 128;
-    @Unique private final int sme$upgradeSlot = 0;
+    
+    @Shadow protected abstract List<EnchantmentData> getEnchantmentList(ItemStack stack, int enchantSlot, int level);
+    
+    @Unique
+    private final UpgradeConfig.UpgradePotentialEntry[] soManyEnchantments$currentPotentials = new UpgradeConfig.UpgradePotentialEntry[3];
+    @Unique
+    private final int[] soManyEnchantments$upgradeTokenCost = new int[3];
+    @Unique
+    private int soManyEnchantments$bookshelfPower = 0;
 
     @Redirect(
             method = "<init>(Lnet/minecraft/entity/player/InventoryPlayer;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)V",
-            at= @At(value = "INVOKE", target = "Lnet/minecraft/inventory/ContainerEnchantment;addSlotToContainer(Lnet/minecraft/inventory/Slot;)Lnet/minecraft/inventory/Slot;")
+            at= @At(value = "INVOKE", target = "Lnet/minecraft/inventory/ContainerEnchantment;addSlotToContainer(Lnet/minecraft/inventory/Slot;)Lnet/minecraft/inventory/Slot;", ordinal = 1)
     )
-    Slot soManyEnchantments_init_addSlotToContainer(ContainerEnchantment instance, Slot slot){
-        if(slot.getSlotIndex()==1 && slot.xPos==35 && slot.yPos==47) {
-            Slot newSlot = new Slot(this.tableInventory, 1, 35, 47) {
-
+    private Slot soManyEnchantments_vanillaContainerEnchantment_init(ContainerEnchantment instance, Slot slot) {
+        if(slot.getSlotIndex() == 1 && slot.xPos == 35 && slot.yPos == 47) {
+            return addSlotToContainer(new Slot(this.tableInventory, 1, 35, 47) {
+                List<ItemStack> ores = OreDictionary.getOres("gemLapis");
+                
+                @Override
                 public boolean isItemValid(ItemStack stack) {
-                    for (ItemStack ore : net.minecraftforge.oredict.OreDictionary.getOres("gemLapis"))
-                        if (net.minecraftforge.oredict.OreDictionary.itemMatches(ore, stack, false))
-                            return true;
+                    for(ItemStack ore : ores) {
+                        if(OreDictionary.itemMatches(ore, stack, false)) return true;
+                    }
                     return soManyEnchantments$isUpgradeToken(stack);
                 }
-            };
-            return addSlotToContainer(newSlot);
+            });
         }
         return addSlotToContainer(slot);
     }
-
+    
     @Inject(
-            method = "transferStackInSlot",
+            method = "broadcastData",
+            at = @At(value = "RETURN")
+    )
+    private void soManyEnchantments_vanillaContainerEnchantment_broadcastData(IContainerListener crafting, CallbackInfo ci) {
+        //Send data to client
+        crafting.sendWindowProperty(((ContainerEnchantment)(Object)this), 10, this.soManyEnchantments$upgradeTokenCost[0]);
+        crafting.sendWindowProperty(((ContainerEnchantment)(Object)this), 11, this.soManyEnchantments$upgradeTokenCost[1]);
+        crafting.sendWindowProperty(((ContainerEnchantment)(Object)this), 12, this.soManyEnchantments$upgradeTokenCost[2]);
+        crafting.sendWindowProperty(((ContainerEnchantment)(Object)this), 13, this.soManyEnchantments$bookshelfPower);
+    }
+    
+    @Inject(
+            method = "updateProgressBar",
             at = @At(value = "HEAD"),
             cancellable = true
     )
-    void soManyEnchantments_transferStackInSlot_head(EntityPlayer playerIn, int index, CallbackInfoReturnable<ItemStack> cir) {
-        Slot slot = this.inventorySlots.get(index);
-        if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
-            if (index != 0 && index != 1 && soManyEnchantments$isUpgradeToken(itemstack1)) {
-                if (!this.mergeItemStack(itemstack1, 1, 2, true)) {
-                    cir.setReturnValue(ItemStack.EMPTY);
-                }
-            }
+    private void soManyEnchantments_vanillaContainerEnchantment_updateProgressBar(int id, int data, CallbackInfo ci) {
+        //Update data on client
+        if(id == 10) {
+            this.soManyEnchantments$upgradeTokenCost[0] = data;
+            ci.cancel();
+        }
+        else if(id == 11) {
+            this.soManyEnchantments$upgradeTokenCost[1] = data;
+            ci.cancel();
+        }
+        else if(id == 12) {
+            this.soManyEnchantments$upgradeTokenCost[2] = data;
+            ci.cancel();
+        }
+        else if(id == 13) {
+            this.soManyEnchantments$bookshelfPower = data;
+            ci.cancel();
         }
     }
-
-    @Inject(
-            method = "onCraftMatrixChanged",
-            at = @At(value = "HEAD"),
-            cancellable = true
-    )
-    public void soManyEnchantments_onCraftMatrixChanged_head(IInventory inventoryIn, CallbackInfo ci) {
-        if (inventoryIn != this.tableInventory) return;
-        if (this.world.isRemote) return;
-
-        //Acceptable token?
-        ItemStack itemstackToken = inventoryIn.getStackInSlot(1);
-        if (itemstackToken.isEmpty()) return;
-        if (!soManyEnchantments$isUpgradeToken(itemstackToken)) return;
-        String currentToken = itemstackToken.getItem().getRegistryName().toString();
-
-        //Correct item?
-        ItemStack itemstackTargetItem = inventoryIn.getStackInSlot(0);
-        if (itemstackTargetItem.isEmpty()) return;
-        boolean isBook = itemstackTargetItem.getItem() == Items.ENCHANTED_BOOK;
-        Map<Enchantment, Integer> currentEnchants = EnchantmentHelper.getEnchantments(itemstackTargetItem);
-        if (ModConfig.upgrade.onlyAllowOnBooks) {
-            if (!isBook) return;
-            if (currentEnchants.size() != 1) return;
-        }
-        if (currentEnchants.isEmpty()) return;
-
-        //Enough bookshelves?
-        float bookshelfPower = 0;
-        for (int z = -1; z <= 1; ++z) {
-            for (int x = -1; x <= 1; ++x) {
-                if ((z != 0 || x != 0) && this.world.isAirBlock(this.position.add(x, 0, z)) && this.world.isAirBlock(this.position.add(x, 1, z))) {
-                    bookshelfPower += getEnchantPower(world, position.add(x * 2, 0, z * 2));
-                    bookshelfPower += getEnchantPower(world, position.add(x * 2, 1, z * 2));
-                    if (x != 0 && z != 0) {
-                        bookshelfPower += getEnchantPower(world, position.add(x * 2, 0, z));
-                        bookshelfPower += getEnchantPower(world, position.add(x * 2, 1, z));
-                        bookshelfPower += getEnchantPower(world, position.add(x, 0, z * 2));
-                        bookshelfPower += getEnchantPower(world, position.add(x, 1, z * 2));
+    
+    /**
+     * @author fonnymunkey/nischhelm
+     * @reason enchantment table upgrading mechanics
+     *
+     * Normally overwrite is gross, but with how invasive these mechanics are, if anything else is modifying the enchantment table, its likely going to break anyways
+     */
+    @Overwrite
+    public void onCraftMatrixChanged(IInventory inventoryIn) {
+        if(inventoryIn == this.tableInventory) {
+            //Clear everything first regardless to avoid edge cases?
+            for(int i = 0; i < 3; ++i) {
+                this.enchantLevels[i] = 0;
+                this.enchantClue[i] = -1;
+                this.worldClue[i] = -1;
+                this.soManyEnchantments$currentPotentials[i] = null;
+                this.soManyEnchantments$upgradeTokenCost[i] = -1;
+                this.soManyEnchantments$bookshelfPower = 0;
+            }
+            
+            ItemStack targetItem = inventoryIn.getStackInSlot(0);
+            if(!targetItem.isEmpty() && !this.world.isRemote) {
+                //Get bookshelf power
+                float bookshelfPower = 0;
+                for(int z = -1; z <= 1; ++z) {
+                    for(int x = -1; x <= 1; ++x) {
+                        if((z != 0 || x != 0) && this.world.isAirBlock(this.position.add(x, 0, z)) && this.world.isAirBlock(this.position.add(x, 1, z))) {
+                            bookshelfPower += ForgeHooks.getEnchantPower(world, position.add(x * 2, 0, z * 2));
+                            bookshelfPower += ForgeHooks.getEnchantPower(world, position.add(x * 2, 1, z * 2));
+                            if(x != 0 && z != 0) {
+                                bookshelfPower += ForgeHooks.getEnchantPower(world, position.add(x * 2, 0, z));
+                                bookshelfPower += ForgeHooks.getEnchantPower(world, position.add(x * 2, 1, z));
+                                bookshelfPower += ForgeHooks.getEnchantPower(world, position.add(x, 0, z * 2));
+                                bookshelfPower += ForgeHooks.getEnchantPower(world, position.add(x, 1, z * 2));
+                            }
+                        }
                     }
                 }
-            }
-        }
-        if (MathHelper.ceil(bookshelfPower) < ModConfig.upgrade.bookshelvesNeeded) return;
-
-        //Get upgradeable enchants
-        List<EnchantmentData> upgradeableEnchantments = Lists.<EnchantmentData>newArrayList();
-        List<EnchantmentData> upgradedEnchantments = Lists.<EnchantmentData>newArrayList();
-        List<Integer> upgradingTokenAmount = Lists.<Integer>newArrayList();
-        List<String> upgradingToken = Lists.<String>newArrayList();
-
-        for (Enchantment currEnch : currentEnchants.keySet()) {
-            int enchLvl = currentEnchants.get(currEnch);
-
-            String[] nextEnchantmentData = soManyEnchantments$getNextEnchInUpgradeOrder(currEnch,currentToken);
-            Enchantment nextEnchantment = Enchantment.getEnchantmentByLocation(nextEnchantmentData[0]);
-            int newLvl = 0;
-
-            boolean isLevelUpgrade = false;
-            if (ModConfig.upgrade.allowLevelIncrease && enchLvl < currEnch.getMaxLevel() && !currEnch.isCurse() && currentToken.equals(ModConfig.upgrade.upgradeToken)) {
-                nextEnchantment = currEnch;
-                newLvl = enchLvl + 1;
-                isLevelUpgrade = true;
-            }
-            if (nextEnchantment == null) continue;
-            if (!isLevelUpgrade && ModConfig.upgrade.onlyAllowCompatible && !soManyEnchantments$isCompatibleWithOtherEnchants(nextEnchantment,currentEnchants,currEnch)) continue;
-
-            if (!isLevelUpgrade) {
-                if (Objects.equals(ModConfig.upgrade.upgradedTierLevelMode, "MINLVL"))
-                    newLvl = nextEnchantment.getMinLevel();
-                if (Objects.equals(ModConfig.upgrade.upgradedTierLevelMode, "SUBTRACT"))
-                    newLvl = MathHelper.clamp(enchLvl - ModConfig.upgrade.enchantLvlsReduced, nextEnchantment.getMinLevel(), nextEnchantment.getMaxLevel());
-            }
-            upgradeableEnchantments.add(new EnchantmentData(currEnch, enchLvl));
-            upgradedEnchantments.add(new EnchantmentData(nextEnchantment, newLvl));
-            if(isLevelUpgrade) {
-                upgradingTokenAmount.add(ModConfig.upgrade.upgradeTokenAmount);
-                upgradingToken.add(ModConfig.upgrade.upgradeToken);
-            } else {
-                upgradingTokenAmount.add(Integer.parseInt(nextEnchantmentData[1]));
-                upgradingToken.add(nextEnchantmentData[2]);
-            }
-        }
-        if (upgradeableEnchantments.isEmpty()) return;
-
-        //Set RNG seed so the roll is always the same, no matter how often you input the same item
-        this.rand.setSeed((long) this.xpSeed);
-
-        //Which one of the upgradeable enchants to upgrade
-        int upgradingIndex;
-        switch (ModConfig.upgrade.selectionMode) {
-            case "RANDOM":
-                upgradingIndex = rand.nextInt(upgradeableEnchantments.size());
-                break;
-            case "LAST":
-                upgradingIndex = upgradeableEnchantments.size() - 1;
-                break;
-            /* case "FIRST": */
-            default:
-                upgradingIndex = 0;
-        }
-        sme$currentEnch = upgradeableEnchantments.get(upgradingIndex);
-        sme$upgradedEnch = upgradedEnchantments.get(upgradingIndex);
-        sme$tokenCost = upgradingTokenAmount.get(upgradingIndex);
-        sme$upgradeToken = upgradingToken.get(upgradingIndex);
-
-        //Get possible cursed enchant
-        Enchantment curse = soManyEnchantments$getCurse(sme$currentEnch.enchantment);
-        sme$cursedEnch = null;
-        if (curse != null)
-            sme$cursedEnch = new EnchantmentData(curse, sme$currentEnch.enchantmentLevel);
-
-        //Get level cost
-        sme$levelCost = 1;
-        switch (ModConfig.upgrade.levelCostMode) {
-            case "ANVIL":
-                sme$levelCost = soManyEnchantments$getRarityMultiplier(sme$upgradedEnch.enchantment.getRarity(), isBook) * sme$upgradedEnch.enchantmentLevel;
-                break;
-            case "ENCHANTABILITY":
-                sme$levelCost = sme$upgradedEnch.enchantment.getMinEnchantability(sme$upgradedEnch.enchantmentLevel);
-                break;
-            /*case "ONE":*/
-            default:
-                break;
-        }
-        sme$levelCost *= (int) ModConfig.upgrade.levelCostMultiplier;
-
-        //Clue for GUI
-        this.enchantLevels[sme$upgradeSlot] = sme$levelCost;
-        this.enchantClue[sme$upgradeSlot] = -1;
-        this.worldClue[sme$upgradeSlot] = -1;
-        if (this.enchantLevels[sme$upgradeSlot] > 0) {
-            this.enchantClue[sme$upgradeSlot] = Enchantment.getEnchantmentID(sme$upgradedEnch.enchantment);
-            this.worldClue[sme$upgradeSlot] = sme$upgradedEnch.enchantmentLevel;
-        }
-
-        this.detectAndSendChanges();
-        ci.cancel();
-    }
-
-    @Unique
-    private boolean soManyEnchantments$isCompatibleWithOtherEnchants(Enchantment nextEnchantment, Map<Enchantment, Integer> currentEnchants, Enchantment currEnch) {
-        for(Enchantment e: currentEnchants.keySet()){
-            if(!e.equals(currEnch) && !nextEnchantment.isCompatibleWith(e)){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Inject(
-            method = "enchantItem",
-            at = @At("HEAD"),
-            cancellable = true
-    )
-    void soManyEnchantments_enchantItem_head(EntityPlayer playerIn, int id, CallbackInfoReturnable<Boolean> cir) {
-        ItemStack itemstackTargetItem = this.tableInventory.getStackInSlot(0);
-        ItemStack itemstackToken = this.tableInventory.getStackInSlot(1);
-
-        if (id != sme$upgradeSlot) return;
-        if(this.enchantLevels[sme$upgradeSlot] <= 0 || itemstackTargetItem.isEmpty()) return;
-
-        //Correct token+amount?
-        String currentToken = itemstackToken.getItem().getRegistryName().toString();
-        if ((itemstackToken.isEmpty()) && !playerIn.capabilities.isCreativeMode)
-            return;
-
-        //Enough lvls?
-        if (playerIn.experienceLevel < this.enchantLevels[sme$upgradeSlot] && !playerIn.capabilities.isCreativeMode)
-            return;
-
-        if (this.world.isRemote) {
-            cir.setReturnValue(true);
-            return;
-        }
-
-        if(sme$currentEnch == null || sme$upgradedEnch == null || sme$upgradeToken.isEmpty() || sme$tokenCost == 128 || sme$levelCost == -1) return;
-        if(itemstackToken.getCount() < sme$tokenCost || !currentToken.equals(sme$upgradeToken)) return;
-
-        //Replace enchantment with upgraded or cursed version
-        Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(itemstackTargetItem);
-        boolean isCursed = rand.nextFloat() < ModConfig.upgrade.cursingChance;
-        if (isCursed) {
-            if (ModConfig.upgrade.cursesReplaceUpgrade)
-                enchantments.remove(sme$currentEnch.enchantment);
-            if (sme$cursedEnch != null)
-                if(enchantments.containsKey(sme$cursedEnch.enchantment)) {
-                    int newCurseLvl = Math.min(enchantments.get(sme$cursedEnch.enchantment) + 1, sme$cursedEnch.enchantment.getMaxLevel());
-                    enchantments.put(sme$cursedEnch.enchantment, newCurseLvl);
-                } else {
-                    enchantments.put(sme$cursedEnch.enchantment, sme$cursedEnch.enchantmentLevel);
+                
+                //Enchanting
+                if(targetItem.isItemEnchantable()) {
+                    this.rand.setSeed((long)this.xpSeed);
+                    
+                    for(int i1 = 0; i1 < 3; ++i1) {
+                        this.enchantLevels[i1] = EnchantmentHelper.calcItemStackEnchantability(this.rand, i1, (int)bookshelfPower, targetItem);
+                        this.enchantClue[i1] = -1;
+                        this.worldClue[i1] = -1;
+                        
+                        if(this.enchantLevels[i1] < i1 + 1) {
+                            this.enchantLevels[i1] = 0;
+                        }
+                        this.enchantLevels[i1] = net.minecraftforge.event.ForgeEventFactory.onEnchantmentLevelSet(world, position, i1, (int)bookshelfPower, targetItem, enchantLevels[i1]);
+                    }
+                    
+                    for(int j1 = 0; j1 < 3; ++j1) {
+                        if(this.enchantLevels[j1] > 0) {
+                            List<EnchantmentData> list = this.getEnchantmentList(targetItem, j1, this.enchantLevels[j1]);
+                            
+                            if(list != null && !list.isEmpty()) {
+                                EnchantmentData enchantmentdata = list.get(this.rand.nextInt(list.size()));
+                                this.enchantClue[j1] = Enchantment.getEnchantmentID(enchantmentdata.enchantment);
+                                this.worldClue[j1] = enchantmentdata.enchantmentLevel;
+                            }
+                        }
+                    }
+                    
+                    this.detectAndSendChanges();
                 }
-        } else {
-            enchantments.remove(sme$currentEnch.enchantment);
-            enchantments.put(sme$upgradedEnch.enchantment, sme$upgradedEnch.enchantmentLevel);
-        }
-
-        //Clear Enchanted Book enchants bc setEnchantments is handled differently there
-        if(itemstackTargetItem.getItem()==Items.ENCHANTED_BOOK && itemstackTargetItem.hasTagCompound()) {
-            NBTTagCompound tags = itemstackTargetItem.getTagCompound();
-            if (tags.hasKey("StoredEnchantments")) {
-                tags.setTag("StoredEnchantments", new NBTTagList());
-                itemstackTargetItem.setTagCompound(tags);
+                //Upgrading
+                else if(targetItem.isItemEnchanted() && (ModConfig.upgrade.allowLevelUpgrades || ModConfig.upgrade.allowTierUpgrades)) {
+                    //Check book only
+                    if(ModConfig.upgrade.onlyAllowOnBooks && targetItem.getItem() != Items.ENCHANTED_BOOK) return;
+                    
+                    //Get upgradeable enchant entries
+                    List<UpgradeConfig.UpgradePotentialEntry> upgradeEntries = new ArrayList<>();
+                    Map<Enchantment, Integer> currentEnchants = EnchantmentHelper.getEnchantments(targetItem);
+                    for(Map.Entry<Enchantment, Integer> currentEnchantEntry : currentEnchants.entrySet()) {
+                        Enchantment currentEnchantment = currentEnchantEntry.getKey();
+                        int currentLevel = currentEnchantEntry.getValue();
+                        
+                        //Level check first
+                        if(ModConfig.upgrade.allowLevelUpgrades && !currentEnchantment.isCurse() && currentLevel < currentEnchantment.getMaxLevel()) {
+                            //Check fail handling
+                            Enchantment upgradeFailEnchant = null;
+                            boolean upgradeFailRemovesOriginal = false;
+                            if(ModConfig.upgrade.upgradeFailChance > 0 && !ModConfig.upgrade.upgradeFailTierOnly) {
+                                for(UpgradeConfig.UpgradeFailEntry failEntry : UpgradeConfig.getUpgradeFailEntries()) {
+                                    if(failEntry.canEnchantmentFail(currentEnchantment)) {
+                                        upgradeFailEnchant = failEntry.getCurse();
+                                        upgradeFailRemovesOriginal = ModConfig.upgrade.upgradeFailRemovesOriginal;
+                                        break;
+                                    }
+                                }
+                            }
+                            //Valid upgrade path
+                            upgradeEntries.add(new UpgradeConfig.UpgradePotentialEntry(currentEnchantment, currentEnchantment, currentLevel, currentLevel + 1, ModConfig.upgrade.upgradeTokenAmountLevel, upgradeFailEnchant, upgradeFailRemovesOriginal));
+                        }
+                        //Else tier check
+                        else if(ModConfig.upgrade.allowTierUpgrades) {
+                            //Check for valid tiers
+                            for(UpgradeConfig.UpgradeTierEntry upgradeableEntry : UpgradeConfig.getUpgradeTierEntries()) {
+                                if(upgradeableEntry.isEnchantmentUpgradeable(currentEnchantment)) {
+                                    Enchantment upgradedEnchantment = upgradeableEntry.getUpgradedEnchantment(currentEnchantment);
+                                    //Compatibility check with existing enchantments
+                                    if(upgradedEnchantment != null && ModConfig.upgrade.onlyAllowCompatible) {
+                                        for(Enchantment ench : currentEnchants.keySet()) {
+                                            if(ench != currentEnchantment && !upgradedEnchantment.isCompatibleWith(ench)) {
+                                                upgradedEnchantment = null;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    //Upgrade enchantment is valid
+                                    if(upgradedEnchantment != null) {
+                                        //Get upgraded level value
+                                        int upgradedLevel = Math.min(upgradedEnchantment.getMaxLevel(),
+                                                                     Math.max(upgradedEnchantment.getMinLevel(),
+                                                                              ModConfig.upgrade.upgradedTierLevelMode == 0 ?
+                                                                              currentLevel - ModConfig.upgrade.upgradedTierLevelReduction :
+                                                                              upgradedEnchantment.getMinLevel()));
+                                        //Check fail handling
+                                        Enchantment upgradeFailEnchant = null;
+                                        boolean upgradeFailRemovesOriginal = false;
+                                        if(ModConfig.upgrade.upgradeFailChance > 0) {
+                                            for(UpgradeConfig.UpgradeFailEntry failEntry : UpgradeConfig.getUpgradeFailEntries()) {
+                                                if(failEntry.canEnchantmentFail(currentEnchantment)) {
+                                                    upgradeFailEnchant = failEntry.getCurse();
+                                                    upgradeFailRemovesOriginal = ModConfig.upgrade.upgradeFailRemovesOriginal;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        //Valid upgrade path
+                                        upgradeEntries.add(new UpgradeConfig.UpgradePotentialEntry(currentEnchantment, upgradedEnchantment, currentLevel, upgradedLevel, ModConfig.upgrade.upgradeTokenAmountTier, upgradeFailEnchant, upgradeFailRemovesOriginal));
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    //Cancel if no valid entries were found
+                    if(upgradeEntries.isEmpty()) return;
+                    
+                    //We have valid possible upgrade paths only now dependent on xp cost
+                    this.rand.setSeed((long)this.xpSeed);
+                    
+                    for(int i = 0; i < 3; i++) {
+                        //Recheck empty in case there is less potentials than buttons
+                        if(upgradeEntries.isEmpty()) {
+                            this.soManyEnchantments$currentPotentials[i] = null;
+                            this.soManyEnchantments$upgradeTokenCost[i] = -1;
+                            continue;
+                        }
+                        
+                        //Determine which possible upgrade to pick
+                        UpgradeConfig.UpgradePotentialEntry pickedPotential = upgradeEntries.get(rand.nextInt(upgradeEntries.size()));
+                        //Remove picked potential so multiple buttons don't get duplicates
+                        upgradeEntries.remove(pickedPotential);
+                        
+                        //Get xp level cost
+                        int levelCost;
+                        switch(ModConfig.upgrade.levelCostMode) {
+                            case 0:
+                                levelCost = 1;
+                                break;
+                            case 1:
+                                levelCost = pickedPotential.getLevelUpgrade() * soManyEnchantments$getRarityMultiplier(pickedPotential.getEnchantmentUpgrade().getRarity(), targetItem.getItem() == Items.ENCHANTED_BOOK);
+                                break;
+                            case 2:
+                                levelCost = pickedPotential.getEnchantmentUpgrade().getMinEnchantability(pickedPotential.getLevelUpgrade());
+                                break;
+                            default:
+                                levelCost = pickedPotential.getLevelUpgrade() * soManyEnchantments$getRarityMultiplier(pickedPotential.getEnchantmentUpgrade().getRarity(), targetItem.getItem() == Items.ENCHANTED_BOOK);
+                                break;
+                        }
+                        levelCost = (int)(ModConfig.upgrade.levelCostMultiplier * (float)levelCost);
+                        
+                        //Finally set arrays ready for upgrading
+                        this.enchantLevels[i] = levelCost;
+                        this.enchantClue[i] = ModConfig.upgrade.allowEnchantmentClues ? Enchantment.getEnchantmentID(pickedPotential.getEnchantmentUpgrade()) : -1;
+                        this.worldClue[i] = ModConfig.upgrade.allowEnchantmentClues ? pickedPotential.getLevelUpgrade() : -1;
+                        this.soManyEnchantments$currentPotentials[i] = pickedPotential;
+                        this.soManyEnchantments$upgradeTokenCost[i] = pickedPotential.getTokenCost();
+                    }
+                    
+                    this.soManyEnchantments$bookshelfPower = (int)bookshelfPower;
+                    
+                    this.detectAndSendChanges();
+                }
             }
         }
-
-        //Set new enchants
-        EnchantmentHelper.setEnchantments(enchantments, itemstackTargetItem);
-
-        //Pay xp price and roll RNG seed
-        playerIn.onEnchant(itemstackTargetItem, sme$levelCost);
-
-        //Pay token price
-        if (!playerIn.capabilities.isCreativeMode) {
-            itemstackToken.shrink(sme$tokenCost);
-
-            if (itemstackToken.isEmpty()) {
-                this.tableInventory.setInventorySlotContents(1, ItemStack.EMPTY);
-            }
-        }
-
-        //Pay anvil repair price
-        if (ModConfig.upgrade.increaseAnvilRepairCost) {
-            int repairCost = itemstackTargetItem.getRepairCost();
-            switch (ModConfig.upgrade.anvilRepairMode) {
-                case "ADD":
-                    repairCost = (int) (repairCost + ModConfig.upgrade.anvilRepairCostAmount);
-                    break;
-                case "MULT":
-                    repairCost = (int) (repairCost * ModConfig.upgrade.anvilRepairCostAmount);
-                    break;
-                /* case "ANVIL": */
-                default:
-                    repairCost = 2 * repairCost + 1;
-            }
-            itemstackTargetItem.setRepairCost(repairCost);
-        }
-
-        soManyEnchantments$resetStoredData();
-        this.tableInventory.markDirty();
-        this.xpSeed = playerIn.getXPSeed();
-        this.onCraftMatrixChanged(this.tableInventory);
-        if(isCursed)
-            this.world.playSound(null, this.position, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, this.world.rand.nextFloat() * 0.1F + 0.9F);
-        else
-            this.world.playSound(null, this.position, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.BLOCKS, 1.0F, this.world.rand.nextFloat() * 0.1F + 0.9F);
-        cir.setReturnValue(true);
     }
-
-    @Redirect(
-            method = "enchantItem",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getCount()I")
-    )
-    private int denyNonLapisMixin(ItemStack stack){
-        for (ItemStack ore : net.minecraftforge.oredict.OreDictionary.getOres("gemLapis"))
-            if (net.minecraftforge.oredict.OreDictionary.itemMatches(ore, stack, false))
-                return stack.getCount();
-        return -1;
+    
+    /**
+     * @author fonnymunkey/nischhelm
+     * @reason enchantment table upgrading mechanics
+     *
+     * Normally overwrite is gross, but with how invasive these mechanics are, if anything else is modifying the enchantment table, its likely going to break anyways
+     */
+    @Overwrite
+    public boolean enchantItem(EntityPlayer playerIn, int id) {
+        ItemStack targetItem = this.tableInventory.getStackInSlot(0);
+        ItemStack tokenItem = this.tableInventory.getStackInSlot(1);
+        
+        //Sanity check, should only ever be 3 enchantment buttons
+        if(id < 0 || id > 2) return false;
+        if(targetItem.isEmpty()) return false;
+        boolean isCreative = playerIn.capabilities.isCreativeMode;
+        
+        //No potential upgrade, assume default handling
+        if(this.soManyEnchantments$upgradeTokenCost[id] < 0) {
+            int tokenCost = id + 1;
+            int xpCost = this.enchantLevels[id];
+            if(!isCreative && (tokenItem.isEmpty() || tokenItem.getCount() < tokenCost)) return false;
+            if(xpCost > 0 && (isCreative || (playerIn.experienceLevel >= tokenCost && playerIn.experienceLevel >= xpCost))) {
+                //Add sanity check to prevent double processing during lag
+                if(!targetItem.isItemEnchantable()) return false;
+                if(!this.world.isRemote) {
+                    List<EnchantmentData> list = this.getEnchantmentList(targetItem, id, xpCost);
+                    if(!list.isEmpty()) {
+                        playerIn.onEnchant(targetItem, tokenCost);
+                        
+                        boolean isBook = targetItem.getItem() == Items.BOOK;
+                        if(isBook) {
+                            targetItem = new ItemStack(Items.ENCHANTED_BOOK);
+                            this.tableInventory.setInventorySlotContents(0, targetItem);
+                        }
+						
+						for(EnchantmentData enchantmentdata : list) {
+							if(isBook) ItemEnchantedBook.addEnchantment(targetItem, enchantmentdata);
+							else targetItem.addEnchantment(enchantmentdata.enchantment, enchantmentdata.enchantmentLevel);
+						}
+                        
+                        if(!isCreative) {
+                            tokenItem.shrink(tokenCost);
+                            if(tokenItem.isEmpty()) {
+                                this.tableInventory.setInventorySlotContents(1, ItemStack.EMPTY);
+                            }
+                        }
+                        
+                        playerIn.addStat(StatList.ITEM_ENCHANTED);
+                        if(playerIn instanceof EntityPlayerMP) {
+                            CriteriaTriggers.ENCHANTED_ITEM.trigger((EntityPlayerMP)playerIn, targetItem, tokenCost);
+                        }
+                        
+                        this.tableInventory.markDirty();
+                        this.xpSeed = playerIn.getXPSeed();
+                        this.onCraftMatrixChanged(this.tableInventory);
+                        this.world.playSound(null, this.position, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.BLOCKS, 1.0F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+        //Potential upgrade exists
+        else {
+            int tokenCost = this.soManyEnchantments$upgradeTokenCost[id];
+            int xpCost = this.enchantLevels[id];
+            //Check token validity
+            if(tokenItem.isEmpty() || !soManyEnchantments$isUpgradeToken(tokenItem)) return false;
+            //Check token cost
+            if(!isCreative && tokenItem.getCount() < tokenCost) return false;
+            //Check bookshelf power
+            if(!isCreative && this.soManyEnchantments$bookshelfPower < ModConfig.upgrade.bookshelvesNeeded) return false;
+            //Check xp cost
+            if(xpCost > 0 && (isCreative || playerIn.experienceLevel >= xpCost)) {
+                //Add sanity check to prevent double processing during lag
+                if(!targetItem.isItemEnchanted()) return false;
+                if(!this.world.isRemote) {
+                    UpgradeConfig.UpgradePotentialEntry potentialEntry = this.soManyEnchantments$currentPotentials[id];
+                    //Sanity null check
+                    if(potentialEntry == null) return false;
+                    //Get existing enchants
+                    Map<Enchantment,Integer> currentEnchantments = EnchantmentHelper.getEnchantments(targetItem);
+                    //Need to recreate the ordered map otherwise modification will mess up existing ordering
+                    Map<Enchantment,Integer> newEnchantments = new LinkedHashMap<>();
+                    //Check if failure, avoid using xpSeed rand to maintain randomness and avoid affecting other results
+                    boolean isFail = this.world.rand.nextFloat() < ModConfig.upgrade.upgradeFailChance && (!ModConfig.upgrade.upgradeFailTierOnly || potentialEntry.getEnchantmentPrevious() != potentialEntry.getEnchantmentUpgrade());
+                    
+                    for(Map.Entry<Enchantment,Integer> entry : currentEnchantments.entrySet()) {
+                        if(potentialEntry.getEnchantmentPrevious().equals(entry.getKey())) {
+                            if(!isFail) {
+                                //Not a failure, allow upgrade
+                                newEnchantments.put(potentialEntry.getEnchantmentUpgrade(), potentialEntry.getLevelUpgrade());
+                            }
+                            else if(!potentialEntry.getFailRemovesOriginal()) {
+                                //Failure but don't remove, just use old enchantment values
+                                newEnchantments.put(entry.getKey(), entry.getValue());
+                            }
+                        }
+                        else {
+                            //Not the matching upgrade enchant
+                            newEnchantments.put(entry.getKey(), entry.getValue());
+                        }
+                    }
+                    
+                    //Add the curse if there is one
+                    if(isFail && potentialEntry.getEnchantmentFail() != null) {
+                        newEnchantments.put(potentialEntry.getEnchantmentFail(), potentialEntry.getEnchantmentFail().getMinLevel());
+                    }
+                    
+                    //Enchanted books don't get properly cleared first when setting new enchantments
+                    if(targetItem.getItem() == Items.ENCHANTED_BOOK) {
+                        NBTTagCompound tag = targetItem.getTagCompound();
+                        if(tag != null) {
+                            tag.setTag("StoredEnchantments", new NBTTagList());
+                            targetItem.setTagCompound(tag);
+                        }
+                    }
+                    //Set the new enchantments to the item
+                    EnchantmentHelper.setEnchantments(newEnchantments, targetItem);
+                    
+                    //Remove levels
+                    playerIn.onEnchant(targetItem, xpCost);
+                    
+                    //Take tokens
+                    if(!isCreative) {
+                        tokenItem.shrink(tokenCost);
+                        if(tokenItem.isEmpty()) {
+                            this.tableInventory.setInventorySlotContents(1, ItemStack.EMPTY);
+                        }
+                    }
+                    
+                    //Anvil repair costs
+                    if(ModConfig.upgrade.anvilRepairMode > 0) {
+                        int repairCost = targetItem.getRepairCost();
+                        switch(ModConfig.upgrade.anvilRepairMode) {
+                            case 1:
+                                repairCost = 1 + 2 * repairCost;
+                                break;
+                            case 2:
+                                repairCost = (int)(repairCost + ModConfig.upgrade.anvilRepairCostAmount);
+                                break;
+                            case 3:
+                                repairCost = (int)(repairCost * ModConfig.upgrade.anvilRepairCostAmount);
+                                break;
+                            default:
+                                repairCost = 1 + 2 * repairCost;
+                                break;
+                        }
+                        targetItem.setRepairCost(repairCost);
+                    }
+                    
+                    this.tableInventory.markDirty();
+                    this.xpSeed = playerIn.getXPSeed();
+                    this.onCraftMatrixChanged(this.tableInventory);
+                    //TODO: upgrade-specific sound?
+                    this.world.playSound(null, this.position, isFail ? SoundEvents.BLOCK_FIRE_EXTINGUISH : SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.BLOCKS, 1.0F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+                }
+                return true;
+            }
+            return false;
+        }
     }
-
-    @Inject(
-            method = "enchantItem",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/inventory/ContainerEnchantment;getEnchantmentList(Lnet/minecraft/item/ItemStack;II)Ljava/util/List;"),
-            cancellable = true
-    )
-    private void denyEnchantingEnchantedItemMixin(EntityPlayer playerIn, int id, CallbackInfoReturnable<Boolean> cir){
-        //Enchanting table only checks if item is enchanted in onCraftMatrixChanged, so there can be ways to enchant the same item multiple times
-        // for example by sending multiple enchanting packets during lag spikes
-        ItemStack stackToEnchant = this.tableInventory.getStackInSlot(0);
-        if(!stackToEnchant.isItemEnchantable())
-            cir.setReturnValue(false);
+    
+    /**
+     * @author fonnymunkey/nischhelm
+     * @reason enchantment table upgrading mechanics
+     *
+     * Normally overwrite is gross, but with how invasive these mechanics are, if anything else is modifying the enchantment table, its likely going to break anyways
+     */
+    @Overwrite
+    public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+        ItemStack itemstack = ItemStack.EMPTY;
+        Slot slot = this.inventorySlots.get(index);
+        
+        if(slot != null && slot.getHasStack()) {
+            ItemStack itemstack1 = slot.getStack();
+            itemstack = itemstack1.copy();
+            
+            if(index == 0) {
+                if(!this.mergeItemStack(itemstack1, 2, 38, true)) {
+                    return ItemStack.EMPTY;
+                }
+            }
+            else if(index == 1) {
+                if(!this.mergeItemStack(itemstack1, 2, 38, true)) {
+                    return ItemStack.EMPTY;
+                }
+            }
+            else if(itemstack1.getItem() == Items.DYE && EnumDyeColor.byDyeDamage(itemstack1.getMetadata()) == EnumDyeColor.BLUE) {
+                if(!this.mergeItemStack(itemstack1, 1, 2, true)) {
+                    return ItemStack.EMPTY;
+                }
+            }
+            else if(soManyEnchantments$isUpgradeToken(itemstack1)) {
+                if(!this.mergeItemStack(itemstack1, 1, 2, true)) {
+                    return ItemStack.EMPTY;
+                }
+            }
+            else {
+                if(this.inventorySlots.get(0).getHasStack() || !this.inventorySlots.get(0).isItemValid(itemstack1)) {
+                    return ItemStack.EMPTY;
+                }
+                
+                if(itemstack1.hasTagCompound()) {
+                    this.inventorySlots.get(0).putStack(itemstack1.splitStack(1));
+                }
+                else if(!itemstack1.isEmpty()) {
+                    this.inventorySlots.get(0).putStack(new ItemStack(itemstack1.getItem(), 1, itemstack1.getMetadata()));
+                    itemstack1.shrink(1);
+                }
+            }
+            
+            if(itemstack1.isEmpty()) slot.putStack(ItemStack.EMPTY);
+            else slot.onSlotChanged();
+            if(itemstack1.getCount() == itemstack.getCount()) return ItemStack.EMPTY;
+            slot.onTake(playerIn, itemstack1);
+        }
+        return itemstack;
+    }
+    
+    @Unique
+    private static boolean soManyEnchantments$isUpgradeToken(ItemStack stack) {
+        return UpgradeConfig.getUpgradeTokenItem() == stack.getItem();
     }
 
     @Unique
-    private boolean soManyEnchantments$isUpgradeToken(ItemStack stack){
-        return UpgradeConfig.upgradeTokens.contains(stack.getItem().getRegistryName().toString());
-    }
-
-    @Unique
-    private int soManyEnchantments$getRarityMultiplier(Enchantment.Rarity rarity, boolean isBook){
+    private static int soManyEnchantments$getRarityMultiplier(Enchantment.Rarity rarity, boolean isBook) {
         //Vanilla lvl cost multipliers when using anvil
         switch(rarity){
             case COMMON: return 1;
@@ -376,115 +538,16 @@ public abstract class ContainerEnchantmentMixin extends Container {
             default: return 0;
         }
     }
-
+    
+    @Override
     @Unique
-    private String[] soManyEnchantments$getNextEnchInUpgradeOrder(Enchantment currEnch, String upgradeToken){
-        String enchName = currEnch.getRegistryName().toString();
-        if(enchName.contains(SoManyEnchantments.MODID+":"))
-            enchName = enchName.split(":")[1];
-        for (String upgradeLine : ModConfig.upgrade.enchantUpgradeOrder) {
-            if (!upgradeLine.contains(enchName)) continue;
-
-            String[] lineEntries = upgradeLine.split("\\s*,\\s*"); //Removing optional whitespace
-            if(lineEntries.length < 4) continue;
-
-            int foundIndex = Arrays.asList(lineEntries).indexOf(enchName);
-            //If we're already maxed, we don't need to upgrade further
-            if (foundIndex >= lineEntries.length-3) continue;
-
-            //Correct token?
-            String requiredToken = lineEntries[lineEntries.length-2];
-            if(!Objects.equals(upgradeToken, requiredToken)) continue;
-
-            String requiredTokenAmount = lineEntries[lineEntries.length-1];
-
-            String nextEnchName = lineEntries[foundIndex+1];
-            if(!nextEnchName.contains(":")) nextEnchName = SoManyEnchantments.MODID+":"+nextEnchName;
-            Enchantment nextEnchantment = Enchantment.getEnchantmentByLocation(nextEnchName);
-            if(nextEnchantment == null){
-                SoManyEnchantments.LOGGER.info("Could not find upgraded enchantment {}", nextEnchName);
-                return new String[]{"sme$error_not_found","",""};
-            }
-            return new String[]{nextEnchName, requiredTokenAmount, requiredToken};
-        }
-        return new String[]{"sme$not_found","",""};
+    public int soManyEnchantments$getUpgradeTokenCost(int slot) {
+        return this.soManyEnchantments$upgradeTokenCost[slot];
     }
-
+    
+    @Override
     @Unique
-    private Enchantment soManyEnchantments$getCurse(Enchantment currEnch){
-        String enchName = currEnch.getRegistryName().toString();
-        if(enchName.contains(SoManyEnchantments.MODID+":"))
-            enchName = enchName.split(":")[1];
-        for (String upgradeList : ModConfig.upgrade.enchantUpgradeCursing) {
-            if (!upgradeList.contains(enchName)) continue;
-
-            String[] order = upgradeList.split(" *, *"); //Removing optional whitespace
-            int foundIndex = Arrays.asList(order).indexOf(enchName);
-            //Do nothing if we're already at the last entry = curse
-            if (foundIndex >= order.length-1) continue;
-
-            String curseEnchName = order[order.length-1];
-            if(curseEnchName.equals("none"))
-                return null;
-            else {
-                if (!curseEnchName.contains(":")) curseEnchName = SoManyEnchantments.MODID+":" + curseEnchName;
-                Enchantment curse = Enchantment.getEnchantmentByLocation(curseEnchName);
-                if (curse == null) {
-                    SoManyEnchantments.LOGGER.info("Could not find cursed enchantment {}", curseEnchName);
-                    return null;
-                }
-                return curse;
-            }
-
-        }
-        return null;
-    }
-
-    @Unique
-    private void soManyEnchantments$resetStoredData(){
-        sme$currentEnch = null;
-        sme$upgradedEnch = null;
-        sme$cursedEnch = null;
-        sme$levelCost = -1;
-        sme$upgradeToken = "";
-        sme$tokenCost = 128;
-    }
-
-    @Inject(
-            method = "getLapisAmount",
-            at = @At(value = "HEAD"),
-            cancellable = true
-    )
-    private void soManyEnchantments_sendOneLapisToGUIifUpgradingMixin(CallbackInfoReturnable<Integer> cir) {
-        ItemStack stack = this.tableInventory.getStackInSlot(1);
-        for (ItemStack ore : net.minecraftforge.oredict.OreDictionary.getOres("gemLapis"))
-            if (net.minecraftforge.oredict.OreDictionary.itemMatches(ore, stack, false))
-                return;
-        if (!stack.isEmpty()) {
-            if (stack.getCount() >= sme$tokenCost && stack.getItem().getRegistryName().toString().equals(sme$upgradeToken))
-                cir.setReturnValue(1);
-            else
-                cir.setReturnValue(0);
-        }
-    }
-
-    @Inject(
-            method = "broadcastData",
-            at = @At(value = "HEAD")
-    )
-    void soManyEnchantments_sendTokenDataMixin(IContainerListener crafting, CallbackInfo ci){
-        crafting.sendWindowProperty(this, 10, sme$tokenCost);
-        crafting.sendWindowProperty(this, 11, UpgradeConfig.upgradeTokens.indexOf(sme$upgradeToken));
-    }
-
-    @Inject(
-            method = "updateProgressBar",
-            at = @At(value = "HEAD")
-    )
-    void soManyEnchantments_receiveTokenDataMixin(int id, int data, CallbackInfo ci){
-        if(id==10)
-            sme$tokenCost = data;
-        if(id==11 && data != -1)
-            sme$upgradeToken = UpgradeConfig.upgradeTokens.get(data);
+    public int soManyEnchantments$getBookshelfPower() {
+        return this.soManyEnchantments$bookshelfPower;
     }
 }

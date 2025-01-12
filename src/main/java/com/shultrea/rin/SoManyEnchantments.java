@@ -1,6 +1,5 @@
 package com.shultrea.rin;
 
-import com.shultrea.rin.config.UpgradeConfig;
 import com.shultrea.rin.util.Types;
 import com.shultrea.rin.properties.*;
 import com.shultrea.rin.util.*;
@@ -43,6 +42,5 @@ public class SoManyEnchantments {
 		PotionUtil.initializePotionLists();
 		Types.initEnchantmentTabs();
 		EnchantmentRegistry.initIncompatLists();
-		UpgradeConfig.initUpgradeTokens();
 	}
 }

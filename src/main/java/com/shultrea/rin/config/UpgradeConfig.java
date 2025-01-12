@@ -1,138 +1,329 @@
 package com.shultrea.rin.config;
 
+import com.shultrea.rin.SoManyEnchantments;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Config;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import org.apache.logging.log4j.Level;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UpgradeConfig {
-	@Config.Comment("Enchantments will be upgraded in this order. [ench1, ench2, ..., itemToUse, amountOfItem]")
-	@Config.Name("Enchantment upgrade order")
+	
+	@Config.Comment("Enchantment tiers will be upgraded in this order")
+	@Config.Name("Upgrade Tier Order")
 	public String[] enchantUpgradeOrder = {
-			"lessersharpness, minecraft:sharpness, advancedsharpness, minecraft:prismarine_shard, 16",
-			"lessersmite, minecraft:smite, advancedsmite, minecraft:prismarine_shard, 16",
-			"lesserbaneofarthropods, minecraft:bane_of_arthropods, advancedbaneofarthropods, minecraft:prismarine_shard, 16",
-			"lesserfireaspect, minecraft:fire_aspect, advancedfireaspect, minecraft:prismarine_shard, 16",
-			"minecraft:knockback, advancedknockback, minecraft:prismarine_shard, 16",
-			"minecraft:looting, advancedlooting, minecraft:prismarine_shard, 16",
-			"minecraft:efficiency, advancedefficiency, minecraft:prismarine_shard, 16",
-			"minecraft:luck_of_the_sea, advancedluckofthesea, minecraft:prismarine_shard, 16",
-			"minecraft:lure, advancedlure, minecraft:prismarine_shard, 16",
-			"minecraft:mending, advancedmending, minecraft:prismarine_shard, 16",
-			"lesserflame, minecraft:flame, advancedflame, minecraft:prismarine_shard, 16",
-			"minecraft:punch, advancedpunch, minecraft:prismarine_shard, 16",
-			"minecraft:power, advancedpower, minecraft:prismarine_shard, 16",
-			"minecraft:feather_falling, advancedfeatherfalling, minecraft:prismarine_shard, 16",
-			"minecraft:blast_protection, advancedblastprotection, minecraft:prismarine_shard, 16",
-			"minecraft:fire_protection, advancedfireprotection, minecraft:prismarine_shard, 16",
-			"minecraft:projectile_protection, advancedprojectileprotection, minecraft:prismarine_shard, 16",
-			"minecraft:protection, advancedprotection, minecraft:prismarine_shard, 16",
-			"minecraft:thorns, burningthorns, advancedthorns, minecraft:prismarine_shard, 16",
-			"advancedflame, supremeflame, minecraft:nether_star, 1",
-			"advancedfireaspect, supremefireaspect, minecraft:nether_star, 1",
-			"advancedsharpness, supremesharpness, minecraft:nether_star, 1",
-			"advancedsmite, supremesmite, minecraft:nether_star, 1",
-			"advancedbaneofarthropods, supremebaneofarthropods, minecraft:nether_star, 1",
-			"advancedprotection, supremeprotection, minecraft:dragon_egg, 1"
+			"somanyenchantments:lessersharpness, minecraft:sharpness, somanyenchantments:advancedsharpness",
+			"somanyenchantments:lessersmite, minecraft:smite, somanyenchantments:advancedsmite",
+			"somanyenchantments:lesserbaneofarthropods, minecraft:bane_of_arthropods, somanyenchantments:advancedbaneofarthropods",
+			"somanyenchantments:lesserfireaspect, minecraft:fire_aspect, somanyenchantments:advancedfireaspect",
+			"minecraft:knockback, somanyenchantments:advancedknockback",
+			"minecraft:looting, somanyenchantments:advancedlooting",
+			"minecraft:efficiency, somanyenchantments:advancedefficiency",
+			"minecraft:luck_of_the_sea, somanyenchantments:advancedluckofthesea",
+			"minecraft:lure, somanyenchantments:advancedlure",
+			"minecraft:mending, somanyenchantments:advancedmending",
+			"somanyenchantments:lesserflame, minecraft:flame, somanyenchantments:advancedflame",
+			"minecraft:punch, somanyenchantments:advancedpunch",
+			"minecraft:power, somanyenchantments:advancedpower",
+			"minecraft:feather_falling, somanyenchantments:advancedfeatherfalling",
+			"minecraft:blast_protection, somanyenchantments:advancedblastprotection",
+			"minecraft:fire_protection, somanyenchantments:advancedfireprotection",
+			"minecraft:projectile_protection, somanyenchantments:advancedprojectileprotection",
+			"minecraft:protection, somanyenchantments:advancedprotection",
+			"minecraft:thorns, somanyenchantments:burningthorns, somanyenchantments:advancedthorns",
+			"somanyenchantments:advancedflame, somanyenchantments:supremeflame",
+			"somanyenchantments:advancedfireaspect, somanyenchantments:supremefireaspect",
+			"somanyenchantments:advancedsharpness, somanyenchantments:supremesharpness",
+			"somanyenchantments:advancedsmite, somanyenchantments:supremesmite",
+			"somanyenchantments:advancedbaneofarthropods, somanyenchantments:supremebaneofarthropods",
+			"somanyenchantments:advancedprotection, somanyenchantments:supremeprotection"
 	};
 
-	@Config.Comment("Enchantments will be turned into their curse form. Curse is last in list. none means it will be removed instead")
-	@Config.Name("Enchantment upgrade cursing")
+	@Config.Comment("Enchantment groups their curse equivalent. If there is no matching curse form but it should still be able to be affected by curse mechanics, use 'none'")
+	@Config.Name("Curse Equivalents")
 	public String[] enchantUpgradeCursing = {
-			"lessersharpness, minecraft:sharpness, advancedsharpness, bluntness",
-			"lessersmite, minecraft:smite, advancedsmite, supremesmite, bluntness",
-			"lesserbaneofarthropods, minecraft:bane_of_arthropods, advancedbaneofarthropods, supremebaneofarthropods, bluntness",
-			"lesserfireaspect, minecraft:fire_aspect, advancedfireaspect, supremefireaspect, extinguish",
-			"minecraft:knockback, advancedknockback, dragging",
-			"minecraft:looting, advancedlooting, ascetic",
-			"minecraft:efficiency, advancedefficiency, inefficient",
-			"minecraft:luck_of_the_sea, advancedluckofthesea, ascetic",
-			"minecraft:lure, advancedlure, none",
-			"minecraft:mending, advancedmending, rusted",
-			"lesserflame, minecraft:flame, advancedflame, supremeflame, extinguish",
-			"minecraft:punch, advancedpunch, dragging",
-			"powerless, minecraft:power, advancedpower, powerless",
-			"minecraft:feather_falling, advancedfeatherfalling, none",
-			"minecraft:blast_protection, advancedblastprotection, curseofvulnerability",
-			"minecraft:fire_protection, advancedfireprotection, curseofvulnerability",
-			"minecraft:projectile_protection, advancedprojectileprotection, curseofvulnerability",
-			"minecraft:protection, advancedprotection, supremeprotection, curseofvulnerability",
-			"minecraft:thorns, burningthorns, advancedthorns, meltdown"
+			"somanyenchantments:lessersharpness, minecraft:sharpness, somanyenchantments:advancedsharpness, somanyenchantments:bluntness",
+			"somanyenchantments:lessersmite, minecraft:smite, somanyenchantments:advancedsmite, somanyenchantments:supremesmite, somanyenchantments:bluntness",
+			"somanyenchantments:lesserbaneofarthropods, minecraft:bane_of_arthropods, somanyenchantments:advancedbaneofarthropods, somanyenchantments:supremebaneofarthropods, somanyenchantments:bluntness",
+			"somanyenchantments:lesserfireaspect, minecraft:fire_aspect, somanyenchantments:advancedfireaspect, somanyenchantments:supremefireaspect, somanyenchantments:extinguish",
+			"minecraft:knockback, somanyenchantments:advancedknockback, somanyenchantments:dragging",
+			"minecraft:looting, somanyenchantments:advancedlooting, somanyenchantments:ascetic",
+			"minecraft:efficiency, somanyenchantments:advancedefficiency, somanyenchantments:inefficient",
+			"minecraft:luck_of_the_sea, somanyenchantments:advancedluckofthesea, somanyenchantments:ascetic",
+			"minecraft:lure, somanyenchantments:advancedlure, none",
+			"minecraft:mending, somanyenchantments:advancedmending, somanyenchantments:rusted",
+			"somanyenchantments:lesserflame, minecraft:flame, somanyenchantments:advancedflame, somanyenchantments:supremeflame, somanyenchantments:extinguish",
+			"minecraft:punch, somanyenchantments:advancedpunch, somanyenchantments:dragging",
+			"minecraft:power, somanyenchantments:advancedpower, somanyenchantments:powerless",
+			"minecraft:feather_falling, somanyenchantments:advancedfeatherfalling, none",
+			"minecraft:blast_protection, somanyenchantments:advancedblastprotection, somanyenchantments:curseofvulnerability",
+			"minecraft:fire_protection, somanyenchantments:advancedfireprotection, somanyenchantments:curseofvulnerability",
+			"minecraft:projectile_protection, somanyenchantments:advancedprojectileprotection, somanyenchantments:curseofvulnerability",
+			"minecraft:protection, somanyenchantments:advancedprotection, somanyenchantments:supremeprotection, somanyenchantments:curseofvulnerability",
+			"minecraft:thorns, somanyenchantments:burningthorns, somanyenchantments:advancedthorns, somanyenchantments:meltdown"
 	};
 
-	@Config.Comment("Upgrading enchantment levels (not tiers) will use up this material")
-	@Config.Name("Upgrade Token for levels")
+	@Config.Comment("Upgrading enchantments will use this material in the enchanting table lapis slot")
+	@Config.Name("Upgrade Token")
 	public String upgradeToken = "minecraft:prismarine_shard";
 
-	@Config.Comment("Upgrading enchantment levels will use up this amount of the token material")
-	@Config.Name("Upgrade Token for levels - Amount")
-	public int upgradeTokenAmount = 1;
+	@Config.Comment("Upgrading enchantment levels will use up this amount of the token")
+	@Config.Name("Token Level Cost")
+	public int upgradeTokenAmountLevel = 1;
+	
+	@Config.Comment("Upgrading enchantment tiers will use up this amount of the token")
+	@Config.Name("Token Tier Cost")
+	public int upgradeTokenAmountTier = 8;
 
-	@Config.Comment("Mode how many XP levels are used while upgrading enchants: NONE=no xp cost, ANVIL=how much the resulting enchant would cost on anvil, ENCHANTABILITY=minimum enchantability of the resulting enchant")
-	@Config.Name("Level Cost Mode")
-	public String levelCostMode = "ANVIL";
+	@Config.Comment("Calculation mode to determine how many XP levels are used while upgrading enchantments" + "\n" +
+			"0: Single level" + "\n" +
+			"1: How much the resulting enchant would cost on an anvil" + "\n" +
+			"2: Minimum enchantability of the resulting enchant")
+	@Config.Name("XP Cost Base Calculation Mode")
+	public int levelCostMode = 1;
 
-	@Config.Comment("By how much the resulting level cost will be multiplied")
-	@Config.Name("Level Cost Multiplier")
+	@Config.Comment("Multiplier for the cost determined by the base enchantment upgrade cost calculation")
+	@Config.Name("XP Cost Multiplier")
 	public float levelCostMultiplier = 2.0F;
 
-	@Config.Comment("Set to true to allow upgrading enchants only on enchanted books with one enchantment")
-	@Config.Name("Only allow upgrading for single enchant books")
+	@Config.Comment("Restricts enchantment upgrading to only work on enchanted books")
+	@Config.Name("Only Allow Upgrading on Enchant Books")
 	public boolean onlyAllowOnBooks = false;
 
-	@Config.Comment("Only allow upgrading tiers of enchantments if the upgraded enchantment is compatible with the other enchants on the item")
-	@Config.Name("Only allow compatible")
+	@Config.Comment("Only allow upgrading tiers of enchantments if the upgraded tier is compatible with the other enchants on the item")
+	@Config.Name("Only Allow Compatible Tier Upgrades")
 	public boolean onlyAllowCompatible = true;
 
-	@Config.Comment("Chance to turn into curse or to remove entirely instead of upgrading")
-	@Config.Name("Cursing Chance")
-	public float cursingChance = 0.1F;
+	@Config.Comment("Chance to apply failure mechanics during enchantment upgrades")
+	@Config.Name("Failure Chance")
+	public float upgradeFailChance = 0.1F;
+	
+	@Config.Comment("If true, upgrade failure mechanics only apply to enchantments that are being upgraded by a tier and not just level")
+	@Config.Name("Failure Tier Only")
+	public boolean upgradeFailTierOnly = true;
 
-	@Config.Comment("If set to true, randomly rolled curses will replace the upgraded enchant. If false, they will be an additional enchant")
-	@Config.Name("Curses Replace Upgrade")
-	public boolean cursesReplaceUpgrade = false;
+	@Config.Comment("If true, the enchantment being upgraded will instead be replaced with its defined curse equivalent, or removed if set to none. If false, the curse is an additional enchantment, or does nothing if set to none.")
+	@Config.Name("Failure Removes Original")
+	public boolean upgradeFailRemovesOriginal = false;
 
-	@Config.Comment("If upgrading is allowed on items with multiple enchants, upgrade them randomly (RANDOM), top to bottom (FIRST) or bottom to top (LAST)")
-	@Config.Name("Selection mode")
-	public String selectionMode = "RANDOM";
+	@Config.Comment("Mode to determine the resulting level of enchantments during tier upgrades (Respects minimum and maximum levels)" + "\n" +
+			"0: Existing level minus defined amount" + "\n" +
+			"1: Minimum level")
+	@Config.Name("Tier Upgrade Mode")
+	public int upgradedTierLevelMode = 1;
 
-	@Config.Comment("Upgraded Enchant will have the current level minus x levels set in config (SUBTRACT), or it will have the min possible level of the enchant, usually 1 (MINLVL)")
-	@Config.Name("Upgraded tier level mode")
-	public String upgradedTierLevelMode = "MINLVL";
+	@Config.Comment("If the Tier Upgrade Mode is set to 0, reduces the level of the resulting enchantment by this amount")
+	@Config.Name("Tier Upgrade Mode Subtraction Amount")
+	public int upgradedTierLevelReduction = 1;
+	
+	@Config.Comment("Allows enchantment tiers to be upgraded as defined in the Upgrade Tier Order")
+	@Config.Name("Allow Enchantment Tier Upgrades")
+	public boolean allowTierUpgrades = true;
+	
+	@Config.Comment("Allows enchantment levels to be upgraded")
+	@Config.Name("Allow Enchantment Level Upgrades")
+	public boolean allowLevelUpgrades = true;
 
-	@Config.Comment("How many lvls of the enchant to reduce by while upgrading in SUBTRACT mode. For example 1 means Prot 4 turns to Adv Prot 3. Does not apply for cursing")
-	@Config.Name("Upgraded tier level reduction")
-	public int enchantLvlsReduced = 1;
+	@Config.Comment("Mode of how anvil repair cost is increased. ANVIL= normal exponential anvil behavior, ADD= add a flat amount, MULT= multiply by a number" + "\n" +
+			"0: No additional repair cost" + "\n" +
+			"1: Default exponential cost anvil calculation" + "\n" +
+			"2: Adds a defined amount to existing cost" + "\n" +
+			"3: Multiplies existing cost by a defined amount")
+	@Config.Name("Anvil Repair Cost Mode")
+	public int anvilRepairMode = 2;
 
-	@Config.Comment("Whether you can also upgrade the level of the enchants without changing the tier. This makes upgrading tier only possible at max lvl. Prot 3 -> Prot 4 -> Adv Prot x")
-	@Config.Name("Allow level increase")
-	public boolean allowLevelIncrease = true;
-
-	@Config.Comment("Whether to increase anvil repair cost when upgrading")
-	@Config.Name("Anvil repair cost increases")
-	public boolean increaseAnvilRepairCost = false;
-
-	@Config.Comment("Mode of how anvil repair cost is increased. ANVIL= normal exponential anvil behavior, ADD= add a flat amount, MULT= multiply by a number")
-	@Config.Name("Anvil repair cost increase mode")
-	public String anvilRepairMode = "ADD";
-
-	@Config.Comment("How many levels to add or multiply anvil repair cost by when upgrading")
-	@Config.Name("Anvil repair cost amount")
+	@Config.Comment("How many levels to either add or multiply to the existing repair cost when upgrading enchantments")
+	@Config.Name("Anvil Repair Cost Amount")
 	public float anvilRepairCostAmount = 10.0F;
 
-	@Config.Comment("How many bookshelves are needed to be able to upgrade")
-	@Config.Name("Amount of bookshelves needed")
+	@Config.Comment("How many bookshelves surrounding the enchantment table are required to be able to upgrade enchantments")
+	@Config.Name("Enchantment Upgrading Bookshelf Requirement")
 	public int bookshelvesNeeded = 30;
+	
+	@Config.Comment("If true, allows enchantment clue tooltips to be displayed showing the possible result, like vanilla enchanting does")
+	@Config.Name("Allow Upgrading Enchantment Clues")
+	public boolean allowEnchantmentClues = true;
 
-	public static List<String> upgradeTokens = new ArrayList<>();
+	private static Item upgradeTokenItem = null;
+	private static List<UpgradeTierEntry> upgradeTierEntries = null;
+	private static List<UpgradeFailEntry> upgradeFailEntries = null;
 
-	public static void initUpgradeTokens(){
-		if(ModConfig.upgrade.allowLevelIncrease) upgradeTokens.add(ModConfig.upgrade.upgradeToken);
-		for(String line : ModConfig.upgrade.enchantUpgradeOrder){
-			String[] split = line.split("\\s*,\\s*");
-			if(split.length>3){
-				upgradeTokens.add(split[split.length-2]);
+	public static Item getUpgradeTokenItem() {
+		if(upgradeTokenItem == null) {
+			Item token = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ModConfig.upgrade.upgradeToken.trim()));
+			if(token == null) {
+				SoManyEnchantments.LOGGER.log(Level.WARN, "Invalid upgrade token: " + ModConfig.upgrade.upgradeToken);
+				token = Items.PRISMARINE_SHARD;
 			}
+			upgradeTokenItem = token;
+		}
+		return upgradeTokenItem;
+	}
+	
+	public static List<UpgradeTierEntry> getUpgradeTierEntries() {
+		if(upgradeTierEntries == null) {
+			upgradeTierEntries = new ArrayList<>();
+			for(String entry : ModConfig.upgrade.enchantUpgradeOrder) {
+				entry = entry.trim();
+				if(entry.isEmpty()) continue;
+				List<Enchantment> enchantmentUpgradeList = new ArrayList<>();
+				String[] args = entry.split(",");
+				for(String arg : args) {
+					arg = arg.trim();
+					if(arg.isEmpty()) continue;
+					Enchantment enchant = ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation(arg));
+					if(enchant == null) {
+						SoManyEnchantments.LOGGER.log(Level.WARN, "Invalid upgrade tier enchantment: " + arg);
+						continue;
+					}
+					enchantmentUpgradeList.add(enchant);
+				}
+				upgradeTierEntries.add(new UpgradeTierEntry(enchantmentUpgradeList));
+			}
+		}
+		return upgradeTierEntries;
+	}
+	
+	public static List<UpgradeFailEntry> getUpgradeFailEntries() {
+		if(upgradeFailEntries == null) {
+			upgradeFailEntries = new ArrayList<>();
+			for(String entry : ModConfig.upgrade.enchantUpgradeCursing) {
+				entry = entry.trim();
+				if(entry.isEmpty()) continue;
+				List<Enchantment> enchantmentFailureList = new ArrayList<>();
+				Enchantment curseEnchantment = null;
+				String[] args = entry.split(",");
+				for(int i = 0; i < args.length; i++) {
+					String arg = args[i].trim();
+					if(arg.isEmpty()) continue;
+					if(i == args.length - 1) {
+						if("none".equals(arg)) {
+							curseEnchantment = null;
+						}
+						else {
+							Enchantment enchant = ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation(arg));
+							if(enchant == null) {
+								SoManyEnchantments.LOGGER.log(Level.WARN, "Invalid curse equivalent curse: " + arg);
+							}
+							curseEnchantment = enchant;
+						}
+					}
+					else {
+						Enchantment enchant = ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation(arg));
+						if(enchant == null) {
+							SoManyEnchantments.LOGGER.log(Level.WARN, "Invalid curse equivalent enchantment: " + arg);
+							continue;
+						}
+						enchantmentFailureList.add(enchant);
+					}
+				}
+				upgradeFailEntries.add(new UpgradeFailEntry(enchantmentFailureList, curseEnchantment));
+			}
+		}
+		return upgradeFailEntries;
+	}
+	
+	public static class UpgradeTierEntry {
+		
+		private final List<Enchantment> enchantmentUpgradeList;
+		
+		public UpgradeTierEntry(List<Enchantment> enchantmentUpgradeList) {
+			this.enchantmentUpgradeList = enchantmentUpgradeList;
+		}
+		
+		public boolean isEnchantmentUpgradeable(Enchantment enchantment) {
+			if(this.enchantmentUpgradeList.contains(enchantment)) {
+				//The final enchantment in the list can not be upgraded to anything
+				return this.enchantmentUpgradeList.get(this.enchantmentUpgradeList.size() - 1) != enchantment;
+			}
+			return false;
+		}
+		
+		@Nullable
+		public Enchantment getUpgradedEnchantment(Enchantment enchantment) {
+			int index = this.enchantmentUpgradeList.indexOf(enchantment);
+			if(index != -1 && index + 1 < this.enchantmentUpgradeList.size()) {
+				return this.enchantmentUpgradeList.get(index + 1);
+			}
+			return null;
+		}
+	}
+	
+	public static class UpgradeFailEntry {
+		
+		private final List<Enchantment> enchantmentFailureList;
+		private final Enchantment curse;
+		
+		public UpgradeFailEntry(List<Enchantment> enchantmentFailureList, Enchantment curse) {
+			this.enchantmentFailureList = enchantmentFailureList;
+			this.curse = curse;
+		}
+		
+		public boolean canEnchantmentFail(Enchantment enchantment) {
+			return this.enchantmentFailureList.contains(enchantment);
+		}
+		
+		@Nullable
+		public Enchantment getCurse() {
+			return this.curse;
+		}
+	}
+	
+	public static class UpgradePotentialEntry {
+		
+		private final Enchantment enchantmentPrevious;
+		private final Enchantment enchantmentUpgrade;
+		
+		private final int levelPrevious;
+		private final int levelUpgrade;
+		
+		private final int tokenCost;
+		
+		private final Enchantment enchantmentFail;
+		private final boolean failRemovesOriginal;
+		
+		public UpgradePotentialEntry(Enchantment enchantmentPrevious, Enchantment enchantmentUpgrade, int levelPrevious, int levelUpgrade, int tokenCost, Enchantment enchantmentFail, boolean failRemovesOriginal) {
+			this.enchantmentPrevious = enchantmentPrevious;
+			this.enchantmentUpgrade = enchantmentUpgrade;
+			this.levelPrevious = levelPrevious;
+			this.levelUpgrade = levelUpgrade;
+			this.tokenCost = tokenCost;
+			this.enchantmentFail = enchantmentFail;
+			this.failRemovesOriginal = failRemovesOriginal;
+		}
+		
+		public Enchantment getEnchantmentPrevious() {
+			return this.enchantmentPrevious;
+		}
+		
+		public Enchantment getEnchantmentUpgrade() {
+			return this.enchantmentUpgrade;
+		}
+		
+		public int getLevelPrevious() {
+			return this.levelPrevious;
+		}
+		
+		public int getLevelUpgrade() {
+			return this.levelUpgrade;
+		}
+		
+		public int getTokenCost() {
+			return this.tokenCost;
+		}
+		
+		public Enchantment getEnchantmentFail() {
+			return this.enchantmentFail;
+		}
+		
+		public boolean getFailRemovesOriginal() {
+			return this.failRemovesOriginal;
 		}
 	}
 }
