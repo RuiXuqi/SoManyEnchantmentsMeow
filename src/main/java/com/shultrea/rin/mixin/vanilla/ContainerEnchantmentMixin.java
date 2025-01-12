@@ -45,7 +45,8 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
     @Shadow public int xpSeed;
     
     @Shadow protected abstract List<EnchantmentData> getEnchantmentList(ItemStack stack, int enchantSlot, int level);
-    
+    @Shadow public abstract void detectAndSendChanges();
+
     @Unique
     private final UpgradeConfig.UpgradePotentialEntry[] soManyEnchantments$currentPotentials = new UpgradeConfig.UpgradePotentialEntry[3];
     @Unique
@@ -137,6 +138,8 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
     public void onCraftMatrixChanged(IInventory inventoryIn) {
         if(inventoryIn == this.tableInventory) {
             ItemStack targetItem = inventoryIn.getStackInSlot(0);
+
+            //This doesn't need to be reset or sent to client, as both client and server know at all times what kind of item is in lapis slot
             ItemStack tokenItem = inventoryIn.getStackInSlot(1);
             this.soManyEnchantments$tokenIsLapis = soManyEnchantments$isTokenLapis(tokenItem);
 
@@ -145,6 +148,9 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
 
             if(!targetItem.isEmpty() && (itemIsEnchantable || itemIsUpgradeable)) {
                 if(this.world.isRemote) return;
+
+                //Serverside reset of stored values, sent to client via detectAndSendChanges -> broadcastData
+                soManyEnchantments$resetValues();
 
                 //Get bookshelf power
                 float bookshelfPower = 0;
@@ -165,8 +171,6 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                 
                 //Enchanting
                 if(itemIsEnchantable) {
-                    soManyEnchantments$resetValuesUpgrading();
-
                     this.rand.setSeed((long)this.xpSeed);
                     
                     for(int i1 = 0; i1 < 3; ++i1) {
@@ -196,10 +200,11 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                 }
                 //Upgrading
                 else if(itemIsUpgradeable) {
-                    soManyEnchantments$resetValuesEnchanting();
-
                     //Check book only
-                    if(ModConfig.upgrade.onlyAllowOnBooks && targetItem.getItem() != Items.ENCHANTED_BOOK) return;
+                    if(ModConfig.upgrade.onlyAllowOnBooks && targetItem.getItem() != Items.ENCHANTED_BOOK){
+                        detectAndSendChanges();
+                        return;
+                    }
                     
                     //Get upgradeable enchant entries
                     List<UpgradeConfig.UpgradePotentialEntry> upgradeEntries = new ArrayList<>();
@@ -269,7 +274,10 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                         }
                     }
                     //Cancel if no valid entries were found
-                    if(upgradeEntries.isEmpty()) return;
+                    if(upgradeEntries.isEmpty()){
+                        detectAndSendChanges();
+                        return;
+                    }
                     
                     //We have valid possible upgrade paths only now dependent on xp cost
                     this.rand.setSeed((long)this.xpSeed);
@@ -319,30 +327,24 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                 }
             }
             else {
-                soManyEnchantments$resetValuesEnchanting();
-                soManyEnchantments$resetValuesUpgrading();
+                //Both client+serverside reset all their values if left slot has nothing or nothing enchantable/upgradeable
+                soManyEnchantments$resetValues();
             }
         }
     }
 
     @Unique
-    private void soManyEnchantments$resetValuesEnchanting(){
+    private void soManyEnchantments$resetValues(){
         for(int i = 0; i < 3; ++i) {
             this.enchantLevels[i] = 0;
             this.enchantClue[i] = -1;
             this.worldClue[i] = -1;
-        }
-    }
-
-    @Unique
-    private void soManyEnchantments$resetValuesUpgrading(){
-        for(int i = 0; i < 3; ++i) {
             this.soManyEnchantments$currentPotentials[i] = null;
             this.soManyEnchantments$upgradeTokenCost[i] = -1;
         }
         this.soManyEnchantments$bookshelfPower = 0;
     }
-    
+
     /**
      * @author fonnymunkey/nischhelm
      * @reason enchantment table upgrading mechanics
