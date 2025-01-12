@@ -20,6 +20,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.oredict.OreDictionary;
@@ -51,6 +52,8 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
     private final int[] soManyEnchantments$upgradeTokenCost = new int[3];
     @Unique
     private int soManyEnchantments$bookshelfPower = 0;
+    @Unique
+    private boolean soManyEnchantments$tokenIsLapis = false;
 
     @Redirect(
             method = "<init>(Lnet/minecraft/entity/player/InventoryPlayer;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)V",
@@ -59,18 +62,23 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
     private Slot soManyEnchantments_vanillaContainerEnchantment_init(ContainerEnchantment instance, Slot slot) {
         if(slot.getSlotIndex() == 1 && slot.xPos == 35 && slot.yPos == 47) {
             return addSlotToContainer(new Slot(this.tableInventory, 1, 35, 47) {
-                List<ItemStack> ores = OreDictionary.getOres("gemLapis");
-                
                 @Override
                 public boolean isItemValid(ItemStack stack) {
-                    for(ItemStack ore : ores) {
-                        if(OreDictionary.itemMatches(ore, stack, false)) return true;
-                    }
-                    return soManyEnchantments$isUpgradeToken(stack);
+                    return soManyEnchantments$isTokenLapis(stack) || soManyEnchantments$isUpgradeToken(stack);
                 }
             });
         }
         return addSlotToContainer(slot);
+    }
+
+    @Unique
+    public boolean soManyEnchantments$isTokenLapis(ItemStack tokenStack) {
+        List<ItemStack> ores = OreDictionary.getOres("gemLapis");
+
+        for(ItemStack ore : ores) {
+            if(OreDictionary.itemMatches(ore, tokenStack, false)) return true;
+        }
+        return false;
     }
     
     @Inject(
@@ -83,6 +91,7 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
         crafting.sendWindowProperty(((ContainerEnchantment)(Object)this), 11, this.soManyEnchantments$upgradeTokenCost[1]);
         crafting.sendWindowProperty(((ContainerEnchantment)(Object)this), 12, this.soManyEnchantments$upgradeTokenCost[2]);
         crafting.sendWindowProperty(((ContainerEnchantment)(Object)this), 13, this.soManyEnchantments$bookshelfPower);
+        crafting.sendWindowProperty(((ContainerEnchantment)(Object)this), 14, this.soManyEnchantments$tokenIsLapis?1:0);
     }
     
     @Inject(
@@ -108,6 +117,10 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
             this.soManyEnchantments$bookshelfPower = data;
             ci.cancel();
         }
+        else if(id == 14) {
+            this.soManyEnchantments$tokenIsLapis = data == 1;
+            ci.cancel();
+        }
     }
     
     /**
@@ -127,9 +140,13 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                 this.soManyEnchantments$currentPotentials[i] = null;
                 this.soManyEnchantments$upgradeTokenCost[i] = -1;
                 this.soManyEnchantments$bookshelfPower = 0;
+                this.soManyEnchantments$tokenIsLapis = false;
             }
             
             ItemStack targetItem = inventoryIn.getStackInSlot(0);
+            ItemStack tokenItem = inventoryIn.getStackInSlot(1);
+            this.soManyEnchantments$tokenIsLapis = soManyEnchantments$isTokenLapis(tokenItem);
+
             if(!targetItem.isEmpty() && !this.world.isRemote) {
                 //Get bookshelf power
                 float bookshelfPower = 0;
@@ -178,7 +195,7 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                     this.detectAndSendChanges();
                 }
                 //Upgrading
-                else if(targetItem.isItemEnchanted() && (ModConfig.upgrade.allowLevelUpgrades || ModConfig.upgrade.allowTierUpgrades)) {
+                else if((targetItem.isItemEnchanted() || targetItem.getItem() == Items.ENCHANTED_BOOK) && (ModConfig.upgrade.allowLevelUpgrades || ModConfig.upgrade.allowTierUpgrades)) {
                     //Check book only
                     if(ModConfig.upgrade.onlyAllowOnBooks && targetItem.getItem() != Items.ENCHANTED_BOOK) return;
                     
@@ -322,7 +339,7 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
         if(this.soManyEnchantments$upgradeTokenCost[id] < 0) {
             int tokenCost = id + 1;
             int xpCost = this.enchantLevels[id];
-            if(!isCreative && (tokenItem.isEmpty() || tokenItem.getCount() < tokenCost)) return false;
+            if(!isCreative && (tokenItem.isEmpty() || tokenItem.getCount() < tokenCost || !soManyEnchantments$tokenIsLapis)) return false;
             if(xpCost > 0 && (isCreative || (playerIn.experienceLevel >= tokenCost && playerIn.experienceLevel >= xpCost))) {
                 //Add sanity check to prevent double processing during lag
                 if(!targetItem.isItemEnchantable()) return false;
@@ -376,8 +393,6 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
             if(!isCreative && this.soManyEnchantments$bookshelfPower < ModConfig.upgrade.bookshelvesNeeded) return false;
             //Check xp cost
             if(xpCost > 0 && (isCreative || playerIn.experienceLevel >= xpCost)) {
-                //Add sanity check to prevent double processing during lag
-                if(!targetItem.isItemEnchanted()) return false;
                 if(!this.world.isRemote) {
                     UpgradeConfig.UpgradePotentialEntry potentialEntry = this.soManyEnchantments$currentPotentials[id];
                     //Sanity null check
@@ -408,7 +423,14 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                     
                     //Add the curse if there is one
                     if(isFail && potentialEntry.getEnchantmentFail() != null) {
-                        newEnchantments.put(potentialEntry.getEnchantmentFail(), potentialEntry.getEnchantmentFail().getMinLevel());
+                        Enchantment curse = potentialEntry.getEnchantmentFail();
+                        int minLvl = curse.getMinLevel();
+                        if(newEnchantments.containsKey(curse)) {
+                            int currentLvl  = newEnchantments.get(curse);
+                            int newLvl = MathHelper.clamp(currentLvl+1,minLvl,curse.getMaxLevel());
+                            newEnchantments.put(curse, newLvl);
+                        } else
+                            newEnchantments.put(curse, minLvl);
                     }
                     
                     //Enchanted books don't get properly cleared first when setting new enchantments
@@ -549,5 +571,11 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
     @Unique
     public int soManyEnchantments$getBookshelfPower() {
         return this.soManyEnchantments$bookshelfPower;
+    }
+
+    @Override
+    @Unique
+    public boolean soManyEnchantments$getTokenIsLapis(){
+        return this.soManyEnchantments$tokenIsLapis;
     }
 }

@@ -119,7 +119,8 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         EnchantmentNameParts.getInstance().reseedRandomGenerator(this.container.xpSeed);
         int tokenAmount = this.container.getLapisAmount();
-        
+        boolean tokenIsLapis = ((IContainerEnchantmentMixin) this.container).soManyEnchantments$getTokenIsLapis();
+
         for(int button = 0; button < 3; ++button) {
             int i1 = i + 60;
             int j1 = i1 + 20;
@@ -142,9 +143,9 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
                 
                 int upgradeTokenCost = ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getUpgradeTokenCost(button);
                 boolean isUpgrade = upgradeTokenCost >= 0;
-                
+
                 if(!isUpgrade) {
-                    if(((tokenAmount < button + 1 || this.mc.player.experienceLevel < xpCost) && !this.mc.player.capabilities.isCreativeMode) || this.container.enchantClue[button] == -1) {
+                    if(((!tokenIsLapis || tokenAmount < button + 1 || this.mc.player.experienceLevel < xpCost) && !this.mc.player.capabilities.isCreativeMode) || this.container.enchantClue[button] == -1) {
                         this.drawTexturedModalRect(i1, j + 14 + 19 * button, 0, 185, 108, 19);
                         this.drawTexturedModalRect(i1 + 1, j + 15 + 19 * button, 16 * button, 239, 16, 16);
                         runeColor = 6839882;//Unhighlighted rune text
@@ -190,7 +191,8 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
                     String tokenCostString = "" + upgradeTokenCost;
                     
                     if(!this.mc.player.capabilities.isCreativeMode &&
-                            (tokenAmount < upgradeTokenCost ||
+                            (tokenIsLapis ||
+                            tokenAmount < upgradeTokenCost ||
                             this.mc.player.experienceLevel < xpCost ||
                             ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getBookshelfPower() < ModConfig.upgrade.bookshelvesNeeded)) {
                         this.drawTexturedModalRect(i1, j + 14 + 19 * button, 0, 185, 108, 19);
@@ -254,7 +256,8 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
         this.renderHoveredToolTip(mouseX, mouseY);
         boolean isCreative = this.mc.player.capabilities.isCreativeMode;
         int tokenAmount = this.container.getLapisAmount();
-        
+        boolean tokenIsLapis = ((IContainerEnchantmentMixin) this.container).soManyEnchantments$getTokenIsLapis();
+
         for(int button = 0; button < 3; ++button) {
             int xpCost = this.container.enchantLevels[button];
             Enchantment enchantmentClue = Enchantment.getEnchantmentByID(this.container.enchantClue[button]);
@@ -276,7 +279,7 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
                     }
                     else if(!isUpgrade) {
                         int lapisCost = button + 1;
-                        
+
                         String s;
                         if(lapisCost == 1) {
                             s = I18n.format("container.enchant.lapis.one");
@@ -285,7 +288,7 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
                             s = I18n.format("container.enchant.lapis.many", lapisCost);
                         }
                         
-                        TextFormatting textformatting = tokenAmount >= lapisCost ? TextFormatting.GRAY : TextFormatting.RED;
+                        TextFormatting textformatting = tokenAmount >= lapisCost && tokenIsLapis ? TextFormatting.GRAY : TextFormatting.RED;
                         list.add(textformatting + "" + s);
                         
                         if(lapisCost == 1) {
@@ -303,7 +306,7 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
                         if(upgradeTokenCost > 0) {
                             s = upgradeTokenCost + " " + I18n.format(UpgradeConfig.getUpgradeTokenItem().getTranslationKey() + ".name");
                             
-                            TextFormatting textformatting = tokenAmount >= upgradeTokenCost ? TextFormatting.GRAY : TextFormatting.RED;
+                            TextFormatting textformatting = tokenAmount >= upgradeTokenCost && !tokenIsLapis ? TextFormatting.GRAY : TextFormatting.RED;
                             list.add(textformatting + "" + s);
                         }
                         

@@ -5,4 +5,6 @@ public interface IContainerEnchantmentMixin {
 	int soManyEnchantments$getUpgradeTokenCost(int slot);
 	
 	int soManyEnchantments$getBookshelfPower();
+
+	boolean soManyEnchantments$getTokenIsLapis();
 }
