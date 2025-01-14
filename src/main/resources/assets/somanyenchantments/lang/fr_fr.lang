@@ -378,8 +378,8 @@ enchantment.somanyenchantments.lightweight.desc=L'utilisateur (qui doit être un
 enchantment.luckmagnification=Manifestation de Chance
 enchantment.somanyenchantments.luckmagnification.desc=L'utilisateur (qui doit être un joueur) est soumis à une amplification de la chance.
 
-enchantment.underwaterstrider=Nageur Sous-Marin
-enchantment.somanyenchantments.underwaterstrider.desc=Vitesse de nage plus rapide si le joueur en question est entièrement immergé sous terre.
+enchantment.swiftswimming=Nageur Sous-Marin
+enchantment.somanyenchantments.swiftswimming.desc=Vitesse de nage plus rapide si le joueur en question est entièrement immergé sous terre.
 
 enchantment.unreasonable=Déraisonnable
 enchantment.somanyenchantments.unreasonable.desc=Détruit le raisonnement d'une entité, la rendant furieuse contre des entités aléatoires à proximité.

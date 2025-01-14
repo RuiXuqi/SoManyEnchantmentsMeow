@@ -195,9 +195,9 @@ public class EnchantabilityConfig {
 	@Config.Name("True Strike")
 	@Config.RequiresMcRestart
 	public int[] trueStrike = {15, 15, 30, MIN};
-	@Config.Name("Underwater Strider")
+	@Config.Name("Swift Swimming")
 	@Config.RequiresMcRestart
-	public int[] underwaterStrider = {15, 15, 30, MIN};
+	public int[] swiftSwimming = {15, 15, 30, MIN};
 	@Config.Name("Unreasonable")
 	@Config.RequiresMcRestart
 	public int[] unreasonable = {30, 15, 30, MIN};

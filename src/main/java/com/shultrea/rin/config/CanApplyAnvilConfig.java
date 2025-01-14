@@ -190,9 +190,9 @@ public class CanApplyAnvilConfig {
 	@Config.Name("True Strike")
 	@Config.RequiresMcRestart
 	public String[] trueStrike = {};
-	@Config.Name("Underwater Strider")
+	@Config.Name("Swift Swimming")
 	@Config.RequiresMcRestart
-	public String[] underwaterStrider = {};
+	public String[] swiftSwimming = {};
 	@Config.Name("Unreasonable")
 	@Config.RequiresMcRestart
 	public String[] unreasonable = {};

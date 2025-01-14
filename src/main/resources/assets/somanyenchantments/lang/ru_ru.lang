@@ -379,8 +379,8 @@ enchantment.somanyenchantments.lightweight.desc=Пользователь (дол
 enchantment.luckmagnification=Увеличение удачи
 enchantment.somanyenchantments.luckmagnification.desc=Пользователь (должен быть игроком) подвергается усилению Удачи.
 
-enchantment.underwaterstrider=Подводный странник
-enchantment.somanyenchantments.underwaterstrider.desc=Увеличенная скорость плавания, если рассматриваемый игрок полностью погружен под землю.
+enchantment.swiftswimming=Подводный странник
+enchantment.somanyenchantments.swiftswimming.desc=Увеличенная скорость плавания, если рассматриваемый игрок полностью погружен под землю.
 
 enchantment.unreasonable=Безрассудство
 enchantment.somanyenchantments.unreasonable.desc=Разрушает сознание сущности, заставляя ее обезуметь от существ поблизости.

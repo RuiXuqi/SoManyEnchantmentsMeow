@@ -178,8 +178,8 @@ enchantment.somanyenchantments.thunderstormsbestowment.desc=Increases damage dea
 enchantment.truestrike=True Strike
 enchantment.somanyenchantments.truestrike.desc=Allows the user to bypass evasion and parry enchantments, additionally gives a chance to bypass invulnerability frames.
 
-enchantment.underwaterstrider=Underwater Strider
-enchantment.somanyenchantments.underwaterstrider.desc=Amplifies the user's swim speed.
+enchantment.swiftswimming=Swift Swimming
+enchantment.somanyenchantments.swiftswimming.desc=Amplifies the user's swim speed.
 
 enchantment.unreasonable=Unreasonable
 enchantment.somanyenchantments.unreasonable.desc=Destroys the reasoning of an entity, making it target random entities near it instead of the user.

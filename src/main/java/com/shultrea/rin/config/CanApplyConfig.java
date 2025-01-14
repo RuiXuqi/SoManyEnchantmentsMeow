@@ -254,9 +254,9 @@ public class CanApplyConfig {
 	@Config.Name("True Strike")
 	@Config.RequiresMcRestart
 	public String[] trueStrike = {"SWORD", "BS_WEAPON"};
-	@Config.Name("Underwater Strider")
+	@Config.Name("Swift Swimming")
 	@Config.RequiresMcRestart
-	public String[] underwaterStrider = {"ARMOR_FEET"};
+	public String[] swiftSwimming = {"ARMOR_FEET"};
 	@Config.Name("Unreasonable")
 	@Config.RequiresMcRestart
 	public String[] unreasonable = {"SWORD", "BS_WEAPON"};

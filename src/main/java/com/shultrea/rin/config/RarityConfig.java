@@ -196,9 +196,9 @@ public class RarityConfig {
 	@Config.Name("True Strike")
 	@Config.RequiresMcRestart
 	public int trueStrike = RARE;
-	@Config.Name("Underwater Strider")
+	@Config.Name("Swift Swimming")
 	@Config.RequiresMcRestart
-	public int underwaterStrider = RARE;
+	public int swiftSwimming = RARE;
 	@Config.Name("Unreasonable")
 	@Config.RequiresMcRestart
 	public int unreasonable = RARE;

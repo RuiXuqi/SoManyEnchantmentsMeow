@@ -190,9 +190,9 @@ public class TreasureConfig {
 	@Config.Name("True Strike")
 	@Config.RequiresMcRestart
 	public boolean trueStrike = false;
-	@Config.Name("Underwater Strider")
+	@Config.Name("Swift Swimming")
 	@Config.RequiresMcRestart
-	public boolean underwaterStrider = false;
+	public boolean swiftSwimming = false;
 	@Config.Name("Unreasonable")
 	@Config.RequiresMcRestart
 	public boolean unreasonable = false;

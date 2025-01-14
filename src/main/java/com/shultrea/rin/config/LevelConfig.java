@@ -254,10 +254,10 @@ public class LevelConfig {
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
 	public int trueStrike = 1;
-	@Config.Name("Underwater Strider")
+	@Config.Name("Swift Swimming")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
-	public int underwaterStrider = 3;
+	public int swiftSwimming = 3;
 	@Config.Name("Unreasonable")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)

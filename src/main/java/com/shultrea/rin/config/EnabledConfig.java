@@ -190,9 +190,9 @@ public class EnabledConfig {
 	@Config.Name("True Strike")
 	@Config.RequiresMcRestart
 	public boolean trueStrike = true;
-	@Config.Name("Underwater Strider")
+	@Config.Name("Swift Swimming")
 	@Config.RequiresMcRestart
-	public boolean underwaterStrider = true;
+	public boolean swiftSwimming = true;
 	@Config.Name("Unreasonable")
 	@Config.RequiresMcRestart
 	public boolean unreasonable = true;

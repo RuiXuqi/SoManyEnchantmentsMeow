@@ -15,17 +15,17 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.UUID;
 
-public class EnchantmentUnderwaterStrider extends EnchantmentBase {
+public class EnchantmentSwiftSwimming extends EnchantmentBase {
 	
-	private static final UUID UNDERWATERSTRIDER_UUID = UUID.fromString("a612fe81-132f-4c58-a335-13c4ae5cba21");
+	private static final UUID SWIFTSWIMMING_UUID = UUID.fromString("a612fe81-132f-4c58-a335-13c4ae5cba21");
 	
-	public EnchantmentUnderwaterStrider(String name, Rarity rarity, EntityEquipmentSlot... slots) {
+	public EnchantmentSwiftSwimming(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
 	}
 	
 	@Override
 	public boolean isEnabled() {
-		return ModConfig.enabled.underwaterStrider;
+		return ModConfig.enabled.swiftSwimming;
 	}
 	
 	@Override
@@ -35,32 +35,32 @@ public class EnchantmentUnderwaterStrider extends EnchantmentBase {
 	
 	@Override
 	public int getMaxLevel() {
-		return ModConfig.level.underwaterStrider;
+		return ModConfig.level.swiftSwimming;
 	}
 
 	@Override
 	public int getMinEnchantability(int level) {
-		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.underwaterStrider, level);
+		return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.swiftSwimming, level);
 	}
 
 	@Override
 	public int getMaxEnchantability(int level) {
-		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.underwaterStrider, level);
+		return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.swiftSwimming, level);
 	}
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApply.underwaterStrider, stack) && super.canApplyAtEnchantingTable(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApply.swiftSwimming, stack) && super.canApplyAtEnchantingTable(stack);
 	}
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.underwaterStrider, stack) || super.canApply(stack);
+		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.swiftSwimming, stack) || super.canApply(stack);
 	}
 	
 	@Override
 	public boolean isTreasureEnchantment() {
-		return ModConfig.treasure.underwaterStrider;
+		return ModConfig.treasure.swiftSwimming;
 	}
 	
 	@SubscribeEvent
@@ -75,18 +75,18 @@ public class EnchantmentUnderwaterStrider extends EnchantmentBase {
 		IAttributeInstance swimSpeed = player.getEntityAttribute(EntityLivingBase.SWIM_SPEED);
 		
 		if(level > 0) addSwimSpeedModifier(level, swimSpeed);
-		else swimSpeed.removeModifier(UNDERWATERSTRIDER_UUID);
+		else swimSpeed.removeModifier(SWIFTSWIMMING_UUID);
 	}
 	
 	private static void addSwimSpeedModifier(int level, IAttributeInstance instance) {
 		double amount = 1.30D + 0.4D * (double)level;
-		AttributeModifier modifier = new AttributeModifier(UNDERWATERSTRIDER_UUID, "UnderwaterStriderBoost", amount, 1);
-		AttributeModifier previous = instance.getModifier(UNDERWATERSTRIDER_UUID);
+		AttributeModifier modifier = new AttributeModifier(SWIFTSWIMMING_UUID, "SwiftSwimmingBoost", amount, 1);
+		AttributeModifier previous = instance.getModifier(SWIFTSWIMMING_UUID);
 		if(previous == null) {
 			instance.applyModifier(modifier);
 		}
 		else if(previous.getAmount() != amount) {
-			instance.removeModifier(UNDERWATERSTRIDER_UUID);
+			instance.removeModifier(SWIFTSWIMMING_UUID);
 			instance.applyModifier(modifier);
 		}
 	}
