@@ -235,7 +235,7 @@ enchantment.extinguish=Extinguish
 enchantment.somanyenchantments.extinguish.desc=Extinguishes the target on hit.
 
 enchantment.heavyweight=Heavy Weight
-enchantment.somanyenchantments.heavyweight.desc=Greatly reduces attack speed.
+enchantment.somanyenchantments.heavyweight.desc=Increases fall damage, reduces jump height, and can greatly reduce attack speed.
 
 enchantment.inefficient=Inefficient
 enchantment.somanyenchantments.inefficient.desc=Greatly reduces mining speed.
