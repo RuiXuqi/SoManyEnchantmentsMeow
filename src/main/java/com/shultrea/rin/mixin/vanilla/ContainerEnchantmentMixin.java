@@ -236,6 +236,18 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                             for(UpgradeConfig.UpgradeTierEntry upgradeableEntry : UpgradeConfig.getUpgradeTierEntries()) {
                                 if(upgradeableEntry.isEnchantmentUpgradeable(currentEnchantment)) {
                                     Enchantment upgradedEnchantment = upgradeableEntry.getUpgradedEnchantment(currentEnchantment);
+                                    //Non-book can apply check
+                                    if(upgradedEnchantment != null && targetItem.getItem() != Items.ENCHANTED_BOOK) {
+                                        if(!upgradedEnchantment.canApply(targetItem)) {
+                                            upgradedEnchantment = null;
+                                        }
+                                    }
+                                    //Book can apply check
+                                    if(upgradedEnchantment != null && targetItem.getItem() == Items.ENCHANTED_BOOK) {
+                                        if(!upgradedEnchantment.isAllowedOnBooks()) {
+                                            upgradedEnchantment = null;
+                                        }
+                                    }
                                     //Compatibility check with existing enchantments
                                     if(upgradedEnchantment != null && ModConfig.upgrade.onlyAllowCompatible) {
                                         for(Enchantment ench : currentEnchants.keySet()) {
