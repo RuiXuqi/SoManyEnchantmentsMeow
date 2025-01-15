@@ -20,6 +20,7 @@
     "vanilla.IEntityCreeperMixin",
     "vanilla.IEntityLivingMixin",
     "vanilla.IItemBowMixin",
+    "vanilla.ISpecialArmorArmorPropertiesMixin",
     "vanilla.ItemMixin",
     "vanilla.ItemStackMixin",
     "vanilla.zombieskeeptrades.EntityVillagerMixin",

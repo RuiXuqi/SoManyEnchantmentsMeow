@@ -107,26 +107,28 @@ public abstract class EntityLivingBaseMixin extends Entity {
 	}
 	
 	/**
-	 * Handling for piercing enchants
+	 * Handling for piercing enchants (Needs to redirect early to cancel spartan handling for stacking)
 	 */
 	@Redirect(
 			method = "damageEntity",
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityLivingBase;applyArmorCalculations(Lnet/minecraft/util/DamageSource;F)F")
 	)
 	private float soManyEnchantments_vanillaEntityLivingBase_damageEntity(EntityLivingBase instance, DamageSource source, float damage) {
-		if(!source.isUnblockable() && source instanceof EntityDamageSource && ((IEntityDamageSourceMixin)source).soManyEnchantments$getPiercingPercent() > 0.0F) {
+		if(!source.isUnblockable() && source instanceof EntityDamageSource) {
 			float percent = ((IEntityDamageSourceMixin)source).soManyEnchantments$getPiercingPercent();
 			//Handle SpartanWeaponry piercing ourselves since this would cancel its handling
 			if(CompatUtil.isSpartanWeaponryLoaded()) percent += SpartanWeaponryCompat.getDamageSourcePiercing(source);
 			percent = Math.max(0, Math.min(1.0F, percent));
 			
-			this.damageArmor(damage);
-			
-			float piercingDamage = damage * percent;
-			float normalDamage = damage - piercingDamage;
-			float absorbedNormalDamage = CombatRules.getDamageAfterAbsorb(normalDamage, (float)this.getTotalArmorValue(), (float)this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).getAttributeValue());
-			return piercingDamage + absorbedNormalDamage;
+			if(percent > 0.0F) {
+				this.damageArmor(damage);
+				
+				float piercingDamage = damage * percent;
+				float normalDamage = damage - piercingDamage;
+				float absorbedNormalDamage = CombatRules.getDamageAfterAbsorb(normalDamage, (float)this.getTotalArmorValue(), (float)this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).getAttributeValue());
+				return piercingDamage + absorbedNormalDamage;
+			}
 		}
-		else return this.applyArmorCalculations(source, damage);
+		return this.applyArmorCalculations(source, damage);
 	}
 }
