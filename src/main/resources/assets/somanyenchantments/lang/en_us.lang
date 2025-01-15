@@ -210,6 +210,9 @@ enchantment.somanyenchantments.ascetic.desc=You abandon the need for loot.
 enchantment.bluntness=Bluntness
 enchantment.somanyenchantments.bluntness.desc=Decreases the attack damage of a weapon.
 
+enchantment.breachedplating=Breached Plating
+enchantment.somanyenchantments.breachedplating.desc=Decreases the effectiveness of armor.
+
 enchantment.cursededge=Cursed Edge
 enchantment.somanyenchantments.cursededge.desc=Amplifies the damage your attack deals at the cost of severely reflecting a portion of the attack back at yourself.
 

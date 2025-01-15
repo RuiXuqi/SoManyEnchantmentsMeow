@@ -219,6 +219,9 @@ public class CanApplyAnvilConfig {
 	@Config.Name("Bluntness")
 	@Config.RequiresMcRestart
 	public String[] bluntness = {};
+	@Config.Name("Breached Plating")
+	@Config.RequiresMcRestart
+	public String[] breachedPlating = {};
 	@Config.Name("Cursed Edge")
 	@Config.RequiresMcRestart
 	public String[] cursedEdge = {};

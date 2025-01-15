@@ -114,6 +114,7 @@ public class EnchantmentRegistry {
 	//Curses
 	public static EnchantmentBase ascetic = register(new EnchantmentAscetic("ascetic", RarityConfig.get(ModConfig.rarity.ascetic), Slots.HAND));
 	public static EnchantmentBase bluntness = register(new EnchantmentBluntness("bluntness", RarityConfig.get(ModConfig.rarity.bluntness), Slots.HAND));
+	public static EnchantmentBase breachedPlating = register(new EnchantmentBreachedPlating("breachedplating", RarityConfig.get(ModConfig.rarity.breachedPlating), Slots.BODY));
 	public static EnchantmentBase cursedEdge = register(new EnchantmentCursedEdge("cursededge", RarityConfig.get(ModConfig.rarity.cursedEdge), Slots.HAND));
 	public static EnchantmentBase curseOfDecay = register(new EnchantmentCurseofDecay("curseofdecay", RarityConfig.get(ModConfig.rarity.curseOfDecay), Slots.ALL));
 	public static EnchantmentBase curseOfHolding = register(new EnchantmentCurseofHolding("curseofholding", RarityConfig.get(ModConfig.rarity.curseOfHolding), Slots.ALL));

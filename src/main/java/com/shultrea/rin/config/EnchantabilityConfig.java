@@ -224,6 +224,9 @@ public class EnchantabilityConfig {
 	@Config.Name("Bluntness")
 	@Config.RequiresMcRestart
 	public int[] bluntness = {14, 14, 40, SUPER};
+	@Config.Name("Breached Plating")
+	@Config.RequiresMcRestart
+	public int[] breachedPlating = {20, 15, 25, MIN};
 	@Config.Name("Cursed Edge")
 	@Config.RequiresMcRestart
 	public int[] cursedEdge = {20, 12, 40, SUPER};

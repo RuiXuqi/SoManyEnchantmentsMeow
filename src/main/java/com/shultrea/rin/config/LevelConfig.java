@@ -291,6 +291,10 @@ public class LevelConfig {
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
 	public int bluntness = 5;
+	@Config.Name("Breached Plating")
+	@Config.RequiresMcRestart
+	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
+	public int breachedPlating = 5;
 	@Config.Name("Cursed Edge")
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)

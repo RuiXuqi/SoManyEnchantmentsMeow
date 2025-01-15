@@ -283,6 +283,9 @@ public class CanApplyConfig {
 	@Config.Name("Bluntness")
 	@Config.RequiresMcRestart
 	public String[] bluntness = {"SWORD","AXE", "BATTLEAXE", "BS_WEAPON"};
+	@Config.Name("Breached Plating")
+	@Config.RequiresMcRestart
+	public String[] breachedPlating = {"ARMOR"};
 	@Config.Name("Cursed Edge")
 	@Config.RequiresMcRestart
 	public String[] cursedEdge = {"SWORD", "BS_WEAPON"};

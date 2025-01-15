@@ -218,6 +218,9 @@ public class TreasureConfig {
 	@Config.Name("Bluntness")
 	@Config.RequiresMcRestart
 	public boolean bluntness = true;
+	@Config.Name("Breached Plating")
+	@Config.RequiresMcRestart
+	public boolean breachedPlating = true;
 	@Config.Name("Cursed Edge")
 	@Config.RequiresMcRestart
 	public boolean cursedEdge = true;

@@ -4,10 +4,10 @@ import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -17,7 +17,7 @@ import java.util.UUID;
 
 public class EnchantmentStrengthenedVitality extends EnchantmentBase {
 	
-	private static final UUID STRENGTHENEDVITALITY_UUID = UUID.fromString("e681-134f-4c54-a535-29c3ae5c7a21");
+	private static final UUID STRENGTHENEDVITALITY_UUID = UUID.fromString("eabe21c1-dc07-4ca0-9992-468ef792ef49");
 	
 	public EnchantmentStrengthenedVitality(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
@@ -68,11 +68,11 @@ public class EnchantmentStrengthenedVitality extends EnchantmentBase {
 		if(!this.isEnabled()) return;
 		if(event.getEntityLiving() == null) return;
 		if(event.getEntityLiving().world.isRemote) return;
-		if(!(event.getEntityLiving() instanceof EntityPlayer)) return;
+		if(event.getEntityLiving().ticksExisted%20 != 0) return;
 		
-		EntityPlayer player = (EntityPlayer)event.getEntityLiving();
-		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, player);
-		IAttributeInstance maxHealth = player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
+		EntityLivingBase user = event.getEntityLiving();
+		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, user);
+		IAttributeInstance maxHealth = user.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
 		
 		if(level > 0) addMaxHealthModifier(level, maxHealth);
 		else maxHealth.removeModifier(STRENGTHENEDVITALITY_UUID);

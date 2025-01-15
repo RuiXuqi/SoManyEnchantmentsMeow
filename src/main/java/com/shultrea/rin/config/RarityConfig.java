@@ -224,6 +224,9 @@ public class RarityConfig {
 	@Config.Name("Bluntness")
 	@Config.RequiresMcRestart
 	public int bluntness = RARE;
+	@Config.Name("Breached Plating")
+	@Config.RequiresMcRestart
+	public int breachedPlating = RARE;
 	@Config.Name("Cursed Edge")
 	@Config.RequiresMcRestart
 	public int cursedEdge = RARE;
