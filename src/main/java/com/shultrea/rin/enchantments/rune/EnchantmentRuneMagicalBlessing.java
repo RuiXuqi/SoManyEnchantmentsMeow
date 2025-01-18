@@ -9,7 +9,6 @@ import com.shultrea.rin.util.compat.CompatUtil;
 import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -72,11 +71,6 @@ public class EnchantmentRuneMagicalBlessing extends EnchantmentBase {
 		return TextFormatting.GREEN.toString();
 	}
 	
-	@Override
-	public float calcDamageByCreature(int level, EnumCreatureAttribute creatureType) {
-		return 0.75F * (float)level;
-	}
-	
 	//Has to be highest for PotionCore Magic Boost compat
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onLivingHurtEvent(LivingHurtEvent event) {
@@ -93,7 +87,7 @@ public class EnchantmentRuneMagicalBlessing extends EnchantmentBase {
 		if(level > 0) {
 			if(event.getSource() instanceof EntityDamageSource) {
 				float currPercent = ((IEntityDamageSourceMixin)event.getSource()).soManyEnchantments$getPiercingPercent();
-				float percent = Math.min(currPercent + 0.25F * (float)level, 1.0F);
+				float percent = Math.min(currPercent + 0.1F * (float)level, 1.0F);
 				((IEntityDamageSourceMixin)event.getSource()).soManyEnchantments$setPiercingPercent(percent);
 				event.getSource().setMagicDamage();
 			}

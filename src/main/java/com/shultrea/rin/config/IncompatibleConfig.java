@@ -13,48 +13,101 @@ public class IncompatibleConfig {
 	@Config.Name("Incompatible Enchantment Groups")
 	@Config.RequiresMcRestart
 	public String[] incompatibleGroups = {
+			//Protection tiers, prot vs breached
+			"minecraft:protection, minecraft:fire_protection, minecraft:blast_protection, minecraft:projectile_protection, magicprotection, physicalprotection, " +
+					"advancedprotection, advancedfireprotection, advancedblastprotection, advancedprojectileprotection, supremeprotection",
+			//Physical protection prevents breached
+			"physicalprotection, breachedplating",
+			//Feather falling tier separate from prot
 			"minecraft:feather_falling, advancedfeatherfalling",
-			"minecraft:depth_strider, underwaterstrider",
-			"minecraft:frost_walker, magma_walker",
-			"heavyweight, swifterslashes",
-			"minecraft:unbreaking, rusted",
-			"minecraft:unbreaking, instability",
-			"minecraft:sweeping, arcslash, ancientswordmastery",
-			"minecraft:silk_touch, smelter",
-			"minecraft:luck_of_the_sea, advancedluckofthesea, ascetic",
-			"minecraft:lure, advancedlure",
-			"minecraft:mending, advancedmending, minecraft:infinity",
-			"curseofpossession, curseofdecay",
-			"truestrike, curseofinaccuracy",
+			//Thorns tiers
 			"minecraft:thorns, advancedthorns, burningthorns, meltdown",
-			"minecraft:efficiency, advancedefficiency, inefficient",
-			"minecraft:knockback, advancedknockback, flinging, mujmajnkraftsbettersurvival:fling",
-			"fieryedge, ashdestroyer",
-			"minecraft:looting, advancedlooting, mujmajnkraftsbettersurvival:education, ascetic",
-			"blessededge, lifesteal",
-			"rune_piercingcapabilities, rune_arrowpiercing, rune_magicalblessing, rune_revival, rune_resurrection, mujmajnkraftsbettersurvival:penetration",
-			"viper, darkshadows, mortalitas",
-			"minecraft:infinity, strafe",
+			//Medic vs vulnerability
+			"combatmedic, curseofvulnerability",
+			//Evasion vs heavyweight
+			"evasion, heavyweight",
+			//Health boost vs damage boost
+			"innerberserk, strengthenedvitality",
+			//Lightweight vs heavyweight
+			"lightweight, heavyweight",
+			//Walker opposites
+			"minecraft:frost_walker, magma_walker",
+			//Vitality vs vulnerability
+			"strengthenedvitality, curseofvulnerability",
+			//Water enchants vs rusted
+			"swiftswimming, rusted",
+			"minecraft:depth_strider, rusted",
+			"underwaterstrider, rusted",
+			//Unbreaking vs rusted
+			"minecraft:unbreaking, rusted",
+			//Mending tiers, mending not compat with infinity in vanilla
+			"minecraft:mending, advancedmending, minecraft:infinity",
+			//Adept incompat with education
+			"adept, mujmajnkraftsbettersurvival:education",
+			//Power tiers, power vs powerless
 			"minecraft:power, advancedpower, powerless",
-			"minecraft:punch, advancedpunch, dragging, pushing",
-			"subjectbiology, subjectchemistry, subjectenglish, subjecthistory, subjectmathematics, subjectpe, subjectphysics",
-			"minecraft:fire_aspect, lesserfireaspect, advancedfireaspect, supremefireaspect, wateraspect, blessededge, fieryedge, extinguish",
-			"minecraft:flame, lesserflame, advancedflame, supremeflame, extinguish",
-			"reviledblade, ashdestroyer, instability, difficultysendowment, cursededge",
-			"criticalstrike, luckmagnification",
-			"clearskiesfavor, rainsbestowment, thunderstormsbestowment, wintersgrace, solsblessing, lunasblessing",
-			"purification, levitator, desolator, disorientatingblade, envenomed, horsdecombat, cryogenic",
-			"minecraft:protection, minecraft:fire_protection, minecraft:blast_protection, minecraft:projectile_protection, magicprotection, physicalprotection, advancedprotection, advancedfireprotection, advancedblastprotection, advancedprojectileprotection, curseofvulnerability, supremeprotection",
-			"lessersharpness, minecraft:sharpness, advancedsharpness, supremesharpness, reinforcedsharpness, bluntness",
-			"lessersmite, minecraft:smite, advancedsmite, supremesmite, blessededge, reinforcedsharpness, bluntness",
-			"lesserbaneofarthropods, minecraft:bane_of_arthropods, advancedbaneofarthropods, supremebaneofarthropods, reinforcedsharpness, bluntness",
-			"lessersharpness, lessersmite, lesserbaneofarthropods",
-			"advancedsharpness, advancedsmite, advancedbaneofarthropods, supremesharpness, supremesmite, supremebaneofarthropods, spellbreaker, penetratingedge",
-			"defusingedge, inhumane, butchering",
+			//Punch tiers, punch vs dragging
+			"minecraft:punch, advancedpunch, dragging",
+			//Splitshot dupes incompat
 			"splitshot, mujmajnkraftsbettersurvival:multishot",
-			"adept, mujmajnkraftsbettersurvival:education"
+			//Flame tiers, flame vs extinguish
+			"minecraft:flame, lesserflame, advancedflame, supremeflame, extinguish",
+			//Infinity vs strafe balance
+			"minecraft:infinity, strafe",
+			//Looting vs ascetic
+			"minecraft:looting, ascetic",
+			//Luck of the sea tiers, luck vs ascetic
+			"minecraft:luck_of_the_sea, advancedluckofthesea, ascetic",
+			//Lure tiers
+			"minecraft:lure, advancedlure",
+			//Penetration dupes incompat
+			"rune_magicalblessing, rune_piercingcapabilities, mujmajnkraftsbettersurvival:penetration",
+			//Efficiency tiers, efficiency vs inefficient
+			"minecraft:efficiency, advancedefficiency, inefficient",
+			//Silk touch vs smelter
+			"minecraft:silk_touch, smelter",
+			//Conditional damage tiers
+			"viper, darkshadows, mortalitas",
+			//Crit damage tiers
+			"criticalstrike, luckmagnification",
+			//Luck vs ascetic
+			"luckmagnification, ascetic",
+			//Damage tiers
+			"butchering, defusingedge, inhumane, penetratingedge, spellbreaker, wateraspect",
+			//Damage mult tiers
+			"ashdestroyer, difficultysendowment, reviledblade, instability, cursededge",
+			//Fire tiers, fire vs extinguish
+			"minecraft:fire_aspect, lesserfireaspect, advancedfireaspect, supremefireaspect, fieryedge, ashdestroyer, wateraspect, cryogenic, extinguish",
+			//Potion debuff tiers
+			"cryogenic, desolator, disorientatingblade, envenomed, horsdecombat, levitator, purification",
+			//Subject tiers
+			"subjectbiology, subjectchemistry, subjectenglish, subjecthistory, subjectmathematics, subjectpe, subjectphysics",
+			//Weather/time/temp tiers
+			"clearskiesfavor, lunasblessing, rainsbestowment, solsblessing, thunderstormsbestowment, wintersgrace",
+			//Knockback tiers, knockback vs dragging
+			"minecraft:knockback, advancedknockback, flinging, mujmajnkraftsbettersurvival:fling, dragging",
+			//Looting tiers, education incompat with looting, looting vs ascetic
+			"minecraft:looting, advancedlooting, mujmajnkraftsbettersurvival:education, ascetic",
+			//Sweeping boost variants
+			"minecraft:sweeping, arcslash",
+			//Fast swing vs slow
+			"swifterslashes, heavyweight",
+			//True strike prevents inaccuracy
+			"truestrike, curseofinaccuracy",
+			//Sharpness tiers, sharpness vs bluntness
+			"lessersharpness, minecraft:sharpness, advancedsharpness, supremesharpness, reinforcedsharpness, bluntness",
+			//Smite tiers
+			"lessersmite, minecraft:smite, advancedsmite, supremesmite, blessededge",
+			//BOA tiers
+			"lesserbaneofarthropods, minecraft:bane_of_arthropods, advancedbaneofarthropods, supremebaneofarthropods",
+			//Lesser tiers incompat
+			"lessersharpness, lessersmite, lesserbaneofarthropods",
+			//Advanced tiers incompat
+			"advancedsharpness, advancedsmite, advancedbaneofarthropods",
+			//Supreme tiers
+			"supremesharpness, supremesmite, supremebaneofarthropods"
 	};
-
+	
 	public ArrayList<Enchantment> getIncompatibleEnchantmentsString(Enchantment thisEnch) {
 		ArrayList<Enchantment> incompatEnchs = new ArrayList<>();
 
