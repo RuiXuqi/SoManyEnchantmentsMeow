@@ -18,17 +18,17 @@ public class UpgradeConfig {
 	@Config.Comment("Enchantment tiers will be upgraded in this order")
 	@Config.Name("Upgrade Tier Order")
 	public String[] enchantUpgradeOrder = {
-			"somanyenchantments:lessersharpness, minecraft:sharpness, somanyenchantments:advancedsharpness",
-			"somanyenchantments:lessersmite, minecraft:smite, somanyenchantments:advancedsmite",
-			"somanyenchantments:lesserbaneofarthropods, minecraft:bane_of_arthropods, somanyenchantments:advancedbaneofarthropods",
-			"somanyenchantments:lesserfireaspect, minecraft:fire_aspect, somanyenchantments:advancedfireaspect",
+			"somanyenchantments:lessersharpness, minecraft:sharpness, somanyenchantments:advancedsharpness, somanyenchantments:supremesharpness",
+			"somanyenchantments:lessersmite, minecraft:smite, somanyenchantments:advancedsmite, somanyenchantments:supremesmite",
+			"somanyenchantments:lesserbaneofarthropods, minecraft:bane_of_arthropods, somanyenchantments:advancedbaneofarthropods, somanyenchantments:supremebaneofarthropods",
+			"somanyenchantments:lesserfireaspect, minecraft:fire_aspect, somanyenchantments:advancedfireaspect, somanyenchantments:supremefireaspect",
 			"minecraft:knockback, somanyenchantments:advancedknockback",
 			"minecraft:looting, somanyenchantments:advancedlooting",
 			"minecraft:efficiency, somanyenchantments:advancedefficiency",
 			"minecraft:luck_of_the_sea, somanyenchantments:advancedluckofthesea",
 			"minecraft:lure, somanyenchantments:advancedlure",
 			"minecraft:mending, somanyenchantments:advancedmending",
-			"somanyenchantments:lesserflame, minecraft:flame, somanyenchantments:advancedflame",
+			"somanyenchantments:lesserflame, minecraft:flame, somanyenchantments:advancedflame, somanyenchantments:supremeflame",
 			"minecraft:punch, somanyenchantments:advancedpunch",
 			"minecraft:power, somanyenchantments:advancedpower",
 			"minecraft:feather_falling, somanyenchantments:advancedfeatherfalling",
@@ -36,19 +36,13 @@ public class UpgradeConfig {
 			"minecraft:fire_protection, somanyenchantments:advancedfireprotection",
 			"minecraft:projectile_protection, somanyenchantments:advancedprojectileprotection",
 			"minecraft:protection, somanyenchantments:advancedprotection",
-			"minecraft:thorns, somanyenchantments:burningthorns, somanyenchantments:advancedthorns",
-			"somanyenchantments:advancedflame, somanyenchantments:supremeflame",
-			"somanyenchantments:advancedfireaspect, somanyenchantments:supremefireaspect",
-			"somanyenchantments:advancedsharpness, somanyenchantments:supremesharpness",
-			"somanyenchantments:advancedsmite, somanyenchantments:supremesmite",
-			"somanyenchantments:advancedbaneofarthropods, somanyenchantments:supremebaneofarthropods",
-			"somanyenchantments:advancedprotection, somanyenchantments:supremeprotection"
+			"minecraft:thorns, somanyenchantments:burningthorns, somanyenchantments:advancedthorns"
 	};
 
-	@Config.Comment("Enchantment groups their curse equivalent. If there is no matching curse form but it should still be able to be affected by curse mechanics, use 'none'")
+	@Config.Comment("Enchantment groups and their curse equivalent. If there is no matching curse form but it should still be able to be affected by curse mechanics, use 'none'")
 	@Config.Name("Curse Equivalents")
 	public String[] enchantUpgradeCursing = {
-			"somanyenchantments:lessersharpness, minecraft:sharpness, somanyenchantments:advancedsharpness, somanyenchantments:bluntness",
+			"somanyenchantments:lessersharpness, minecraft:sharpness, somanyenchantments:advancedsharpness, somanyenchantments:supremesharpness, somanyenchantments:bluntness",
 			"somanyenchantments:lessersmite, minecraft:smite, somanyenchantments:advancedsmite, somanyenchantments:supremesmite, somanyenchantments:bluntness",
 			"somanyenchantments:lesserbaneofarthropods, minecraft:bane_of_arthropods, somanyenchantments:advancedbaneofarthropods, somanyenchantments:supremebaneofarthropods, somanyenchantments:bluntness",
 			"somanyenchantments:lesserfireaspect, minecraft:fire_aspect, somanyenchantments:advancedfireaspect, somanyenchantments:supremefireaspect, somanyenchantments:extinguish",
@@ -61,12 +55,14 @@ public class UpgradeConfig {
 			"somanyenchantments:lesserflame, minecraft:flame, somanyenchantments:advancedflame, somanyenchantments:supremeflame, somanyenchantments:extinguish",
 			"minecraft:punch, somanyenchantments:advancedpunch, somanyenchantments:dragging",
 			"minecraft:power, somanyenchantments:advancedpower, somanyenchantments:powerless",
-			"minecraft:feather_falling, somanyenchantments:advancedfeatherfalling, none",
-			"minecraft:blast_protection, somanyenchantments:advancedblastprotection, somanyenchantments:curseofvulnerability",
-			"minecraft:fire_protection, somanyenchantments:advancedfireprotection, somanyenchantments:curseofvulnerability",
-			"minecraft:projectile_protection, somanyenchantments:advancedprojectileprotection, somanyenchantments:curseofvulnerability",
-			"minecraft:protection, somanyenchantments:advancedprotection, somanyenchantments:supremeprotection, somanyenchantments:curseofvulnerability",
-			"minecraft:thorns, somanyenchantments:burningthorns, somanyenchantments:advancedthorns, somanyenchantments:meltdown"
+			"minecraft:feather_falling, somanyenchantments:advancedfeatherfalling, somanyenchantments:heavyweight",
+			"somanyenchantments:lightweight, somanyenchantments:evasion, somanyenchantments:heavyweight",
+			"minecraft:blast_protection, somanyenchantments:advancedblastprotection, somanyenchantments:breachedplating",
+			"minecraft:fire_protection, somanyenchantments:advancedfireprotection, somanyenchantments:breachedplating",
+			"minecraft:projectile_protection, somanyenchantments:advancedprojectileprotection, somanyenchantments:breachedplating",
+			"minecraft:protection, somanyenchantments:advancedprotection, somanyenchantments:supremeprotection, somanyenchantments:breachedplating",
+			"minecraft:thorns, somanyenchantments:burningthorns, somanyenchantments:advancedthorns, somanyenchantments:meltdown",
+			"somanyenchantments:luckmagnification, somanyenchantments:adept, mujmajnkraftsbettersurvival:education, somanyenchantments:ascetic"
 	};
 
 	@Config.Comment("Upgrading enchantments will use this material in the enchanting table lapis slot")
