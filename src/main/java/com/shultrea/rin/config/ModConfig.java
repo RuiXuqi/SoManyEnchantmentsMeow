@@ -39,7 +39,7 @@ public class ModConfig {
 	@Config.Name("Incompatible Groups")
 	public static IncompatibleConfig incompatible = new IncompatibleConfig();
 	
-	@Config.Comment("Rarity of each enchantment: 0=Common, 1=Uncommon, 2=Rare, 3=Very Rare")
+	@Config.Comment("Rarity of each enchantment: COMMON, UNCOMMON, RARE, VERY_RARE")
 	@Config.Name("Rarity")
 	public static RarityConfig rarity = new RarityConfig();
 	
@@ -47,7 +47,7 @@ public class ModConfig {
 	@Config.Name("Can apply on enchantment table and anvil")
 	public static CanApplyConfig canApply = new CanApplyConfig();
 	
-	@Config.Comment("Additional types of items each enchantment can apply on at the anvil. To be able to use miscellaneous.canCursesBeAppliedAtEnchantingTable=false, all valid types of curses have to be named here, not just the additional ones")
+	@Config.Comment("Additional types of items each enchantment can apply on at the anvil. Works like vanilla sharpness only being applicable on axes via anvil.")
 	@Config.Name("Can apply additionally on anvil")
 	public static CanApplyAnvilConfig canApplyAnvil = new CanApplyAnvilConfig();
 
@@ -156,7 +156,8 @@ public class ModConfig {
 		@Config.Comment("Loot enchanted with levels (enchant_with_levels) will not be able to generate enchantments in this list")
 		@Config.Name("Level Enchantment Blacklist")
 		public String[] blacklistedRandomLevelEnchants = {
-				"somanyenchantments:supremeprotection"
+				"somanyenchantments:supremeprotection",
+				"somanyenchantments:pandorascurse"
 		};
 
 		@Config.Comment("Level Enchantment blacklist will be treated as a Whitelist")
@@ -192,7 +193,8 @@ public class ModConfig {
 				"somanyenchantments:supremeflame",
 				"somanyenchantments:supremesharpness",
 				"somanyenchantments:supremesmite",
-				"somanyenchantments:supremeprotection"
+				"somanyenchantments:supremeprotection",
+				"somanyenchantments:pandorascurse"
 		};
 
 		@Config.Comment("Enchantment Table blacklist will be treated as a Whitelist")
@@ -202,7 +204,8 @@ public class ModConfig {
 		@Config.Comment("Fully random books (enchant_randomly) will not be able to generate enchantments in this list")
 		@Config.Name("Random Enchantment Blacklist")
 		public String[] blacklistedRandomEnchants = {
-				"somanyenchantments:supremeprotection"
+				"somanyenchantments:supremeprotection",
+				"somanyenchantments:pandorascurse"
 		};
 
 		@Config.Comment("Random Enchantment blacklist will be treated as a Whitelist")

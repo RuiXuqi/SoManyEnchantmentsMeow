@@ -139,7 +139,7 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
         if(inventoryIn == this.tableInventory) {
             ItemStack targetItem = inventoryIn.getStackInSlot(0);
 
-            //This doesn't need to be reset or sent to client, as both client and server know at all times what kind of item is in lapis slot
+            //Client checks token as well, but gets updated by server once server finishes this method. Only matters for stack desyncs
             ItemStack tokenItem = inventoryIn.getStackInSlot(1);
             this.soManyEnchantments$tokenIsLapis = soManyEnchantments$isTokenLapis(tokenItem);
 

@@ -54,8 +54,6 @@ public class IncompatibleConfig {
 			"minecraft:flame, lesserflame, advancedflame, supremeflame, extinguish",
 			//Infinity vs strafe balance
 			"minecraft:infinity, strafe",
-			//Looting vs ascetic
-			"minecraft:looting, ascetic",
 			//Luck of the sea tiers, luck vs ascetic
 			"minecraft:luck_of_the_sea, advancedluckofthesea, ascetic",
 			//Lure tiers
