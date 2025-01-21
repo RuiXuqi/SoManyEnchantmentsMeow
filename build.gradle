@@ -69,7 +69,7 @@ shadowJar {
     exclude 'org/spongepowered/asm/launch/MixinTransformationService*'
     exclude 'org/spongepowered/asm/launch/platform/container/ContainerHandleModLauncherEx*'
 
-    archiveClassifier.set('')
+    archiveClassifier.set('1.12.2')
 }
 
 reobf {
@@ -93,7 +93,7 @@ jar {
         ])
     }
 
-    archiveClassifier.set('THIN')
+    archiveClassifier.set('1.12.2-THIN')
 }
 
 build.dependsOn(shadowJar)
