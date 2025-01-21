@@ -1,26 +1,43 @@
-## Broad Cleanup
-- Sorted enchants into groups
-- Moved maxlvl, treasure, enabled, enchantabilities into configs
-- Moved isOffensivePetDisallowed to isDamageSourceAllowed
-- Added canApply override to EnchantmentCurse to properly disallow curses on e-table without disabling them on anvil
-- Added EnumSlots to move checked slots (getMaxEnchantmentLevel and getEnchantedItem) to EnchantRegistry
-- Renamed EnumList to EnumTypes (additional types of items this enchant can go on, vanilla got EnumEnchantmentType)
-- Merged calcDamageForNegativeSwipe and calcDamageIgnoreSwipe to modifyDamage and changed arguments
-- removed some redundant EnumTypes that are also in vanilla EnumEnchantmentType
-- moved incompatible enchants to config, deleted all canApplyTogether overrides
-- cleaned up incompatible enchant groups
+## 1.0.0 Rewrite
+- broad rewrite/refactor of entire mod by fonnymunkey and nischhelm
+- see commits for full details, this document is shortened and will be missing full info
+- setup config groups such as enchantment application, enchantability, incompatibilities, upgrading, etc.
+- merged existing fixes/features from RLMixins
+- enchantment compatibility/incompatibility with other enchantments is now defined through config
+- enchantment application to weapons/weapon types as well as what defines the weapon types is now defined through config
+- rebalanced all enchantments, including default compatibilities and damage values
+- rewrote all enchantments to clean up bugs and standardize handling
+- added enchantment upgrading system accessible through the vanilla enchanting table
+- moved from ASM to Mixin
+- add optional feature to make villagers rerolled with zombies keep their trades
+- add ability to blacklist enchantments from appearing through various sources such as loot or trades
+- fully reworked how some enchantments behave such as unsheathing, true strike, or subject enchants
+- add compat for multiple mods such as RLCombat, Lycanites Mobs, Spartan Weaponry, SpawnerControl, etc.
 
-## Renames
-- WellTilled = Moisturized
-- TillingPower = Plowing
-- Sharper(ed) Edge = Reinforced Sharpness
-- Pulling/Drag = Dragging
-- Clear Skies' Favor = Clearskies' Favor
-- Lunars Blessing = Lunas Blessing (Matches Sols Blessing, Luna - Sol / Lunar - Solar)
-- Freezing = Cryogenic
-- Combat Veterancy = Combat Medic
+## Enchantment Renames
+- Well Tilled: Moisturized
+- Tilling Power: Plowing
+- Sharper(ed) Edge: Reinforced Sharpness
+- Pulling/Drag: Dragging
+- Clear Skies' Favor: Clearskies' Favor
+- Lunars Blessin: Lunas Blessing
+- Freezing: Cryogenic
+- Combat Veterancy: Combat Medic
+- Underwater Strider: Swift Swimming
 
-## Code cleanup by Enchant
+## Enchantment Removals
+- Quarry
+- Subject Science
+
+## Enchantment additions
+- Supreme Protection
+- Breached Plating
+- Ascetic
+- Subject Biology
+- Subject Chemistry
+- Subject Physics
+
+## More detailed changes (Not fully encompassing rewrite)
 - Pushing.repelEntitiesInAABBFromPoint math cleanup
   - capped denominators to avoid dividing by 0 or negative numbers
 - Both Ancient enchants implement IAncient
@@ -37,8 +54,6 @@
 - Cleaned up CounterAttack - mainly deleting commented out code and replaced 20 with maxhurtresistanttime
 - fixed unreasonable always proccing (roll was wrong) and not stopping to go through entity list after one random target was found
 - cleaned up rune magical blessing and fixed it only working (and crashing) if the player DOESNT have it
-
-## Im too lazy so sort this later
 - Refactored and simplified everything
 - Buffed Sol/Luna blessing to not be effectively curses, gives buff in correct time, lesser buff if underground, no buff if incorrect time
 - Reworked Rune Revival to be mixin to vastly simplify/fix handling
@@ -80,118 +95,5 @@
 - Moved Combat Medic from hand enchant to head enchant
 
 ## Todo
-- Organize event handler priorities
-- Split damage handling or spartan compat
-- Handle removing enchants from Villagers and Loot enchanting
+- Futher balancing
 - More sound effects? (Like resurrection)
-- Recheck that all offhand/rlcombat compat checks are working properly (Anything triggered from attackEntityFrom should only use mainhand now)
-- Recheck anything that should be moved to using RLCombat events (To check for attack strength for effects from attacks, etc)
-
-## "Finished" enchants
-- AdvancedBlastProtection
-- AdvancedFeatherFalling
-- AdvancedFireProtection
-- AdvancedProjectileProtection
-- AdvancedProtection
-- MagicProtection
-- PhysicalProtection
-- AdvancedThorns
-- BurningThorns
-- Meltdown
-- Evasion
-- InnerBerserk
-- LightWeight
-- MagmaWalker
-- StrengthenedVitality
-- UnderwaterStrider
-- AdvancedPower
-- AdvancedPunch
-- Dragging
-- Pushing
-- Splitshot
-- Strafe
-- TierFlame
-- Bluntness
-- CurseofDecay
-- CurseofHolding
-- CurseofInaccuracy
-- CurseofPossession
-- CurseofVulnerability
-- HeavyWeight
-- Inefficient
-- PandorasCurse
-- Powerless
-- Rusted
-- Unpredictable
-- AdvancedLuckOfTheSea
-- AdvancedLure
-- JaggedRake
-- Moisturized
-- Plowing
-- RuneArrowPiercing (Still need spartan compat or better damage split handling)
-- RuneMagicalBlessing (Still need spartan compat or better damage split handling)
-- RunePiercingCapabilities (Still need spartan compat or better damage split handling)
-- RuneResurrection
-- RuneRevival
-- BurningShield
-- EmpoweredDefence
-- NaturalBlocking
-- AdvancedEfficiency
-- Smelter
-- AncientSealedCurses
-- AncientSwordMastery
-- DarkShadows
-- Mortalitas
-- Viper
-- CriticalStrike
-- LuckMagnification
-- Butchering
-- DefusingEdge
-- Inhumane
-- PenetratingEdge
-- ReinforcedSharpness
-- SpellBreaker
-- TierDamage
-- WaterAspect
-- AshDestroyer
-- CursedEdge
-- DifficultysEndowment
-- Instability
-- ReviledBlade
-- Desolator
-- DisorientatingBlade
-- Envenomed
-- Cryogenic
-- HorsDeCombat
-- Levitator
-- Purification
-- BlessedEdge
-- CombatMedic
-- Lifesteal
-- SubjectEnchantments
-- ClearskiesFavor
-- LunasBlessing
-- RainsBestowment
-- SolsBlessing
-- ThunderstormsBestowment
-- WintersGrace
-- AdvancedKnockback
-- AdvancedLooting
-- ArcSlash
-- AtomicDeconstructor
-- Brutality
-- CounterAttack
-- Culling
-- Disarmament
-- FieryEdge
-- Flinging
-- Parry
-- PurgingBlade
-- SwifterSlashes
-- TierFA
-- TrueStrike
-- Unreasonable
-- Unsheathing
-- Adept
-- AdvancedMending
-- UpgradedPotentials
