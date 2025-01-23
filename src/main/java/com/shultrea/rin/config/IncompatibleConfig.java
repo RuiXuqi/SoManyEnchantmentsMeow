@@ -37,7 +37,6 @@ public class IncompatibleConfig {
 			//Water enchants vs rusted
 			"swiftswimming, rusted",
 			"minecraft:depth_strider, rusted",
-			"underwaterstrider, rusted",
 			//Unbreaking vs rusted
 			"minecraft:unbreaking, rusted",
 			//Mending tiers, mending not compat with infinity in vanilla
