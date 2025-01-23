@@ -40,7 +40,7 @@ public abstract class EnchantmentHelperMixin {
 		if(stack.isEmpty() || original < 0.0F || !EnchantmentRegistry.ancientSwordMastery.isEnabled()) return original;
 		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.ancientSwordMastery, stack);
 		if(level > 0) {
-			return original * 1.25F * (float)level;
+			return original * (1.0F + 0.25F * (float)level);
 		}
 		return original;
 	}
