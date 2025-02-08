@@ -1,4 +1,4 @@
-attribute.name.somanyenchantments.enchantpower=Enchanting Focus
+attribute.name.somanyenchantments.enchantfocus=Enchanting Focus
 
 enchantment.adept=Adept
 enchantment.somanyenchantments.adept.desc=Increases dropped XP, scaling higher against bosses.

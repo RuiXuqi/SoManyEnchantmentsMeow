@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Mod.EventBusSubscriber
 public class EnchantAttribute {
-    public static final IAttribute ENCHANTFOCUS = (new RangedAttribute(null, "somanyenchantments.enchantpower", 0.0, -1000.0, 1000.0)).setDescription("Enchanting Focus").setShouldWatch(true);
+    public static final IAttribute ENCHANTFOCUS = (new RangedAttribute(null, "somanyenchantments.enchantfocus", 0.0, -1000.0, 1000.0)).setDescription("Enchanting Focus").setShouldWatch(true);
 
     @SubscribeEvent
     public static void onEntityConstruction(EntityEvent.EntityConstructing event) {
