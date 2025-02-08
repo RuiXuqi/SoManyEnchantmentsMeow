@@ -1,6 +1,5 @@
 package com.shultrea.rin;
 
-import com.shultrea.rin.attributes.EnchantAttribute;
 import com.shultrea.rin.util.Types;
 import com.shultrea.rin.properties.*;
 import com.shultrea.rin.util.*;
@@ -18,7 +17,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import socketed.common.config.JsonConfig;
 
 @Mod(modid = SoManyEnchantments.MODID, name = SoManyEnchantments.NAME, version = SoManyEnchantments.VERSION,
 	 acceptedMinecraftVersions = "[1.12.0, 1.12.2]")
