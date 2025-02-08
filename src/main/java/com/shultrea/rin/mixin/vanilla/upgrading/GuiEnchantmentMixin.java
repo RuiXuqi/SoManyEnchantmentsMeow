@@ -1,4 +1,4 @@
-package com.shultrea.rin.mixin.vanilla;
+package com.shultrea.rin.mixin.vanilla.upgrading;
 
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.config.UpgradeConfig;

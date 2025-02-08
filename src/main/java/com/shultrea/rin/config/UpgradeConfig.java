@@ -14,6 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UpgradeConfig {
+
+	@Config.Comment("Using the enchantment upgrading mechanic conflicts with some other mods which also change enchantment table behavior. Set to false to fully disable the mechanic.")
+	@Config.Name(".Enable Upgrading Mechanic")
+	@Config.RequiresMcRestart
+	public boolean enableUpgrading =  true;
 	
 	@Config.Comment("Enchantment tiers will be upgraded in this order")
 	@Config.Name("Upgrade Tier Order")

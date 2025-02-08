@@ -1,6 +1,7 @@
 package com.shultrea.rin;
 
 import com.llamalad7.mixinextras.MixinExtrasBootstrap;
+import com.shultrea.rin.config.EarlyConfigReader;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.mixin.Mixins;
@@ -14,6 +15,11 @@ public class SoManyEnchantmentsPlugin implements IFMLLoadingPlugin {
 		MixinBootstrap.init();
 		MixinExtrasBootstrap.init();
 		Mixins.addConfiguration("mixins.somanyenchantments.vanilla.json");
+
+		if(EarlyConfigReader.getBoolean(".Enable Upgrading Mechanic"))
+			Mixins.addConfiguration("mixins.somanyenchantments.upgrading.json");
+		if(EarlyConfigReader.getBoolean("Zombified Villagers keep trades"))
+			Mixins.addConfiguration("mixins.somanyenchantments.zombietrades.json");
 	}
 	
 	@Override

@@ -62,6 +62,7 @@ public class ModConfig {
 	public static class MiscellaneousConfig {
 		@Config.Comment("Makes zombie villagers keep their trades during infection and conversion")
 		@Config.Name("Zombified Villagers keep trades")
+		@Config.RequiresMcRestart
 		public boolean zombieVillagersKeepTrades = true;
 
 		@Config.Comment("Allow enchantments to change the weather")

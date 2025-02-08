@@ -1,37 +1,29 @@
 {
   "required": true,
-  "package": "com.shultrea.rin.mixin",
+  "package": "com.shultrea.rin.mixin.vanilla",
   "refmap": "mixins.somanyenchantments.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "vanilla.ContainerEnchantmentMixin",
-    "vanilla.ContainerRepairMixin",
-    "vanilla.EnchantmentHelperEnchantBlacklistMixin",
-    "vanilla.EnchantmentHelperMixin",
-    "vanilla.EnchantmentProtectionMixin",
-    "vanilla.EnchantRandomlyMixin",
-    "vanilla.EntityArrowMixin",
-    "vanilla.EntityDamageSourceMixin",
-    "vanilla.EntityLivingBaseMixin",
-    "vanilla.EntityPlayerMixin",
-    "vanilla.EntityVillagerListEnchantedBookForEmeraldsMixin",
-    "vanilla.IEntityCreeperMixin",
-    "vanilla.IEntityLivingMixin",
-    "vanilla.IItemBowMixin",
-    "vanilla.ISpecialArmorArmorPropertiesMixin",
-    "vanilla.ItemMixin",
-    "vanilla.ItemStackMixin",
-    "vanilla.zombieskeeptrades.EntityVillagerMixin",
-    "vanilla.zombieskeeptrades.EntityZombieMixin",
-    "vanilla.zombieskeeptrades.EntityZombieVillagerMixin",
-    "vanilla.zombieskeeptrades.MerchantRecipeMixin"
+    "ContainerRepairMixin",
+    "EnchantmentHelperEnchantBlacklistMixin",
+    "EnchantmentHelperMixin",
+    "EnchantmentProtectionMixin",
+    "EnchantRandomlyMixin",
+    "EntityArrowMixin",
+    "EntityDamageSourceMixin",
+    "EntityLivingBaseMixin",
+    "EntityPlayerMixin",
+    "EntityVillagerListEnchantedBookForEmeraldsMixin",
+    "IEntityCreeperMixin",
+    "IEntityLivingMixin",
+    "IItemBowMixin",
+    "ISpecialArmorArmorPropertiesMixin",
+    "ItemMixin",
+    "ItemStackMixin"
   ],
   "injectors": {
     "maxShiftBy": 10
-  },
-  "client": [
-    "vanilla.GuiEnchantmentMixin"
-  ]
+  }
 }

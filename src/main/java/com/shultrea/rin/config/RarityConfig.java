@@ -1,7 +1,6 @@
 package com.shultrea.rin.config;
 
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraftforge.common.config.Config;
 
 public class RarityConfig {
