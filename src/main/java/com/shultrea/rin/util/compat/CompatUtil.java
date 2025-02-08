@@ -11,6 +11,7 @@ public class CompatUtil {
 	private static final String LYCANITESMOBS_MODID = "lycanitesmobs";
 	private static final String SPARTANWEAPONRY_MODID = "spartanweaponry";
 	private static final String SPAWNERCONTROL_MODID = "spawnercontrol";
+	private static final String SOCKETED_MODID = "socketed";
 	
 	private static Boolean isRLCombatLoaded = null;
 	private static Boolean isSwitchbowLoaded = null;
@@ -19,6 +20,7 @@ public class CompatUtil {
 	private static Boolean isLycanitesMobsLoaded = null;
 	private static Boolean isSpartanWeaponryLoaded = null;
 	private static Boolean isSpawnerControlLoaded = null;
+	private static Boolean isSocketedLoaded = null;
 	
 	public static boolean isRLCombatLoaded() {
 		if(isRLCombatLoaded == null) isRLCombatLoaded = Loader.isModLoaded(RLCOMBAT_MODID) && isRLCombatCorrectVersion();
@@ -53,6 +55,11 @@ public class CompatUtil {
 	public static boolean isSpawnerControlLoaded() {
 		if(isSpawnerControlLoaded == null) isSpawnerControlLoaded = Loader.isModLoaded(SPAWNERCONTROL_MODID);
 		return isSpawnerControlLoaded;
+	}
+
+	public static boolean isSocketedLoaded() {
+		if(isSocketedLoaded == null) isSocketedLoaded = Loader.isModLoaded(SOCKETED_MODID);
+		return isSocketedLoaded;
 	}
 	
 	private static boolean isRLCombatCorrectVersion() {

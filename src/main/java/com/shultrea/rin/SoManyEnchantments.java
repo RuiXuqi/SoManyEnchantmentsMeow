@@ -1,19 +1,24 @@
 package com.shultrea.rin;
 
+import com.shultrea.rin.attributes.EnchantAttribute;
 import com.shultrea.rin.util.Types;
 import com.shultrea.rin.properties.*;
 import com.shultrea.rin.util.*;
 import com.shultrea.rin.registry.EnchantmentRegistry;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.SocketedCompat;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import socketed.common.config.JsonConfig;
 
 @Mod(modid = SoManyEnchantments.MODID, name = SoManyEnchantments.NAME, version = SoManyEnchantments.VERSION,
 	 acceptedMinecraftVersions = "[1.12.0, 1.12.2]")
@@ -35,6 +40,12 @@ public class SoManyEnchantments {
 		CapabilityManager.INSTANCE.register(IArrowProperties.class, new ArrowPropertiesStorage(), ArrowProperties::new);
 		MinecraftForge.EVENT_BUS.register(new ArrowPropertiesHandler());
 		EnchantmentRegistry.handleSubscribers();
+	}
+
+	@EventHandler
+	public static void init(FMLInitializationEvent event) {
+		if(CompatUtil.isSocketedLoaded())
+			SocketedCompat.registerLapisGem();
 	}
 	
 	@EventHandler

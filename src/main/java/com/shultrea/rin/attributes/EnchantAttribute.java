@@ -1,5 +1,7 @@
 package com.shultrea.rin.attributes;
 
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.SocketedCompat;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
