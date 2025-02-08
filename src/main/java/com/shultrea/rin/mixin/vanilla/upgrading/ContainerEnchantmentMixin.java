@@ -1,5 +1,6 @@
 package com.shultrea.rin.mixin.vanilla.upgrading;
 
+import com.shultrea.rin.attributes.EnchantAttribute;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.config.UpgradeConfig;
 import com.shultrea.rin.util.IContainerEnchantmentMixin;
@@ -9,6 +10,7 @@ import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.*;
@@ -183,9 +185,14 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                         }
                         this.enchantLevels[i1] = net.minecraftforge.event.ForgeEventFactory.onEnchantmentLevelSet(world, position, i1, (int)bookshelfPower, targetItem, enchantLevels[i1]);
                     }
-                    
+
+                    //this is so stupid, but it only assumes that slot 2 is already a player slot (first inventory slot)
+                    //slot 0: item to enchant, slot 1: lapis, slot 2 to 38: player inventory
+                    EntityPlayer player = ((InventoryPlayer) getSlot(2).inventory).player;
                     for(int j1 = 0; j1 < 3; ++j1) {
                         if(this.enchantLevels[j1] > 0) {
+                            //Pass player attribute to getEnchantmentList -> buildEnchantmentList
+                            EnchantAttribute.attributeThreadLocal.set(player.getEntityAttribute(EnchantAttribute.ENCHANTFOCUS));
                             List<EnchantmentData> list = this.getEnchantmentList(targetItem, j1, this.enchantLevels[j1]);
                             
                             if(list != null && !list.isEmpty()) {
@@ -382,7 +389,10 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                 //Add sanity check to prevent double processing during lag
                 if(!targetItem.isItemEnchantable()) return false;
                 if(!this.world.isRemote) {
+                    //Pass player attribute to getEnchantmentList -> buildEnchantmentList
+                    EnchantAttribute.attributeThreadLocal.set(playerIn.getEntityAttribute(EnchantAttribute.ENCHANTFOCUS)); //Pass player attribute to buildEnchantmentList
                     List<EnchantmentData> list = this.getEnchantmentList(targetItem, id, xpCost);
+
                     if(!list.isEmpty()) {
                         playerIn.onEnchant(targetItem, tokenCost);
                         

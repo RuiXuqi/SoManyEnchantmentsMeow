@@ -6,7 +6,8 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "ContainerEnchantmentMixin"
+    "ContainerEnchantmentMixin",
+    "EnchantmentHelperEnchantAttributeMixin"
   ],
   "injectors": {
     "maxShiftBy": 10
