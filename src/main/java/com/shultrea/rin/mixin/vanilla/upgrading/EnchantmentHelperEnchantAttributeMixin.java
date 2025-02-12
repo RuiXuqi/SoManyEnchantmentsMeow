@@ -17,6 +17,7 @@ public abstract class EnchantmentHelperEnchantAttributeMixin {
 	private static int soManyEnchantments_enchantmentHelper_buildEnchantmentList(int level){
 		//Get ThreadLocal
 		IAttributeInstance playerAttribute = EnchantAttribute.getAndRemoveThreadLocal();
+		if(playerAttribute == null) return level;
 
 		//In order to properly use op0 as well as op1 and op2, we need to set the current lvl as base value
 		playerAttribute.setBaseValue(level);
