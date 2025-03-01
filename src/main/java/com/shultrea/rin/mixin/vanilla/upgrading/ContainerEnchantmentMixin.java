@@ -3,6 +3,8 @@ package com.shultrea.rin.mixin.vanilla.upgrading;
 import com.shultrea.rin.attributes.EnchantAttribute;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.config.UpgradeConfig;
+import com.shultrea.rin.mixin.vanilla.EnchantmentHelperEnchantBlacklistMixin;
+import com.shultrea.rin.util.FromEnchTableThreadLocal;
 import com.shultrea.rin.util.IContainerEnchantmentMixin;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.enchantment.Enchantment;
@@ -193,6 +195,9 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                         if(this.enchantLevels[j1] > 0) {
                             //Pass player attribute to getEnchantmentList -> buildEnchantmentList
                             EnchantAttribute.attributeThreadLocal.set(player.getEntityAttribute(EnchantAttribute.ENCHANTFOCUS));
+                            //Tell Random Level Blacklist Mixin that this call is from Enchanting Table
+                            FromEnchTableThreadLocal.set(true);
+
                             List<EnchantmentData> list = this.getEnchantmentList(targetItem, j1, this.enchantLevels[j1]);
                             
                             if(list != null && !list.isEmpty()) {
@@ -391,6 +396,9 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                 if(!this.world.isRemote) {
                     //Pass player attribute to getEnchantmentList -> buildEnchantmentList
                     EnchantAttribute.attributeThreadLocal.set(playerIn.getEntityAttribute(EnchantAttribute.ENCHANTFOCUS)); //Pass player attribute to buildEnchantmentList
+                    //Tell Random Level Blacklist Mixin that this call is from Enchanting Table
+                    FromEnchTableThreadLocal.set(true);
+
                     List<EnchantmentData> list = this.getEnchantmentList(targetItem, id, xpCost);
 
                     if(!list.isEmpty()) {

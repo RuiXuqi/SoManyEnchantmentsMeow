@@ -1,14 +1,13 @@
 package com.shultrea.rin.mixin.vanilla;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import com.shultrea.rin.config.ModConfig;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.village.MerchantRecipeList;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,20 +16,22 @@ import java.util.Random;
 @Mixin(EntityVillager.ListEnchantedBookForEmeralds.class)
 public abstract class EntityVillagerListEnchantedBookForEmeraldsMixin {
 
-    @ModifyExpressionValue(
+    @ModifyVariable(
             method = "addMerchantRecipe",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/util/registry/RegistryNamespaced;getRandomObject(Ljava/util/Random;)Ljava/lang/Object;")
+            at = @At("STORE")
     )
-    private Object soManyEnchantments_vanillaEntityVillagerListEnchantedBookForEmeralds_addMerchantRecipe(Object original, IMerchant merchant, MerchantRecipeList recipeList, Random random) {
+    private Enchantment soManyEnchantments_vanillaEntityVillagerListEnchantedBookForEmeralds_addMerchantRecipe(Enchantment enchantment, @Local(argsOnly = true) Random random) {
+        if(soManyEnchantments$enchantmentIsAllowed(enchantment)) return enchantment;
+
         List<Enchantment> validEnchantsArr = new ArrayList<>();
-        for(Enchantment enchant : ForgeRegistries.ENCHANTMENTS.getValuesCollection()) {
-            if(ModConfig.miscellaneous.blacklistedLibrarianEnchantsIsWhitelist == ModConfig.getLibrarianEnchantsBlacklist().contains(enchant)) {
-                validEnchantsArr.add(enchant);
-            }
-        }
-        if(!validEnchantsArr.isEmpty()) {
-            return validEnchantsArr.get(random.nextInt(validEnchantsArr.size()));
-        }
-        return original;
+        Enchantment.REGISTRY.forEach(e -> { if(soManyEnchantments$enchantmentIsAllowed(e)) validEnchantsArr.add(e); });
+        if(!validEnchantsArr.isEmpty()) return validEnchantsArr.get(random.nextInt(validEnchantsArr.size()));
+
+        return enchantment;
+    }
+
+    @Unique
+    private static boolean soManyEnchantments$enchantmentIsAllowed(Enchantment enchantment){
+        return ModConfig.getLibrarianEnchantsBlacklist().contains(enchantment) == ModConfig.miscellaneous.blacklistedLibrarianEnchantsIsWhitelist;
     }
 }
