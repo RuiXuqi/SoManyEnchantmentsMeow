@@ -5,6 +5,7 @@ import com.shultrea.rin.SoManyEnchantments;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Config;
 
 import java.util.HashMap;
@@ -30,7 +31,7 @@ public class CanApplyConfig {
 		}
 	}
 
-	public CanApplyConfig(){
+	public void init(){
 		itemTypes.put("ALL_TYPES",EnumEnchantmentType.ALL);
 		itemTypes.put("ARMOR",EnumEnchantmentType.ARMOR);
 		itemTypes.put("ARMOR_HEAD",EnumEnchantmentType.ARMOR_HEAD);
@@ -467,13 +468,19 @@ public class CanApplyConfig {
 		Item item = stack.getItem();
 		boolean isValid = false;
 		boolean invertedMatches = false;
+		String itemName = null;
 		for(String s: enchantConfig){
 			if(this.itemTypes.containsKey(s)){
+				//Normal Types via Predicates
 				EnumEnchantmentType enumEnchantmentType = itemTypes.get(s);
 				isValid = isValid || enumEnchantmentType.canEnchantItem(item);
+				//can't early return bc custom types can also exclude certain types
 			} else if(this.customTypeMap.containsKey(s)){
+				//Custom Types via Regex Matching
 				CustomType c = customTypeMap.get(s);
-				String itemName = item.getRegistryName().toString();
+				ResourceLocation loc = item.getRegistryName();
+				if(loc == null) itemName = ""; //Shouldn't match anything in this edge case
+				if(itemName == null) itemName = loc.toString(); //only need to toString once if there's multiple custom types
 				boolean matches = itemName.matches(c.regex);
 				if(!c.inverted)
 					isValid = isValid || matches;

@@ -1,5 +1,6 @@
 package com.shultrea.rin;
 
+import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.util.Types;
 import com.shultrea.rin.properties.*;
 import com.shultrea.rin.util.*;
@@ -38,6 +39,7 @@ public class SoManyEnchantments {
 		CapabilityManager.INSTANCE.register(IArrowProperties.class, new ArrowPropertiesStorage(), ArrowProperties::new);
 		MinecraftForge.EVENT_BUS.register(new ArrowPropertiesHandler());
 		EnchantmentRegistry.handleSubscribers();
+		ModConfig.canApply.init();
 	}
 
 	@EventHandler
