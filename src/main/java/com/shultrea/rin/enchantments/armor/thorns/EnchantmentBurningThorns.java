@@ -92,6 +92,7 @@ public class EnchantmentBurningThorns extends EnchantmentBase {
 			}
 			x++;
 		}
+		if(entity.isBurning()) return;
 		if(slot == -1 || !(stack.getItem() instanceof ISpecialArmor)) {
 			stack.damageItem(amount, entity);
 			return;
