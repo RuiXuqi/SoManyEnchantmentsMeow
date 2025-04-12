@@ -55,12 +55,11 @@ public class EnchantmentFlinging extends EnchantmentBase {
 	@Override
 	public void onEntityDamagedAlt(EntityLivingBase attacker, Entity target, ItemStack weapon, int level) {
 		if(!this.isEnabled()) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isOnEntityDamagedAltStrong()) return;
 		if(attacker == null) return;
 		if(!(target instanceof EntityLivingBase)) return;
 		EntityLivingBase victim = (EntityLivingBase)target;
 		if(weapon.isEmpty()) return;
-		
+
 		if(!attacker.world.isRemote) {
 			victim.isAirBorne = true;
 			double knockback = 0.075D + 0.1875D * (double)level;
