@@ -293,7 +293,7 @@ public class CanApplyConfig {
 	public String[] runeResurrection = {"SHIELD"};
 	@Config.Name("Rune: Revival")
 	@Config.RequiresMcRestart
-	public String[] runeRevival = {"SWORD", "BS_WEAPON"};
+	public String[] runeRevival = {"BREAKABLE"};
 	
 	//Subject
 	@Config.Name("Subject Biology")
