@@ -112,12 +112,14 @@ public class ConfigProvider {
                 EnumEnchantmentType enumEnchantmentType = itemTypes.get(s);
                 isValid = isValid || enumEnchantmentType.canEnchantItem(item);
                 //can't early return bc custom types can also exclude certain types
-            } else if(customTypeMap.containsKey(s)){
+            } else if(customTypeMap.containsKey(s)) {
                 //Custom Types via Regex Matching
                 CustomType c = customTypeMap.get(s);
-                ResourceLocation loc = item.getRegistryName();
-                if(loc == null) itemName = ""; //Shouldn't match anything in this edge case
-                if(itemName == null) itemName = loc.toString(); //only need to toString once if there's multiple custom types
+                if(itemName == null) {
+                    ResourceLocation loc = item.getRegistryName();
+                    if (loc != null) itemName = loc.toString(); //only need to toString once if there's multiple custom types
+                    else itemName = ""; //Shouldn't match anything in this edge case
+                }
                 boolean matches = itemName.matches(c.regex);
                 if(!c.inverted)
                     isValid = isValid || matches;

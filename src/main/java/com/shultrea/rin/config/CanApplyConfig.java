@@ -11,7 +11,8 @@ public class CanApplyConfig {
 			"BS_WEAPON;mujmajnkraftsbettersurvival\\:item.*(dagger|nunchaku|hammer|battleaxe)",
 			"NOT_GOLD;.*gold.*;NOT",
 			"SW_CROSSBOW;spartan(defiled|fire|weaponry)\\:crossbow.*",
-			"WOLFARMOR;wolfarmor\\:\\w+\\_wolf\\_armor"
+			"WOLFARMOR;wolfarmor\\:\\w+\\_wolf\\_armor",
+			"NOT_FLAMED_WEAPON;(mujmajnkraftsbettersurvival|spartanfire|iceandfire)\\:.*(itemfiredragonbone|\\_fire\\_dragonbone|dragonbone\\_sword\\_fire).*;NOT"
 	};
 
 	@Config.Name("Adept")
@@ -28,7 +29,7 @@ public class CanApplyConfig {
 	public String[] arcSlash = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Ash Destroyer")
 	@Config.RequiresMcRestart
-	public String[] ashDestroyer = {"SWORD", "BS_WEAPON"};
+	public String[] ashDestroyer = {"SWORD", "BS_WEAPON", "NOT_FLAMED_WEAPON"};
 	@Config.Name("Atomic Deconstructor")
 	@Config.RequiresMcRestart
 	public String[] atomicDeconstructor = {"SWORD", "BS_WEAPON"};

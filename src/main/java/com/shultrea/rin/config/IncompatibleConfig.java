@@ -65,7 +65,7 @@ public class IncompatibleConfig {
 			//Luck vs ascetic
 			"luckmagnification, ascetic",
 			//Damage tiers
-			"butchering, defusingedge, inhumane, penetratingedge, spellbreaker, wateraspect",
+			"butchering, defusingedge, inhumane, wateraspect",
 			//Damage mult tiers
 			"ashdestroyer, difficultysendowment, reviledblade, instability, cursededge",
 			//Fire tiers, fire vs extinguish
@@ -96,7 +96,7 @@ public class IncompatibleConfig {
 			"lessersharpness, lessersmite, lesserbaneofarthropods",
 			//Advanced tiers incompat
 			"advancedsharpness, advancedsmite, advancedbaneofarthropods",
-			//Supreme tiers
-			"supremesharpness, supremesmite, supremebaneofarthropods"
+			//Supreme tiers + Penetrating Edge and Spellbreaker which reach similar amounts of dmg
+			"supremesharpness, supremesmite, supremebaneofarthropods, penetratingedge, spellbreaker"
 	};
 }
