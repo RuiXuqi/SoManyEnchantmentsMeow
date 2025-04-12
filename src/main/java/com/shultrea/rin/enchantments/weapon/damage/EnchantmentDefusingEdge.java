@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.weapon.damage;
 
+import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.mixin.vanilla.IEntityCreeperMixin;
@@ -48,12 +49,12 @@ public class EnchantmentDefusingEdge extends EnchantmentBase {
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApply.defusingEdge, stack) && super.canApplyAtEnchantingTable(stack);
+		return ConfigProvider.canItemApply(ModConfig.canApply.defusingEdge, stack) && super.canApplyAtEnchantingTable(stack);
 	}
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.defusingEdge, stack) || super.canApply(stack);
+		return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.defusingEdge, stack) || super.canApply(stack);
 	}
 
 	@Override

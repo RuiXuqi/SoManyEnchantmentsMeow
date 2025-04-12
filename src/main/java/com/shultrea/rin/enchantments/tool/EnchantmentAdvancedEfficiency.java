@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.tool;
 
+import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -54,12 +55,12 @@ public class EnchantmentAdvancedEfficiency extends EnchantmentBase {
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApply.advancedEfficiency, stack) && super.canApplyAtEnchantingTable(stack);
+		return ConfigProvider.canItemApply(ModConfig.canApply.advancedEfficiency, stack) && super.canApplyAtEnchantingTable(stack);
 	}
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.advancedEfficiency, stack) || super.canApply(stack);
+		return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.advancedEfficiency, stack) || super.canApply(stack);
 	}
 	
 	@Override

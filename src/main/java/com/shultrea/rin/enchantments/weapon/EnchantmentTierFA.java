@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.weapon;
 
+import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -100,9 +101,9 @@ public class EnchantmentTierFA extends EnchantmentBase {
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
 		switch(this.damageType){
-			case LESSFIRE: return ModConfig.canApply.isItemValid(ModConfig.canApply.lesserFireAspect, stack) && super.canApplyAtEnchantingTable(stack);
-			case ADVFIRE: return ModConfig.canApply.isItemValid(ModConfig.canApply.advancedFireAspect, stack) && super.canApplyAtEnchantingTable(stack);
-			case SUPFIRE: return ModConfig.canApply.isItemValid(ModConfig.canApply.supremeFireAspect, stack) && super.canApplyAtEnchantingTable(stack);
+			case LESSFIRE: return ConfigProvider.canItemApply(ModConfig.canApply.lesserFireAspect, stack) && super.canApplyAtEnchantingTable(stack);
+			case ADVFIRE: return ConfigProvider.canItemApply(ModConfig.canApply.advancedFireAspect, stack) && super.canApplyAtEnchantingTable(stack);
+			case SUPFIRE: return ConfigProvider.canItemApply(ModConfig.canApply.supremeFireAspect, stack) && super.canApplyAtEnchantingTable(stack);
 			default: return false;
 		}
 	}
@@ -110,9 +111,9 @@ public class EnchantmentTierFA extends EnchantmentBase {
 	@Override
 	public boolean canApply(ItemStack stack){
 		switch(this.damageType){
-			case LESSFIRE: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.lesserFireAspect, stack) || super.canApply(stack);
-			case ADVFIRE: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.advancedFireAspect, stack) || super.canApply(stack);
-			case SUPFIRE: return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.supremeFireAspect, stack) || super.canApply(stack);
+			case LESSFIRE: return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.lesserFireAspect, stack) || super.canApply(stack);
+			case ADVFIRE: return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.advancedFireAspect, stack) || super.canApply(stack);
+			case SUPFIRE: return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.supremeFireAspect, stack) || super.canApply(stack);
 			default: return false;
 		}
 	}

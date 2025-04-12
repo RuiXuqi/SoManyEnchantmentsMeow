@@ -1,6 +1,6 @@
 package com.shultrea.rin;
 
-import com.shultrea.rin.config.ModConfig;
+import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.util.Types;
 import com.shultrea.rin.properties.*;
 import com.shultrea.rin.util.*;
@@ -19,8 +19,13 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = SoManyEnchantments.MODID, name = SoManyEnchantments.NAME, version = SoManyEnchantments.VERSION,
-	 acceptedMinecraftVersions = "[1.12.0, 1.12.2]")
+@Mod(
+		modid = SoManyEnchantments.MODID,
+		name = SoManyEnchantments.NAME,
+		version = SoManyEnchantments.VERSION,
+		dependencies = "required-after:fermiumbooter@[1.2.0,)",
+	 	acceptedMinecraftVersions = "[1.12.0, 1.12.2]"
+)
 public class SoManyEnchantments {
 	
 	public static final String MODID = "somanyenchantments";
@@ -39,7 +44,7 @@ public class SoManyEnchantments {
 		CapabilityManager.INSTANCE.register(IArrowProperties.class, new ArrowPropertiesStorage(), ArrowProperties::new);
 		MinecraftForge.EVENT_BUS.register(new ArrowPropertiesHandler());
 		EnchantmentRegistry.handleSubscribers();
-		ModConfig.canApply.init();
+		ConfigProvider.initCanApply();
 	}
 
 	@EventHandler

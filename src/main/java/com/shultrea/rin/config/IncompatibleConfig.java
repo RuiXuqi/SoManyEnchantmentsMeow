@@ -1,11 +1,6 @@
 package com.shultrea.rin.config;
 
-import com.shultrea.rin.SoManyEnchantments;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Config;
-
-import java.util.ArrayList;
 
 public class IncompatibleConfig {
 	
@@ -104,35 +99,4 @@ public class IncompatibleConfig {
 			//Supreme tiers
 			"supremesharpness, supremesmite, supremebaneofarthropods"
 	};
-	
-	public ArrayList<Enchantment> getIncompatibleEnchantmentsString(Enchantment thisEnch) {
-		ArrayList<Enchantment> incompatEnchs = new ArrayList<>();
-
-		ResourceLocation regName = thisEnch.getRegistryName();
-		if(regName == null) return incompatEnchs;
-		
-		for(String s : incompatibleGroups) {
-			if(s.contains(regName.getPath())) {
-				//Assumes that config lines are enchantments separated by comma
-				String[] enchsInList = s.split(",");
-				for(String s1 : enchsInList) {
-					s1 = s1.trim();
-					if(s1.isEmpty()) continue;
-					//assumes that the config uses modid:enchantment if its not an SME enchant
-					if(!s1.contains(":")) s1 = SoManyEnchantments.MODID + ":" + s1;
-					Enchantment incompatEnch = Enchantment.getEnchantmentByLocation(s1);
-					if(incompatEnch == null) SoManyEnchantments.LOGGER.info("SME: could not find incompatible enchantment {}", s1);
-					else incompatEnchs.add(incompatEnch);
-				}
-			}
-		}
-		// remove duplicates of the calling enchant
-		// every enchantment is incompatible with itself, this is handled by Enchantment.java though
-		// and thus doesnt need to be in this list
-		while(incompatEnchs.contains(thisEnch)) {
-			incompatEnchs.remove(thisEnch);
-		}
-
-		return incompatEnchs;
-	}
 }

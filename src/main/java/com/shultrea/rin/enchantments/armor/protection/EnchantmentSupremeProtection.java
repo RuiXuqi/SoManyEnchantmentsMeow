@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.armor.protection;
 
+import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.util.EnchantUtil;

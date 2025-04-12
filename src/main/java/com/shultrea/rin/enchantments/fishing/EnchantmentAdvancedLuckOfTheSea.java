@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.fishing;
 
+import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -52,12 +53,12 @@ public class EnchantmentAdvancedLuckOfTheSea extends EnchantmentBase {
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApply.advancedLuckOfTheSea, stack) && super.canApplyAtEnchantingTable(stack);
+		return ConfigProvider.canItemApply(ModConfig.canApply.advancedLuckOfTheSea, stack) && super.canApplyAtEnchantingTable(stack);
 	}
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.advancedLuckOfTheSea, stack) || super.canApply(stack);
+		return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.advancedLuckOfTheSea, stack) || super.canApply(stack);
 	}
 	
 	@Override

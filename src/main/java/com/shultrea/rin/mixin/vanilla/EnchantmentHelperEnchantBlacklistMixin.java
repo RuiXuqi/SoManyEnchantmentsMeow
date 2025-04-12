@@ -2,6 +2,7 @@ package com.shultrea.rin.mixin.vanilla;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.util.FromEnchTableThreadLocal;
 import net.minecraft.enchantment.EnchantmentData;
@@ -32,7 +33,7 @@ public abstract class EnchantmentHelperEnchantBlacklistMixin {
     @Unique
     private static boolean soManyEnchantments$enchantmentIsAllowed(EnchantmentData data, boolean fromEnchantingTable){
         if(fromEnchantingTable)
-            return ModConfig.getEnchantTableEnchantsBlacklist().contains(data.enchantment) == ModConfig.miscellaneous.blacklistedEnchTableEnchantsIsWhitelist;
-        else return ModConfig.getRandomLevelEnchantsBlacklist().contains(data.enchantment) == ModConfig.miscellaneous.blacklistedRandomLevelEnchantsIsWhitelist;
+            return ConfigProvider.getEnchantTableEnchantsBlacklist().contains(data.enchantment) == ModConfig.miscellaneous.blacklistedEnchTableEnchantsIsWhitelist;
+        else return ConfigProvider.getRandomLevelEnchantsBlacklist().contains(data.enchantment) == ModConfig.miscellaneous.blacklistedRandomLevelEnchantsIsWhitelist;
     }
 }

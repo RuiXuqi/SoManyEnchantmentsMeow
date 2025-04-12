@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.weapon.damagemultiplier;
 
+import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -46,12 +47,12 @@ public class EnchantmentAshDestroyer extends EnchantmentBase {
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApply.ashDestroyer, stack) && super.canApplyAtEnchantingTable(stack);
+		return ConfigProvider.canItemApply(ModConfig.canApply.ashDestroyer, stack) && super.canApplyAtEnchantingTable(stack);
 	}
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.ashDestroyer, stack) || super.canApply(stack);
+		return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.ashDestroyer, stack) || super.canApply(stack);
 	}
 	
 	@Override

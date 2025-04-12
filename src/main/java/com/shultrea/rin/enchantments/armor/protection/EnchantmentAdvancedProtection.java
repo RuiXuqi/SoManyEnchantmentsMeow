@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.armor.protection;
 
+import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.util.EnchantUtil;
@@ -44,12 +45,12 @@ public class EnchantmentAdvancedProtection extends EnchantmentBase {
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApply.advancedProtection, stack) && super.canApplyAtEnchantingTable(stack);
+		return ConfigProvider.canItemApply(ModConfig.canApply.advancedProtection, stack) && super.canApplyAtEnchantingTable(stack);
 	}
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.advancedProtection, stack) || super.canApply(stack);
+		return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.advancedProtection, stack) || super.canApply(stack);
 	}
 	
 	@Override

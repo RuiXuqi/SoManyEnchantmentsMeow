@@ -1,5 +1,6 @@
 package com.shultrea.rin.util.compat;
 
+import com.shultrea.rin.SoManyEnchantments;
 import net.minecraftforge.fml.common.Loader;
 
 public class CompatUtil {
@@ -12,6 +13,7 @@ public class CompatUtil {
 	private static final String SPARTANWEAPONRY_MODID = "spartanweaponry";
 	private static final String SPAWNERCONTROL_MODID = "spawnercontrol";
 	private static final String SOCKETED_MODID = "socketed";
+	private static final String BETTERSURVIVAL_MODID = "mujmajnkraftsbettersurvival";
 	
 	private static Boolean isRLCombatLoaded = null;
 	private static Boolean isSwitchbowLoaded = null;
@@ -67,6 +69,31 @@ public class CompatUtil {
 		try {
 			int i = Integer.parseInt(String.valueOf(arrOfStr[0]));
 			if(i == 2) return true;
+		}
+		catch(Exception ignored) { }
+		return false;
+	}
+
+	public static boolean isBetterSurvivalCorrectVersion() {
+		String[] arrOfStr = Loader.instance().getIndexedModList().get(BETTERSURVIVAL_MODID).getVersion().split("\\.");
+		try {
+			int i = Integer.parseInt(String.valueOf(arrOfStr[0]));
+			int j = Integer.parseInt(String.valueOf(arrOfStr[1]));
+			int k = Integer.parseInt(String.valueOf(arrOfStr[2]));
+			if(i*100 + j*10 + k <= 154) return true; //until 1.5.4
+		}
+		catch(Exception ignored) { }
+		return false;
+	}
+
+	public static boolean isSpartanWeaponryCorrectVersion() {
+		String[] arrOfStr = Loader.instance().getIndexedModList().get(SPARTANWEAPONRY_MODID).getVersion().split("\\.");
+		try {
+			SoManyEnchantments.LOGGER.info(arrOfStr);
+			int i = Integer.parseInt(String.valueOf(arrOfStr[0]));
+			int j = Integer.parseInt(String.valueOf(arrOfStr[1]));
+			int k = Integer.parseInt(String.valueOf(arrOfStr[2]));
+			if(i*100 + j*10 + k < 160) return true; //until 1.6.0
 		}
 		catch(Exception ignored) { }
 		return false;

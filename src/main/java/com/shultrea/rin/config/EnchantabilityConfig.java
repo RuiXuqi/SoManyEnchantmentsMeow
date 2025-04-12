@@ -2,7 +2,6 @@ package com.shultrea.rin.config;
 
 import net.minecraftforge.common.config.Config;
 
-
 public class EnchantabilityConfig {
 	public static final int MIN = 0;
 	public static final int SUPER = 1;

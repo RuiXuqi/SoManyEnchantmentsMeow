@@ -1,14 +1,13 @@
 package com.shultrea.rin.config;
 
-import net.minecraft.enchantment.Enchantment;
 import net.minecraftforge.common.config.Config;
 
 public class RarityConfig {
 
-	static final String COMMON = Enchantment.Rarity.COMMON.toString();
-	static final String UNCOMMON = Enchantment.Rarity.UNCOMMON.toString();
-	static final String RARE = Enchantment.Rarity.RARE.toString();
-	static final String VERY_RARE = Enchantment.Rarity.VERY_RARE.toString();
+	static final String COMMON = "COMMON";
+	static final String UNCOMMON = "UNCOMMON";
+	static final String RARE = "RARE";
+	static final String VERY_RARE = "VERY_RARE";
 
 	@Config.Name("Adept")
 	@Config.RequiresMcRestart
@@ -403,8 +402,4 @@ public class RarityConfig {
 	@Config.Name("Supreme Smite")
 	@Config.RequiresMcRestart
 	public String supremeSmite = VERY_RARE;
-
-	public static Enchantment.Rarity get(String rarity){
-		return Enchantment.Rarity.valueOf(rarity);
-	}
 }

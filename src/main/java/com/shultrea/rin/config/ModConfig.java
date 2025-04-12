@@ -1,20 +1,14 @@
 package com.shultrea.rin.config;
 
 import com.shultrea.rin.SoManyEnchantments;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.util.ResourceLocation;
+import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.logging.log4j.Level;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Config(modid = SoManyEnchantments.MODID)
 public class ModConfig {
@@ -53,16 +47,19 @@ public class ModConfig {
 
 	@Config.Comment("Config for upgrading tiered enchantments")
 	@Config.Name("Upgrade")
+	@MixinConfig.SubInstance
 	public static UpgradeConfig upgrade = new UpgradeConfig();
 	
 	@Config.Comment("Miscellaneous")
 	@Config.Name("Miscellaneous")
+	@MixinConfig.SubInstance
 	public static MiscellaneousConfig miscellaneous = new MiscellaneousConfig();
 	
 	public static class MiscellaneousConfig {
 		@Config.Comment("Makes zombie villagers keep their trades during infection and conversion")
 		@Config.Name("Zombified Villagers keep trades")
 		@Config.RequiresMcRestart
+		@MixinConfig.EarlyMixin(name = "mixins.somanyenchantments.zombietrades.json")
 		public boolean zombieVillagersKeepTrades = true;
 
 		@Config.Comment("Allow enchantments to change the weather")
@@ -222,54 +219,6 @@ public class ModConfig {
 		public boolean curseOfPossessionDeathDeletion = true;
 	}
 	
-	private static List<Enchantment> randomLevelEnchantsBlacklist = null;
-	private static List<Enchantment> randomEnchantsBlacklist = null;
-	private static List<Enchantment> librarianEnchantsBlacklist = null;
-	private static List<Enchantment> enchantTableEnchantsBlacklist = null;
-	
-	public static List<Enchantment> getRandomLevelEnchantsBlacklist() {
-		if(randomLevelEnchantsBlacklist == null) {
-			randomLevelEnchantsBlacklist = populateEnchantmentList(ModConfig.miscellaneous.blacklistedRandomLevelEnchants);
-		}
-		return randomLevelEnchantsBlacklist;
-	}
-	
-	public static List<Enchantment> getRandomEnchantsBlacklist() {
-		if(randomEnchantsBlacklist == null) {
-			randomEnchantsBlacklist = populateEnchantmentList(ModConfig.miscellaneous.blacklistedRandomEnchants);
-		}
-		return randomEnchantsBlacklist;
-	}
-	
-	public static List<Enchantment> getLibrarianEnchantsBlacklist() {
-		if(librarianEnchantsBlacklist == null) {
-			librarianEnchantsBlacklist = populateEnchantmentList(ModConfig.miscellaneous.blacklistedLibrarianEnchants);
-		}
-		return librarianEnchantsBlacklist;
-	}
-	
-	public static List<Enchantment> getEnchantTableEnchantsBlacklist() {
-		if(enchantTableEnchantsBlacklist == null) {
-			enchantTableEnchantsBlacklist = populateEnchantmentList(ModConfig.miscellaneous.blacklistedEnchTableEnchants);
-		}
-		return enchantTableEnchantsBlacklist;
-	}
-	
-	private static List<Enchantment> populateEnchantmentList(String[] names) {
-		List<Enchantment> list = new ArrayList<>();
-		for(String name : names) {
-			name = name.trim();
-			if(name.isEmpty()) continue;
-			Enchantment enchant = ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation(name));
-			if(enchant == null) {
-				SoManyEnchantments.LOGGER.log(Level.WARN, "Invalid enchantment " + name + " in blacklist");
-				continue;
-			}
-			list.add(enchant);
-		}
-		return list;
-	}
-	
 	@Mod.EventBusSubscriber(modid = SoManyEnchantments.MODID)
 	private static class EventHandler {
 		
@@ -278,10 +227,7 @@ public class ModConfig {
 		public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
 			if(event.getModID().equals(SoManyEnchantments.MODID)) {
 				ConfigManager.sync(SoManyEnchantments.MODID, Config.Type.INSTANCE);
-				randomLevelEnchantsBlacklist = null;
-				randomEnchantsBlacklist = null;
-				librarianEnchantsBlacklist = null;
-				enchantTableEnchantsBlacklist = null;
+				ConfigProvider.resetBlacklists();
 			}
 		}
 	}

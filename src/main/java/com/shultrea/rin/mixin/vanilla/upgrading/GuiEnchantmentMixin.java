@@ -1,5 +1,6 @@
 package com.shultrea.rin.mixin.vanilla.upgrading;
 
+import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.config.UpgradeConfig;
 import com.shultrea.rin.util.IContainerEnchantmentMixin;
@@ -304,7 +305,7 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
                         String s;
                         
                         if(upgradeTokenCost > 0) {
-                            s = upgradeTokenCost + " " + I18n.format(UpgradeConfig.getUpgradeTokenItem().getTranslationKey() + ".name");
+                            s = upgradeTokenCost + " " + I18n.format(ConfigProvider.getUpgradeTokenItem().getTranslationKey() + ".name");
                             
                             TextFormatting textformatting = tokenAmount >= upgradeTokenCost && !tokenIsLapis ? TextFormatting.GRAY : TextFormatting.RED;
                             list.add(textformatting + "" + s);

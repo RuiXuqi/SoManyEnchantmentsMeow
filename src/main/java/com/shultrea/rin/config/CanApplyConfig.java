@@ -1,64 +1,8 @@
 package com.shultrea.rin.config;
 
-import com.shultrea.rin.util.Types;
-import com.shultrea.rin.SoManyEnchantments;
-import net.minecraft.enchantment.EnumEnchantmentType;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Config;
 
-import java.util.HashMap;
-
 public class CanApplyConfig {
-
-	private final HashMap<String, EnumEnchantmentType> itemTypes = new HashMap<>();
-	private final HashMap<String, CustomType> customTypeMap = new HashMap<>();
-
-	private static class CustomType {
-		String name = "";
-		String regex = "";
-		boolean inverted = false;
-
-		CustomType(String in){
-			String[] split = in.split(";");
-			if(split.length>=2) {
-				name = split[0];
-				regex = split[1];
-			}
-			if(split.length>=3)
-				inverted = "NOT".equals(split[2]);
-		}
-	}
-
-	public void init(){
-		itemTypes.put("ALL_TYPES",EnumEnchantmentType.ALL);
-		itemTypes.put("ARMOR",EnumEnchantmentType.ARMOR);
-		itemTypes.put("ARMOR_HEAD",EnumEnchantmentType.ARMOR_HEAD);
-		itemTypes.put("ARMOR_CHEST",EnumEnchantmentType.ARMOR_CHEST);
-		itemTypes.put("ARMOR_LEGS",EnumEnchantmentType.ARMOR_LEGS);
-		itemTypes.put("ARMOR_FEET",EnumEnchantmentType.ARMOR_FEET);
-		itemTypes.put("SWORD",EnumEnchantmentType.WEAPON);
-		itemTypes.put("TOOL",EnumEnchantmentType.DIGGER);
-		itemTypes.put("FISHING_ROD",EnumEnchantmentType.FISHING_ROD);
-		itemTypes.put("BREAKABLE",EnumEnchantmentType.BREAKABLE);
-		itemTypes.put("BOW",EnumEnchantmentType.BOW);
-		itemTypes.put("WEARABLE",EnumEnchantmentType.WEARABLE);
-
-		itemTypes.put("ALL_ITEMS", Types.ALL);
-		itemTypes.put("AXE", Types.COMBAT_AXE);
-		itemTypes.put("PICKAXE", Types.PICKAXE);
-		itemTypes.put("HOE", Types.HOE);
-		itemTypes.put("SHOVEL", Types.SPADE);
-		itemTypes.put("SHIELD", Types.SHIELD);
-		itemTypes.put("NONE", Types.NONE);
-
-		for(String s: customTypes){
-			CustomType c = new CustomType(s);
-			if(!"".equals(c.name) && !"".equals(c.regex))
-				customTypeMap.put(c.name,c);
-		}
-	}
 
 	@Config.Name("Custom Item Types")
 	@Config.Comment("Pattern: Name to use;Regex to match item ids to find the item;optional: 'NOT' to invert. If you use the inversion, canApply will use this type as an AND connection instead of an OR connection. So 'NOTGOLD','TOOL','SWORD' will be any sword or tool that is not gold. The custom types can also be used in canApplyAnvil config")
@@ -464,33 +408,4 @@ public class CanApplyConfig {
 	@Config.Name("Supreme Smite")
 	@Config.RequiresMcRestart
 	public String[] supremeSmite = {"SWORD", "BS_WEAPON"};
-
-	public boolean isItemValid(String[] enchantConfig, ItemStack stack){
-		Item item = stack.getItem();
-		boolean isValid = false;
-		boolean invertedMatches = false;
-		String itemName = null;
-		for(String s: enchantConfig){
-			if(this.itemTypes.containsKey(s)){
-				//Normal Types via Predicates
-				EnumEnchantmentType enumEnchantmentType = itemTypes.get(s);
-				isValid = isValid || enumEnchantmentType.canEnchantItem(item);
-				//can't early return bc custom types can also exclude certain types
-			} else if(this.customTypeMap.containsKey(s)){
-				//Custom Types via Regex Matching
-				CustomType c = customTypeMap.get(s);
-				ResourceLocation loc = item.getRegistryName();
-				if(loc == null) itemName = ""; //Shouldn't match anything in this edge case
-				if(itemName == null) itemName = loc.toString(); //only need to toString once if there's multiple custom types
-				boolean matches = itemName.matches(c.regex);
-				if(!c.inverted)
-					isValid = isValid || matches;
-				else
-					invertedMatches = invertedMatches || matches;
-			} else {
-                SoManyEnchantments.LOGGER.info("SME: Could not find given item type {}", s);
-			}
-		}
-		return isValid && !invertedMatches;
-	}
 }

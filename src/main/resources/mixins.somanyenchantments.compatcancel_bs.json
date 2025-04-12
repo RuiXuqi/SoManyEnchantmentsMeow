@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "com.shultrea.rin.mixin.bettersurvival",
+  "refmap": "mixins.somanyenchantments.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "ItemBattleAxeMixin",
+    "ItemCustomWeaponMixin"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}

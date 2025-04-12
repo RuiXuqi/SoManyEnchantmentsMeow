@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.curses;
 
+import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
@@ -51,12 +52,12 @@ public class EnchantmentBreachedPlating extends EnchantmentCurse {
 	
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApply.breachedPlating, stack) && super.canApplyAtEnchantingTable(stack);
+		return ConfigProvider.canItemApply(ModConfig.canApply.breachedPlating, stack) && super.canApplyAtEnchantingTable(stack);
 	}
 	
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.breachedPlating, stack) || super.canApply(stack);
+		return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.breachedPlating, stack) || super.canApply(stack);
 	}
 	
 	@Override

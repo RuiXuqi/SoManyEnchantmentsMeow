@@ -1,6 +1,7 @@
 package com.shultrea.rin.mixin.vanilla;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.config.ModConfig;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.passive.EntityVillager;
@@ -32,6 +33,6 @@ public abstract class EntityVillagerListEnchantedBookForEmeraldsMixin {
 
     @Unique
     private static boolean soManyEnchantments$enchantmentIsAllowed(Enchantment enchantment){
-        return ModConfig.getLibrarianEnchantsBlacklist().contains(enchantment) == ModConfig.miscellaneous.blacklistedLibrarianEnchantsIsWhitelist;
+        return ConfigProvider.getLibrarianEnchantsBlacklist().contains(enchantment) == ModConfig.miscellaneous.blacklistedLibrarianEnchantsIsWhitelist;
     }
 }

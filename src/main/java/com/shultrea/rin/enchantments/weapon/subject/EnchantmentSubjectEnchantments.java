@@ -1,5 +1,6 @@
 package com.shultrea.rin.enchantments.weapon.subject;
 
+import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
@@ -134,19 +135,19 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 	public boolean canApplyAtEnchantingTable(ItemStack stack) {
 		switch (this.damageType) {
 			case BIOLOGY:
-				return ModConfig.canApply.isItemValid(ModConfig.canApply.subjectBiology, stack) && super.canApplyAtEnchantingTable(stack);
+				return ConfigProvider.canItemApply(ModConfig.canApply.subjectBiology, stack) && super.canApplyAtEnchantingTable(stack);
 			case CHEMISTRY:
-				return ModConfig.canApply.isItemValid(ModConfig.canApply.subjectChemistry, stack) && super.canApplyAtEnchantingTable(stack);
+				return ConfigProvider.canItemApply(ModConfig.canApply.subjectChemistry, stack) && super.canApplyAtEnchantingTable(stack);
 			case ENGLISH:
-				return ModConfig.canApply.isItemValid(ModConfig.canApply.subjectEnglish, stack) && super.canApplyAtEnchantingTable(stack);
+				return ConfigProvider.canItemApply(ModConfig.canApply.subjectEnglish, stack) && super.canApplyAtEnchantingTable(stack);
 			case HISTORY:
-				return ModConfig.canApply.isItemValid(ModConfig.canApply.subjectHistory, stack) && super.canApplyAtEnchantingTable(stack);
+				return ConfigProvider.canItemApply(ModConfig.canApply.subjectHistory, stack) && super.canApplyAtEnchantingTable(stack);
 			case MATHEMATICS:
-				return ModConfig.canApply.isItemValid(ModConfig.canApply.subjectMathematics, stack) && super.canApplyAtEnchantingTable(stack);
+				return ConfigProvider.canItemApply(ModConfig.canApply.subjectMathematics, stack) && super.canApplyAtEnchantingTable(stack);
 			case PE:
-				return ModConfig.canApply.isItemValid(ModConfig.canApply.subjectPE, stack) && super.canApplyAtEnchantingTable(stack);
+				return ConfigProvider.canItemApply(ModConfig.canApply.subjectPE, stack) && super.canApplyAtEnchantingTable(stack);
 			case PHYSICS:
-				return ModConfig.canApply.isItemValid(ModConfig.canApply.subjectPhysics, stack) && super.canApplyAtEnchantingTable(stack);
+				return ConfigProvider.canItemApply(ModConfig.canApply.subjectPhysics, stack) && super.canApplyAtEnchantingTable(stack);
 			default:
 				return false;
 		}
@@ -156,19 +157,19 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 	public boolean canApply(ItemStack stack) {
 		switch (this.damageType) {
 			case BIOLOGY:
-				return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.subjectBiology, stack) || super.canApply(stack);
+				return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.subjectBiology, stack) || super.canApply(stack);
 			case CHEMISTRY:
-				return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.subjectChemistry, stack) || super.canApply(stack);
+				return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.subjectChemistry, stack) || super.canApply(stack);
 			case ENGLISH:
-				return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.subjectEnglish, stack) || super.canApply(stack);
+				return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.subjectEnglish, stack) || super.canApply(stack);
 			case HISTORY:
-				return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.subjectHistory, stack) || super.canApply(stack);
+				return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.subjectHistory, stack) || super.canApply(stack);
 			case MATHEMATICS:
-				return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.subjectMathematics, stack) || super.canApply(stack);
+				return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.subjectMathematics, stack) || super.canApply(stack);
 			case PE:
-				return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.subjectPE, stack) || super.canApply(stack);
+				return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.subjectPE, stack) || super.canApply(stack);
 			case PHYSICS:
-				return ModConfig.canApply.isItemValid(ModConfig.canApplyAnvil.subjectPhysics, stack) || super.canApply(stack);
+				return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.subjectPhysics, stack) || super.canApply(stack);
 			default:
 				return false;
 		}

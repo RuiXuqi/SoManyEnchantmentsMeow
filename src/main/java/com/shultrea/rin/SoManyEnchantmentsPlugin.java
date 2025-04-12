@@ -1,10 +1,11 @@
 package com.shultrea.rin;
 
-import com.llamalad7.mixinextras.MixinExtrasBootstrap;
-import com.shultrea.rin.config.EarlyConfigReader;
+import com.shultrea.rin.config.ModConfig;
+import com.shultrea.rin.util.compat.CompatUtil;
+import fermiumbooter.FermiumRegistryAPI;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.spongepowered.asm.launch.MixinBootstrap;
-import org.spongepowered.asm.mixin.Mixins;
 
 import java.util.Map;
 
@@ -13,13 +14,12 @@ public class SoManyEnchantmentsPlugin implements IFMLLoadingPlugin {
 	
 	public SoManyEnchantmentsPlugin() {
 		MixinBootstrap.init();
-		MixinExtrasBootstrap.init();
-		Mixins.addConfiguration("mixins.somanyenchantments.vanilla.json");
 
-		if(EarlyConfigReader.getBoolean(".Enable Upgrading Mechanic"))
-			Mixins.addConfiguration("mixins.somanyenchantments.upgrading.json");
-		if(EarlyConfigReader.getBoolean("Zombified Villagers keep trades"))
-			Mixins.addConfiguration("mixins.somanyenchantments.zombietrades.json");
+		FermiumRegistryAPI.registerAnnotatedMixinConfig(ModConfig.class, null);
+		FermiumRegistryAPI.enqueueMixin(false,"mixins.somanyenchantments.vanilla.json");
+
+		FermiumRegistryAPI.enqueueMixin(true,"mixins.somanyenchantments.compatcancel_bs.json", () -> Loader.isModLoaded("mujmajnkraftsbettersurvival") && !Loader.isModLoaded("rlmixins") && CompatUtil.isBetterSurvivalCorrectVersion());
+		FermiumRegistryAPI.enqueueMixin(true,"mixins.somanyenchantments.compatcancel_sw.json", () -> Loader.isModLoaded("spartanweaponry") && !Loader.isModLoaded("rlmixins") && CompatUtil.isSpartanWeaponryCorrectVersion());
 	}
 	
 	@Override

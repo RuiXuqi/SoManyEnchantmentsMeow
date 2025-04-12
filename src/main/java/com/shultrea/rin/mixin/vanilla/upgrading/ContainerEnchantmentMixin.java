@@ -1,6 +1,7 @@
 package com.shultrea.rin.mixin.vanilla.upgrading;
 
 import com.shultrea.rin.attributes.EnchantAttribute;
+import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.config.UpgradeConfig;
 import com.shultrea.rin.mixin.vanilla.EnchantmentHelperEnchantBlacklistMixin;
@@ -52,7 +53,7 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
     @Shadow public abstract void detectAndSendChanges();
 
     @Unique
-    private final UpgradeConfig.UpgradePotentialEntry[] soManyEnchantments$currentPotentials = new UpgradeConfig.UpgradePotentialEntry[3];
+    private final ConfigProvider.UpgradePotentialEntry[] soManyEnchantments$currentPotentials = new ConfigProvider.UpgradePotentialEntry[3];
     @Unique
     private final int[] soManyEnchantments$upgradeTokenCost = new int[3];
     @Unique
@@ -219,7 +220,7 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                     }
                     
                     //Get upgradeable enchant entries
-                    List<UpgradeConfig.UpgradePotentialEntry> upgradeEntries = new ArrayList<>();
+                    List<ConfigProvider.UpgradePotentialEntry> upgradeEntries = new ArrayList<>();
                     Map<Enchantment, Integer> currentEnchants = EnchantmentHelper.getEnchantments(targetItem);
                     for(Map.Entry<Enchantment, Integer> currentEnchantEntry : currentEnchants.entrySet()) {
                         Enchantment currentEnchantment = currentEnchantEntry.getKey();
@@ -231,7 +232,7 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                             Enchantment upgradeFailEnchant = null;
                             boolean upgradeFailRemovesOriginal = false;
                             if(ModConfig.upgrade.upgradeFailChance > 0 && !ModConfig.upgrade.upgradeFailTierOnly) {
-                                for(UpgradeConfig.UpgradeFailEntry failEntry : UpgradeConfig.getUpgradeFailEntries()) {
+                                for(ConfigProvider.UpgradeFailEntry failEntry : ConfigProvider.getUpgradeFailEntries()) {
                                     if(failEntry.canEnchantmentFail(currentEnchantment)) {
                                         upgradeFailEnchant = failEntry.getCurse();
                                         upgradeFailRemovesOriginal = ModConfig.upgrade.upgradeFailRemovesOriginal;
@@ -240,12 +241,12 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                                 }
                             }
                             //Valid upgrade path
-                            upgradeEntries.add(new UpgradeConfig.UpgradePotentialEntry(currentEnchantment, currentEnchantment, currentLevel, currentLevel + 1, ModConfig.upgrade.upgradeTokenAmountLevel, upgradeFailEnchant, upgradeFailRemovesOriginal));
+                            upgradeEntries.add(new ConfigProvider.UpgradePotentialEntry(currentEnchantment, currentEnchantment, currentLevel, currentLevel + 1, ModConfig.upgrade.upgradeTokenAmountLevel, upgradeFailEnchant, upgradeFailRemovesOriginal));
                         }
                         //Else tier check
                         else if(ModConfig.upgrade.allowTierUpgrades) {
                             //Check for valid tiers
-                            for(UpgradeConfig.UpgradeTierEntry upgradeableEntry : UpgradeConfig.getUpgradeTierEntries()) {
+                            for(ConfigProvider.UpgradeTierEntry upgradeableEntry : ConfigProvider.getUpgradeTierEntries()) {
                                 if(upgradeableEntry.isEnchantmentUpgradeable(currentEnchantment)) {
                                     Enchantment upgradedEnchantment = upgradeableEntry.getUpgradedEnchantment(currentEnchantment);
                                     //Non-book can apply check
@@ -281,7 +282,7 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                                         Enchantment upgradeFailEnchant = null;
                                         boolean upgradeFailRemovesOriginal = false;
                                         if(ModConfig.upgrade.upgradeFailChance > 0) {
-                                            for(UpgradeConfig.UpgradeFailEntry failEntry : UpgradeConfig.getUpgradeFailEntries()) {
+                                            for(ConfigProvider.UpgradeFailEntry failEntry : ConfigProvider.getUpgradeFailEntries()) {
                                                 if(failEntry.canEnchantmentFail(currentEnchantment)) {
                                                     upgradeFailEnchant = failEntry.getCurse();
                                                     upgradeFailRemovesOriginal = ModConfig.upgrade.upgradeFailRemovesOriginal;
@@ -290,7 +291,7 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                                             }
                                         }
                                         //Valid upgrade path
-                                        upgradeEntries.add(new UpgradeConfig.UpgradePotentialEntry(currentEnchantment, upgradedEnchantment, currentLevel, upgradedLevel, ModConfig.upgrade.upgradeTokenAmountTier, upgradeFailEnchant, upgradeFailRemovesOriginal));
+                                        upgradeEntries.add(new ConfigProvider.UpgradePotentialEntry(currentEnchantment, upgradedEnchantment, currentLevel, upgradedLevel, ModConfig.upgrade.upgradeTokenAmountTier, upgradeFailEnchant, upgradeFailRemovesOriginal));
                                         break;
                                     }
                                 }
@@ -315,7 +316,7 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                         }
                         
                         //Determine which possible upgrade to pick
-                        UpgradeConfig.UpgradePotentialEntry pickedPotential = upgradeEntries.get(rand.nextInt(upgradeEntries.size()));
+                        ConfigProvider.UpgradePotentialEntry pickedPotential = upgradeEntries.get(rand.nextInt(upgradeEntries.size()));
                         //Remove picked potential so multiple buttons don't get duplicates
                         upgradeEntries.remove(pickedPotential);
                         
@@ -450,7 +451,7 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
             //Check xp cost
             if(xpCost > 0 && (isCreative || playerIn.experienceLevel >= xpCost)) {
                 if(!this.world.isRemote) {
-                    UpgradeConfig.UpgradePotentialEntry potentialEntry = this.soManyEnchantments$currentPotentials[id];
+                    ConfigProvider.UpgradePotentialEntry potentialEntry = this.soManyEnchantments$currentPotentials[id];
                     //Sanity null check
                     if(potentialEntry == null) return false;
                     //Get existing enchants
@@ -602,7 +603,7 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
     
     @Unique
     private static boolean soManyEnchantments$isUpgradeToken(ItemStack stack) {
-        return UpgradeConfig.getUpgradeTokenItem() == stack.getItem();
+        return ConfigProvider.getUpgradeTokenItem() == stack.getItem();
     }
 
     @Unique
