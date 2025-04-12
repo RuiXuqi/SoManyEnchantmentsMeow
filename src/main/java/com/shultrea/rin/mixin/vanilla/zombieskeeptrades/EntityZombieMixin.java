@@ -2,10 +2,7 @@ package com.shultrea.rin.mixin.vanilla.zombieskeeptrades;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.monster.EntityZombieVillager;
-import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.village.MerchantRecipe;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

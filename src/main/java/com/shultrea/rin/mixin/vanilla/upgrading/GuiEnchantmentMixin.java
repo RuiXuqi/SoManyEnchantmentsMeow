@@ -2,7 +2,6 @@ package com.shultrea.rin.mixin.vanilla.upgrading;
 
 import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.config.UpgradeConfig;
 import com.shultrea.rin.util.IContainerEnchantmentMixin;
 import com.shultrea.rin.util.RainbowUtil;
 import net.minecraft.client.gui.FontRenderer;

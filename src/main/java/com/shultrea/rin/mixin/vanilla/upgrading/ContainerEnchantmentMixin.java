@@ -3,8 +3,6 @@ package com.shultrea.rin.mixin.vanilla.upgrading;
 import com.shultrea.rin.attributes.EnchantAttribute;
 import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.config.ModConfig;
-import com.shultrea.rin.config.UpgradeConfig;
-import com.shultrea.rin.mixin.vanilla.EnchantmentHelperEnchantBlacklistMixin;
 import com.shultrea.rin.util.FromEnchTableThreadLocal;
 import com.shultrea.rin.util.IContainerEnchantmentMixin;
 import net.minecraft.advancements.CriteriaTriggers;

@@ -12,7 +12,7 @@ public class TreasureConfig {
 	public boolean ancientSealedCurses = true;
 	@Config.Name("Ancient Sword Mastery")
 	@Config.RequiresMcRestart
-	public boolean ancientSwordMastery = false;
+	public boolean ancientSwordMastery = true;
 	@Config.Name("Arc Slash")
 	@Config.RequiresMcRestart
 	public boolean arcSlash = false;
@@ -384,7 +384,7 @@ public class TreasureConfig {
 	//Supreme
 	@Config.Name("Supreme Bane of Arthropods")
 	@Config.RequiresMcRestart
-	public boolean supremeBaneOfArthropods = false;
+	public boolean supremeBaneOfArthropods = true;
 	@Config.Name("Supreme Fire Aspect")
 	@Config.RequiresMcRestart
 	public boolean supremeFireAspect = true;
@@ -393,8 +393,8 @@ public class TreasureConfig {
 	public boolean supremeFlame = true;
 	@Config.Name("Supreme Sharpness")
 	@Config.RequiresMcRestart
-	public boolean supremeSharpness = false;
+	public boolean supremeSharpness = true;
 	@Config.Name("Supreme Smite")
 	@Config.RequiresMcRestart
-	public boolean supremeSmite = false;
+	public boolean supremeSmite = true;
 }

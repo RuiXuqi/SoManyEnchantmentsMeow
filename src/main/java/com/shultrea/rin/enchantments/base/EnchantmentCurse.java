@@ -2,7 +2,6 @@ package com.shultrea.rin.enchantments.base;
 
 import com.shultrea.rin.config.ModConfig;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 
 public abstract class EnchantmentCurse extends EnchantmentBase {
