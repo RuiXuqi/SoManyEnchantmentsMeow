@@ -66,8 +66,7 @@ public class EnchantmentCombatMedic extends EnchantmentBase {
 		if(user == null) return;
 		
 		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, user);
-		if(level > 0) {
-			event.setAmount(event.getAmount() * (1.2F + 0.6F * (float)level));
-		}
+		if(level > 0)
+			event.setAmount(event.getAmount() * (1.1F + 0.3F * (float)level));
 	}
 }

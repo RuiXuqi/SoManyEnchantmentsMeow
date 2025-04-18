@@ -94,6 +94,67 @@
 - Add death messages for culling and atomic deconstructor
 - Moved Combat Medic from hand enchant to head enchant
 
+## Attack Strength Scaling
+
+### general idea
+- dmg multi -> no strength limit
+- dmg add -> scale with strength
+- potion add always -> do it with chance = strMulti, except if it applies only for certain creature types (like vanilla BoA)
+- potion add chance -> chance scales with strength
+- any crazy effects only on full hit
+- iframe bypass on any strength
+
+### limited to full hits
+- Atomic Deconstructor
+- Culling
+- Disarmament
+- Cryogenic
+- Critical Strike
+- Luck Magnification
+- Brutality
+- Ancient Sealed Curses
+- Purification conversion
+
+### scale with strength
+- Rune Magical Blessing (%pierc + chance for debuffs)
+- Rune Piercing Capabilities (%pierc)
+- Purging Blade (chance)
+- Unreasonable (chance)
+- Desolator (chance for potion)
+- Disorientating Blade (chance for potion)
+- Envenomed (chance for potion)
+- Hors de Combat (chance for potion)
+- Purification (chance for potion)
+- Blessed Edge (chance for potion)
+- Subject (pe chance for potion, rest for added dmg)
+- Mortalitas (added dmg)
+- Viper (added dmg)
+- Butchering (added dmg)
+- Defusing Edge (added dmg, defusion as chance)
+- Inhumane (added dmg)
+- Penetrating Edge (added dmg)
+- Spellbreaker (added dmg)
+- Water Aspect (added dmg)
+- Weather enchants (added dmg, weather change and potion effects with strength as chance)
+- Dark Shadows (added dmg, blindness as chance)
+
+### no strength requirement
+- Cursed Edge (dmg multi)
+- Instability (dmg multi)
+- Lifesteal (dmg multi)
+- Ash Destroyer (dmg multi)
+- Difficultys Endowment (dmg multi)
+- Reviled Blade (dmg multi)
+- Blessed Edge (dmg multi)
+- Unsheathing (dmg multi)
+- Flinging (knockback like)
+- Levitator (knockback like)
+- Swifter Slashes (iframe)
+- Fiery Edge (iframe)
+- True Strike (iframe)
+- TierDamages (potion effects like vanilla BoA)
+- Inhumane (potion effects like vanilla BoA)
+
 ## Todo
 - Futher balancing
 - More sound effects? (Like resurrection)

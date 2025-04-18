@@ -21,8 +21,6 @@ public class IncompatibleConfig {
 			"combatmedic, curseofvulnerability",
 			//Evasion vs heavyweight
 			"evasion, heavyweight",
-			//Health boost vs damage boost
-			"innerberserk, strengthenedvitality",
 			//Lightweight vs heavyweight
 			"lightweight, heavyweight",
 			//Walker opposites
@@ -86,6 +84,8 @@ public class IncompatibleConfig {
 			"swifterslashes, heavyweight",
 			//True strike prevents inaccuracy
 			"truestrike, curseofinaccuracy",
+			//Only one Self Heal
+			"lifesteal, blessededge",
 			//Sharpness tiers, sharpness vs bluntness
 			"lessersharpness, minecraft:sharpness, advancedsharpness, supremesharpness, reinforcedsharpness, bluntness",
 			//Smite tiers
