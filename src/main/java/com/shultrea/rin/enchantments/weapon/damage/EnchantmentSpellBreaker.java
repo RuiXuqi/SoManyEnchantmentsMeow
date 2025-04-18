@@ -69,7 +69,6 @@ public class EnchantmentSpellBreaker extends EnchantmentBase {
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
@@ -80,13 +79,14 @@ public class EnchantmentSpellBreaker extends EnchantmentBase {
 		
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
+			float strengthMulti = CompatUtil.isRLCombatLoaded() ? RLCombatCompat.getAttackEntityFromStrength() : 1.0F;
+
 			Collection<PotionEffect> effects = victim.getActivePotionEffects();
-			if(!effects.isEmpty()) {
-				event.setAmount(event.getAmount() + 0.625F * (float)effects.size() * (float)level);
-			}
-			if(victim instanceof EntityWitch || victim instanceof EntityEvoker) {
-				event.setAmount(event.getAmount() + 1.75F * (float)level);
-			}
+			if(!effects.isEmpty())
+				event.setAmount(event.getAmount() + Math.min(15.0F, 0.625F * (float)effects.size() * (float)level) * strengthMulti);
+
+			if(victim instanceof EntityWitch || victim instanceof EntityEvoker)
+				event.setAmount(event.getAmount() + 1.75F * (float)level * strengthMulti);
 		}
 	}
 }

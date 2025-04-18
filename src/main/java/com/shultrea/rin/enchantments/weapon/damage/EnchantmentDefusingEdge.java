@@ -66,7 +66,6 @@ public class EnchantmentDefusingEdge extends EnchantmentBase {
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
@@ -78,14 +77,17 @@ public class EnchantmentDefusingEdge extends EnchantmentBase {
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
 			if(victim instanceof EntityCreeper) {
-				event.setAmount(event.getAmount() + 2.5F * (float)level);
-				
-				EntityCreeper creeper = (EntityCreeper)victim;
-				creeper.getDataManager().set(((IEntityCreeperMixin)victim).getIGNITED(), false);
-				creeper.setCreeperState(0);
-				((IEntityCreeperMixin)victim).setTimeSinceIgnited(0);
-				//Make explosion small if it does go off for semi-compat with mods like ESM
-				((IEntityCreeperMixin)victim).setExplosionRadius(1);
+				float strengthMulti = CompatUtil.isRLCombatLoaded() ? RLCombatCompat.getAttackEntityFromStrength() : 1.0F;
+				event.setAmount(event.getAmount() + 2.5F * (float)level * strengthMulti);
+
+				if(attacker.getRNG().nextFloat() < strengthMulti) {
+					EntityCreeper creeper = (EntityCreeper) victim;
+					creeper.getDataManager().set(((IEntityCreeperMixin) victim).getIGNITED(), false);
+					creeper.setCreeperState(0);
+					((IEntityCreeperMixin) victim).setTimeSinceIgnited(0);
+					//Make explosion small if it does go off for semi-compat with mods like ESM
+					((IEntityCreeperMixin) victim).setExplosionRadius(1);
+				}
 			}
 		}
 	}

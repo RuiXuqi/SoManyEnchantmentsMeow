@@ -67,7 +67,6 @@ public class EnchantmentWaterAspect extends EnchantmentBase {
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
@@ -78,18 +77,22 @@ public class EnchantmentWaterAspect extends EnchantmentBase {
 		
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
-			if(victim instanceof EntityEnderman || victim instanceof EntityBlaze || victim instanceof EntityMagmaCube) {
-				event.setAmount(event.getAmount() + 2.5F * (float)level);
-			}
-			if(victim.isInWater() || victim.isWet()) {
-				event.setAmount(event.getAmount() + 0.75F * (float)level);
-			}
-			if(attacker.isWet() || attacker.isInWater()) {
-				event.setAmount(event.getAmount() + 0.75F * (float)level);
-			}
-			if(victim.isBurning()) {
+			float strengthMulti = CompatUtil.isRLCombatLoaded() ? RLCombatCompat.getAttackEntityFromStrength() : 1.0F;
+
+			float damage = 0.0F;
+			if(victim instanceof EntityEnderman || victim instanceof EntityBlaze || victim instanceof EntityMagmaCube)
+				damage += 2.5F * (float)level;
+
+			if(victim.isInWater() || victim.isWet())
+				damage += 0.75F * (float)level;
+
+			if(attacker.isWet() || attacker.isInWater())
+				damage += 0.75F * (float)level;
+
+			event.setAmount(event.getAmount() + damage * strengthMulti);
+
+			if(victim.isBurning())
 				victim.extinguish();
-			}
 		}
 	}
 }

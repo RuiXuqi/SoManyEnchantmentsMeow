@@ -65,7 +65,6 @@ public class EnchantmentRainsBestowment extends EnchantmentBase {
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
@@ -76,21 +75,19 @@ public class EnchantmentRainsBestowment extends EnchantmentBase {
 		
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
+			float strengthMulti = CompatUtil.isRLCombatLoaded() ? RLCombatCompat.getAttackEntityFromStrength() : 1.0F;
 			if(attacker.world.isRaining()) {
-				if(attacker.getRNG().nextFloat() < 0.001F * (float)level) {
+				if(attacker.getRNG().nextFloat() < 0.001F * (float)level * strengthMulti)
 					EnchantUtil.setThundering(attacker.world);
-				}
+
 				float dmg = 1.25F + 1.0F * (float)level;
-				if(!EnchantUtil.canEntitySeeSky(attacker)) {
+				if(!EnchantUtil.canEntitySeeSky(attacker))
 					dmg -= 0.75F + 0.75F * (float)level;
-				}
-				event.setAmount(event.getAmount() + dmg);
+
+				event.setAmount(event.getAmount() + dmg * strengthMulti);
 			}
-			else {
-				if(attacker.getRNG().nextFloat() < 0.002F * (float)level) {
-					EnchantUtil.setRaining(attacker.world);
-				}
-			}
+			else if(attacker.getRNG().nextFloat() < 0.002F * (float)level * strengthMulti)
+				EnchantUtil.setRaining(attacker.world);
 		}
 	}
 }

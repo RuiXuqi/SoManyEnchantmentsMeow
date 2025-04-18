@@ -77,7 +77,6 @@ public class EnchantmentRuneMagicalBlessing extends EnchantmentBase {
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
@@ -86,29 +85,27 @@ public class EnchantmentRuneMagicalBlessing extends EnchantmentBase {
 
 		int level = EnchantmentHelper.getEnchantmentLevel(this, attacker.getHeldItemMainhand());
 		if(level > 0) {
+			if (CompatUtil.isRLCombatLoaded() && attacker.getRNG().nextFloat() > RLCombatCompat.getAttackEntityFromStrength()) return;
+
 			if(event.getSource() instanceof EntityDamageSource) {
 				float currPercent = ((IEntityDamageSourceMixin)event.getSource()).soManyEnchantments$getPiercingPercent();
 				float percent = Math.min(currPercent + 0.1F * (float)level, 1.0F);
 				((IEntityDamageSourceMixin)event.getSource()).soManyEnchantments$setPiercingPercent(percent);
 				event.getSource().setMagicDamage();
 			}
-			
-			if(!attacker.world.isRemote) {
-				if(attacker.getRNG().nextBoolean()) {
-					Potion negaPotion = PotionUtil.getNonInstantNegativePotion();
-					if(negaPotion != null) {
-						int duration = (1 + attacker.getRNG().nextInt(6)) * 20 * level;
-						int amplifier = Math.max(0, attacker.getRNG().nextInt(level) - 1);
-						victim.addPotionEffect(new PotionEffect(negaPotion, duration, amplifier));
-					}
+
+			int amplifier = Math.max(0, attacker.getRNG().nextInt(level) - 1);
+			if(attacker.getRNG().nextBoolean()) {
+				Potion negaPotion = PotionUtil.getNonInstantNegativePotion();
+				if(negaPotion != null) {
+					int duration = (1 + attacker.getRNG().nextInt(6)) * 20 * level;
+					victim.addPotionEffect(new PotionEffect(negaPotion, duration, amplifier));
 				}
-				else {
-					Potion negaIPotion = PotionUtil.getInstantNegativePotion();
-					if(negaIPotion != null) {
-						if(negaIPotion == MobEffects.INSTANT_DAMAGE && victim.isEntityUndead()) negaIPotion = MobEffects.INSTANT_HEALTH;
-						int amplifier = Math.max(0, attacker.getRNG().nextInt(level) - 1);
-						negaIPotion.affectEntity(attacker, null, victim, amplifier, 1.0D);
-					}
+			} else {
+				Potion negaIPotion = PotionUtil.getInstantNegativePotion();
+				if(negaIPotion != null) {
+					if(negaIPotion == MobEffects.INSTANT_DAMAGE && victim.isEntityUndead()) negaIPotion = MobEffects.INSTANT_HEALTH;
+					negaIPotion.affectEntity(attacker, null, victim, amplifier, 1.0D);
 				}
 			}
 		}

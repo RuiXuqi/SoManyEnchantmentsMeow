@@ -66,7 +66,6 @@ public class EnchantmentButchering extends EnchantmentBase {
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
@@ -75,12 +74,11 @@ public class EnchantmentButchering extends EnchantmentBase {
 		ItemStack stack = attacker.getHeldItemMainhand();
 		if(stack.isEmpty()) return;
 
-		//if(CompatUtil.isIceAndFireLoaded() && (victim instanceof EntityDragonBase || victim instanceof EntitySeaSerpent)) return;
-		
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
 			if(victim instanceof EntityAnimal) {
-				event.setAmount(event.getAmount() + 2.0F * (float)level);
+				float strengthMulti = CompatUtil.isRLCombatLoaded() ? RLCombatCompat.getAttackEntityFromStrength() : 1.0F;
+				event.setAmount(event.getAmount() + 2.0F * (float)level * strengthMulti);
 			}
 		}
 	}

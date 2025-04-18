@@ -66,14 +66,14 @@ public class EnchantmentDarkShadows extends EnchantmentBase {
 	@Override
 	public void onEntityDamagedAlt(EntityLivingBase attacker, Entity target, ItemStack weapon, int level) {
 		if(!this.isEnabled()) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isOnEntityDamagedAltStrong()) return;
 		if(attacker == null) return;
 		if(!(target instanceof EntityLivingBase)) return;
 		EntityLivingBase victim = (EntityLivingBase)target;
 		if(weapon.isEmpty()) return;
 		
 		if(!attacker.world.isRemote) {
-			if(attacker.getRNG().nextFloat() < 0.1F * (float)level && attacker.getBrightness() <= 0.1F) {
+			float strengthMulti = CompatUtil.isRLCombatLoaded() ? RLCombatCompat.getOnEntityDamagedAltStrength() : 1.0F;
+			if(attacker.getRNG().nextFloat() < 0.1F * (float)level * strengthMulti && attacker.getBrightness() <= 0.1F) {
 				victim.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 160));
 				victim.setRevengeTarget(null);
 			}
@@ -84,7 +84,6 @@ public class EnchantmentDarkShadows extends EnchantmentBase {
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
@@ -94,7 +93,8 @@ public class EnchantmentDarkShadows extends EnchantmentBase {
 		int level = EnchantmentHelper.getEnchantmentLevel(this, attacker.getHeldItemMainhand());
 		if(level > 0) {
 			if(attacker.getBrightness() <= 0.1F) {
-				event.setAmount(event.getAmount() + 1.0F + 2.5F * (float)level);
+				float strengthMulti = CompatUtil.isRLCombatLoaded() ? RLCombatCompat.getAttackEntityFromStrength() : 1.0F;
+				event.setAmount(event.getAmount() + (1.0F + 2.5F * (float)level) * strengthMulti);
 			}
 		}
 	}

@@ -72,22 +72,22 @@ public class EnchantmentPurification extends EnchantmentBase {
 	@Override
 	public void onEntityDamagedAlt(EntityLivingBase attacker, Entity target, ItemStack weapon, int level) {
 		if(!this.isEnabled()) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isOnEntityDamagedAltStrong()) return;
 		if(attacker == null) return;
+		if(attacker.world.isRemote) return;
 		if(!(target instanceof EntityLivingBase)) return;
 		EntityLivingBase victim = (EntityLivingBase)target;
+		if(victim.isDead || victim.getHealth() <= 0.0F) return;
 		if(weapon.isEmpty()) return;
-		
-		if(!attacker.world.isRemote) {
-			if(victim.isDead || victim.getHealth() <= 0.0F) return;
-			if(victim.isEntityUndead()) {
+
+		if(victim.isEntityUndead()) {
+			if (!CompatUtil.isRLCombatLoaded() || attacker.getRNG().nextFloat() < RLCombatCompat.getOnEntityDamagedAltStrength()) {
 				victim.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 20 + level * 10, Math.max(0, Math.min(1, level - 1))));
 				victim.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 20 + level * 10, Math.max(0, Math.min(2, level - 1))));
 			}
-			if(victim.getRNG().nextFloat() <= 0.05F * (float)level) {
-				convert(victim);
-			}
 		}
+		if(victim.getRNG().nextFloat() <= 0.05F * (float)level)
+			if(!CompatUtil.isRLCombatLoaded() || RLCombatCompat.isOnEntityDamagedAltStrong())
+				convert(victim);
 	}
 	
 	private static void convert(EntityLivingBase entity) {

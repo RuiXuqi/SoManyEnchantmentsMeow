@@ -27,19 +27,31 @@ public abstract class RLCombatCompat {
 		if(EnchantCompatHandler.fireAspectFromOffhand) return entity.getHeldItemOffhand();
 		return entity.getHeldItemMainhand();
 	}
-	
-	public static boolean isOnEntityDamagedAltStrong() {
-		return EnchantCompatHandler.arthropodCooledStrength > 0.9F;
+
+	public static float getOnEntityDamagedAltStrength() {
+		return EnchantCompatHandler.arthropodCooledStrength;
 	}
 	
+	public static boolean isOnEntityDamagedAltStrong() {
+		return getOnEntityDamagedAltStrength() > 0.9F;
+	}
+
+	public static float getAttackEntityFromStrength() {
+		return EnchantCompatHandler.attackEntityFromCooledStrength;
+	}
+
 	public static boolean isAttackEntityFromStrong() {
-		return EnchantCompatHandler.attackEntityFromCooledStrength > 0.9F;
+		return getAttackEntityFromStrength() > 0.9F;
+	}
+
+	public static float getCriticalHitEventStrength(CriticalHitEvent event) {
+		if(!(event instanceof RLCombatCriticalHitEvent)) return 1.0F;
+		RLCombatCriticalHitEvent rlEvent = (RLCombatCriticalHitEvent)event;
+		return rlEvent.getCooledStrength();
 	}
 	
 	public static boolean isCriticalHitEventStrong(CriticalHitEvent event) {
-		if(!(event instanceof RLCombatCriticalHitEvent)) return true;
-		RLCombatCriticalHitEvent rlEvent = (RLCombatCriticalHitEvent)event;
-		return rlEvent.getCooledStrength() > 0.9F;
+		return getCriticalHitEventStrength(event) > 0.9F;
 	}
 	
 	public static ItemStack getCriticalHitEventStack(CriticalHitEvent event, EntityLivingBase entity) {

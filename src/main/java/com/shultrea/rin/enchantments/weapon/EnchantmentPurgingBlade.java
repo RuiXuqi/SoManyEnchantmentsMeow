@@ -65,26 +65,25 @@ public class EnchantmentPurgingBlade extends EnchantmentBase {
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
+		if(attacker.world.isRemote) return;
 		EntityLivingBase victim = event.getEntityLiving();
 		if(victim == null) return;
 		ItemStack stack = attacker.getHeldItemMainhand();
 		if(stack.isEmpty()) return;
-		
+
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
-		if(level > 0) {
-			if(attacker.world.isRemote) return;
-			if(attacker.getRNG().nextFloat() < 0.1F + 0.06F * (float)level) {
-				PotionEffect[] arr = victim.getActivePotionEffects().toArray(new PotionEffect[0]);
-				if(arr.length == 0) return;
-				PotionEffect effect = arr[attacker.getRNG().nextInt(arr.length)];
-				
-				event.setAmount(event.getAmount() * (1.0F + 0.02F * (float)(1 + effect.getAmplifier()) * (float)level));
-				victim.removePotionEffect(effect.getPotion());
-			}
+		if(level <= 0) return;
+		if(CompatUtil.isRLCombatLoaded() && attacker.getRNG().nextFloat() > RLCombatCompat.getAttackEntityFromStrength()) return;
+		if(attacker.getRNG().nextFloat() < 0.1F + 0.06F * (float)level) {
+			PotionEffect[] arr = victim.getActivePotionEffects().toArray(new PotionEffect[0]);
+			if(arr.length == 0) return;
+			PotionEffect effect = arr[attacker.getRNG().nextInt(arr.length)];
+
+			event.setAmount(event.getAmount() * (1.0F + 0.02F * (float)(1 + effect.getAmplifier()) * (float)level));
+			victim.removePotionEffect(effect.getPotion());
 		}
 	}
 }

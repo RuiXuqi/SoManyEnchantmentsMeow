@@ -65,7 +65,6 @@ public class EnchantmentViper extends EnchantmentBase {
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
@@ -76,14 +75,14 @@ public class EnchantmentViper extends EnchantmentBase {
 		
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
-			float damage = event.getAmount();
-			if(victim.isPotionActive(MobEffects.POISON)) {
-				damage += 1.75F + 0.75F * (float)level;
-			}
-			if(victim.isPotionActive(MobEffects.WITHER)) {
-				damage += 1.0F + 0.5F * (float)level;
-			}
-			event.setAmount(damage);
+			float damage = 0.F;
+			if(victim.isPotionActive(MobEffects.POISON))
+				damage += (1.75F + 0.75F * (float)level);
+			if(victim.isPotionActive(MobEffects.WITHER))
+				damage += (1.0F + 0.5F * (float)level);
+
+			float strengthMulti = CompatUtil.isRLCombatLoaded() ? RLCombatCompat.getAttackEntityFromStrength() : 1.0F;
+			event.setAmount(event.getAmount() + damage * strengthMulti);
 		}
 	}
 }

@@ -81,7 +81,6 @@ public class EnchantmentUnsheathing extends EnchantmentBase {
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if(event.getAmount() <= 1.0F) return;
 		if(!(event.getSource().getTrueSource() instanceof EntityPlayer)) return;
 		EntityPlayer attacker = (EntityPlayer)event.getSource().getTrueSource();

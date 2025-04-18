@@ -67,7 +67,6 @@ public class EnchantmentMortalitas extends EnchantmentBase {
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
@@ -81,7 +80,8 @@ public class EnchantmentMortalitas extends EnchantmentBase {
 			NBTTagCompound compound = stack.getTagCompound();
 			if(compound == null) return;
 			float damage = compound.getFloat("MortalitasDamage");
-			event.setAmount(event.getAmount() + damage);
+			float strengthMulti = CompatUtil.isRLCombatLoaded() ? RLCombatCompat.getAttackEntityFromStrength() : 1.0F;
+			event.setAmount(event.getAmount() + damage * strengthMulti);
 		}
 	}
 

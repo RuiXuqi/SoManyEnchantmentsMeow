@@ -67,13 +67,13 @@ public class EnchantmentLunasBlessing extends EnchantmentBase {
 	@Override
 	public void onEntityDamagedAlt(EntityLivingBase attacker, Entity target, ItemStack weapon, int level) {
 		if(!this.isEnabled()) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isOnEntityDamagedAltStrong()) return;
 		if(attacker == null) return;
 		if(!(target instanceof EntityLivingBase)) return;
 		EntityLivingBase victim = (EntityLivingBase)target;
 		if(weapon.isEmpty()) return;
 		
 		if(!attacker.world.isRemote && !attacker.world.isDaytime() && EnchantUtil.canEntitySeeSky(attacker)) {
+			if (CompatUtil.isRLCombatLoaded() && attacker.getRNG().nextFloat() > RLCombatCompat.getOnEntityDamagedAltStrength()) return;
 			victim.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 20 + 10 * level));
 		}
 	}
@@ -82,7 +82,6 @@ public class EnchantmentLunasBlessing extends EnchantmentBase {
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
@@ -95,11 +94,11 @@ public class EnchantmentLunasBlessing extends EnchantmentBase {
 		if(level > 0) {
 			if(attacker.world.isDaytime()) return;
 			float dmg = 1.5F + 0.75F * (float)level;
-			if(!EnchantUtil.canEntitySeeSky(attacker)) {
+			if(!EnchantUtil.canEntitySeeSky(attacker))
 				dmg -= 1.0F + 0.5F * (float)level;
-			}
-			
-			event.setAmount(event.getAmount() + dmg);
+
+			float strengthMulti = CompatUtil.isRLCombatLoaded() ? RLCombatCompat.getAttackEntityFromStrength() : 1.0F;
+			event.setAmount(event.getAmount() + dmg * strengthMulti);
 		}
 	}
 }

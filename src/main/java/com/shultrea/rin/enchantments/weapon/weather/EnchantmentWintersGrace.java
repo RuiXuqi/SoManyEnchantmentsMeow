@@ -73,7 +73,6 @@ public class EnchantmentWintersGrace extends EnchantmentBase {
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
@@ -86,19 +85,18 @@ public class EnchantmentWintersGrace extends EnchantmentBase {
 		if(level > 0) {
 			if(isInColdTemperature(attacker)) {
 				float dmg = 2.0F + 1.5F * (float)level;
-				if(!attacker.world.isRaining()) {
+				if(!attacker.world.isRaining())
 					dmg -= 0.5F + 0.25F * (float)level;
-				}
-				if(!EnchantUtil.canEntitySeeSky(attacker)) {
+				if(!EnchantUtil.canEntitySeeSky(attacker))
 					dmg -= 0.5F + 0.75F * (float)level;
-				}
-				event.setAmount(event.getAmount() + dmg);
-				
-				if(attacker.getRNG().nextFloat() < 0.04F * (float)level) {
+
+				float strengthMulti = CompatUtil.isRLCombatLoaded() ? RLCombatCompat.getAttackEntityFromStrength() : 1.0F;
+				event.setAmount(event.getAmount() + dmg * strengthMulti);
+
+				if(attacker.getRNG().nextFloat() < 0.04F * (float)level * strengthMulti) {
 					victim.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 20 + 10 * level, Math.max(0, level - 3)));
-					if(level > 3) {
+					if(level > 3)
 						victim.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 20 + 10 * level, Math.max(0, level - 4)));
-					}
 				}
 			}
 		}

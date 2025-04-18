@@ -64,7 +64,6 @@ public class EnchantmentPenetratingEdge extends EnchantmentBase {
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
@@ -78,7 +77,8 @@ public class EnchantmentPenetratingEdge extends EnchantmentBase {
 			float armor = victim.getTotalArmorValue();
 			if(armor > 2) {
 				//caps out at 30 armor for PenEdge VI
-				event.setAmount(event.getAmount() + Math.min(15.0F, (armor / 12.0F) * (float)level));
+				float strengthMulti = CompatUtil.isRLCombatLoaded() ? RLCombatCompat.getAttackEntityFromStrength() : 1.0F;
+				event.setAmount(event.getAmount() + Math.min(15.0F, (armor / 12.0F) * (float)level) * strengthMulti);
 			}
 		}
 	}

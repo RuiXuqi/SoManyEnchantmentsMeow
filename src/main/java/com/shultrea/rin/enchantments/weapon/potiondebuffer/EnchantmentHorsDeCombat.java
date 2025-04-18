@@ -11,7 +11,11 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class EnchantmentHorsDeCombat extends EnchantmentBase {
 	
@@ -53,30 +57,31 @@ public class EnchantmentHorsDeCombat extends EnchantmentBase {
 	public boolean isTreasureEnchantment() {
 		return ModConfig.treasure.horsDeCombat;
 	}
+
+	private static final List<Potion> effects = Arrays.asList(
+			MobEffects.SLOWNESS,
+			MobEffects.MINING_FATIGUE,
+			MobEffects.HUNGER,
+			MobEffects.WEAKNESS,
+			MobEffects.BLINDNESS,
+			MobEffects.NAUSEA,
+			MobEffects.WITHER,
+			MobEffects.POISON
+	);
 	
 	@Override
 	public void onEntityDamagedAlt(EntityLivingBase attacker, Entity target, ItemStack weapon, int level) {
 		if(!this.isEnabled()) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isOnEntityDamagedAltStrong()) return;
 		if(attacker == null) return;
+		if(attacker.world.isRemote) return;
 		if(!(target instanceof EntityLivingBase)) return;
 		EntityLivingBase victim = (EntityLivingBase)target;
 		if(weapon.isEmpty()) return;
-		
-		if(!attacker.world.isRemote) {
-			if(attacker.getRNG().nextFloat() <= 0.2F * (float)level) {
-				int index = attacker.getRNG().nextInt(8);
-				switch(index) {
-					case 0: victim.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 20 + level * 10, level - 1)); break;
-					case 1: victim.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 20 + level * 10, level - 1)); break;
-					case 2: victim.addPotionEffect(new PotionEffect(MobEffects.HUNGER, 20 + level * 10, level - 1)); break;
-					case 3: victim.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 20 + level * 10, level - 1)); break;
-					case 4: victim.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 20 + level * 10, level - 1)); break;
-					case 5: victim.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 20 + level * 10, level - 1)); break;
-					case 6: victim.addPotionEffect(new PotionEffect(MobEffects.WITHER, 20 + level * 10, level - 1)); break;
-					case 7: victim.addPotionEffect(new PotionEffect(MobEffects.POISON, 20 + level * 10, level - 1)); break;
-				}
-			}
-		}
-	}
+
+		if (CompatUtil.isRLCombatLoaded() && attacker.getRNG().nextFloat() > RLCombatCompat.getOnEntityDamagedAltStrength()) return;
+		if (attacker.getRNG().nextFloat() <= 0.2F * (float) level) {
+            int index = attacker.getRNG().nextInt(effects.size());
+			victim.addPotionEffect(new PotionEffect(effects.get(index), 20 + level * 10, level - 1));
+        }
+    }
 }

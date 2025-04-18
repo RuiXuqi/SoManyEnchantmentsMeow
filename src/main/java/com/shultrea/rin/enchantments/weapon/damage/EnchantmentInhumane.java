@@ -69,7 +69,6 @@ public class EnchantmentInhumane extends EnchantmentBase {
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
@@ -83,10 +82,11 @@ public class EnchantmentInhumane extends EnchantmentBase {
 			if(victim.getCreatureAttribute() == EnumCreatureAttribute.ILLAGER ||
 					victim instanceof EntityWitch ||
 					victim instanceof EntityVex) {
-				if(!attacker.world.isRemote) {
-					victim.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 70 + (level * 10), 1));
-				}
-				event.setAmount(event.getAmount() + 2.5F * (float)level);
+
+				victim.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 70 + (level * 10), 1));
+
+				float strengthMulti = CompatUtil.isRLCombatLoaded() ? RLCombatCompat.getAttackEntityFromStrength() : 1.0F;
+				event.setAmount(event.getAmount() + 2.5F * (float)level * strengthMulti);
 			}
 		}
 	}

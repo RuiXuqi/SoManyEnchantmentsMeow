@@ -72,7 +72,6 @@ public class EnchantmentRunePiercingCapabilities extends EnchantmentBase {
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
@@ -82,6 +81,7 @@ public class EnchantmentRunePiercingCapabilities extends EnchantmentBase {
 		
 		int level = EnchantmentHelper.getEnchantmentLevel(this, attacker.getHeldItemMainhand());
 		if(level > 0) {
+			if (CompatUtil.isRLCombatLoaded() && attacker.getRNG().nextFloat() > RLCombatCompat.getAttackEntityFromStrength()) return;
 			if(event.getSource() instanceof EntityDamageSource) {
 				float currPercent = ((IEntityDamageSourceMixin)event.getSource()).soManyEnchantments$getPiercingPercent();
 				float percent = Math.min(currPercent + 0.25F * (float)level, 1.0F);

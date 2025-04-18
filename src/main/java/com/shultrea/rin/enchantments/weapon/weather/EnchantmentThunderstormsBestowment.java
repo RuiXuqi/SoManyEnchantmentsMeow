@@ -65,7 +65,6 @@ public class EnchantmentThunderstormsBestowment extends EnchantmentBase {
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
@@ -76,18 +75,16 @@ public class EnchantmentThunderstormsBestowment extends EnchantmentBase {
 		
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
+			float strengthMulti = CompatUtil.isRLCombatLoaded() ? RLCombatCompat.getAttackEntityFromStrength() : 1.0F;
 			if(attacker.world.isThundering()) {
 				float dmg = 1.5F + 1.25F * (float)level;
-				if(!EnchantUtil.canEntitySeeSky(attacker)) {
+				if(!EnchantUtil.canEntitySeeSky(attacker))
 					dmg -= 1.0F + 1.0F * (float)level;
-				}
-				event.setAmount(event.getAmount() + dmg);
+
+				event.setAmount(event.getAmount() + dmg * strengthMulti);
 			}
-			else {
-				if(attacker.getRNG().nextFloat() < 0.001F * (float)level) {
-					EnchantUtil.setThundering(attacker.world);
-				}
-			}
+			else if(attacker.getRNG().nextFloat() < 0.001F * (float)level * strengthMulti)
+				EnchantUtil.setThundering(attacker.world);
 		}
 	}
 }

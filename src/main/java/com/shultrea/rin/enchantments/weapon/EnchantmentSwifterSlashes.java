@@ -71,7 +71,6 @@ public class EnchantmentSwifterSlashes extends EnchantmentBase {
 	public void onLivingAttackEvent(LivingAttackEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
@@ -82,12 +81,11 @@ public class EnchantmentSwifterSlashes extends EnchantmentBase {
 		if(stack.isEmpty()) return;
 		
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
-		if(level > 0) {
-			if(attacker.getRNG().nextFloat() < 0.01F * (float)level && (float)victim.hurtResistantTime > (float)victim.maxHurtResistantTime / 2.0F) {
-				victim.hurtResistantTime = 0;
-				bypassingIframe = true;
-				bypassingEntity = attacker;
-			}
+		if(level <= 0) return;
+		if(attacker.getRNG().nextFloat() < 0.01F * (float)level && (float)victim.hurtResistantTime > (float)victim.maxHurtResistantTime / 2.0F) {
+			victim.hurtResistantTime = 0;
+			bypassingIframe = true;
+			bypassingEntity = attacker;
 		}
 	}
 	

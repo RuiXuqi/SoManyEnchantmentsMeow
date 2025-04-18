@@ -82,7 +82,6 @@ public class EnchantmentFieryEdge extends EnchantmentBase {
 	public void onLivingAttackEvent(LivingAttackEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
@@ -93,12 +92,10 @@ public class EnchantmentFieryEdge extends EnchantmentBase {
 		if(stack.isEmpty()) return;
 		
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
-		if(level > 0) {
-			if(attacker.world.isRemote) return;
-			if(victim.isBurning() && (float)victim.hurtResistantTime > (float)victim.maxHurtResistantTime / 2.0F) {
-				if(attacker.getRNG().nextFloat() < 0.05F * (float)level) {
-					victim.hurtResistantTime = 0;
-				}
+		if(level <= 0) return;
+		if(victim.isBurning() && (float)victim.hurtResistantTime > (float)victim.maxHurtResistantTime / 2.0F) {
+			if(attacker.getRNG().nextFloat() < 0.05F * (float)level) {
+				victim.hurtResistantTime = 0;
 			}
 		}
 	}

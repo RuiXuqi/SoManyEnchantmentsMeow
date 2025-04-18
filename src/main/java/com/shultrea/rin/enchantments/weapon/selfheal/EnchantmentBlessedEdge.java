@@ -79,7 +79,9 @@ public class EnchantmentBlessedEdge extends EnchantmentBase {
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
 			Potion smitedEffect = null;
-			if(CompatUtil.isLycanitesMobsLoaded()) smitedEffect = LycanitesMobsCompat.getSmitedPotion();
+			if(CompatUtil.isLycanitesMobsLoaded())
+				if(!CompatUtil.isRLCombatLoaded() || attacker.getRNG().nextFloat() < RLCombatCompat.getAttackEntityFromStrength())
+					smitedEffect = LycanitesMobsCompat.getSmitedPotion();
 			if(smitedEffect != null) victim.addPotionEffect(new PotionEffect(smitedEffect, 200, 0));
 			
 			if(victim.getCreatureAttribute() == EnumCreatureAttribute.UNDEAD) {

@@ -65,7 +65,6 @@ public class EnchantmentClearskiesFavor extends EnchantmentBase {
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
@@ -76,18 +75,16 @@ public class EnchantmentClearskiesFavor extends EnchantmentBase {
 		
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
+			float strengthMulti = CompatUtil.isRLCombatLoaded() ? RLCombatCompat.getAttackEntityFromStrength() : 1.0F;
 			if(!attacker.world.isRaining() && !attacker.world.isThundering()) {
 				float dmg = 1.0F + 0.75F * (float)level;
-				if(!EnchantUtil.canEntitySeeSky(attacker)) {
+				if(!EnchantUtil.canEntitySeeSky(attacker))
 					dmg -= 0.5F + 0.5F * (float)level;
-				}
-				event.setAmount(event.getAmount() + dmg);
+
+				event.setAmount(event.getAmount() + dmg * strengthMulti);
 			}
-			else {
-				if(attacker.getRNG().nextFloat() < 0.003F * (float)level) {
-					EnchantUtil.setClearWeather(attacker.world);
-				}
-			}
+			else if (attacker.getRNG().nextFloat() < 0.003F * (float) level * strengthMulti)
+				EnchantUtil.setClearWeather(attacker.world);
 		}
 	}
 }

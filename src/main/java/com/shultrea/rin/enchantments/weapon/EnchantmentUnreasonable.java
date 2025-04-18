@@ -68,7 +68,6 @@ public class EnchantmentUnreasonable extends EnchantmentBase {
 	public void onLivingAttackEvent(LivingAttackEvent event) {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if(event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getSource().getTrueSource();
 		if(attacker == null) return;
@@ -79,27 +78,26 @@ public class EnchantmentUnreasonable extends EnchantmentBase {
 		if(stack.isEmpty()) return;
 		
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
-		if(level > 0) {
-			if(attacker.world.isRemote) return;
-			if(attacker.getRNG().nextFloat() < 0.05F * (float)level) {
-				List<EntityLiving> entities = attacker.world.getEntitiesWithinAABB(EntityLiving.class, victim.getEntityBoundingBox().grow(Math.min(3 + 3 * level, 16)), e -> e != attacker && e != victim);
-				if(entities.isEmpty()) return;
-				EntityLiving target = entities.get(attacker.getRNG().nextInt(entities.size()));
-				if(attacker.world instanceof WorldServer) {
-					((WorldServer)attacker.world).addScheduledTask(() -> {
-						try {
-							if(victim != null && target != null) {
-								if(!victim.isDead && !target.isDead) {
-									if(!victim.getUniqueID().equals(target.getUniqueID())) {
-										victim.setRevengeTarget(target);
-										victim.setAttackTarget(target);
-									}
+		if(level <= 0) return;
+		if(CompatUtil.isRLCombatLoaded() && attacker.getRNG().nextFloat() > RLCombatCompat.getAttackEntityFromStrength()) return;
+		if(attacker.getRNG().nextFloat() < 0.05F * (float)level) {
+			List<EntityLiving> entities = attacker.world.getEntitiesWithinAABB(EntityLiving.class, victim.getEntityBoundingBox().grow(Math.min(3 + 3 * level, 16)), e -> e != attacker && e != victim);
+			if(entities.isEmpty()) return;
+			EntityLiving target = entities.get(attacker.getRNG().nextInt(entities.size()));
+			if(attacker.world instanceof WorldServer) {
+				((WorldServer)attacker.world).addScheduledTask(() -> {
+					try {
+						if(victim != null && target != null) {
+							if(!victim.isDead && !target.isDead) {
+								if(!victim.getUniqueID().equals(target.getUniqueID())) {
+									victim.setRevengeTarget(target);
+									victim.setAttackTarget(target);
 								}
 							}
 						}
-						catch(Exception ignored) {}
-					});
-				}
+					}
+					catch(Exception ignored) {}
+				});
 			}
 		}
 	}

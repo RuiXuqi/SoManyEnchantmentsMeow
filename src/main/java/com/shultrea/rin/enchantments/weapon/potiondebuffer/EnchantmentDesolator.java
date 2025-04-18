@@ -57,25 +57,24 @@ public class EnchantmentDesolator extends EnchantmentBase {
 	@Override
 	public void onEntityDamagedAlt(EntityLivingBase attacker, Entity target, ItemStack weapon, int level) {
 		if(!this.isEnabled()) return;
-		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isOnEntityDamagedAltStrong()) return;
 		if(attacker == null) return;
+		if(attacker.world.isRemote) return;
 		if(!(target instanceof EntityLivingBase)) return;
 		EntityLivingBase victim = (EntityLivingBase)target;
 		if(weapon.isEmpty()) return;
-		
-		if(!attacker.world.isRemote) {
-			if(attacker.getRNG().nextFloat() <= 0.15F * (float)level) {
-				PotionEffect effect = victim.getActivePotionEffect(MobEffects.RESISTANCE);
-				int amp = -level;
-				if(effect != null) {
-					amp = Math.min(effect.getAmplifier(), amp);
-				}
-				victim.removePotionEffect(MobEffects.RESISTANCE);
-				victim.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 40 + (level * 10), amp));
-				if(level > 2) {
-					victim.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 40 + (level * 10), level - 3));
-				}
-			}
-		}
-	}
+
+		if(CompatUtil.isRLCombatLoaded() && attacker.getRNG().nextFloat() > RLCombatCompat.getOnEntityDamagedAltStrength()) return;
+		if (attacker.getRNG().nextFloat() <= 0.15F * (float) level) {
+            PotionEffect effect = victim.getActivePotionEffect(MobEffects.RESISTANCE);
+            int amp = -level;
+            if (effect != null) {
+                amp = Math.min(effect.getAmplifier(), amp);
+            }
+            victim.removePotionEffect(MobEffects.RESISTANCE);
+            victim.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 40 + (level * 10), amp));
+            if (level > 2) {
+                victim.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 40 + (level * 10), level - 3));
+            }
+        }
+    }
 }

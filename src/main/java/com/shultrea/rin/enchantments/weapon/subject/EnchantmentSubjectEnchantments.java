@@ -200,13 +200,14 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 	@Override
 	public void onEntityDamagedAlt(EntityLivingBase attacker, Entity target, ItemStack weapon, int level) {
 		if (!this.isEnabled()) return;
-		if (CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isOnEntityDamagedAltStrong()) return;
 		if (attacker == null) return;
+		if (attacker.world.isRemote) return;
 		if (!(target instanceof EntityLivingBase)) return;
 		if (weapon.isEmpty()) return;
 
 		if (this.damageType == PE) {
-			if (attacker.getRNG().nextFloat() < 0.05F * (float) level && !attacker.world.isRemote) {
+			if(CompatUtil.isRLCombatLoaded() && attacker.getRNG().nextFloat() > RLCombatCompat.getOnEntityDamagedAltStrength()) return;
+			if (attacker.getRNG().nextFloat() < 0.05F * (float) level) {
 				attacker.addPotionEffect(new PotionEffect(MobEffects.HASTE, 120 + (level * 20), Math.min(3, level - 1)));
 				attacker.addPotionEffect(new PotionEffect(MobEffects.SPEED, 80 + (level * 20), Math.min(3, level - 1)));
 				if (level > 2) {
@@ -224,7 +225,6 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		if (!this.isEnabled()) return;
 		if (!EnchantmentBase.isDamageSourceAllowed(event.getSource())) return;
-		if (CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isAttackEntityFromStrong()) return;
 		if (event.getAmount() <= 1.0F) return;
 		EntityLivingBase attacker = (EntityLivingBase) event.getSource().getTrueSource();
 		if (attacker == null) return;
@@ -235,34 +235,36 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if (level > 0) {
+			float strengthMulti = CompatUtil.isRLCombatLoaded() ? RLCombatCompat.getAttackEntityFromStrength() : 1.0F;
+
 			if (this.damageType == BIOLOGY) {
 				if (!(victim instanceof EntityLiving)) return;
 				int taskCount = ((EntityLiving) victim).tasks.taskEntries.size();
 				if (taskCount > 15 - level) {
 					//+7.5 at lvl 5 with >10 tasks
 					float dmg = Math.min(2.5F * (float) level, 7.5F);
-					event.setAmount(event.getAmount() + dmg);
+					event.setAmount(event.getAmount() + dmg * strengthMulti);
 				}
 			} else if (this.damageType == CHEMISTRY) {
 				int count = attacker.getActivePotionEffects().size();
 				if (count > 0) {
 					//+1.5 per active potion effect, +6 with 9 effects
 					float dmg = Math.min(0.3F * (float) level * (float) count, 6.0F);
-					event.setAmount(event.getAmount() + dmg);
+					event.setAmount(event.getAmount() + dmg * strengthMulti);
 				}
 			} else if (this.damageType == ENGLISH) {
 				int count = victim.getName().length();
 				if (count > 0) {
 					//+0.375 per letter, +7.5 at 20 letters
 					float dmg = Math.min(0.075F * (float) level * (float) count, 7.5F);
-					event.setAmount(event.getAmount() + dmg);
+					event.setAmount(event.getAmount() + dmg * strengthMulti);
 				}
 			} else if (this.damageType == HISTORY) {
 				float perc = attacker.world.getDifficultyForLocation(attacker.getPosition()).getAdditionalDifficulty() / 6.75F;
 				if (perc > 0) {
 					//+7.5 at max local difficulty
 					float dmg = 1.5F * (float) level * perc;
-					event.setAmount(event.getAmount() + dmg);
+					event.setAmount(event.getAmount() + dmg * strengthMulti);
 				}
 			} else if (this.damageType == MATHEMATICS) {
 				int count;
@@ -277,7 +279,7 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 					//+0 dmg until xp lvl 4, then +0.35*enchlvl per doubling of xp lvl
 					//<lvl 4: +0, lvl 4: +1.25, lvl 8: +2.5, lvl 16: +3.25, lvl 32: +5, lvl 64: +6.25, lvl 128: +7.5
 					dmg = Math.min(dmg, 7.5F);
-					event.setAmount(event.getAmount() + dmg);
+					event.setAmount(event.getAmount() + dmg * strengthMulti);
 				}
 			} else if (this.damageType == PHYSICS) {
 				AxisAlignedBB victimAABB = victim.getEntityBoundingBox();
@@ -289,7 +291,7 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 					if (perc < 1) perc = 1.0F / perc;
 					//+1.5 if same size, +3 if double/half size, +7.5 if x5 or 1/5x size
 					float dmg = Math.min(0.3F * (float) level * perc, 7.5F);
-					event.setAmount(event.getAmount() + dmg);
+					event.setAmount(event.getAmount() + dmg * strengthMulti);
 				}
 			}
 		}
