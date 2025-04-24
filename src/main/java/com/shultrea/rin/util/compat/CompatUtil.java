@@ -93,7 +93,7 @@ public class CompatUtil {
 			int i = Integer.parseInt(String.valueOf(arrOfStr[0]));
 			int j = Integer.parseInt(String.valueOf(arrOfStr[1]));
 			int k = Integer.parseInt(String.valueOf(arrOfStr[2]));
-			if(i*100 + j*10 + k < 160) return true; //until 1.6.0
+			if(i*100 + j*10 + k <= 160) return true; //until 1.6.0
 		}
 		catch(Exception ignored) { }
 		return false;

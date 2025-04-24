@@ -16,9 +16,6 @@ import net.minecraft.util.text.translation.I18n;
 import java.util.ArrayList;
 
 public abstract class EnchantmentBase extends Enchantment {
-	//TODO canApply from EntityVillager.ListEnchantedBookForEmeralds (grabs from entire registry), might be able to do this with event shenanigans
-	//TODO apply from EnchantRandomly (grabs from entire registry, applies to Items.BOOK or canApply)
-
 	public ArrayList<Enchantment> incompatibleEnchantments = new ArrayList<>();
 
 	public EnchantmentBase(String name, Rarity rarity, EntityEquipmentSlot... slots) {
