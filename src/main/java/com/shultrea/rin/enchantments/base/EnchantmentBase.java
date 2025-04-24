@@ -19,7 +19,7 @@ public abstract class EnchantmentBase extends Enchantment {
 	public ArrayList<Enchantment> incompatibleEnchantments = new ArrayList<>();
 
 	public EnchantmentBase(String name, Rarity rarity, EntityEquipmentSlot... slots) {
-		super(rarity, Types.NONE, slots);
+		super(rarity, Types.ALL, slots);
 		this.name = name;
 		this.setRegistryName(SoManyEnchantments.MODID, name);
 	}
@@ -82,7 +82,7 @@ public abstract class EnchantmentBase extends Enchantment {
 	 */
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack) {
-		return this.isEnabled();
+		return this.isEnabled() && super.canApplyAtEnchantingTable(stack);
 	}
 	
 	/**
