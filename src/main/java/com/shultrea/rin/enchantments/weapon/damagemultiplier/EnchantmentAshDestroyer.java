@@ -4,6 +4,7 @@ import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.config.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.mixin.vanilla.EntityAccessor;
 import com.shultrea.rin.util.compat.CompatUtil;
 import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -71,11 +72,12 @@ public class EnchantmentAshDestroyer extends EnchantmentBase {
 		if(victim == null) return;
 		ItemStack stack = attacker.getHeldItemMainhand();
 		if(stack.isEmpty()) return;
-		
+
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
 			if(victim.isBurning()) {
-				event.setAmount(event.getAmount() * (1.0F + 0.2F * (float)level));
+				float fireSecondMulti = Math.min(1.0F, ((EntityAccessor) victim).getFireSeconds() / 32.F);
+				event.setAmount(event.getAmount() * (1.0F + 0.2F * (float)level * fireSecondMulti) );
 			}
 		}
 	}

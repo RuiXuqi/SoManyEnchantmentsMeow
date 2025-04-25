@@ -12,8 +12,7 @@ public class CanApplyConfig {
 			"LYCANITES_EQUIPMENT;lycanitesmobs:equipment",
 			"NOT_GOLD;.*gold.*;NOT",
 			"SW_CROSSBOW;spartan(defiled|fire|weaponry)\\:crossbow.*",
-			"WOLFARMOR;wolfarmor\\:\\w+\\_wolf\\_armor",
-			"NOT_FLAMED_WEAPON;(mujmajnkraftsbettersurvival|spartanfire|iceandfire)\\:.*(itemfiredragonbone|\\_fire\\_dragonbone|dragonbone\\_sword\\_fire).*;NOT"
+			"WOLFARMOR;wolfarmor\\:\\w+\\_wolf\\_armor"
 	};
 
 	@Config.Name("Adept")
@@ -30,7 +29,7 @@ public class CanApplyConfig {
 	public String[] arcSlash = {"SWORD", "BS_WEAPON"};
 	@Config.Name("Ash Destroyer")
 	@Config.RequiresMcRestart
-	public String[] ashDestroyer = {"SWORD", "BS_WEAPON", "LYCANITES_EQUIPMENT", "NOT_FLAMED_WEAPON"};
+	public String[] ashDestroyer = {"SWORD", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
 	@Config.Name("Atomic Deconstructor")
 	@Config.RequiresMcRestart
 	public String[] atomicDeconstructor = {"SWORD", "BS_WEAPON", "LYCANITES_EQUIPMENT"};

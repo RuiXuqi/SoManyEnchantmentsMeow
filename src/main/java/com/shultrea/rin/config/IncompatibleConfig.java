@@ -67,7 +67,7 @@ public class IncompatibleConfig {
 			//Damage mult tiers
 			"ashdestroyer, difficultysendowment, reviledblade, instability, cursededge",
 			//Fire tiers, fire vs extinguish
-			"minecraft:fire_aspect, lesserfireaspect, advancedfireaspect, supremefireaspect, fieryedge, ashdestroyer, wateraspect, cryogenic, extinguish",
+			"minecraft:fire_aspect, lesserfireaspect, advancedfireaspect, supremefireaspect, fieryedge, wateraspect, cryogenic, extinguish",
 			//Potion debuff tiers
 			"cryogenic, desolator, disorientatingblade, envenomed, horsdecombat, levitator, purification",
 			//Subject tiers
