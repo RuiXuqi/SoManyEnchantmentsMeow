@@ -89,7 +89,6 @@ public class CompatUtil {
 	public static boolean isSpartanWeaponryCorrectVersion() {
 		String[] arrOfStr = Loader.instance().getIndexedModList().get(SPARTANWEAPONRY_MODID).getVersion().split("\\.");
 		try {
-			SoManyEnchantments.LOGGER.info(arrOfStr);
 			int i = Integer.parseInt(String.valueOf(arrOfStr[0]));
 			int j = Integer.parseInt(String.valueOf(arrOfStr[1]));
 			int k = Integer.parseInt(String.valueOf(arrOfStr[2]));

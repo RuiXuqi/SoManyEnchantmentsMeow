@@ -3,6 +3,8 @@ package com.shultrea.rin.properties;
 import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import com.shultrea.rin.util.IEntityDamageSourceMixin;
+import com.shultrea.rin.util.compat.CompatUtil;
+import com.shultrea.rin.util.compat.SpartanWeaponryCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -41,16 +43,16 @@ public class ArrowPropertiesHandler {
 		EntityArrow entityArrow = (EntityArrow)event.getEntity();
 		if(!(entityArrow.shootingEntity instanceof EntityLivingBase)) return;
 		EntityLivingBase shooter = (EntityLivingBase)entityArrow.shootingEntity;
-		
+
 		//I dislike handling this on EntityJoinWorld but mixin'ing into ItemBow has compatibility issues due to other mod bows overriding needed methods
 		ItemStack bow = shooter.getHeldItemMainhand();
-		if(!(bow.getItem() instanceof ItemBow)) {
+		if(!(bow.getItem() instanceof ItemBow || CompatUtil.isSpartanWeaponryLoaded() && SpartanWeaponryCompat.itemIsCrossbow(bow.getItem()))) {
 			bow = shooter.getHeldItemOffhand();
 		}
-		if(!(bow.getItem() instanceof ItemBow)) {
+		if(!(bow.getItem() instanceof ItemBow || CompatUtil.isSpartanWeaponryLoaded() && SpartanWeaponryCompat.itemIsCrossbow(bow.getItem()))) {
 			return;
 		}
-		
+
 		IArrowProperties properties = entityArrow.getCapability(ArrowPropertiesProvider.ARROWPROPERTIES_CAP, null);
 		if(properties == null) return;
 		
