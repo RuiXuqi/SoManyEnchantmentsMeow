@@ -11,6 +11,7 @@
     "EnchantmentHelperMixin",
     "EnchantmentProtectionMixin",
     "EnchantRandomlyMixin",
+    "EntityAccessor",
     "EntityArrowMixin",
     "EntityDamageSourceMixin",
     "EntityLivingBaseMixin",
