@@ -1,6 +1,7 @@
 package com.shultrea.rin.config;
 
 import com.shultrea.rin.SoManyEnchantments;
+import com.shultrea.rin.util.UpgradeRecipe;
 import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
@@ -228,6 +229,7 @@ public class ModConfig {
 			if(event.getModID().equals(SoManyEnchantments.MODID)) {
 				ConfigManager.sync(SoManyEnchantments.MODID, Config.Type.INSTANCE);
 				ConfigProvider.resetBlacklists();
+				UpgradeRecipe.initUpgradeRecipes();
 			}
 		}
 	}

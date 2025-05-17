@@ -1,8 +1,10 @@
 package com.shultrea.rin.util;
 
+import net.minecraft.item.ItemStack;
+
 public interface IContainerEnchantmentMixin {
 	
-	int soManyEnchantments$getUpgradeTokenCost(int slot);
+	ItemStack soManyEnchantments$getUpgradeTokenCost(int slot);
 	
 	int soManyEnchantments$getBookshelfPower();
 

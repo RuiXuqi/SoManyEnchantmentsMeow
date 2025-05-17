@@ -191,47 +191,42 @@ public class ConfigProvider {
 
     // -------------------- Upgrade --------------------
 
-    private static Item upgradeTokenItem = null;
+    private static ItemStack upgradeTokenItemTier = null;
+    private static ItemStack upgradeTokenItemLevel = null;
     private static List<UpgradeTierEntry> upgradeTierEntries = null;
     private static List<UpgradeFailEntry> upgradeFailEntries = null;
 
-    public static Item getUpgradeTokenItem() {
-        if(upgradeTokenItem == null) {
-            Item token = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ModConfig.upgrade.upgradeToken.trim()));
-            if(token == null) {
-                SoManyEnchantments.LOGGER.log(Level.WARN, "Invalid upgrade token: " + ModConfig.upgrade.upgradeToken);
+    public static ItemStack setupDefaultUpgradeToken(String configEntry, int defaultCount){
+        ItemStack upgradeTokens = null;
+        String[] itemSplit = configEntry.split(":");
+        try {
+            int metadata = itemSplit.length > 2 ? Integer.parseInt(itemSplit[2].trim()) : 32767;
+            int count = itemSplit.length > 3 ? Integer.parseInt(itemSplit[3].trim()) : defaultCount;
+            Item token = ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemSplit[0].trim(), itemSplit[1].trim()));
+            if (token == null) {
+                SoManyEnchantments.LOGGER.log(Level.WARN, "Invalid upgrade token item: " + configEntry);
                 token = Items.PRISMARINE_SHARD;
             }
-            upgradeTokenItem = token;
+            upgradeTokens =  new ItemStack(token, count, metadata);
+        } catch (Exception e) {
+            SoManyEnchantments.LOGGER.warn("Invalid upgrade token, expected pattern: modid:itemname:optional metadata:optional itemcount, provided was: {}",configEntry);
         }
-        return upgradeTokenItem;
+        return upgradeTokens;
     }
 
-    public static List<UpgradeTierEntry> getUpgradeTierEntries() {
-        if(upgradeTierEntries == null) {
-            upgradeTierEntries = new ArrayList<>();
-            for(String entry : ModConfig.upgrade.enchantUpgradeOrder) {
-                entry = entry.trim();
-                if(entry.isEmpty()) continue;
-                List<Enchantment> enchantmentUpgradeList = new ArrayList<>();
-                String[] args = entry.split(",");
-                for(String arg : args) {
-                    arg = arg.trim();
-                    if(arg.isEmpty()) continue;
-                    Enchantment enchant = ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation(arg));
-                    if(enchant == null) {
-                        SoManyEnchantments.LOGGER.log(Level.WARN, "Invalid upgrade tier enchantment: " + arg);
-                        continue;
-                    }
-                    enchantmentUpgradeList.add(enchant);
-                }
-                upgradeTierEntries.add(new UpgradeTierEntry(enchantmentUpgradeList));
-            }
+    public static ItemStack getDefaultUpgradeTokenItems(boolean isLevelUpgrade) {
+        if(isLevelUpgrade){
+            if (upgradeTokenItemLevel == null)
+                upgradeTokenItemLevel = setupDefaultUpgradeToken(ModConfig.upgrade.upgradeTokenLevel, ModConfig.upgrade.upgradeTokenAmountLevel);
+            return upgradeTokenItemLevel;
+        } else {
+            if (upgradeTokenItemTier == null)
+                upgradeTokenItemTier = setupDefaultUpgradeToken(ModConfig.upgrade.upgradeTokenTier, ModConfig.upgrade.upgradeTokenAmountTier);
+            return upgradeTokenItemTier;
         }
-        return upgradeTierEntries;
     }
 
-    public static List<UpgradeFailEntry> getUpgradeFailEntries() {
+    public static Enchantment getFailureEnchantFor(Enchantment ench){
         if(upgradeFailEntries == null) {
             upgradeFailEntries = new ArrayList<>();
             for(String entry : ModConfig.upgrade.enchantUpgradeCursing) {
@@ -267,23 +262,48 @@ public class ConfigProvider {
                 upgradeFailEntries.add(new UpgradeFailEntry(enchantmentFailureList, curseEnchantment));
             }
         }
-        return upgradeFailEntries;
+
+        for(UpgradeFailEntry entry : upgradeFailEntries)
+            if(entry.enchantmentFailureList.contains(ench))
+                return entry.curse;
+        return null;
+    }
+
+    public static Enchantment getUpgradedEnchantFor(Enchantment ench){
+        if(upgradeTierEntries == null) {
+            upgradeTierEntries = new ArrayList<>();
+            for(String entry : ModConfig.upgrade.enchantUpgradeOrder) {
+                entry = entry.trim();
+                if(entry.isEmpty()) continue;
+                List<Enchantment> enchantmentUpgradeList = new ArrayList<>();
+                String[] args = entry.split(",");
+                for(String arg : args) {
+                    arg = arg.trim();
+                    if(arg.isEmpty()) continue;
+                    Enchantment enchant = ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation(arg));
+                    if(enchant == null) {
+                        SoManyEnchantments.LOGGER.log(Level.WARN, "Invalid upgrade tier enchantment: " + arg);
+                        continue;
+                    }
+                    enchantmentUpgradeList.add(enchant);
+                }
+                upgradeTierEntries.add(new UpgradeTierEntry(enchantmentUpgradeList));
+            }
+        }
+
+        for(UpgradeTierEntry entry : upgradeTierEntries){
+            Enchantment potentialUpgrade = entry.getUpgradedEnchantment(ench);
+            if(potentialUpgrade != null)
+                return potentialUpgrade;
+        }
+        return null;
     }
 
     public static class UpgradeTierEntry {
-
         private final List<Enchantment> enchantmentUpgradeList;
 
         public UpgradeTierEntry(List<Enchantment> enchantmentUpgradeList) {
             this.enchantmentUpgradeList = enchantmentUpgradeList;
-        }
-
-        public boolean isEnchantmentUpgradeable(Enchantment enchantment) {
-            if(this.enchantmentUpgradeList.contains(enchantment)) {
-                //The final enchantment in the list can not be upgraded to anything
-                return this.enchantmentUpgradeList.get(this.enchantmentUpgradeList.size() - 1) != enchantment;
-            }
-            return false;
         }
 
         @Nullable
@@ -297,7 +317,6 @@ public class ConfigProvider {
     }
 
     public static class UpgradeFailEntry {
-
         private final List<Enchantment> enchantmentFailureList;
         private final Enchantment curse;
 
@@ -306,65 +325,9 @@ public class ConfigProvider {
             this.curse = curse;
         }
 
-        public boolean canEnchantmentFail(Enchantment enchantment) {
-            return this.enchantmentFailureList.contains(enchantment);
-        }
-
         @Nullable
         public Enchantment getCurse() {
             return this.curse;
-        }
-    }
-
-    public static class UpgradePotentialEntry {
-
-        private final Enchantment enchantmentPrevious;
-        private final Enchantment enchantmentUpgrade;
-
-        private final int levelPrevious;
-        private final int levelUpgrade;
-
-        private final int tokenCost;
-
-        private final Enchantment enchantmentFail;
-        private final boolean failRemovesOriginal;
-
-        public UpgradePotentialEntry(Enchantment enchantmentPrevious, Enchantment enchantmentUpgrade, int levelPrevious, int levelUpgrade, int tokenCost, Enchantment enchantmentFail, boolean failRemovesOriginal) {
-            this.enchantmentPrevious = enchantmentPrevious;
-            this.enchantmentUpgrade = enchantmentUpgrade;
-            this.levelPrevious = levelPrevious;
-            this.levelUpgrade = levelUpgrade;
-            this.tokenCost = tokenCost;
-            this.enchantmentFail = enchantmentFail;
-            this.failRemovesOriginal = failRemovesOriginal;
-        }
-
-        public Enchantment getEnchantmentPrevious() {
-            return this.enchantmentPrevious;
-        }
-
-        public Enchantment getEnchantmentUpgrade() {
-            return this.enchantmentUpgrade;
-        }
-
-        public int getLevelPrevious() {
-            return this.levelPrevious;
-        }
-
-        public int getLevelUpgrade() {
-            return this.levelUpgrade;
-        }
-
-        public int getTokenCost() {
-            return this.tokenCost;
-        }
-
-        public Enchantment getEnchantmentFail() {
-            return this.enchantmentFail;
-        }
-
-        public boolean getFailRemovesOriginal() {
-            return this.failRemovesOriginal;
         }
     }
 }

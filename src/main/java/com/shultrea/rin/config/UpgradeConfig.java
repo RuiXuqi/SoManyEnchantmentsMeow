@@ -62,8 +62,12 @@ public class UpgradeConfig {
 	};
 
 	@Config.Comment("Upgrading enchantments will use this material in the enchanting table lapis slot")
-	@Config.Name("Upgrade Token")
-	public String upgradeToken = "minecraft:prismarine_shard";
+	@Config.Name("Upgrade Token on Level Upgrades")
+	public String upgradeTokenLevel = "minecraft:prismarine_shard";
+
+	@Config.Comment("Upgrading enchantments will use this material in the enchanting table lapis slot")
+	@Config.Name("Upgrade Token on Tier Upgrades")
+	public String upgradeTokenTier = "minecraft:prismarine_shard";
 
 	@Config.Comment("Upgrading enchantment levels will use up this amount of the token")
 	@Config.Name("Token Level Cost")
@@ -92,13 +96,13 @@ public class UpgradeConfig {
 	@Config.Name("Only Allow Compatible Tier Upgrades")
 	public boolean onlyAllowCompatible = true;
 
-	@Config.Comment("Chance to apply failure mechanics during enchantment upgrades")
-	@Config.Name("Failure Chance")
-	public float upgradeFailChance = 0.1F;
-	
-	@Config.Comment("If true, upgrade failure mechanics only apply to enchantments that are being upgraded by a tier and not just level")
-	@Config.Name("Failure Tier Only")
-	public boolean upgradeFailTierOnly = true;
+	@Config.Comment("Chance to apply failure mechanics during tier upgrades")
+	@Config.Name("Failure Chance on Tier Upgrade")
+	public float upgradeFailChanceTier = 0.1F;
+
+	@Config.Comment("Chance to apply failure mechanics during level upgrades")
+	@Config.Name("Failure Chance on Level Upgrade")
+	public float upgradeFailChanceLevel = 0.0F;
 
 	@Config.Comment("If true, the enchantment being upgraded will instead be replaced with its defined curse equivalent, or removed if set to none. If false, the curse is an additional enchantment, or does nothing if set to none.")
 	@Config.Name("Failure Removes Original")

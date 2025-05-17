@@ -1,6 +1,5 @@
 package com.shultrea.rin.mixin.vanilla.upgrading;
 
-import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.util.IContainerEnchantmentMixin;
 import com.shultrea.rin.util.RainbowUtil;
@@ -16,6 +15,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerEnchantment;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnchantmentNameParts;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -141,8 +141,9 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
                 int runeColor;
                 int xpColor;
                 
-                int upgradeTokenCost = ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getUpgradeTokenCost(button);
-                boolean isUpgrade = upgradeTokenCost >= 0;
+                ItemStack upgradeToken = ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getUpgradeTokenCost(button);
+                int upgradeTokenCost = upgradeToken.getCount();
+                boolean isUpgrade = !upgradeToken.isEmpty();
 
                 if(!isUpgrade) {
                     if(((!tokenIsLapis || tokenAmount < button + 1 || this.mc.player.experienceLevel < xpCost) && !this.mc.player.capabilities.isCreativeMode) || this.container.enchantClue[button] == -1) {
@@ -173,18 +174,10 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
                 else {
                     RainbowUtil rainbow;
                     switch(button) {
-                        case 0:
-                            rainbow = soManyEnchantments$rainbowHandler0;
-                            break;
-                        case 1:
-                            rainbow = soManyEnchantments$rainbowHandler1;
-                            break;
-                        case 2:
-                            rainbow = soManyEnchantments$rainbowHandler2;
-                            break;
+                        case 1: rainbow = soManyEnchantments$rainbowHandler1; break;
+                        case 2: rainbow = soManyEnchantments$rainbowHandler2; break;
                         default:
-                            rainbow = soManyEnchantments$rainbowHandler0;
-                            break;
+                        case 0: rainbow = soManyEnchantments$rainbowHandler0; break;
                     }
                     
                     int tokenCostColor;
@@ -267,8 +260,9 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
                 List<String> list = new ArrayList<>();
                 list.add("" + TextFormatting.WHITE + TextFormatting.ITALIC + I18n.format("container.enchant.clue", enchantmentClue == null ? "" : enchantmentClue.getTranslatedName(worldClue)));
                 
-                int upgradeTokenCost = ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getUpgradeTokenCost(button);
-                boolean isUpgrade = upgradeTokenCost >= 0;
+                ItemStack upgradeToken = ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getUpgradeTokenCost(button);
+                int upgradeTokenCost = upgradeToken.getCount();
+                boolean isUpgrade = !upgradeToken.isEmpty();
                 
                 if(enchantmentClue == null && !isUpgrade) java.util.Collections.addAll(list, "", TextFormatting.RED + I18n.format("forge.container.enchant.limitedEnchantability"));
                 else if(!isCreative) {
@@ -304,8 +298,8 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
                         String s;
                         
                         if(upgradeTokenCost > 0) {
-                            s = upgradeTokenCost + " " + I18n.format(ConfigProvider.getUpgradeTokenItem().getTranslationKey() + ".name");
-                            
+                            s = upgradeTokenCost + " " + I18n.format(upgradeToken.getItem().getTranslationKey() + ".name");
+
                             TextFormatting textformatting = tokenAmount >= upgradeTokenCost && !tokenIsLapis ? TextFormatting.GRAY : TextFormatting.RED;
                             list.add(textformatting + "" + s);
                         }

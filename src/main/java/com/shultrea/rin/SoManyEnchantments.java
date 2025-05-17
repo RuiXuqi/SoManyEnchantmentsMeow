@@ -51,6 +51,7 @@ public class SoManyEnchantments {
 	public static void init(FMLInitializationEvent event) {
 		if(CompatUtil.isSocketedLoaded())
 			SocketedCompat.registerLapisGem();
+		UpgradeRecipe.initUpgradeRecipes();
 	}
 	
 	@EventHandler
