@@ -196,6 +196,11 @@ public class ConfigProvider {
     private static List<UpgradeTierEntry> upgradeTierEntries = null;
     private static List<UpgradeFailEntry> upgradeFailEntries = null;
 
+    public static void resetDefaultUpgradeTokens(){
+        upgradeTokenItemTier = null;
+        upgradeTokenItemLevel = null;
+    }
+
     public static ItemStack setupDefaultUpgradeToken(String configEntry, int defaultCount){
         ItemStack upgradeTokens = null;
         String[] itemSplit = configEntry.split(":");

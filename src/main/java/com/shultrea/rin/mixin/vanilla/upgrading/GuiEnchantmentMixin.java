@@ -2,9 +2,9 @@ package com.shultrea.rin.mixin.vanilla.upgrading;
 
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.util.IContainerEnchantmentMixin;
+import com.shultrea.rin.util.IGuiContainerMixin;
 import com.shultrea.rin.util.RainbowUtil;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiEnchantment;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -15,6 +15,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerEnchantment;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnchantmentNameParts;
 import net.minecraft.util.ResourceLocation;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(GuiEnchantment.class)
-public abstract class GuiEnchantmentMixin extends GuiContainer {
+public abstract class GuiEnchantmentMixin extends GuiContainer implements IGuiContainerMixin {
     
     @Shadow @Final private static ResourceLocation ENCHANTMENT_TABLE_GUI_TEXTURE;
     @Shadow @Final private static ResourceLocation ENCHANTMENT_TABLE_BOOK_TEXTURE;
@@ -44,9 +45,7 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
     private static final RainbowUtil soManyEnchantments$rainbowHandler1 = new RainbowUtil(1);
     @Unique
     private static final RainbowUtil soManyEnchantments$rainbowHandler2 = new RainbowUtil(2);
-    @Unique
-    private static final ResourceLocation soManyEnchantments$upgradeTokenTexture = new ResourceLocation("textures/gui/container/upgrade_token.png");
-    
+
     public GuiEnchantmentMixin(Container inventorySlotsIn) {
         super(inventorySlotsIn);
     }
@@ -142,15 +141,15 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
                 int xpColor;
                 
                 ItemStack upgradeToken = ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getUpgradeTokenCost(button);
-                int upgradeTokenCost = upgradeToken.getCount();
                 boolean isUpgrade = !upgradeToken.isEmpty();
+                boolean tokenEnoughAndCorrect = ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getIsValidAndEnoughToken(button);
 
                 if(!isUpgrade) {
                     if(((!tokenIsLapis || tokenAmount < button + 1 || this.mc.player.experienceLevel < xpCost) && !this.mc.player.capabilities.isCreativeMode) || this.container.enchantClue[button] == -1) {
                         this.drawTexturedModalRect(i1, j + 14 + 19 * button, 0, 185, 108, 19);
                         this.drawTexturedModalRect(i1 + 1, j + 15 + 19 * button, 16 * button, 239, 16, 16);
-                        runeColor = 6839882;//Unhighlighted rune text
-                        xpColor = 4226832;//XP cost invalid
+                        runeColor = 0x685E4A;//Unhighlighted rune text
+                        xpColor = 0x407F10;//XP cost invalid
                         fontrenderer.drawSplitString(s1, j1, j + 16 + 19 * button, l1, (runeColor & 16711422) >> 1);
                     }
                     else {
@@ -159,13 +158,13 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
                         
                         if(j2 >= 0 && k2 >= 0 && j2 < 108 && k2 < 19) {
                             this.drawTexturedModalRect(i1, j + 14 + 19 * button, 0, 204, 108, 19);
-                            runeColor = 16777088;//Highlighted rune text
+                            runeColor = 0xFFFF80;//Highlighted rune text
                         }
                         else {
                             this.drawTexturedModalRect(i1, j + 14 + 19 * button, 0, 166, 108, 19);
-                            runeColor = 6839882;//Unhighlighted rune text
+                            runeColor = 0x685E4A;//Unhighlighted rune text
                         }
-                        xpColor = 8453920;//XP cost valid
+                        xpColor = 0x80FF20;//XP cost valid
                         
                         this.drawTexturedModalRect(i1 + 1, j + 15 + 19 * button, 16 * button, 223, 16, 16);
                         fontrenderer.drawSplitString(s1, j1, j + 16 + 19 * button, l1, runeColor);
@@ -179,13 +178,9 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
                         default:
                         case 0: rainbow = soManyEnchantments$rainbowHandler0; break;
                     }
-                    
-                    int tokenCostColor;
-                    String tokenCostString = "" + upgradeTokenCost;
-                    
+
                     if(!this.mc.player.capabilities.isCreativeMode &&
-                            (tokenIsLapis ||
-                            tokenAmount < upgradeTokenCost ||
+                            (!tokenEnoughAndCorrect ||
                             this.mc.player.experienceLevel < xpCost ||
                             ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getBookshelfPower() < ModConfig.upgrade.bookshelvesNeeded)) {
                         this.drawTexturedModalRect(i1, j + 14 + 19 * button, 0, 185, 108, 19);
@@ -194,11 +189,7 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
                         rainbow.tick();
                         
                         xpColor = 4226832;//XP cost invalid
-                        tokenCostColor = 11028807;//Token cost invalid
-                        
-                        this.mc.getTextureManager().bindTexture(soManyEnchantments$upgradeTokenTexture);
-                        Gui.drawModalRectWithCustomSizedTexture(i1 + 1, j + 15 + 19 * button, 0, 0, 16, 16, 16, 16);
-                        
+
                         fontrenderer.drawSplitString(s1, j1, j + 16 + 19 * button, l1, (runeColor & 16711422) >> 1);
                     }
                     else {
@@ -217,16 +208,9 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
                         }
                         
                         xpColor = 8453920;//XP cost valid
-                        tokenCostColor = 8453920;//Token cost valid
-                        
-                        this.mc.getTextureManager().bindTexture(soManyEnchantments$upgradeTokenTexture);
-                        Gui.drawModalRectWithCustomSizedTexture(i1 + 1, j + 15 + 19 * button, 0, 0, 16, 16, 16, 16);
-                        
+
                         fontrenderer.drawSplitString(s1, j1, j + 16 + 19 * button, l1, runeColor);
                     }
-                    
-                    fontrenderer = this.mc.fontRenderer;
-                    fontrenderer.drawStringWithShadow(tokenCostString, (float)(i1 + 16 - fontrenderer.getStringWidth(tokenCostString)), (float)(j + 16 + 19 * button + 7), tokenCostColor);
                 }
                 
                 fontrenderer = this.mc.fontRenderer;
@@ -246,6 +230,7 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
         partialTicks = this.mc.getTickLength();
         this.drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
+
         this.renderHoveredToolTip(mouseX, mouseY);
         boolean isCreative = this.mc.player.capabilities.isCreativeMode;
         int tokenAmount = this.container.getLapisAmount();
@@ -263,6 +248,7 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
                 ItemStack upgradeToken = ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getUpgradeTokenCost(button);
                 int upgradeTokenCost = upgradeToken.getCount();
                 boolean isUpgrade = !upgradeToken.isEmpty();
+                boolean tokenEnoughAndCorrect = ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getIsValidAndEnoughToken(button);
                 
                 if(enchantmentClue == null && !isUpgrade) java.util.Collections.addAll(list, "", TextFormatting.RED + I18n.format("forge.container.enchant.limitedEnchantability"));
                 else if(!isCreative) {
@@ -300,7 +286,7 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
                         if(upgradeTokenCost > 0) {
                             s = upgradeTokenCost + " " + I18n.format(upgradeToken.getItem().getTranslationKey() + ".name");
 
-                            TextFormatting textformatting = tokenAmount >= upgradeTokenCost && !tokenIsLapis ? TextFormatting.GRAY : TextFormatting.RED;
+                            TextFormatting textformatting = tokenEnoughAndCorrect ? TextFormatting.GRAY : TextFormatting.RED;
                             list.add(textformatting + "" + s);
                         }
                         
@@ -325,6 +311,45 @@ public abstract class GuiEnchantmentMixin extends GuiContainer {
                 this.drawHoveringText(list, mouseX, mouseY);
                 break;
             }
+        }
+    }
+
+    @Override
+    public void soManyEnchantments$drawUpgradeSlots() {
+        int id = 0;
+        for (Slot slot : this.container.inventorySlots)
+            if(!slot.isEnabled())
+                this.soManyEnchantments$drawUpgradeTokenSlot(slot, id++);
+    }
+
+    @Unique
+    private void soManyEnchantments$drawUpgradeTokenSlot(Slot slot, int buttonId) {
+        ItemStack stack = slot.getStack();
+
+        this.zLevel = 100.0F;
+        this.itemRender.zLevel = 100.0F;
+
+        GlStateManager.enableDepth();
+        this.itemRender.renderItemAndEffectIntoGUI(this.mc.player, stack, slot.xPos, slot.yPos);
+
+        boolean upgradeIsEnabled = ((IContainerEnchantmentMixin) this.container).soManyEnchantments$getIsValidAndEnoughToken(buttonId);
+        soManyEnchantments$renderItemOverlayIntoGUI(this.fontRenderer, stack, slot.xPos, slot.yPos, upgradeIsEnabled);
+
+        this.itemRender.zLevel = 0.0F;
+        this.zLevel = 0.0F;
+    }
+
+    @Unique
+    public void soManyEnchantments$renderItemOverlayIntoGUI(FontRenderer fr, ItemStack stack, int xPosition, int yPosition, boolean isEnough) {
+        if (!stack.isEmpty() && stack.getCount() > 0) {
+            String s = String.valueOf(stack.getCount());
+            GlStateManager.disableLighting();
+            GlStateManager.disableDepth();
+            GlStateManager.disableBlend();
+            fr.drawStringWithShadow(s, (float) (xPosition + 15 - fr.getStringWidth(s)), (float) (yPosition + 8), isEnough ? 0x80FF20 : 0xA84947);
+            GlStateManager.enableLighting();
+            GlStateManager.enableDepth();
+            GlStateManager.enableBlend();
         }
     }
 }

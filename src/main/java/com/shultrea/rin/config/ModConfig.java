@@ -229,6 +229,7 @@ public class ModConfig {
 			if(event.getModID().equals(SoManyEnchantments.MODID)) {
 				ConfigManager.sync(SoManyEnchantments.MODID, Config.Type.INSTANCE);
 				ConfigProvider.resetBlacklists();
+				ConfigProvider.resetDefaultUpgradeTokens();
 				UpgradeRecipe.initUpgradeRecipes();
 			}
 		}

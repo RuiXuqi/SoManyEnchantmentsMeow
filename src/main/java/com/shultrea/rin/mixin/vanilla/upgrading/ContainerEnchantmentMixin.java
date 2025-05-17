@@ -57,6 +57,7 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
     @Unique private IInventory soManyEnchantments$upgradeTokenInventory;
     @Unique private int soManyEnchantments$bookshelfPower = 0;
     @Unique private boolean soManyEnchantments$tokenIsLapis = false;
+    @Unique private final boolean[] soManyEnchantments$tokenIsCorrect = new boolean[3];
 
     @WrapOperation(
             method = "<init>(Lnet/minecraft/entity/player/InventoryPlayer;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)V",
@@ -83,7 +84,7 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
         //Add slots for the token item to allow easier syncing
         this.soManyEnchantments$upgradeTokenInventory = new InventoryBasic("Upgrade Tokens", true, 3);
         for (int i = 0; i < 3; i++) {
-            this.addSlotToContainer(new Slot(this.soManyEnchantments$upgradeTokenInventory, i, 8 + i * 18, 12) {
+            this.addSlotToContainer(new Slot(this.soManyEnchantments$upgradeTokenInventory, i, 61, 15 + i * 19) {
                 @Override public boolean canTakeStack(@Nonnull EntityPlayer playerIn) {
                     return false;
                 }
@@ -96,7 +97,15 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
 
     @Unique
     private void soManyEnchantments$setUpgradeToken(ItemStack stack, int slotId){
-        this.getSlotFromInventory(this.soManyEnchantments$upgradeTokenInventory,slotId).putStack(stack);
+        Slot slot = this.getSlotFromInventory(this.soManyEnchantments$upgradeTokenInventory,slotId);
+        if(slot != null) {
+            if (stack.getMetadata() == 32767)
+                slot.putStack(new ItemStack(stack.getItem(), stack.getCount(), 0));
+            else
+                slot.putStack(stack);
+        } else {
+            SoManyEnchantments.LOGGER.warn("Unable to find Upgrade Token Slot with id {}",slotId);
+        }
     }
     
     @Inject(
@@ -108,6 +117,9 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
         ContainerEnchantment thisContainer = (ContainerEnchantment) (Object) this;
         crafting.sendWindowProperty(thisContainer, 10, this.soManyEnchantments$bookshelfPower);
         crafting.sendWindowProperty(thisContainer, 11, this.soManyEnchantments$tokenIsLapis?1:0);
+        crafting.sendWindowProperty(thisContainer, 12, this.soManyEnchantments$tokenIsCorrect[0]?1:0);
+        crafting.sendWindowProperty(thisContainer, 13, this.soManyEnchantments$tokenIsCorrect[1]?1:0);
+        crafting.sendWindowProperty(thisContainer, 14, this.soManyEnchantments$tokenIsCorrect[2]?1:0);
     }
     
     @Inject(
@@ -120,6 +132,9 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
         switch (id){
             case 10: this.soManyEnchantments$bookshelfPower = data; ci.cancel(); break;
             case 11: this.soManyEnchantments$tokenIsLapis = data == 1; ci.cancel(); break;
+            case 12: this.soManyEnchantments$tokenIsCorrect[0] = data == 1; ci.cancel(); break;
+            case 13: this.soManyEnchantments$tokenIsCorrect[1] = data == 1; ci.cancel(); break;
+            case 14: this.soManyEnchantments$tokenIsCorrect[2] = data == 1; ci.cancel(); break;
         }
     }
     
@@ -137,6 +152,9 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
             //Client checks token as well, but gets updated by server once server finishes this method. Only matters for stack desyncs
             ItemStack tokenItem = inventoryIn.getStackInSlot(1);
             this.soManyEnchantments$tokenIsLapis = soManyEnchantments$isTokenLapis(tokenItem);
+            this.soManyEnchantments$tokenIsCorrect[0] = false;
+            this.soManyEnchantments$tokenIsCorrect[1] = false;
+            this.soManyEnchantments$tokenIsCorrect[2] = false;
 
             boolean itemIsEnchantable = targetItem.isItemEnchantable();
             boolean itemIsUpgradeable = (targetItem.isItemEnchanted() || targetItem.getItem() == Items.ENCHANTED_BOOK) && (ModConfig.upgrade.allowLevelUpgrades || ModConfig.upgrade.allowTierUpgrades);
@@ -244,6 +262,9 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                         //Remove picked potential so multiple buttons don't get duplicates
                         upgradeRecipes.remove(randomIndex);
                         upgradeLevels.remove(randomIndex);
+
+                        //Save if current token is correct for this recipe
+                        this.soManyEnchantments$tokenIsCorrect[i] = pickedRecipe.upgradeTokenIsValid(tokenItem);
                         
                         //Get xp level cost
                         int levelCost;
@@ -507,5 +528,11 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
     @Unique
     public boolean soManyEnchantments$getTokenIsLapis(){
         return this.soManyEnchantments$tokenIsLapis;
+    }
+
+    @Override
+    @Unique
+    public boolean soManyEnchantments$getIsValidAndEnoughToken(int id){
+        return this.soManyEnchantments$tokenIsCorrect[id];
     }
 }
