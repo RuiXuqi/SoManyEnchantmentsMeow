@@ -6,8 +6,6 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
@@ -95,12 +93,26 @@ public class UpgradeRecipe {
         return this.tokenCost;
     }
 
+    /**
+     * this returns whether the recipe is used to curse, NOT whether a recipe HAS a curse. For that check cursingRecipe != null
+     */
     public boolean getIsCursingRecipe(){
         return isCursingRecipe;
     }
 
+    public UpgradeRecipe getCursingRecipe() {
+        return cursingRecipe;
+    }
+
+    public float getCurseChance() {
+        return curseChance;
+    }
+
+    public int getOutputLvl(int enchLvlIn){
+        return this.levelAlgo.apply(enchLvlIn);
+    }
+
     public Map<Enchantment, Integer> getOutputStackEnchants(ItemStack stackIn) {
-        ItemStack stackCopy = stackIn.copy();
         Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(stackIn);
 
         Map<Enchantment, Integer> newEnchantments = new LinkedHashMap<>();
@@ -134,18 +146,15 @@ public class UpgradeRecipe {
                 newEnchantments.put(enchOut, minLvl);
         }
 
-        //Enchanted books don't get properly cleared first when setting new enchantments
-        if(stackCopy.getItem() == Items.ENCHANTED_BOOK) {
-            NBTTagCompound tag = stackCopy.getTagCompound();
-            if(tag != null) {
-                tag.setTag("StoredEnchantments", new NBTTagList());
-                stackCopy.setTagCompound(tag);
-            }
-        }
         //Set the new enchantments to the item
         return newEnchantments;
     }
 
+    /**
+     * Used to check whether an ItemStack has any enchants that can be upgraded by this recipe
+     * also checks for canApply of the upgraded enchant
+     * and if config for it is enabled it also checks for incompatibilities
+     */
     public int canUpgrade(ItemStack itemStack) {
         Map<Enchantment, Integer> currentEnchants = EnchantmentHelper.getEnchantments(itemStack);
 
@@ -173,6 +182,9 @@ public class UpgradeRecipe {
         return DENY;
     }
 
+    /**
+     * Used to check whether a specific enchantment with a specific level can be upgraded by this recipe
+     */
     public int canUpgrade(Enchantment enchantment, int level) {
         return enchantment == this.enchIn ? this.levelAlgo.apply(level) : DENY;
     }

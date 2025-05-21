@@ -20,6 +20,8 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.*;
 import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -36,6 +38,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @Mixin(ContainerEnchantment.class)
@@ -390,8 +393,20 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                     //Check token validity
                     if(!isCreative && (tokenItem.isEmpty() || !usedRecipe.upgradeTokenIsValid(tokenItem))) return false;
 
+                    //Upgrade the enchants
+                    Map<Enchantment, Integer> resultingEnchants = usedRecipe.getOutputStackEnchants(targetItem);
+
+                    //Enchanted books don't get properly cleared first when setting new enchantments
+                    if(targetItem.getItem() == Items.ENCHANTED_BOOK) {
+                        NBTTagCompound tag = targetItem.getTagCompound();
+                        if(tag != null) {
+                            tag.setTag("StoredEnchantments", new NBTTagList());
+                            targetItem.setTagCompound(tag);
+                        }
+                    }
+
                     //Set the new enchantments to the item
-                    EnchantmentHelper.setEnchantments(usedRecipe.getOutputStackEnchants(targetItem), targetItem);
+                    EnchantmentHelper.setEnchantments(resultingEnchants, targetItem);
                     
                     //Remove levels
                     playerIn.onEnchant(targetItem, xpCost);
