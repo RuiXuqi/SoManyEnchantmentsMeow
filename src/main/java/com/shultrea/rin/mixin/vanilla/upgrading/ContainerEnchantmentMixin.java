@@ -53,7 +53,7 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
     @Shadow protected abstract List<EnchantmentData> getEnchantmentList(ItemStack stack, int enchantSlot, int level);
     @Shadow public abstract void detectAndSendChanges();
 
-    @Unique private final UpgradeRecipe[] soManyEnchantments$currentRecipes = new UpgradeRecipe[3];
+    @Unique private final UpgradeRecipe[] soManyEnchantments$currentRecipes = new UpgradeRecipe[3]; //NOT SYNCED
     @Unique private IInventory soManyEnchantments$upgradeTokenInventory;
     @Unique private int soManyEnchantments$bookshelfPower = 0;
     @Unique private boolean soManyEnchantments$tokenIsLapis = false;
@@ -239,7 +239,6 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                     }
                     //Cancel if no valid entries were found
                     if(upgradeRecipes.isEmpty()){
-                        SoManyEnchantments.LOGGER.info("No Upgrade Recipes found {}",UpgradeRecipe.UPGRADE_RECIPES.size());
                         detectAndSendChanges();
                         return;
                     }
@@ -251,12 +250,12 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                         //Recheck empty in case there is less potentials than buttons
                         if(upgradeRecipes.isEmpty()) {
                             this.soManyEnchantments$currentRecipes[i] = null;
-                            this.soManyEnchantments$setUpgradeToken(ItemStack.EMPTY,i);
+                            this.soManyEnchantments$setUpgradeToken(ItemStack.EMPTY, i);
                             continue;
                         }
                         
                         //Determine which possible upgrade to pick
-                        int randomIndex = rand.nextInt(upgradeRecipes.size());
+                        int randomIndex = this.rand.nextInt(upgradeRecipes.size());
                         UpgradeRecipe pickedRecipe = upgradeRecipes.get(randomIndex);
                         int pickedLevel = upgradeLevels.get(randomIndex);
                         //Remove picked potential so multiple buttons don't get duplicates
@@ -265,7 +264,7 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
 
                         //Save if current token is correct for this recipe
                         this.soManyEnchantments$tokenIsCorrect[i] = pickedRecipe.upgradeTokenIsValid(tokenItem);
-                        
+
                         //Get xp level cost
                         int levelCost;
                         switch(ModConfig.upgrade.levelCostMode) {
@@ -387,6 +386,7 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                     UpgradeRecipe usedRecipe = this.soManyEnchantments$currentRecipes[id].getUsedRecipe(this.world.rand, false);
                     //Sanity null check
                     if(usedRecipe == null) return false;
+
                     //Check token validity
                     if(!isCreative && (tokenItem.isEmpty() || !usedRecipe.upgradeTokenIsValid(tokenItem))) return false;
 

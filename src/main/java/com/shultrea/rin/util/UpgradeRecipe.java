@@ -1,6 +1,5 @@
 package com.shultrea.rin.util;
 
-import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.config.ModConfig;
 import net.minecraft.enchantment.Enchantment;
@@ -21,8 +20,8 @@ public class UpgradeRecipe {
 
     private final Enchantment enchIn, enchOut;
     private ItemStack tokenCost;
-    private UpgradeRecipe cursingRecipe;
-    private float curseChance;
+    private UpgradeRecipe cursingRecipe = null;
+    private float curseChance = 0;
     private boolean isCursingRecipe = false;
     private Function<Integer, Integer> levelAlgo;
 
@@ -40,7 +39,6 @@ public class UpgradeRecipe {
         else {
             if (ModConfig.upgrade.upgradedTierLevelMode == 0)
                 //Reduce by x
-                //TODO: make factory or smth for crafttweaker
                 this.levelAlgo = lvlIn -> {
                     int reduction = ModConfig.upgrade.upgradedTierLevelReduction;
                     reduction = Math.min(reduction, this.enchIn.getMaxLevel() - this.enchOut.getMinLevel()); //If max possible lvl span is smaller than the reduction, only allow upgrade from old max to new min, for example for Fire Asp 2 -> Adv FA 1 or for Adv Mend
@@ -54,8 +52,10 @@ public class UpgradeRecipe {
     }
 
     public UpgradeRecipe setCurse(Enchantment curse, float curseChance) {
-        this.cursingRecipe = new UpgradeRecipe(this.enchIn, curse).setIsCursingRecipe().setLevelAlgo(lvlIn -> 1).setTokenCost(this.tokenCost);
-        this.curseChance = curseChance;
+        if(curse!=null) {
+            this.cursingRecipe = new UpgradeRecipe(this.enchIn, curse).setIsCursingRecipe().setLevelAlgo(lvlIn -> 1).setTokenCost(this.tokenCost);
+            this.curseChance = curseChance;
+        }
         return this;
     }
 
@@ -71,6 +71,9 @@ public class UpgradeRecipe {
 
     public UpgradeRecipe setTokenCost(ItemStack token) {
         this.tokenCost = token;
+        if(this.cursingRecipe != null)
+            this.cursingRecipe.setTokenCost(token);
+        addUpgradeToken(token);
         return this;
     }
 
@@ -149,10 +152,8 @@ public class UpgradeRecipe {
         enchantsOnItemLoop:
         for (Map.Entry<Enchantment, Integer> enchants : currentEnchants.entrySet()) {
             int upgradedLevel = this.canUpgrade(enchants.getKey(), enchants.getValue());
-            SoManyEnchantments.LOGGER.info("Recipe for {} can upgrade {}, lvl {}?",this.enchIn.getRegistryName().toString(),enchants.getKey().getRegistryName().toString(), upgradedLevel);
             if (upgradedLevel != DENY) {
                 //Non-book can apply check
-                SoManyEnchantments.LOGGER.info("Recipe for {} can apply?",enchants.getKey().getRegistryName().toString());
                 if (itemStack.getItem() != Items.ENCHANTED_BOOK) {
                     if (!this.enchOut.canApply(itemStack))
                         continue;
@@ -160,14 +161,12 @@ public class UpgradeRecipe {
                 //Book can apply check
                 else if (!this.enchOut.isAllowedOnBooks())
                     continue;
-                SoManyEnchantments.LOGGER.info("Recipe for {} can apply together?",enchants.getKey().getRegistryName().toString());
                 //Compatibility check with existing enchantments
                 if (ModConfig.upgrade.onlyAllowCompatible)
                     for (Enchantment ench : currentEnchants.keySet())
                         if (ench != enchants.getKey() && !this.enchOut.isCompatibleWith(ench))
                             continue enchantsOnItemLoop;
 
-                SoManyEnchantments.LOGGER.info("Recipe for {} works",enchants.getKey().getRegistryName().toString());
                 return upgradedLevel;
             }
         }
@@ -185,35 +184,53 @@ public class UpgradeRecipe {
         return true;
     }
 
-    //-------------- STATIC FIELDS --------------
+    public String toString(){
+        try {
+            String s = "UpgradeRecipe from " + this.getInput().getRegistryName().toString();
+            s += " to " + this.getOutputEnchant().getRegistryName().toString();
+            s += " using " + this.getTokenCost().getItem().getRegistryName().toString() + ":" + (this.getTokenCost().getMetadata() == 3767 ? "*" : this.getTokenCost().getMetadata()) + " count " + this.getTokenCost().getCount();
+            if (this.cursingRecipe != null)
+                s += " has curse " + this.cursingRecipe.getOutputEnchant().getRegistryName().toString() + " chance " + this.curseChance;
+            return s;
+        } catch (Exception e){
+            return "Caught exception during toString representation of UpgradeRecipe";
+        }
+    }
+
+    //-------------- STATIC AREA --------------
 
     public static final List<UpgradeRecipe> UPGRADE_RECIPES = new ArrayList<>();
-    public static final List<ItemStack> UPGRADE_TOKENS = new ArrayList<>();
+    private static final List<ItemStack> UPGRADE_TOKENS = new ArrayList<>();
 
-    public static void initUpgradeRecipes(){
+    public static void resetUpgradeRecipes(){
         UPGRADE_RECIPES.clear();
         UPGRADE_TOKENS.clear();
+    }
 
+    public static void initUpgradeRecipes(){
         for(Enchantment ench : ForgeRegistries.ENCHANTMENTS.getValuesCollection().stream().sorted(Comparator.comparingInt(Enchantment::getEnchantmentID)).collect(Collectors.toList())){
             Enchantment curse = ConfigProvider.getFailureEnchantFor(ench);
-            if(ModConfig.upgrade.allowLevelUpgrades && !ench.isCurse()){
+            if(ModConfig.upgrade.allowLevelUpgrades && !ench.isCurse() && ench.getMaxLevel() > ench.getMinLevel()){
                 UpgradeRecipe recipe = new UpgradeRecipe(ench, ench).setCurse(curse, ModConfig.upgrade.upgradeFailChanceLevel);
                 UPGRADE_RECIPES.add(recipe);
-                ItemStack tokenStack = recipe.getTokenCost();
-                if(!UPGRADE_TOKENS.contains(tokenStack))
-                    UPGRADE_TOKENS.add(tokenStack);
+                addUpgradeToken(recipe.getTokenCost());
             }
             if(ModConfig.upgrade.allowTierUpgrades) {
                 Enchantment upgradedEnchant = ConfigProvider.getUpgradedEnchantFor(ench);
                 if(upgradedEnchant != null) {
                     UpgradeRecipe recipe = new UpgradeRecipe(ench, upgradedEnchant).setCurse(curse, ModConfig.upgrade.upgradeFailChanceTier);
                     UPGRADE_RECIPES.add(recipe);
-                    ItemStack tokenStack = recipe.getTokenCost();
-                    if(!UPGRADE_TOKENS.contains(tokenStack))
-                        UPGRADE_TOKENS.add(tokenStack);
+                    addUpgradeToken(recipe.getTokenCost());
                 }
             }
         }
+    }
+
+    public static void addUpgradeToken(ItemStack token){
+        for(ItemStack stack : UPGRADE_TOKENS)
+            if(stack.getItem().equals(token.getItem()) && stack.getMetadata() == token.getMetadata() && stack.getCount() == token.getCount())
+                return;
+        UPGRADE_TOKENS.add(token);
     }
 
     //This is only for allowing items into the slot, so the count doesn't matter yet
@@ -224,5 +241,19 @@ public class UpgradeRecipe {
                     return true;
         }
         return false;
+    }
+
+    public static void cleanupUpgradeTokens() {
+        //CT can change upgrade tokens which in theory can make some previously valid tokens now be unused.
+        //Thus clean the token list to only allow actually used tokens in upgrade token/lapis slot
+        List<ItemStack> toRemove = new ArrayList<>();
+        tokens: for(ItemStack token : UPGRADE_TOKENS){
+            //If any recipe uses the token, keep it
+            for(UpgradeRecipe recipe : UPGRADE_RECIPES)
+                if(recipe.upgradeTokenIsValid(token))
+                    continue tokens;
+            toRemove.add(token);
+        }
+        UPGRADE_TOKENS.removeAll(toRemove);
     }
 }

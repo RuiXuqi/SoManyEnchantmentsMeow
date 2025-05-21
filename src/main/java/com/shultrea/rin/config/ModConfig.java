@@ -230,6 +230,7 @@ public class ModConfig {
 				ConfigManager.sync(SoManyEnchantments.MODID, Config.Type.INSTANCE);
 				ConfigProvider.resetBlacklists();
 				ConfigProvider.resetDefaultUpgradeTokens();
+				UpgradeRecipe.resetUpgradeRecipes();
 				UpgradeRecipe.initUpgradeRecipes();
 			}
 		}

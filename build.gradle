@@ -41,7 +41,10 @@ dependencies {
     implementation fg.deobf("curse.maven:spartanweaponry-${spartanweaponry_version}")
     implementation fg.deobf("curse.maven:bettersurvival-${bettersurvival_version}")
     implementation fg.deobf("curse.maven:spawnercontrol-${spawnercontrol_version}")
+    implementation fg.deobf("curse.maven:jei-${jei_version}")
+
     implementation fg.deobf("libs:socketed:indev") // indev
+    implementation "libs:CraftTweaker2-${ct_version}"
 
 }
 

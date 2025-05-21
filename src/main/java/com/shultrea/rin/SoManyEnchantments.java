@@ -7,8 +7,10 @@ import com.shultrea.rin.util.*;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import com.shultrea.rin.util.compat.CompatUtil;
 import com.shultrea.rin.util.compat.SocketedCompat;
+import com.shultrea.rin.util.compat.crafttweaker.CraftTweakerCompat;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -59,5 +61,7 @@ public class SoManyEnchantments {
 		PotionUtil.initializePotionLists();
 		Types.initEnchantmentTabs();
 		EnchantmentRegistry.initIncompatLists();
+		if(Loader.isModLoaded("crafttweaker"))
+			CraftTweakerCompat.applyActions();
 	}
 }

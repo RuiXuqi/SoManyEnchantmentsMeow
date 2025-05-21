@@ -249,7 +249,7 @@ public abstract class GuiEnchantmentMixin extends GuiContainer implements IGuiCo
                 int upgradeTokenCost = upgradeToken.getCount();
                 boolean isUpgrade = !upgradeToken.isEmpty();
                 boolean tokenEnoughAndCorrect = ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getIsValidAndEnoughToken(button);
-                
+
                 if(enchantmentClue == null && !isUpgrade) java.util.Collections.addAll(list, "", TextFormatting.RED + I18n.format("forge.container.enchant.limitedEnchantability"));
                 else if(!isCreative) {
                     list.add("");
@@ -284,7 +284,7 @@ public abstract class GuiEnchantmentMixin extends GuiContainer implements IGuiCo
                         String s;
                         
                         if(upgradeTokenCost > 0) {
-                            s = upgradeTokenCost + " " + I18n.format(upgradeToken.getItem().getTranslationKey() + ".name");
+                            s = upgradeTokenCost + " " + upgradeToken.getItem().getItemStackDisplayName(upgradeToken);
 
                             TextFormatting textformatting = tokenEnoughAndCorrect ? TextFormatting.GRAY : TextFormatting.RED;
                             list.add(textformatting + "" + s);

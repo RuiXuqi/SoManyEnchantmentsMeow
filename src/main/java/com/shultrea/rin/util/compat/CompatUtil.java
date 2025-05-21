@@ -1,6 +1,5 @@
 package com.shultrea.rin.util.compat;
 
-import com.shultrea.rin.SoManyEnchantments;
 import net.minecraftforge.fml.common.Loader;
 
 public class CompatUtil {
@@ -77,10 +76,12 @@ public class CompatUtil {
 	public static boolean isBetterSurvivalCorrectVersion() {
 		String[] arrOfStr = Loader.instance().getIndexedModList().get(BETTERSURVIVAL_MODID).getVersion().split("\\.");
 		try {
-			int i = Integer.parseInt(String.valueOf(arrOfStr[0]));
-			int j = Integer.parseInt(String.valueOf(arrOfStr[1]));
-			int k = Integer.parseInt(String.valueOf(arrOfStr[2]));
-			if(i*100 + j*10 + k <= 154) return true; //until 1.5.4
+			int major = Integer.parseInt(arrOfStr[0]);
+			int minor = Integer.parseInt(arrOfStr[1]);
+			int patch = Integer.parseInt(arrOfStr[2]);
+			if(major < 1) return true;
+			if(major == 1 && minor < 5) return true;
+			if(major == 1 && minor == 5 && patch <= 4) return true; //until 1.5.4
 		}
 		catch(Exception ignored) { }
 		return false;
@@ -89,10 +90,12 @@ public class CompatUtil {
 	public static boolean isSpartanWeaponryCorrectVersion() {
 		String[] arrOfStr = Loader.instance().getIndexedModList().get(SPARTANWEAPONRY_MODID).getVersion().split("\\.");
 		try {
-			int i = Integer.parseInt(String.valueOf(arrOfStr[0]));
-			int j = Integer.parseInt(String.valueOf(arrOfStr[1]));
-			int k = Integer.parseInt(String.valueOf(arrOfStr[2]));
-			if(i*100 + j*10 + k <= 160) return true; //until 1.6.0
+			int major = Integer.parseInt(arrOfStr[0]);
+			int minor = Integer.parseInt(arrOfStr[1]);
+			int patch = Integer.parseInt(arrOfStr[2]);
+			if(major < 1) return true;
+			if(major == 1 && minor < 6) return true;
+			if(major == 1 && minor == 6 && patch <= 0) return true;
 		}
 		catch(Exception ignored) { }
 		return false;
