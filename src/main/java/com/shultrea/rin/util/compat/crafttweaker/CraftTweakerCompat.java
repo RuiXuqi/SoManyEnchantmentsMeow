@@ -32,16 +32,12 @@ public class CraftTweakerCompat {
 
     @ZenMethod
     public static void setUpgradeTokenForRecipe(IEnchantmentDefinition in, IEnchantmentDefinition out, IItemStack upgradeToken) {
-        UpgradeRecipe.UPGRADE_RECIPES.stream()
-                .filter(r -> r.getInput().equals(in.getInternal()) && r.getOutputEnchant().equals(out.getInternal()))
-                .forEach(r -> r.setTokenCost((ItemStack) upgradeToken.getInternal()));
+        recipesToChange.add(new ActionChangeUpgradeToken(in, out, upgradeToken));
     }
 
     @ZenMethod
     public static void setCurseForRecipe(IEnchantmentDefinition in, IEnchantmentDefinition out, IEnchantmentDefinition curse, float cursingChance) {
-        UpgradeRecipe.UPGRADE_RECIPES.stream()
-                .filter(r -> r.getInput().equals(in.getInternal()) && r.getOutputEnchant().equals(out.getInternal()))
-                .forEach(r -> r.setCurse((Enchantment) curse.getInternal(), cursingChance));
+        recipesToChange.add(new ActionChangeCurse(in, out, curse, cursingChance));
     }
 
     @ZenMethod
@@ -55,9 +51,11 @@ public class CraftTweakerCompat {
 
     private static final List<IAction> recipesToAdd = new ArrayList<>();
     private static final List<IAction> recipesToRemove = new ArrayList<>();
+    private static final List<IAction> recipesToChange = new ArrayList<>();
 
     public static void applyActions() {
         CraftTweaker.INSTANCE.applyActions(recipesToRemove,"","");
+        CraftTweaker.INSTANCE.applyActions(recipesToChange,"","");
         CraftTweaker.INSTANCE.applyActions(recipesToAdd,"","");
 
         UpgradeRecipe.cleanupUpgradeTokens();
@@ -107,6 +105,55 @@ public class CraftTweakerCompat {
         @Override
         public void apply() {
             UpgradeRecipe.UPGRADE_RECIPES.add(this.recipe.getInternal());
+        }
+
+        @Override
+        public String describe() {
+            return "";
+        }
+    }
+
+    public static class ActionChangeUpgradeToken implements IAction{
+
+        private final ItemStack upgradeToken;
+        private final Enchantment enchIn, enchOut;
+
+        public ActionChangeUpgradeToken(IEnchantmentDefinition enchIn, IEnchantmentDefinition enchOut, IItemStack upgradeToken){
+            this.upgradeToken = (ItemStack) upgradeToken.getInternal();
+            this.enchIn = (Enchantment) enchIn.getInternal();
+            this.enchOut = (Enchantment) enchOut.getInternal();
+        }
+
+        @Override
+        public void apply() {
+            UpgradeRecipe.UPGRADE_RECIPES.stream()
+                    .filter(r -> r.getInput().equals(enchIn) && r.getOutputEnchant().equals(enchOut))
+                    .forEach(r -> r.setTokenCost(upgradeToken));
+        }
+
+        @Override
+        public String describe() {
+            return "";
+        }
+    }
+
+    public static class ActionChangeCurse implements IAction{
+
+        private final float cursingChance;
+        private final Enchantment enchIn, enchOut, enchCurse;
+
+        public ActionChangeCurse(IEnchantmentDefinition enchIn, IEnchantmentDefinition enchOut, IEnchantmentDefinition curse, float cursingChance){
+            this.enchIn = (Enchantment) enchIn.getInternal();
+            this.enchOut = (Enchantment) enchOut.getInternal();
+            this.enchCurse = (Enchantment) curse.getInternal();
+            this.cursingChance = cursingChance;
+        }
+
+        @Override
+        public void apply() {
+            UpgradeRecipe.UPGRADE_RECIPES.stream()
+                    .filter(r -> r.getInput().equals(enchIn) && r.getOutputEnchant().equals(enchOut))
+                    .forEach(r -> r.setCurse(enchCurse, cursingChance));
         }
 
         @Override
