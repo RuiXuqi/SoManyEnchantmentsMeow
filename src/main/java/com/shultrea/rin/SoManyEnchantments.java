@@ -25,7 +25,7 @@ import org.apache.logging.log4j.Logger;
 		modid = SoManyEnchantments.MODID,
 		name = SoManyEnchantments.NAME,
 		version = SoManyEnchantments.VERSION,
-		dependencies = "required-after:fermiumbooter@[1.2.0,)",
+		dependencies = "required-after:fermiumbooter",
 	 	acceptedMinecraftVersions = "[1.12.0, 1.12.2]"
 )
 public class SoManyEnchantments {

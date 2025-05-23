@@ -2,7 +2,6 @@ package com.shultrea.rin.config;
 
 import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.util.UpgradeRecipe;
-import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -48,19 +47,16 @@ public class ModConfig {
 
 	@Config.Comment("Config for upgrading tiered enchantments")
 	@Config.Name("Upgrade")
-	@MixinConfig.SubInstance
 	public static UpgradeConfig upgrade = new UpgradeConfig();
 	
 	@Config.Comment("Miscellaneous")
 	@Config.Name("Miscellaneous")
-	@MixinConfig.SubInstance
 	public static MiscellaneousConfig miscellaneous = new MiscellaneousConfig();
 	
 	public static class MiscellaneousConfig {
 		@Config.Comment("Makes zombie villagers keep their trades during infection and conversion")
 		@Config.Name("Zombified Villagers keep trades")
 		@Config.RequiresMcRestart
-		@MixinConfig.EarlyMixin(name = "mixins.somanyenchantments.zombietrades.json")
 		public boolean zombieVillagersKeepTrades = true;
 
 		@Config.Comment("Allow enchantments to change the weather")
