@@ -73,7 +73,7 @@ public class EnchantmentNaturalBlocking extends EnchantmentBase {
 				shield = victim.getHeldItemOffhand();
 				if(shield.isEmpty() || !shield.getItem().isShield(shield, victim)) return;
 			}
-			float blockedDamage = event.getAmount() * (0.1F + 0.1F * (float)level);
+			float blockedDamage = event.getAmount() * (0.1F * (float)level);
 			event.setAmount(event.getAmount() - blockedDamage);
 			shield.damageItem((int)(1.0F + 1.5F * blockedDamage), victim);
 		}
