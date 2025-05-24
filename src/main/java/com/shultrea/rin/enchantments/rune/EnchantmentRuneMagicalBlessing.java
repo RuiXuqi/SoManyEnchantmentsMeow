@@ -105,7 +105,7 @@ public class EnchantmentRuneMagicalBlessing extends EnchantmentBase {
 				Potion negaIPotion = PotionUtil.getInstantNegativePotion();
 				if(negaIPotion != null) {
 					if(negaIPotion == MobEffects.INSTANT_DAMAGE && victim.isEntityUndead()) negaIPotion = MobEffects.INSTANT_HEALTH;
-					negaIPotion.affectEntity(attacker, null, victim, amplifier, 1.0D);
+					negaIPotion.affectEntity(attacker, attacker, victim, amplifier, 1.0D);
 				}
 			}
 		}
