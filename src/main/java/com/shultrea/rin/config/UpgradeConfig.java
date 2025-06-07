@@ -59,11 +59,11 @@ public class UpgradeConfig {
 			"somanyenchantments:luckmagnification, somanyenchantments:adept, mujmajnkraftsbettersurvival:education, somanyenchantments:ascetic"
 	};
 
-	@Config.Comment("Upgrading enchantments will use this material in the enchanting table lapis slot")
+	@Config.Comment("Upgrading enchantment levels will use this material in the enchanting table lapis slot")
 	@Config.Name("Upgrade Token on Level Upgrades")
 	public String upgradeTokenLevel = "minecraft:prismarine_shard";
 
-	@Config.Comment("Upgrading enchantments will use this material in the enchanting table lapis slot")
+	@Config.Comment("Upgrading enchantment tiers will use this material in the enchanting table lapis slot")
 	@Config.Name("Upgrade Token on Tier Upgrades")
 	public String upgradeTokenTier = "minecraft:prismarine_shard";
 

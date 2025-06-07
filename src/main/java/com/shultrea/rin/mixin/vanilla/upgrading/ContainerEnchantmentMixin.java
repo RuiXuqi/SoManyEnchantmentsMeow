@@ -91,6 +91,9 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
                 @Override public boolean canTakeStack(@Nonnull EntityPlayer playerIn) {
                     return false;
                 }
+                @Override public boolean isItemValid(@Nonnull ItemStack stack){
+                    return false;
+                }
                 @Override @SideOnly(Side.CLIENT) public boolean isEnabled() {
                     return false;
                 }
