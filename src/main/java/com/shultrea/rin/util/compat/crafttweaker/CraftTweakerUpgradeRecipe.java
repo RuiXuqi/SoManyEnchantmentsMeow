@@ -32,6 +32,13 @@ public class CraftTweakerUpgradeRecipe {
     }
 
     @ZenMethod
+    public CraftTweakerUpgradeRecipe setCurse(IEnchantmentDefinition curse){
+        float chance = this.internal.getInput() == this.internal.getOutputEnchant() ? ModConfig.upgrade.upgradeFailChanceLevel : ModConfig.upgrade.upgradeFailChanceTier;
+        this.internal.setCurse((Enchantment) curse.getInternal(), chance);
+        return this;
+    }
+
+    @ZenMethod
     public CraftTweakerUpgradeRecipe setUpgradeToken(IItemStack stack){
         this.internal.setTokenCost((ItemStack) stack.getInternal());
         return this;

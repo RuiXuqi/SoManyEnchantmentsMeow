@@ -1,6 +1,7 @@
 package com.shultrea.rin.util.compat.crafttweaker;
 
 import com.shultrea.rin.SoManyEnchantments;
+import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.util.UpgradeRecipe;
 import crafttweaker.IAction;
 import crafttweaker.annotations.ZenRegister;
@@ -14,6 +15,7 @@ import stanhebben.zenscript.annotations.ZenMethod;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 @ZenRegister
@@ -27,7 +29,7 @@ public class CraftTweakerCompat {
 
     @ZenMethod
     public static void removeRecipe(IEnchantmentDefinition in, IEnchantmentDefinition out) {
-        recipesToRemove.add(new ActionRemoveUpgradeRecipe((Enchantment) in.getInternal(), (Enchantment) out.getInternal()));
+        recipesToRemove.add(new ActionRemoveUpgradeRecipe(reloadEnchantment(in.getInternal()), reloadEnchantment(out.getInternal())));
     }
 
     @ZenMethod
@@ -41,8 +43,13 @@ public class CraftTweakerCompat {
     }
 
     @ZenMethod
+    public static void setCurseForRecipe(IEnchantmentDefinition in, IEnchantmentDefinition out, IEnchantmentDefinition curse) {
+        recipesToChange.add(new ActionChangeCurse(in, out, curse));
+    }
+
+    @ZenMethod
     public static CraftTweakerUpgradeRecipe addRecipe(IEnchantmentDefinition in, IEnchantmentDefinition out){
-        CraftTweakerUpgradeRecipe newRecipe = new CraftTweakerUpgradeRecipe(new UpgradeRecipe((Enchantment) in.getInternal(), (Enchantment) out.getInternal()));
+        CraftTweakerUpgradeRecipe newRecipe = new CraftTweakerUpgradeRecipe(new UpgradeRecipe(reloadEnchantment(in.getInternal()), reloadEnchantment(out.getInternal())));
         recipesToAdd.add(new ActionAddUpgradeRecipe(newRecipe));
         return newRecipe;
     }
@@ -120,8 +127,8 @@ public class CraftTweakerCompat {
 
         public ActionChangeUpgradeToken(IEnchantmentDefinition enchIn, IEnchantmentDefinition enchOut, IItemStack upgradeToken){
             this.upgradeToken = (ItemStack) upgradeToken.getInternal();
-            this.enchIn = (Enchantment) enchIn.getInternal();
-            this.enchOut = (Enchantment) enchOut.getInternal();
+            this.enchIn = reloadEnchantment(enchIn.getInternal());
+            this.enchOut = reloadEnchantment(enchOut.getInternal());
         }
 
         @Override
@@ -143,10 +150,16 @@ public class CraftTweakerCompat {
         private final Enchantment enchIn, enchOut, enchCurse;
 
         public ActionChangeCurse(IEnchantmentDefinition enchIn, IEnchantmentDefinition enchOut, IEnchantmentDefinition curse, float cursingChance){
-            this.enchIn = (Enchantment) enchIn.getInternal();
-            this.enchOut = (Enchantment) enchOut.getInternal();
-            this.enchCurse = (Enchantment) curse.getInternal();
+            this.enchIn = reloadEnchantment(enchIn.getInternal());
+            this.enchOut = reloadEnchantment(enchOut.getInternal());
+            this.enchCurse = reloadEnchantment(curse.getInternal());
             this.cursingChance = cursingChance;
+        }
+
+        public ActionChangeCurse(IEnchantmentDefinition enchIn, IEnchantmentDefinition enchOut, IEnchantmentDefinition curse){
+            this(enchIn, enchOut, curse,
+                    enchIn.getInternal() == enchOut.getInternal() ? ModConfig.upgrade.upgradeFailChanceLevel : ModConfig.upgrade.upgradeFailChanceTier
+            );
         }
 
         @Override
@@ -160,5 +173,13 @@ public class CraftTweakerCompat {
         public String describe() {
             return "";
         }
+    }
+
+    public static Enchantment reloadEnchantment(Object original){
+        if(!(original instanceof Enchantment)) return null;
+        Enchantment enchantment = (Enchantment) original;
+        if(enchantment.getRegistryName() == null) return enchantment;
+        //if(!enchantment.getRegistryName().getNamespace().equals("minecraft")) return enchantment; //from my testing it was only vanilla enchants being weird but being extra safe here doesn't cost a lot of extra cpu cycles
+        return Enchantment.getEnchantmentByLocation(enchantment.getRegistryName().toString());
     }
 }
