@@ -6,6 +6,7 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
+    "ContainerEnchantmentThreadLocalMixin",
     "ContainerRepairMixin",
     "EnchantmentHelperEnchantBlacklistMixin",
     "EnchantmentHelperMixin",
@@ -17,13 +18,13 @@
     "EntityLivingBaseMixin",
     "EntityPlayerMixin",
     "EntityVillagerListEnchantedBookForEmeraldsMixin",
+    "ForgeEnchantmentRegistryMixin",
     "IEntityCreeperMixin",
     "IEntityLivingMixin",
     "IItemBowMixin",
     "ISpecialArmorArmorPropertiesMixin",
     "ItemMixin",
-    "ItemStackMixin",
-    "ForgeEnchantmentRegistryMixin"
+    "ItemStackMixin"
   ],
   "injectors": {
     "maxShiftBy": 10
