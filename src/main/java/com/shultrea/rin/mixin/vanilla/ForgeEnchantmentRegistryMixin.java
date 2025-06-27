@@ -12,19 +12,21 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ForgeRegistry.class)
-public abstract class ForgeRegistryMixin<V extends IForgeRegistryEntry<V>> {
+public abstract class ForgeEnchantmentRegistryMixin<V extends IForgeRegistryEntry<V>> {
 
     @Inject(method = "register", at = @At("HEAD"), cancellable = true, remap = false)
     private void onRegister(V value, CallbackInfo ci) {
-        if (value instanceof Enchantment) {
-            ResourceLocation loc = value.getRegistryName();
-            if(loc == null) return;
+        if (!(value instanceof Enchantment)) return;
+        if(ConfigProvider.getRegistryEnchantsBlacklist().isEmpty()) return;
+        
+        ResourceLocation loc = value.getRegistryName();
+        if (loc == null) return;
 
-            //Prevent registration of config defined enchants
-            if (ConfigProvider.getRegistryEnchantsBlacklist().contains(loc.toString())) {
-                SoManyEnchantments.LOGGER.info("SoManyEnchantments preventing registration of enchantment {}", loc.toString());
-                ci.cancel();
-            }
+        //Prevent registration of config defined enchants
+        if (ConfigProvider.getRegistryEnchantsBlacklist().contains(loc.toString())) {
+            SoManyEnchantments.LOGGER.info("SoManyEnchantments preventing registration of enchantment {}", loc.toString());
+            ci.cancel();
         }
     }
 }
+

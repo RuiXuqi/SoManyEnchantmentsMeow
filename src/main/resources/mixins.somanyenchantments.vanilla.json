@@ -23,7 +23,7 @@
     "ISpecialArmorArmorPropertiesMixin",
     "ItemMixin",
     "ItemStackMixin",
-    "ForgeRegistryMixin"
+    "ForgeEnchantmentRegistryMixin"
   ],
   "injectors": {
     "maxShiftBy": 10
