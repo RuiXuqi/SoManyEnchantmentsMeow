@@ -1,401 +1,400 @@
-package com.shultrea.rin.config;
+package com.shultrea.rin.config.folders;
 
 import net.minecraftforge.common.config.Config;
 
-public class CanApplyAnvilConfig {
-
+public class EnabledConfig {
+	
 	@Config.Name("Adept")
 	@Config.RequiresMcRestart
-	public String[] adept = {};
+	public boolean adept = true;
 	@Config.Name("Ancient Sealed Curses")
 	@Config.RequiresMcRestart
-	public String[] ancientSealedCurses = {};
+	public boolean ancientSealedCurses = true;
 	@Config.Name("Ancient Sword Mastery")
 	@Config.RequiresMcRestart
-	public String[] ancientSwordMastery = {};
+	public boolean ancientSwordMastery = true;
 	@Config.Name("Arc Slash")
 	@Config.RequiresMcRestart
-	public String[] arcSlash = {};
+	public boolean arcSlash = true;
 	@Config.Name("Ash Destroyer")
 	@Config.RequiresMcRestart
-	public String[] ashDestroyer = {};
+	public boolean ashDestroyer = true;
 	@Config.Name("Atomic Deconstructor")
 	@Config.RequiresMcRestart
-	public String[] atomicDeconstructor = {};
+	public boolean atomicDeconstructor = true;
 	@Config.Name("Blessed Edge")
 	@Config.RequiresMcRestart
-	public String[] blessedEdge = {};
+	public boolean blessedEdge = true;
 	@Config.Name("Brutality")
 	@Config.RequiresMcRestart
-	public String[] brutality = {};
+	public boolean brutality = true;
 	@Config.Name("Burning Shield")
 	@Config.RequiresMcRestart
-	public String[] burningShield = {};
+	public boolean burningShield = true;
 	@Config.Name("Burning Thorns")
 	@Config.RequiresMcRestart
-	public String[] burningThorns = {"ARMOR"};
+	public boolean burningThorns = true;
 	@Config.Name("Butchering")
 	@Config.RequiresMcRestart
-	public String[] butchering = {"AXE"};
+	public boolean butchering = true;
 	@Config.Name("Clearskies' Favor")
 	@Config.RequiresMcRestart
-	public String[] clearskiesFavor = {};
+	public boolean clearskiesFavor = true;
 	@Config.Name("Combat Medic")
 	@Config.RequiresMcRestart
-	public String[] combatMedic = {};
+	public boolean combatMedic = true;
 	@Config.Name("Counter Attack")
 	@Config.RequiresMcRestart
-	public String[] counterAttack = {};
+	public boolean counterAttack = true;
 	@Config.Name("Critical Strike")
 	@Config.RequiresMcRestart
-	public String[] criticalStrike = {};
+	public boolean criticalStrike = true;
 	@Config.Name("Culling")
 	@Config.RequiresMcRestart
-	public String[] culling = {};
+	public boolean culling = true;
 	@Config.Name("Dark Shadows")
 	@Config.RequiresMcRestart
-	public String[] darkShadows = {};
+	public boolean darkShadows = true;
 	@Config.Name("Defusing Edge")
 	@Config.RequiresMcRestart
-	public String[] defusingEdge = {"AXE"};
+	public boolean defusingEdge = true;
 	@Config.Name("Desolator")
 	@Config.RequiresMcRestart
-	public String[] desolator = {};
+	public boolean desolator = true;
 	@Config.Name("Difficulty's Endowment")
 	@Config.RequiresMcRestart
-	public String[] difficultysEndowment = {};
+	public boolean difficultysEndowment = true;
 	@Config.Name("Disarmament")
 	@Config.RequiresMcRestart
-	public String[] disarmament = {};
+	public boolean disarmament = true;
 	@Config.Name("Disorientating Blade")
 	@Config.RequiresMcRestart
-	public String[] disorientatingBlade = {};
+	public boolean disorientatingBlade = true;
 	@Config.Name("Empowered Defence")
 	@Config.RequiresMcRestart
-	public String[] empoweredDefence = {};
+	public boolean empoweredDefence = true;
 	@Config.Name("Envenomed")
 	@Config.RequiresMcRestart
-	public String[] envenomed = {};
+	public boolean envenomed = true;
 	@Config.Name("Evasion")
 	@Config.RequiresMcRestart
-	public String[] evasion = {};
+	public boolean evasion = true;
 	@Config.Name("Fiery Edge")
 	@Config.RequiresMcRestart
-	public String[] fieryEdge = {};
+	public boolean fieryEdge = true;
 	@Config.Name("Flinging")
 	@Config.RequiresMcRestart
-	public String[] flinging = {};
+	public boolean flinging = true;
 	@Config.Name("Cryogenic")
 	@Config.RequiresMcRestart
-	public String[] cryogenic = {};
+	public boolean cryogenic = true;
 	@Config.Name("Hors De Combat")
 	@Config.RequiresMcRestart
-	public String[] horsDeCombat = {};
+	public boolean horsDeCombat = true;
 	@Config.Name("Inhumane")
 	@Config.RequiresMcRestart
-	public String[] inhumane = {"AXE"};
+	public boolean inhumane = true;
 	@Config.Name("Inner Berserk")
 	@Config.RequiresMcRestart
-	public String[] innerBerserk = {};
+	public boolean innerBerserk = true;
 	@Config.Name("Jagged Rake")
 	@Config.RequiresMcRestart
-	public String[] jaggedRake = {};
+	public boolean jaggedRake = true;
 	@Config.Name("Levitator")
 	@Config.RequiresMcRestart
-	public String[] levitator = {};
+	public boolean levitator = true;
 	@Config.Name("Lifesteal")
 	@Config.RequiresMcRestart
-	public String[] lifesteal = {};
+	public boolean lifesteal = true;
 	@Config.Name("Light Weight")
 	@Config.RequiresMcRestart
-	public String[] lightWeight = {};
+	public boolean lightWeight = true;
 	@Config.Name("Luck Magnification")
 	@Config.RequiresMcRestart
-	public String[] luckMagnification = {};
+	public boolean luckMagnification = true;
 	@Config.Name("Lunas Blessing")
 	@Config.RequiresMcRestart
-	public String[] lunasBlessing = {};
+	public boolean lunasBlessing = true;
 	@Config.Name("Magic Protection")
 	@Config.RequiresMcRestart
-	public String[] magicProtection = {};
+	public boolean magicProtection = true;
 	@Config.Name("Magma Walker")
 	@Config.RequiresMcRestart
-	public String[] magmaWalker = {};
+	public boolean magmaWalker = true;
 	@Config.Name("Meltdown")
 	@Config.RequiresMcRestart
-	public String[] meltdown = {};
+	public boolean meltdown = true;
 	@Config.Name("Moisturized")
 	@Config.RequiresMcRestart
-	public String[] moisturized = {};
+	public boolean moisturized = true;
 	@Config.Name("Mortalitas")
 	@Config.RequiresMcRestart
-	public String[] mortalitas = {};
+	public boolean mortalitas = true;
 	@Config.Name("Natural Blocking")
 	@Config.RequiresMcRestart
-	public String[] naturalBlocking = {};
+	public boolean naturalBlocking = true;
 	@Config.Name("Parry")
 	@Config.RequiresMcRestart
-	public String[] parry = {};
+	public boolean parry = true;
 	@Config.Name("Penetrating Edge")
 	@Config.RequiresMcRestart
-	public String[] penetratingEdge = {};
+	public boolean penetratingEdge = true;
 	@Config.Name("Physical Protection")
 	@Config.RequiresMcRestart
-	public String[] physicalProtection = {};
+	public boolean physicalProtection = true;
 	@Config.Name("Dragging")
 	@Config.RequiresMcRestart
-	public String[] dragging = {};
+	public boolean dragging = true;
 	@Config.Name("Purging Blade")
 	@Config.RequiresMcRestart
-	public String[] purgingBlade = {};
+	public boolean purgingBlade = true;
 	@Config.Name("Purification")
 	@Config.RequiresMcRestart
-	public String[] purification = {};
+	public boolean purification = true;
 	@Config.Name("Pushing")
 	@Config.RequiresMcRestart
-	public String[] pushing = {};
+	public boolean pushing = true;
 	@Config.Name("Rain's Bestowment")
 	@Config.RequiresMcRestart
-	public String[] rainsBestowment = {};
+	public boolean rainsBestowment = true;
 	@Config.Name("Reviled Blade")
 	@Config.RequiresMcRestart
-	public String[] reviledBlade = {};
+	public boolean reviledBlade = true;
 	@Config.Name("Reinforced Sharpness")
 	@Config.RequiresMcRestart
-	public String[] reinforcedsharpness = {};
+	public boolean reinforcedsharpness = true;
 	@Config.Name("Smelter")
 	@Config.RequiresMcRestart
-	public String[] smelter = {};
+	public boolean smelter = true;
 	@Config.Name("Sol's Blessing")
 	@Config.RequiresMcRestart
-	public String[] solsBlessing = {};
+	public boolean solsBlessing = true;
 	@Config.Name("Spell Breaker")
 	@Config.RequiresMcRestart
-	public String[] spellBreaker = {};
+	public boolean spellBreaker = true;
 	@Config.Name("Splitshot")
 	@Config.RequiresMcRestart
-	public String[] splitShot = {};
+	public boolean splitShot = true;
 	@Config.Name("Strafe")
 	@Config.RequiresMcRestart
-	public String[] strafe = {};
+	public boolean strafe = true;
 	@Config.Name("Strengthened Vitality")
 	@Config.RequiresMcRestart
-	public String[] strengthenedVitality = {};
+	public boolean strengthenedVitality = true;
 	@Config.Name("Swifter Slashes")
 	@Config.RequiresMcRestart
-	public String[] swifterSlashes = {};
+	public boolean swifterSlashes = true;
 	@Config.Name("Thunderstorm's Bestowment")
 	@Config.RequiresMcRestart
-	public String[] thunderstormsBestowment = {};
+	public boolean thunderstormsBestowment = true;
 	@Config.Name("True Strike")
 	@Config.RequiresMcRestart
-	public String[] trueStrike = {};
+	public boolean trueStrike = true;
 	@Config.Name("Swift Swimming")
 	@Config.RequiresMcRestart
-	public String[] swiftSwimming = {};
+	public boolean swiftSwimming = true;
 	@Config.Name("Unreasonable")
 	@Config.RequiresMcRestart
-	public String[] unreasonable = {};
+	public boolean unreasonable = true;
 	@Config.Name("Unsheathing")
 	@Config.RequiresMcRestart
-	public String[] unsheathing = {};
+	public boolean unsheathing = true;
 	@Config.Name("Upgraded Potentials")
 	@Config.RequiresMcRestart
-	public String[] upgradedPotentials = {};
+	public boolean upgradedPotentials = true;
 	@Config.Name("Viper")
 	@Config.RequiresMcRestart
-	public String[] viper = {};
+	public boolean viper = true;
 	@Config.Name("Water Aspect")
 	@Config.RequiresMcRestart
-	public String[] waterAspect = {};
+	public boolean waterAspect = true;
 	@Config.Name("Plowing")
 	@Config.RequiresMcRestart
-	public String[] plowing = {};
+	public boolean plowing = true;
 	@Config.Name("Winter's Grace")
 	@Config.RequiresMcRestart
-	public String[] wintersGrace = {};
-
+	public boolean wintersGrace = true;
 	//Curses
 	@Config.Name("Bluntness")
 	@Config.RequiresMcRestart
-	public String[] bluntness = {};
+	public boolean bluntness = true;
 	@Config.Name("Breached Plating")
 	@Config.RequiresMcRestart
-	public String[] breachedPlating = {};
+	public boolean breachedPlating = true;
 	@Config.Name("Cursed Edge")
 	@Config.RequiresMcRestart
-	public String[] cursedEdge = {};
+	public boolean cursedEdge = true;
 	@Config.Name("Curse of Decay")
 	@Config.RequiresMcRestart
-	public String[] curseOfDecay = {};
+	public boolean curseOfDecay = true;
 	@Config.Name("Curse of Holding")
 	@Config.RequiresMcRestart
-	public String[] curseOfHolding = {};
+	public boolean curseOfHolding = true;
 	@Config.Name("Curse of Inaccuracy")
 	@Config.RequiresMcRestart
-	public String[] curseOfInaccuracy = {};
+	public boolean curseOfInaccuracy = true;
 	@Config.Name("Curse of Possession")
 	@Config.RequiresMcRestart
-	public String[] curseOfPossession = {};
+	public boolean curseOfPossession = true;
 	@Config.Name("Curse of Vulnerability")
 	@Config.RequiresMcRestart
-	public String[] curseOfVulnerability = {};
+	public boolean curseOfVulnerability = true;
 	@Config.Name("Heavy Weight")
 	@Config.RequiresMcRestart
-	public String[] heavyWeight = {};
+	public boolean heavyWeight = true;
 	@Config.Name("Inefficient")
 	@Config.RequiresMcRestart
-	public String[] inefficient = {};
+	public boolean inefficient = true;
 	@Config.Name("Instability")
 	@Config.RequiresMcRestart
-	public String[] instability = {};
+	public boolean instability = true;
 	@Config.Name("Pandora's Curse")
 	@Config.RequiresMcRestart
-	public String[] pandorasCurse = {};
+	public boolean pandorasCurse = true;
 	@Config.Name("Powerless")
 	@Config.RequiresMcRestart
-	public String[] powerless = {};
+	public boolean powerless = true;
 	@Config.Name("Rusted")
 	@Config.RequiresMcRestart
-	public String[] rusted = {};
+	public boolean rusted = true;
 	@Config.Name("Unpredictable")
 	@Config.RequiresMcRestart
-	public String[] unpredictable = {};
+	public boolean unpredictable = true;
 	@Config.Name("Ascetic")
 	@Config.RequiresMcRestart
-	public String[] ascetic = {};
+	public boolean ascetic = true;
 	@Config.Name("Extinguish")
 	@Config.RequiresMcRestart
-	public String[] extinguish = {};
-	
+	public boolean extinguish = true;
 	//Rune
 	@Config.Name("Rune: Arrow Piercing")
 	@Config.RequiresMcRestart
-	public String[] runeArrowPiercing = {};
+	public boolean runeArrowPiercing = true;
 	@Config.Name("Rune: Magical Blessing")
 	@Config.RequiresMcRestart
-	public String[] runeMagicalBlessing = {};
+	public boolean runeMagicalBlessing = true;
 	@Config.Name("Rune: Piercing Capabilities")
 	@Config.RequiresMcRestart
-	public String[] runePiercingCapabilities = {"AXE"};
+	public boolean runePiercingCapabilities = true;
 	@Config.Name("Rune: Resurrection")
 	@Config.RequiresMcRestart
-	public String[] runeResurrection = {};
+	public boolean runeResurrection = true;
 	@Config.Name("Rune: Revival")
 	@Config.RequiresMcRestart
-	public String[] runeRevival = {};
-	
+	public boolean runeRevival = true;
 	//Subject
 	@Config.Name("Subject Biology")
 	@Config.RequiresMcRestart
-	public String[] subjectBiology = {"AXE"};
+	public boolean subjectBiology = true;
 	@Config.Name("Subject Chemistry")
 	@Config.RequiresMcRestart
-	public String[] subjectChemistry = {"AXE"};
+	public boolean subjectChemistry = true;
 	@Config.Name("Subject English")
 	@Config.RequiresMcRestart
-	public String[] subjectEnglish = {"AXE"};
+	public boolean subjectEnglish = true;
 	@Config.Name("Subject History")
 	@Config.RequiresMcRestart
-	public String[] subjectHistory = {"AXE"};
+	public boolean subjectHistory = true;
 	@Config.Name("Subject Mathematics")
 	@Config.RequiresMcRestart
-	public String[] subjectMathematics = {"AXE"};
+	public boolean subjectMathematics = true;
 	@Config.Name("Subject P.E.")
 	@Config.RequiresMcRestart
-	public String[] subjectPE = {"AXE"};
+	public boolean subjectPE = true;
 	@Config.Name("Subject Physics")
 	@Config.RequiresMcRestart
-	public String[] subjectPhysics = {"AXE"};
+	public boolean subjectPhysics = true;
 	//Lesser
 	@Config.Name("Lesser Bane of Arthropods")
 	@Config.RequiresMcRestart
-	public String[] lesserBaneOfArthropods = {"AXE"};
+	public boolean lesserBaneOfArthropods = true;
 	@Config.Name("Lesser Fire Aspect")
 	@Config.RequiresMcRestart
-	public String[] lesserFireAspect = {};
+	public boolean lesserFireAspect = true;
 	@Config.Name("Lesser Flame")
 	@Config.RequiresMcRestart
-	public String[] lesserFlame = {};
+	public boolean lesserFlame = true;
 	@Config.Name("Lesser Sharpness")
 	@Config.RequiresMcRestart
-	public String[] lesserSharpness = {"AXE"};
+	public boolean lesserSharpness = true;
 	@Config.Name("Lesser Smite")
 	@Config.RequiresMcRestart
-	public String[] lesserSmite = {"AXE"};
-	
+	public boolean lesserSmite = true;
 	//Advanced
 	@Config.Name("Advanced Bane of Arthropods")
 	@Config.RequiresMcRestart
-	public String[] advancedBaneOfArthropods = {"AXE"};
+	public boolean advancedBaneOfArthropods = true;
 	@Config.Name("Advanced Blast Protection")
 	@Config.RequiresMcRestart
-	public String[] advancedBlastProtection = {};
+	public boolean advancedBlastProtection = true;
 	@Config.Name("Advanced Efficiency")
 	@Config.RequiresMcRestart
-	public String[] advancedEfficiency = {};
+	public boolean advancedEfficiency = true;
 	@Config.Name("Advanced Feather Falling")
 	@Config.RequiresMcRestart
-	public String[] advancedFeatherFalling = {};
+	public boolean advancedFeatherFalling = true;
 	@Config.Name("Advanced Fire Aspect")
 	@Config.RequiresMcRestart
-	public String[] advancedFireAspect = {};
+	public boolean advancedFireAspect = true;
 	@Config.Name("Advanced Fire Protection")
 	@Config.RequiresMcRestart
-	public String[] advancedFireProtection = {};
+	public boolean advancedFireProtection = true;
 	@Config.Name("Advanced Flame")
 	@Config.RequiresMcRestart
-	public String[] advancedFlame = {};
+	public boolean advancedFlame = true;
 	@Config.Name("Advanced Knockback")
 	@Config.RequiresMcRestart
-	public String[] advancedKnockback = {};
+	public boolean advancedKnockback = true;
 	@Config.Name("Advanced Looting")
 	@Config.RequiresMcRestart
-	public String[] advancedLooting = {};
+	public boolean advancedLooting = true;
 	@Config.Name("Advanced Luck of the Sea")
 	@Config.RequiresMcRestart
-	public String[] advancedLuckOfTheSea = {};
+	public boolean advancedLuckOfTheSea = true;
 	@Config.Name("Advanced Lure")
 	@Config.RequiresMcRestart
-	public String[] advancedLure = {};
+	public boolean advancedLure = true;
 	@Config.Name("Advanced Mending")
 	@Config.RequiresMcRestart
-	public String[] advancedMending = {};
+	public boolean advancedMending = true;
 	@Config.Name("Advanced Power")
 	@Config.RequiresMcRestart
-	public String[] advancedPower = {};
+	public boolean advancedPower = true;
 	@Config.Name("Advanced Projectile Protection")
 	@Config.RequiresMcRestart
-	public String[] advancedProjectileProtection = {};
+	public boolean advancedProjectileProtection = true;
 	@Config.Name("Advanced Protection")
 	@Config.RequiresMcRestart
-	public String[] advancedProtection = {};
+	public boolean advancedProtection = true;
 	@Config.Name("Advanced Punch")
 	@Config.RequiresMcRestart
-	public String[] advancedPunch = {};
+	public boolean advancedPunch = true;
 	@Config.Name("Advanced Sharpness")
 	@Config.RequiresMcRestart
-	public String[] advancedSharpness = {"AXE"};
+	public boolean advancedSharpness = true;
 	@Config.Name("Advanced Smite")
 	@Config.RequiresMcRestart
-	public String[] advancedSmite = {"AXE"};
+	public boolean advancedSmite = true;
 	@Config.Name("Advanced Thorns")
 	@Config.RequiresMcRestart
-	public String[] advancedThorns = {"ARMOR"};
+	public boolean advancedThorns = true;
 	//Supreme
 	@Config.Name("Supreme Bane of Arthropods")
 	@Config.RequiresMcRestart
-	public String[] supremeBaneOfArthropods = {"AXE"};
+	public boolean supremeBaneOfArthropods = true;
 	@Config.Name("Supreme Fire Aspect")
 	@Config.RequiresMcRestart
-	public String[] supremeFireAspect = {};
+	public boolean supremeFireAspect = true;
 	@Config.Name("Supreme Flame")
 	@Config.RequiresMcRestart
-	public String[] supremeFlame = {};
+	public boolean supremeFlame = true;
 	@Config.Name("Supreme Sharpness")
 	@Config.RequiresMcRestart
-	public String[] supremeSharpness = {"AXE"};
+	public boolean supremeSharpness = true;
 	@Config.Name("Supreme Smite")
 	@Config.RequiresMcRestart
-	public String[] supremeSmite = {"AXE"};
+	public boolean supremeSmite = true;
+	@Config.Name("Supreme Protection")
+	@Config.RequiresMcRestart
+	public boolean supremeProtection = true;
 }

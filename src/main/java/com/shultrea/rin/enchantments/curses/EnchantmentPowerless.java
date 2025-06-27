@@ -1,7 +1,7 @@
 package com.shultrea.rin.enchantments.curses;
 
 import com.shultrea.rin.config.ConfigProvider;
-import com.shultrea.rin.config.EnchantabilityConfig;
+import com.shultrea.rin.config.folders.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentCurse;
 import net.minecraft.inventory.EntityEquipmentSlot;

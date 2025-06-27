@@ -1,4 +1,4 @@
-package com.shultrea.rin.config;
+package com.shultrea.rin.config.folders;
 
 import net.minecraftforge.common.config.Config;
 
@@ -31,7 +31,7 @@ public class IncompatibleConfig {
 			"swiftswimming, rusted",
 			"minecraft:depth_strider, rusted",
 			//Unbreaking vs rusted
-			"minecraft:unbreaking, rusted",
+			"minecraft:unbreaking, rusted, instability",
 			//Mending tiers, mending not compat with infinity in vanilla
 			"minecraft:mending, advancedmending, minecraft:infinity",
 			//Adept incompat with education
@@ -97,6 +97,8 @@ public class IncompatibleConfig {
 			//Advanced tiers incompat
 			"advancedsharpness, advancedsmite, advancedbaneofarthropods",
 			//Supreme tiers + Penetrating Edge and Spellbreaker which reach similar amounts of dmg
-			"supremesharpness, supremesmite, supremebaneofarthropods, penetratingedge, spellbreaker"
+			"supremesharpness, supremesmite, supremebaneofarthropods, penetratingedge, spellbreaker",
+			//Item despawns fast or item can't be tossed
+			"curseofpossession, curseofdecay"
 	};
 }

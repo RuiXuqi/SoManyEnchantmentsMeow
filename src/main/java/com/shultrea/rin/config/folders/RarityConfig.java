@@ -1,4 +1,4 @@
-package com.shultrea.rin.config;
+package com.shultrea.rin.config.folders;
 
 import net.minecraftforge.common.config.Config;
 

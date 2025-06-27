@@ -1,421 +1,400 @@
-package com.shultrea.rin.config;
+package com.shultrea.rin.config.folders;
 
 import net.minecraftforge.common.config.Config;
 
-public class EnchantabilityConfig {
-	public static final int MIN = 0;
-	public static final int SUPER = 1;
-	public static final int FIXED = 2;
-	public static final int LINEAR = 3;
-
+public class TreasureConfig {
+	
 	@Config.Name("Adept")
 	@Config.RequiresMcRestart
-	public int[] adept = {26, 12, 40, MIN};
+	public boolean adept = true;
 	@Config.Name("Ancient Sealed Curses")
 	@Config.RequiresMcRestart
-	public int[] ancientSealedCurses = {240,240,720,LINEAR};
+	public boolean ancientSealedCurses = true;
 	@Config.Name("Ancient Sword Mastery")
 	@Config.RequiresMcRestart
-	public int[] ancientSwordMastery = {80,80,160,LINEAR};
+	public boolean ancientSwordMastery = true;
 	@Config.Name("Arc Slash")
 	@Config.RequiresMcRestart
-	public int[] arcSlash = {20, 15, 40, SUPER};
+	public boolean arcSlash = false;
 	@Config.Name("Ash Destroyer")
 	@Config.RequiresMcRestart
-	public int[] ashDestroyer = {14, 12, 30, MIN};
+	public boolean ashDestroyer = false;
 	@Config.Name("Atomic Deconstructor")
 	@Config.RequiresMcRestart
-	public int[] atomicDeconstructor = {16, 14, 40, SUPER};
+	public boolean atomicDeconstructor = false;
 	@Config.Name("Blessed Edge")
 	@Config.RequiresMcRestart
-	public int[] blessedEdge = {20, 10, 31, MIN};
+	public boolean blessedEdge = false;
 	@Config.Name("Brutality")
 	@Config.RequiresMcRestart
-	public int[] brutality = {15, 15, 50, SUPER};
+	public boolean brutality = false;
 	@Config.Name("Burning Shield")
 	@Config.RequiresMcRestart
-	public int[] burningShield = {18, 12, 40, MIN};
+	public boolean burningShield = false;
 	@Config.Name("Burning Thorns")
 	@Config.RequiresMcRestart
-	public int[] burningThorns = {12, 9, 30, MIN};
+	public boolean burningThorns = false;
 	@Config.Name("Butchering")
 	@Config.RequiresMcRestart
-	public int[] butchering = {12, 12, 30, SUPER};
+	public boolean butchering = false;
 	@Config.Name("Clearskies' Favor")
 	@Config.RequiresMcRestart
-	public int[] clearskiesFavor = {15, 15, 30, MIN};
+	public boolean clearskiesFavor = false;
 	@Config.Name("Combat Medic")
 	@Config.RequiresMcRestart
-	public int[] combatMedic = {25,15,25, MIN};
+	public boolean combatMedic = false;
 	@Config.Name("Counter Attack")
 	@Config.RequiresMcRestart
-	public int[] counterAttack = {20,15,40, MIN};
+	public boolean counterAttack = false;
 	@Config.Name("Critical Strike")
 	@Config.RequiresMcRestart
-	public int[] criticalStrike ={15, 15, 30, SUPER};
+	public boolean criticalStrike = false;
 	@Config.Name("Culling")
 	@Config.RequiresMcRestart
-	public int[] culling = {20, 15, 30, MIN};
+	public boolean culling = false;
 	@Config.Name("Dark Shadows")
 	@Config.RequiresMcRestart
-	public int[] darkShadows = {16, 12, 40, MIN};
+	public boolean darkShadows = false;
 	@Config.Name("Defusing Edge")
 	@Config.RequiresMcRestart
-	public int[] defusingEdge = {10, 12, 30, SUPER};
+	public boolean defusingEdge = false;
 	@Config.Name("Desolator")
 	@Config.RequiresMcRestart
-	public int[] desolator = {17, 8, 30, SUPER};
+	public boolean desolator = false;
 	@Config.Name("Difficulty's Endowment")
 	@Config.RequiresMcRestart
-	public int[] difficultysEndowment = {10,10,20, SUPER};
+	public boolean difficultysEndowment = false;
 	@Config.Name("Disarmament")
 	@Config.RequiresMcRestart
-	public int[] disarmament = {10, 20, 50, SUPER};
+	public boolean disarmament = false;
 	@Config.Name("Disorientating Blade")
 	@Config.RequiresMcRestart
-	public int[] disorientatingBlade = {20, 10, 41, MIN};
+	public boolean disorientatingBlade = false;
 	@Config.Name("Empowered Defence")
 	@Config.RequiresMcRestart
-	public int[] empoweredDefence = {15, 15, 30, MIN};
+	public boolean empoweredDefence = false;
 	@Config.Name("Envenomed")
 	@Config.RequiresMcRestart
-	public int[] envenomed = {16, 12, 30, SUPER};
+	public boolean envenomed = false;
 	@Config.Name("Evasion")
 	@Config.RequiresMcRestart
-	public int[] evasion = {25, 15, 26, MIN};
+	public boolean evasion = false;
 	@Config.Name("Fiery Edge")
 	@Config.RequiresMcRestart
-	public int[] fieryEdge = {25, 15, 40, SUPER};
+	public boolean fieryEdge = false;
 	@Config.Name("Flinging")
 	@Config.RequiresMcRestart
-	public int[] flinging = {5, 10, 26, MIN};
+	public boolean flinging = false;
 	@Config.Name("Cryogenic")
 	@Config.RequiresMcRestart
-	public int[] cryogenic = {24, 13, 40, MIN};
+	public boolean cryogenic = false;
 	@Config.Name("Hors De Combat")
 	@Config.RequiresMcRestart
-	public int[] horsDeCombat = {20, 10, 40, SUPER};
+	public boolean horsDeCombat = false;
 	@Config.Name("Inhumane")
 	@Config.RequiresMcRestart
-	public int[] inhumane = {15, 15, 40, SUPER};
+	public boolean inhumane = false;
 	@Config.Name("Inner Berserk")
 	@Config.RequiresMcRestart
-	public int[] innerBerserk = {15, 15, 40, SUPER};
+	public boolean innerBerserk = false;
 	@Config.Name("Jagged Rake")
 	@Config.RequiresMcRestart
-	public int[] jaggedRake = {14, 12, 30, SUPER};
+	public boolean jaggedRake = false;
 	@Config.Name("Levitator")
 	@Config.RequiresMcRestart
-	public int[] levitator = {15, 15, 30, SUPER};
+	public boolean levitator = false;
 	@Config.Name("Lifesteal")
 	@Config.RequiresMcRestart
-	public int[] lifesteal = {6, 8, 30, SUPER};
+	public boolean lifesteal = false;
 	@Config.Name("Light Weight")
 	@Config.RequiresMcRestart
-	public int[] lightWeight = {15, 15, 30, MIN};
+	public boolean lightWeight = false;
 	@Config.Name("Luck Magnification")
 	@Config.RequiresMcRestart
-	public int[] luckMagnification = {15, 15, 30, SUPER};
-	@Config.Name("Luna's Blessing")
+	public boolean luckMagnification = false;
+	@Config.Name("Lunas Blessing")
 	@Config.RequiresMcRestart
-	public int[] lunasBlessing = {16, 12, 40, MIN};
+	public boolean lunasBlessing = false;
 	@Config.Name("Magic Protection")
 	@Config.RequiresMcRestart
-	public int[] magicProtection = {12, 14, 45, MIN};
+	public boolean magicProtection = false;
 	@Config.Name("Magma Walker")
 	@Config.RequiresMcRestart
-	public int[] magmaWalker = {25, 25, 50, SUPER};
+	public boolean magmaWalker = true;
 	@Config.Name("Meltdown")
 	@Config.RequiresMcRestart
-	public int[] meltdown = {20, 20, 40, MIN};
+	public boolean meltdown = false;
 	@Config.Name("Moisturized")
 	@Config.RequiresMcRestart
-	public int[] moisturized = {20, 0, 21, MIN};
+	public boolean moisturized = false;
 	@Config.Name("Mortalitas")
 	@Config.RequiresMcRestart
-	public int[] mortalitas = {18, 9, 40, MIN};
+	public boolean mortalitas = false;
 	@Config.Name("Natural Blocking")
 	@Config.RequiresMcRestart
-	public int[] naturalBlocking = {18, 12, 40, MIN};
+	public boolean naturalBlocking = false;
 	@Config.Name("Parry")
 	@Config.RequiresMcRestart
-	public int[] parry = {20, 15, 40, MIN};
+	public boolean parry = false;
 	@Config.Name("Penetrating Edge")
 	@Config.RequiresMcRestart
-	public int[] penetratingEdge = {14, 12, 40, SUPER};
+	public boolean penetratingEdge = false;
 	@Config.Name("Physical Protection")
 	@Config.RequiresMcRestart
-	public int[] physicalProtection = {14, 12, 45, MIN};
+	public boolean physicalProtection = false;
 	@Config.Name("Dragging")
 	@Config.RequiresMcRestart
-	public int[] dragging = {10, 8, 30, MIN};
+	public boolean dragging = false;
 	@Config.Name("Purging Blade")
 	@Config.RequiresMcRestart
-	public int[] purgingBlade = {15, 8, 40, MIN};
+	public boolean purgingBlade = false;
 	@Config.Name("Purification")
 	@Config.RequiresMcRestart
-	public int[] purification = {18, 12, 30, SUPER};
+	public boolean purification = false;
 	@Config.Name("Pushing")
 	@Config.RequiresMcRestart
-	public int[] pushing = {25, 25, 50, MIN};
+	public boolean pushing = false;
 	@Config.Name("Rain's Bestowment")
 	@Config.RequiresMcRestart
-	public int[] rainsBestowment = {15, 15, 30, MIN};
+	public boolean rainsBestowment = false;
 	@Config.Name("Reviled Blade")
 	@Config.RequiresMcRestart
-	public int[] reviledBlade = {15, 15, 40, SUPER};
+	public boolean reviledBlade = false;
 	@Config.Name("Reinforced Sharpness")
 	@Config.RequiresMcRestart
-	public int[] reinforcedsharpness = {18, 16, 40, SUPER};
+	public boolean reinforcedsharpness = false;
 	@Config.Name("Smelter")
 	@Config.RequiresMcRestart
-	public int[] smelter = {30, 30, 50, MIN};
+	public boolean smelter = false;
 	@Config.Name("Sol's Blessing")
 	@Config.RequiresMcRestart
-	public int[] solsBlessing = {16, 12, 40, MIN};
+	public boolean solsBlessing = false;
 	@Config.Name("Spell Breaker")
 	@Config.RequiresMcRestart
-	public int[] spellBreaker = {15, 15, 30, SUPER};
+	public boolean spellBreaker = false;
 	@Config.Name("Splitshot")
 	@Config.RequiresMcRestart
-	public int[] splitShot = {20, 10, 21, MIN};
+	public boolean splitShot = false;
 	@Config.Name("Strafe")
 	@Config.RequiresMcRestart
-	public int[] strafe = {14, 12, 30, MIN};
+	public boolean strafe = false;
 	@Config.Name("Strengthened Vitality")
 	@Config.RequiresMcRestart
-	public int[] strengthenedVitality = {25, 15, 75, MIN};
+	public boolean strengthenedVitality = false;
 	@Config.Name("Swifter Slashes")
 	@Config.RequiresMcRestart
-	public int[] swifterSlashes = {5, 10, 46, MIN};
+	public boolean swifterSlashes = false;
 	@Config.Name("Thunderstorm's Bestowment")
 	@Config.RequiresMcRestart
-	public int[] thunderstormsBestowment = {20, 15, 40, MIN};
+	public boolean thunderstormsBestowment = false;
 	@Config.Name("True Strike")
 	@Config.RequiresMcRestart
-	public int[] trueStrike = {15, 15, 30, MIN};
+	public boolean trueStrike = false;
 	@Config.Name("Swift Swimming")
 	@Config.RequiresMcRestart
-	public int[] swiftSwimming = {15, 15, 30, MIN};
+	public boolean swiftSwimming = false;
 	@Config.Name("Unreasonable")
 	@Config.RequiresMcRestart
-	public int[] unreasonable = {30, 15, 30, MIN};
+	public boolean unreasonable = false;
 	@Config.Name("Unsheathing")
 	@Config.RequiresMcRestart
-	public int[] unsheathing = {30, 15, 30, MIN};
+	public boolean unsheathing = false;
 	@Config.Name("Upgraded Potentials")
 	@Config.RequiresMcRestart
-	public int[] upgradedPotentials = {35, 0, 21, MIN};
+	public boolean upgradedPotentials = true;
 	@Config.Name("Viper")
 	@Config.RequiresMcRestart
-	public int[] viper = {18, 10, 35, MIN};
+	public boolean viper = false;
 	@Config.Name("Water Aspect")
 	@Config.RequiresMcRestart
-	public int[] waterAspect = {5, 10, 36, MIN};
+	public boolean waterAspect = false;
 	@Config.Name("Plowing")
 	@Config.RequiresMcRestart
-	public int[] plowing = {25, 15, 30, SUPER};
+	public boolean plowing = false;
 	@Config.Name("Winter's Grace")
 	@Config.RequiresMcRestart
-	public int[] wintersGrace = {10, 10, 40, MIN};
-
+	public boolean wintersGrace = false;
 	//Curses
 	@Config.Name("Bluntness")
 	@Config.RequiresMcRestart
-	public int[] bluntness = {14, 14, 40, SUPER};
+	public boolean bluntness = true;
 	@Config.Name("Breached Plating")
 	@Config.RequiresMcRestart
-	public int[] breachedPlating = {20, 15, 25, MIN};
+	public boolean breachedPlating = true;
 	@Config.Name("Cursed Edge")
 	@Config.RequiresMcRestart
-	public int[] cursedEdge = {20, 12, 40, SUPER};
+	public boolean cursedEdge = true;
 	@Config.Name("Curse of Decay")
-	public int[] curseOfDecay = {45, 0, 45, MIN};
+	@Config.RequiresMcRestart
+	public boolean curseOfDecay = true;
 	@Config.Name("Curse of Holding")
 	@Config.RequiresMcRestart
-	public int[] curseOfHolding = {20, 20, 30, MIN};
+	public boolean curseOfHolding = true;
 	@Config.Name("Curse of Inaccuracy")
 	@Config.RequiresMcRestart
-	public int[] curseOfInaccuracy = {15, 15, 30, MIN};
+	public boolean curseOfInaccuracy = true;
 	@Config.Name("Curse of Possession")
 	@Config.RequiresMcRestart
-	public int[] curseOfPossession = {25, 25, 25, MIN};
+	public boolean curseOfPossession = true;
 	@Config.Name("Curse of Vulnerability")
 	@Config.RequiresMcRestart
-	public int[] curseOfVulnerability = {20, 10, 30, MIN};
+	public boolean curseOfVulnerability = true;
 	@Config.Name("Heavy Weight")
 	@Config.RequiresMcRestart
-	public int[] heavyWeight = {5, 15, 25, SUPER};
+	public boolean heavyWeight = true;
 	@Config.Name("Inefficient")
 	@Config.RequiresMcRestart
-	public int[] inefficient = {15, 15, 30, SUPER};
+	public boolean inefficient = true;
 	@Config.Name("Instability")
 	@Config.RequiresMcRestart
-	public int[] instability = {30, 15, 30, MIN};
+	public boolean instability = true;
 	@Config.Name("Pandora's Curse")
 	@Config.RequiresMcRestart
-	public int[] pandorasCurse = {100, 50, 11, MIN};
+	public boolean pandorasCurse = true;
 	@Config.Name("Powerless")
 	@Config.RequiresMcRestart
-	public int[] powerless = {12, 12, 30, MIN};
+	public boolean powerless = true;
 	@Config.Name("Rusted")
 	@Config.RequiresMcRestart
-	public int[] rusted = {25, 25, 50, SUPER};
+	public boolean rusted = true;
 	@Config.Name("Unpredictable")
 	@Config.RequiresMcRestart
-	public int[] unpredictable = {20, 10, 40, MIN};
+	public boolean unpredictable = true;
 	@Config.Name("Ascetic")
 	@Config.RequiresMcRestart
-	public int[] ascetic = {15, 10, 40, MIN};
+	public boolean ascetic = true;
 	@Config.Name("Extinguish")
 	@Config.RequiresMcRestart
-	public int[] extinguish = {25, 10, 40, MIN};
+	public boolean extinguish = true;
+	
 	//Rune
 	@Config.Name("Rune: Arrow Piercing")
 	@Config.RequiresMcRestart
-	public int[] runeArrowPiercing = {25, 15, 30, MIN};
+	public boolean runeArrowPiercing = false;
 	@Config.Name("Rune: Magical Blessing")
 	@Config.RequiresMcRestart
-	public int[] runeMagicalBlessing = {25,15,50, MIN};
+	public boolean runeMagicalBlessing = false;
 	@Config.Name("Rune: Piercing Capabilities")
 	@Config.RequiresMcRestart
-	public int[] runePiercingCapabilities = {20, 10, 41, MIN};
+	public boolean runePiercingCapabilities = false;
 	@Config.Name("Rune: Resurrection")
 	@Config.RequiresMcRestart
-	public int[] runeResurrection = {30,30,50, SUPER};
+	public boolean runeResurrection = false;
 	@Config.Name("Rune: Revival")
 	@Config.RequiresMcRestart
-	public int[] runeRevival = {30,30,60, MIN};
+	public boolean runeRevival = false;
+	
 	//Subject
 	@Config.Name("Subject Biology")
 	@Config.RequiresMcRestart
-	public int[] subjectBiology = {8, 14, 22, MIN};
+	public boolean subjectBiology = true;
 	@Config.Name("Subject Chemistry")
 	@Config.RequiresMcRestart
-	public int[] subjectChemistry = {8, 14, 22, MIN};
+	public boolean subjectChemistry = true;
 	@Config.Name("Subject English")
 	@Config.RequiresMcRestart
-	public int[] subjectEnglish = {8, 14, 22, MIN};
+	public boolean subjectEnglish = true;
 	@Config.Name("Subject History")
 	@Config.RequiresMcRestart
-	public int[] subjectHistory = {8, 14, 22, MIN};
+	public boolean subjectHistory = true;
 	@Config.Name("Subject Mathematics")
 	@Config.RequiresMcRestart
-	public int[] subjectMathematics = {8, 14, 22, MIN};
+	public boolean subjectMathematics = true;
 	@Config.Name("Subject P.E.")
 	@Config.RequiresMcRestart
-	public int[] subjectPE = {8, 14, 22, MIN};
+	public boolean subjectPE = true;
 	@Config.Name("Subject Physics")
 	@Config.RequiresMcRestart
-	public int[] subjectPhysics = {8, 14, 22, MIN};
+	public boolean subjectPhysics = true;
 	//Lesser
 	@Config.Name("Lesser Bane of Arthropods")
 	@Config.RequiresMcRestart
-	public int[] lesserBaneOfArthropods = {1, 4, 20, MIN};
+	public boolean lesserBaneOfArthropods = false;
 	@Config.Name("Lesser Fire Aspect")
 	@Config.RequiresMcRestart
-	public int[] lesserFireAspect = {5, 4, 15, MIN};
+	public boolean lesserFireAspect = false;
 	@Config.Name("Lesser Flame")
 	@Config.RequiresMcRestart
-	public int[] lesserFlame = {10, 0, 30, MIN};
+	public boolean lesserFlame = false;
 	@Config.Name("Lesser Sharpness")
 	@Config.RequiresMcRestart
-	public int[] lesserSharpness = {1, 4, 20, MIN};
+	public boolean lesserSharpness = false;
 	@Config.Name("Lesser Smite")
 	@Config.RequiresMcRestart
-	public int[] lesserSmite = {1, 5, 20, MIN};
+	public boolean lesserSmite = false;
+	
 	//Advanced
 	@Config.Name("Advanced Bane of Arthropods")
 	@Config.RequiresMcRestart
-	public int[] advancedBaneOfArthropods = {15, 15, 40, SUPER};
+	public boolean advancedBaneOfArthropods = false;
 	@Config.Name("Advanced Blast Protection")
 	@Config.RequiresMcRestart
-	public int[] advancedBlastProtection = {24, 14, 50, MIN};
+	public boolean advancedBlastProtection = false;
 	@Config.Name("Advanced Efficiency")
 	@Config.RequiresMcRestart
-	public int[] advancedEfficiency = {5, 15, 30, SUPER};
+	public boolean advancedEfficiency = false;
 	@Config.Name("Advanced Feather Falling")
 	@Config.RequiresMcRestart
-	public int[] advancedFeatherFalling = {27, 12, 40, MIN};
+	public boolean advancedFeatherFalling = false;
 	@Config.Name("Advanced Fire Aspect")
 	@Config.RequiresMcRestart
-	public int[] advancedFireAspect = {20, 10, 30, MIN};
+	public boolean advancedFireAspect = false;
 	@Config.Name("Advanced Fire Protection")
 	@Config.RequiresMcRestart
-	public int[] advancedFireProtection = {27, 11, 30, MIN};
+	public boolean advancedFireProtection = false;
 	@Config.Name("Advanced Flame")
 	@Config.RequiresMcRestart
-	public int[] advancedFlame = {35, 0, 70, MIN};
+	public boolean advancedFlame = false;
 	@Config.Name("Advanced Knockback")
 	@Config.RequiresMcRestart
-	public int[] advancedKnockback = {25, 10, 16, MIN};
+	public boolean advancedKnockback = false;
 	@Config.Name("Advanced Looting")
 	@Config.RequiresMcRestart
-	public int[] advancedLooting = {30, 15, 60, SUPER};
+	public boolean advancedLooting = false;
 	@Config.Name("Advanced Luck of the Sea")
 	@Config.RequiresMcRestart
-	public int[] advancedLuckOfTheSea = {30, 15, 30, SUPER};
+	public boolean advancedLuckOfTheSea = false;
 	@Config.Name("Advanced Lure")
 	@Config.RequiresMcRestart
-	public int[] advancedLure = {30, 15, 30, SUPER};
+	public boolean advancedLure = false;
 	@Config.Name("Advanced Mending")
 	@Config.RequiresMcRestart
-	public int[] advancedMending = {40, 40, 65, MIN};
+	public boolean advancedMending = true;
 	@Config.Name("Advanced Power")
 	@Config.RequiresMcRestart
-	public int[] advancedPower = {10, 8, 30, MIN};
+	public boolean advancedPower = false;
 	@Config.Name("Advanced Projectile Protection")
 	@Config.RequiresMcRestart
-	public int[] advancedProjectileProtection = {27, 11, 40, MIN};
+	public boolean advancedProjectileProtection = false;
 	@Config.Name("Advanced Protection")
 	@Config.RequiresMcRestart
-	public int[] advancedProtection = {32, 11, 50, MIN};
+	public boolean advancedProtection = false;
 	@Config.Name("Advanced Punch")
 	@Config.RequiresMcRestart
-	public int[] advancedPunch = {10, 8, 30, MIN};
+	public boolean advancedPunch = false;
 	@Config.Name("Advanced Sharpness")
 	@Config.RequiresMcRestart
-	public int[] advancedSharpness = {15, 15, 40, SUPER};
+	public boolean advancedSharpness = false;
 	@Config.Name("Advanced Smite")
 	@Config.RequiresMcRestart
-	public int[] advancedSmite = {15, 15, 40, SUPER};
+	public boolean advancedSmite = false;
 	@Config.Name("Advanced Thorns")
 	@Config.RequiresMcRestart
-	public int[] advancedThorns = {16, 12, 30, MIN};
+	public boolean advancedThorns = false;
 	//Supreme
 	@Config.Name("Supreme Bane of Arthropods")
 	@Config.RequiresMcRestart
-	public int[] supremeBaneOfArthropods = {120, 80, 180, MIN};
+	public boolean supremeBaneOfArthropods = true;
 	@Config.Name("Supreme Fire Aspect")
 	@Config.RequiresMcRestart
-	public int[] supremeFireAspect = {160, 60, 140, MIN};
+	public boolean supremeFireAspect = true;
 	@Config.Name("Supreme Flame")
 	@Config.RequiresMcRestart
-	public int[] supremeFlame = {160, 0, 140, MIN};
+	public boolean supremeFlame = true;
 	@Config.Name("Supreme Sharpness")
 	@Config.RequiresMcRestart
-	public int[] supremeSharpness = {120, 80, 180, MIN};
+	public boolean supremeSharpness = true;
 	@Config.Name("Supreme Smite")
 	@Config.RequiresMcRestart
-	public int[] supremeSmite = {120, 80, 180, MIN};
-
-	public static int getMinEnchantability(int[] enchantabilityConfig, int level){
-		int min = enchantabilityConfig[0];
-		int lvlSpan = enchantabilityConfig[1];
-		return min+lvlSpan*(level-1);
-	}
-
-	public static final int[] superEnchantability = {11,10,5,MIN};
-
-	public static int getMaxEnchantability(int[] enchantabilityConfig, int level){
-		int range = enchantabilityConfig[2];
-		int maxMode = enchantabilityConfig[3];
-		switch(maxMode){
-			case MIN: return getMinEnchantability(enchantabilityConfig,level)+range;
-			case SUPER: return getMinEnchantability(superEnchantability,level)+range;
-			case FIXED: return range;
-			case LINEAR: return range*level;
-			default: return 0;
-		}
-	}
+	public boolean supremeSmite = true;
 }

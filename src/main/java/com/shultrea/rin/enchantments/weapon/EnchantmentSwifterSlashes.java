@@ -1,11 +1,9 @@
 package com.shultrea.rin.enchantments.weapon;
 
 import com.shultrea.rin.config.ConfigProvider;
-import com.shultrea.rin.config.EnchantabilityConfig;
+import com.shultrea.rin.config.folders.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.util.compat.CompatUtil;
-import com.shultrea.rin.util.compat.RLCombatCompat;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
