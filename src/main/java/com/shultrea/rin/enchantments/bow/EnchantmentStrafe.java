@@ -68,9 +68,21 @@ public class EnchantmentStrafe extends EnchantmentBase {
 		if(!(bow.getItem() instanceof ItemBow)) return;
 
 		int levelStrafe = EnchantmentHelper.getEnchantmentLevel(this, bow);
-		if(levelStrafe > 0) {
-			event.setDuration(event.getDuration() - levelStrafe * 40);
-			if(event.getDuration() < 5000) event.setDuration(20000);
+		if(levelStrafe <= 0) return;
+
+		int duration = event.getDuration();
+		//Speeding up by less than one tick per tick means we can only speed up by one tick every x ticks
+		if (levelStrafe < 4 && duration % (5 - levelStrafe) == 0) {
+			//1 -> every 4th tick, (+20%, 5 ticks instead of 4)
+			//2 -> every 3rd tick, (+33%, 4 ticks instead of 3)
+			//3 -> every 2nd tick, (+50%, 3 ticks instead of 2)
+			event.setDuration(duration - 1);
+		//Otherwise we can just add x ticks to the elapsed tick
+		} else {
+			//4 -> 1 added tick every tick, (+100%, 2 ticks instead of 1)
+			//5 -> 2 added ticks every tick, (+200%, 3 ticks instead of 1)
+			//Etc, going up linearly from here
+			event.setDuration(duration - (levelStrafe - 3));
 		}
 	}
 }
