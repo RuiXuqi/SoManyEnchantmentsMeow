@@ -22,7 +22,8 @@
     "IItemBowMixin",
     "ISpecialArmorArmorPropertiesMixin",
     "ItemMixin",
-    "ItemStackMixin"
+    "ItemStackMixin",
+    "ForgeRegistryMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

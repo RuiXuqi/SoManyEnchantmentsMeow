@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Level;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -138,6 +139,7 @@ public class ConfigProvider {
     private static List<Enchantment> randomEnchantsBlacklist = null;
     private static List<Enchantment> librarianEnchantsBlacklist = null;
     private static List<Enchantment> enchantTableEnchantsBlacklist = null;
+    private static List<String> registryEnchantsBlacklist = null;
 
     public static void resetBlacklists(){
         ConfigProvider.randomLevelEnchantsBlacklist = null;
@@ -187,6 +189,13 @@ public class ConfigProvider {
             list.add(enchant);
         }
         return list;
+    }
+
+    public static List<String> getRegistryEnchantsBlacklist(){
+        if(registryEnchantsBlacklist == null){
+            registryEnchantsBlacklist = Arrays.asList(ModConfig.miscellaneous.blacklistedRegistryEnchants);
+        }
+        return registryEnchantsBlacklist;
     }
 
     // -------------------- Upgrade --------------------

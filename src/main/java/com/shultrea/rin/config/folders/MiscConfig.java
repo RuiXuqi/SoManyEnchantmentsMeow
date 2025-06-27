@@ -156,6 +156,12 @@ public class MiscConfig {
     @Config.Name("Random Enchantment Whitelist Toggle")
     public boolean blacklistedRandomEnchantsIsWhitelist = false;
 
+    @Config.Comment("Enchants in this list will be prevented from being registered in the game. There will be no way to access them at all.")
+    @Config.Name("Registered Enchantment Blacklist")
+    @Config.RequiresMcRestart
+    public String[] blacklistedRegistryEnchants = {
+    };
+
     @Config.Comment("If set to true, remove anvil repair cost increase when combining two single enchant books with the same lvl (Prot 3 + Prot 3)")
     @Config.Name("Remove book combination anvil cost increase")
     public boolean removeBookCombinationAnvilCost = false;
