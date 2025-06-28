@@ -1,318 +1,226 @@
 package com.shultrea.rin.mixin.vanilla.upgrading;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import com.llamalad7.mixinextras.sugar.Cancellable;
+import com.llamalad7.mixinextras.sugar.Local;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.util.IContainerEnchantmentMixin;
 import com.shultrea.rin.util.IGuiContainerMixin;
 import com.shultrea.rin.util.RainbowUtil;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiEnchantment;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.model.ModelBook;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerEnchantment;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnchantmentNameParts;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
-import org.lwjgl.util.glu.Project;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(GuiEnchantment.class)
 public abstract class GuiEnchantmentMixin extends GuiContainer implements IGuiContainerMixin {
-    
-    @Shadow @Final private static ResourceLocation ENCHANTMENT_TABLE_GUI_TEXTURE;
-    @Shadow @Final private static ResourceLocation ENCHANTMENT_TABLE_BOOK_TEXTURE;
-    @Shadow public float oOpen;
-    @Shadow public float open;
-    @Shadow public float oFlip;
-    @Shadow public float flip;
-    @Shadow @Final private static ModelBook MODEL_BOOK;
     @Shadow @Final private ContainerEnchantment container;
-    
-    @Unique
-    private static final RainbowUtil soManyEnchantments$rainbowHandler0 = new RainbowUtil(0);
-    @Unique
-    private static final RainbowUtil soManyEnchantments$rainbowHandler1 = new RainbowUtil(1);
-    @Unique
-    private static final RainbowUtil soManyEnchantments$rainbowHandler2 = new RainbowUtil(2);
+
+    @Unique private static final RainbowUtil soManyEnchantments$rainbowHandler0 = new RainbowUtil(0);
+    @Unique private static final RainbowUtil soManyEnchantments$rainbowHandler1 = new RainbowUtil(1);
+    @Unique private static final RainbowUtil soManyEnchantments$rainbowHandler2 = new RainbowUtil(2);
+
+    @Unique private boolean soManyEnchantments$isInUpgradeDraw = false;
 
     public GuiEnchantmentMixin(Container inventorySlotsIn) {
         super(inventorySlotsIn);
     }
-    
-    /**
-     * @author fonnymunkey/nischhelm
-     * @reason enchantment table upgrading mechanics
-     *
-     * Normally overwrite is gross, but with how invasive these mechanics are, if anything else is modifying the enchantment table, its likely going to break anyways
-     */
-    @Overwrite
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(ENCHANTMENT_TABLE_GUI_TEXTURE);
-        int i = (this.width - this.xSize) / 2;
-        int j = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
-        GlStateManager.pushMatrix();
-        GlStateManager.matrixMode(5889);
-        GlStateManager.pushMatrix();
-        GlStateManager.loadIdentity();
-        ScaledResolution scaledresolution = new ScaledResolution(this.mc);
-        GlStateManager.viewport((scaledresolution.getScaledWidth() - 320) / 2 * scaledresolution.getScaleFactor(), (scaledresolution.getScaledHeight() - 240) / 2 * scaledresolution.getScaleFactor(), 320 * scaledresolution.getScaleFactor(), 240 * scaledresolution.getScaleFactor());
-        GlStateManager.translate(-0.34F, 0.23F, 0.0F);
-        Project.gluPerspective(90.0F, 1.3333334F, 9.0F, 80.0F);
-        GlStateManager.matrixMode(5888);
-        GlStateManager.loadIdentity();
-        RenderHelper.enableStandardItemLighting();
-        GlStateManager.translate(0.0F, 3.3F, -16.0F);
-        GlStateManager.scale(1.0F, 1.0F, 1.0F);
-        GlStateManager.scale(5.0F, 5.0F, 5.0F);
-        GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(ENCHANTMENT_TABLE_BOOK_TEXTURE);
-        GlStateManager.rotate(20.0F, 1.0F, 0.0F, 0.0F);
-        float f2 = this.oOpen + (this.open - this.oOpen) * partialTicks;
-        GlStateManager.translate((1.0F - f2) * 0.2F, (1.0F - f2) * 0.1F, (1.0F - f2) * 0.25F);
-        GlStateManager.rotate(-(1.0F - f2) * 90.0F - 90.0F, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(180.0F, 1.0F, 0.0F, 0.0F);
-        float f3 = this.oFlip + (this.flip - this.oFlip) * partialTicks + 0.25F;
-        float f4 = this.oFlip + (this.flip - this.oFlip) * partialTicks + 0.75F;
-        f3 = (f3 - (float)MathHelper.fastFloor(f3)) * 1.6F - 0.3F;
-        f4 = (f4 - (float)MathHelper.fastFloor(f4)) * 1.6F - 0.3F;
-        
-        if(f3 < 0.0F) {
-            f3 = 0.0F;
-        }
-        
-        if(f4 < 0.0F) {
-            f4 = 0.0F;
-        }
-        
-        if(f3 > 1.0F) {
-            f3 = 1.0F;
-        }
-        
-        if(f4 > 1.0F) {
-            f4 = 1.0F;
-        }
-        
-        GlStateManager.enableRescaleNormal();
-        MODEL_BOOK.render(null, 0.0F, f3, f4, f2, 0.0F, 0.0625F);
-        GlStateManager.disableRescaleNormal();
-        RenderHelper.disableStandardItemLighting();
-        GlStateManager.matrixMode(5889);
-        GlStateManager.viewport(0, 0, this.mc.displayWidth, this.mc.displayHeight);
-        GlStateManager.popMatrix();
-        GlStateManager.matrixMode(5888);
-        GlStateManager.popMatrix();
-        RenderHelper.disableStandardItemLighting();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        EnchantmentNameParts.getInstance().reseedRandomGenerator(this.container.xpSeed);
-        int tokenAmount = this.container.getLapisAmount();
-        boolean tokenIsLapis = ((IContainerEnchantmentMixin) this.container).soManyEnchantments$getTokenIsLapis();
 
-        for(int button = 0; button < 3; ++button) {
-            int i1 = i + 60;
-            int j1 = i1 + 20;
-            this.zLevel = 0.0F;
-            this.mc.getTextureManager().bindTexture(ENCHANTMENT_TABLE_GUI_TEXTURE);
-            int xpCost = this.container.enchantLevels[button];
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            
-            if(xpCost == 0) {
-                this.drawTexturedModalRect(i1, j + 14 + 19 * button, 0, 185, 108, 19);
+    /**-------------------------------- drawGuiContainerBackgroundLayer --------------------------------**/
+
+    @ModifyExpressionValue(
+            method = "drawGuiContainerBackgroundLayer",
+            at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;experienceLevel:I")
+    )
+    private int soManyEnchantments_vanillaGuiEnchantment_drawGuiContainerBackgroundLayer_drawGrayIfNotLapis(int original){
+        //Adds requirement of lapis in lapis slot, instead of upgrade token (if player not in creative)
+        boolean tokenIsLapis = ((IContainerEnchantmentMixin) this.container).soManyEnchantments$getTokenIsLapis();
+        if(!tokenIsLapis) return Integer.MIN_VALUE;
+        return original;
+    }
+
+    @ModifyVariable(
+            method = "drawGuiContainerBackgroundLayer",
+            at = @At(value = "LOAD", ordinal = 0),
+            name = "k1"
+    )
+    private int soManyEnchantments_vanillaGuiEnchantment_drawGuiContainerBackgroundLayer_upgrade(
+            int xpCost,
+            @Local(argsOnly = true, ordinal = 0) int mouseX,
+            @Local(argsOnly = true, ordinal = 1) int mouseY,
+            @Local(name = "l") int button,
+            //Don't ask me to give those values actual names :skull:
+            @Local(name = "i") int i,
+            @Local(name = "j") int j,
+            @Local(name = "i1") int i1,
+            @Local(name = "j1") int j1
+    ){
+        soManyEnchantments$isInUpgradeDraw = false; //always reset first
+
+        if(xpCost == 0) return xpCost; //default empty box handling
+
+        String s = "" + xpCost;
+        int l1 = 86 - this.fontRenderer.getStringWidth(s);
+        String s1 = EnchantmentNameParts.getInstance().generateNewRandomName(this.fontRenderer, l1);
+        FontRenderer fontrenderer = this.mc.standardGalacticFontRenderer;
+
+        ItemStack upgradeToken = ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getUpgradeTokenCost(button);
+        boolean isUpgrade = !upgradeToken.isEmpty();
+
+        if(!isUpgrade) return xpCost; //Default enchanting handling
+
+        boolean tokenEnoughAndCorrect = ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getIsValidAndEnoughToken(button);
+
+        int runeColor;
+        int xpColor;
+
+        RainbowUtil rainbow;
+        switch(button) {
+            case 1: rainbow = soManyEnchantments$rainbowHandler1; break;
+            case 2: rainbow = soManyEnchantments$rainbowHandler2; break;
+            default: case 0: rainbow = soManyEnchantments$rainbowHandler0; break;
+        }
+
+        if(!this.mc.player.capabilities.isCreativeMode && (
+                    !tokenEnoughAndCorrect ||
+                    this.mc.player.experienceLevel < xpCost ||
+                    ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getBookshelfPower() < ModConfig.upgrade.bookshelvesNeeded
+                )
+        ) {
+            this.drawTexturedModalRect(i1, j + 14 + 19 * button, 0, 185, 108, 19);
+
+            runeColor = rainbow.getDesaturatedDecimalColor(0.5F);//Unhighlighted rune text
+            rainbow.tick();
+
+            xpColor = 4226832;//XP cost invalid
+
+            fontrenderer.drawSplitString(s1, j1, j + 16 + 19 * button, l1, (runeColor & 16711422) >> 1);
+        }
+        else {
+            int j2 = mouseX - (i + 60);
+            int k2 = mouseY - (j + 14 + 19 * button);
+
+            if(j2 >= 0 && k2 >= 0 && j2 < 108 && k2 < 19) {
+                this.drawTexturedModalRect(i1, j + 14 + 19 * button, 0, 204, 108, 19);
+                runeColor = rainbow.getDecimalColor();//Highlighted rune text
+                rainbow.tick();
             }
             else {
-                String s = "" + xpCost;
-                int l1 = 86 - this.fontRenderer.getStringWidth(s);
-                String s1 = EnchantmentNameParts.getInstance().generateNewRandomName(this.fontRenderer, l1);
-                FontRenderer fontrenderer = this.mc.standardGalacticFontRenderer;
-                
-                int runeColor;
-                int xpColor;
-                
-                ItemStack upgradeToken = ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getUpgradeTokenCost(button);
-                boolean isUpgrade = !upgradeToken.isEmpty();
-                boolean tokenEnoughAndCorrect = ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getIsValidAndEnoughToken(button);
-
-                if(!isUpgrade) {
-                    if(((!tokenIsLapis || tokenAmount < button + 1 || this.mc.player.experienceLevel < xpCost) && !this.mc.player.capabilities.isCreativeMode) || this.container.enchantClue[button] == -1) {
-                        this.drawTexturedModalRect(i1, j + 14 + 19 * button, 0, 185, 108, 19);
-                        this.drawTexturedModalRect(i1 + 1, j + 15 + 19 * button, 16 * button, 239, 16, 16);
-                        runeColor = 0x685E4A;//Unhighlighted rune text
-                        xpColor = 0x407F10;//XP cost invalid
-                        fontrenderer.drawSplitString(s1, j1, j + 16 + 19 * button, l1, (runeColor & 16711422) >> 1);
-                    }
-                    else {
-                        int j2 = mouseX - (i + 60);
-                        int k2 = mouseY - (j + 14 + 19 * button);
-                        
-                        if(j2 >= 0 && k2 >= 0 && j2 < 108 && k2 < 19) {
-                            this.drawTexturedModalRect(i1, j + 14 + 19 * button, 0, 204, 108, 19);
-                            runeColor = 0xFFFF80;//Highlighted rune text
-                        }
-                        else {
-                            this.drawTexturedModalRect(i1, j + 14 + 19 * button, 0, 166, 108, 19);
-                            runeColor = 0x685E4A;//Unhighlighted rune text
-                        }
-                        xpColor = 0x80FF20;//XP cost valid
-                        
-                        this.drawTexturedModalRect(i1 + 1, j + 15 + 19 * button, 16 * button, 223, 16, 16);
-                        fontrenderer.drawSplitString(s1, j1, j + 16 + 19 * button, l1, runeColor);
-                    }
-                }
-                else {
-                    RainbowUtil rainbow;
-                    switch(button) {
-                        case 1: rainbow = soManyEnchantments$rainbowHandler1; break;
-                        case 2: rainbow = soManyEnchantments$rainbowHandler2; break;
-                        default:
-                        case 0: rainbow = soManyEnchantments$rainbowHandler0; break;
-                    }
-
-                    if(!this.mc.player.capabilities.isCreativeMode &&
-                            (!tokenEnoughAndCorrect ||
-                            this.mc.player.experienceLevel < xpCost ||
-                            ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getBookshelfPower() < ModConfig.upgrade.bookshelvesNeeded)) {
-                        this.drawTexturedModalRect(i1, j + 14 + 19 * button, 0, 185, 108, 19);
-                        
-                        runeColor = rainbow.getDesaturatedDecimalColor(0.5F);//Unhighlighted rune text
-                        rainbow.tick();
-                        
-                        xpColor = 4226832;//XP cost invalid
-
-                        fontrenderer.drawSplitString(s1, j1, j + 16 + 19 * button, l1, (runeColor & 16711422) >> 1);
-                    }
-                    else {
-                        int j2 = mouseX - (i + 60);
-                        int k2 = mouseY - (j + 14 + 19 * button);
-                        
-                        if(j2 >= 0 && k2 >= 0 && j2 < 108 && k2 < 19) {
-                            this.drawTexturedModalRect(i1, j + 14 + 19 * button, 0, 204, 108, 19);
-                            runeColor = rainbow.getDecimalColor();//Highlighted rune text
-                            rainbow.tick();
-                        }
-                        else {
-                            this.drawTexturedModalRect(i1, j + 14 + 19 * button, 0, 166, 108, 19);
-                            runeColor = rainbow.getDesaturatedDecimalColor(0.5F);//Unhighlighted rune text
-                            rainbow.tick();
-                        }
-                        
-                        xpColor = 8453920;//XP cost valid
-
-                        fontrenderer.drawSplitString(s1, j1, j + 16 + 19 * button, l1, runeColor);
-                    }
-                }
-                
-                fontrenderer = this.mc.fontRenderer;
-                fontrenderer.drawStringWithShadow(s, (float)(j1 + 86 - fontrenderer.getStringWidth(s)), (float)(j + 16 + 19 * button + 7), xpColor);
+                this.drawTexturedModalRect(i1, j + 14 + 19 * button, 0, 166, 108, 19);
+                runeColor = rainbow.getDesaturatedDecimalColor(0.5F);//Unhighlighted rune text
+                rainbow.tick();
             }
-        }
-    }
-    
-    /**
-     * @author fonnymunkey/nischhelm
-     * @reason enchantment table upgrading mechanics
-     *
-     * Normally overwrite is gross, but with how invasive these mechanics are, if anything else is modifying the enchantment table, its likely going to break anyways
-     */
-    @Overwrite
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        partialTicks = this.mc.getTickLength();
-        this.drawDefaultBackground();
-        super.drawScreen(mouseX, mouseY, partialTicks);
 
-        this.renderHoveredToolTip(mouseX, mouseY);
-        boolean isCreative = this.mc.player.capabilities.isCreativeMode;
-        int tokenAmount = this.container.getLapisAmount();
+            xpColor = 8453920;//XP cost valid
+
+            fontrenderer.drawSplitString(s1, j1, j + 16 + 19 * button, l1, runeColor);
+        }
+
+        fontrenderer = this.mc.fontRenderer;
+        fontrenderer.drawStringWithShadow(s, (float)(j1 + 86 - fontrenderer.getStringWidth(s)), (float)(j + 16 + 19 * button + 7), xpColor);
+
+        soManyEnchantments$isInUpgradeDraw = true;
+        return 0; //go into empty rectangle draw (k1 == 0) and cancel that call
+    }
+
+    @WrapWithCondition(
+            method = "drawGuiContainerBackgroundLayer",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiEnchantment;drawTexturedModalRect(IIIIII)V", ordinal = 1)
+    )
+    private boolean soManyEnchantments_vanillaGuiEnchantment_drawGuiContainerBackgroundLayer_preventEmptyBox(GuiEnchantment instance, int x, int y, int textureX, int textureY, int width, int height){
+        //Just an artefact of how we handle the extra branch for upgrading
+        //if(xpCost == 0 || isUpgrading) {
+            // if (!isUpgrading) empty box   <--- this is the condition we add here
+            // else ...
+        //} else ... normal enchanting
+        return !soManyEnchantments$isInUpgradeDraw;
+    }
+
+    /**-------------------------------- drawScreen --------------------------------**/
+
+    @ModifyVariable(
+            method = "drawScreen",
+            at = @At(value = "LOAD", ordinal = 0),
+            name = "i"
+    )
+    private int soManyEnchantments_vanillaGuiEnchantment_drawScreen_drawGrayIfNotLapis(int value){
+        //TextFormatting textformatting = i >= i1 ? TextFormatting.GRAY : TextFormatting.RED;
+            //turns to
+        //TextFormatting textformatting = i >= i1 && tokenIsLapis ? TextFormatting.GRAY : TextFormatting.RED;
+
+        //draw lapis amount text red if theres not lapis but upgrade token in the lapis slot
         boolean tokenIsLapis = ((IContainerEnchantmentMixin) this.container).soManyEnchantments$getTokenIsLapis();
-
-        for(int button = 0; button < 3; ++button) {
-            int xpCost = this.container.enchantLevels[button];
-            Enchantment enchantmentClue = Enchantment.getEnchantmentByID(this.container.enchantClue[button]);
-            int worldClue = this.container.worldClue[button];
-            
-            if(this.isPointInRegion(60, 14 + 19 * button, 108, 17, mouseX, mouseY) && xpCost > 0) {
-                List<String> list = new ArrayList<>();
-                list.add("" + TextFormatting.WHITE + TextFormatting.ITALIC + I18n.format("container.enchant.clue", enchantmentClue == null ? "" : enchantmentClue.getTranslatedName(worldClue)));
-                
-                ItemStack upgradeToken = ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getUpgradeTokenCost(button);
-                int upgradeTokenCost = upgradeToken.getCount();
-                boolean isUpgrade = !upgradeToken.isEmpty();
-                boolean tokenEnoughAndCorrect = ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getIsValidAndEnoughToken(button);
-
-                if(enchantmentClue == null && !isUpgrade) java.util.Collections.addAll(list, "", TextFormatting.RED + I18n.format("forge.container.enchant.limitedEnchantability"));
-                else if(!isCreative) {
-                    list.add("");
-                    
-                    if(this.mc.player.experienceLevel < xpCost) {
-                        list.add(TextFormatting.RED + I18n.format("container.enchant.level.requirement", xpCost));
-                    }
-                    else if(!isUpgrade) {
-                        int lapisCost = button + 1;
-
-                        String s;
-                        if(lapisCost == 1) {
-                            s = I18n.format("container.enchant.lapis.one");
-                        }
-                        else {
-                            s = I18n.format("container.enchant.lapis.many", lapisCost);
-                        }
-                        
-                        TextFormatting textformatting = tokenAmount >= lapisCost && tokenIsLapis ? TextFormatting.GRAY : TextFormatting.RED;
-                        list.add(textformatting + "" + s);
-                        
-                        if(lapisCost == 1) {
-                            s = I18n.format("container.enchant.level.one");
-                        }
-                        else {
-                            s = I18n.format("container.enchant.level.many", lapisCost);
-                        }
-                        
-                        list.add(TextFormatting.GRAY + "" + s);
-                    }
-                    else {
-                        String s;
-                        
-                        if(upgradeTokenCost > 0) {
-                            s = upgradeTokenCost + " " + upgradeToken.getItem().getItemStackDisplayName(upgradeToken);
-
-                            TextFormatting textformatting = tokenEnoughAndCorrect ? TextFormatting.GRAY : TextFormatting.RED;
-                            list.add(textformatting + "" + s);
-                        }
-                        
-                        if(ModConfig.upgrade.bookshelvesNeeded > 0) {
-                            s = ModConfig.upgrade.bookshelvesNeeded + " " + I18n.format("enchantment.gui.bookshelfpower");
-                            
-                            TextFormatting textformatting = ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getBookshelfPower() >= ModConfig.upgrade.bookshelvesNeeded ? TextFormatting.GRAY : TextFormatting.RED;
-                            list.add(textformatting + "" + s);
-                        }
-                        
-                        if(xpCost == 1) {
-                            s = I18n.format("container.enchant.level.one");
-                        }
-                        else {
-                            s = I18n.format("container.enchant.level.many", xpCost);
-                        }
-                        
-                        list.add(TextFormatting.GRAY + "" + s);
-                    }
-                }
-                
-                this.drawHoveringText(list, mouseX, mouseY);
-                break;
-            }
-        }
+        if(!tokenIsLapis) return Integer.MIN_VALUE;
+        return value;
     }
+
+    @ModifyExpressionValue(
+            method = "drawScreen",
+            at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;experienceLevel:I")
+    )
+    private int soManyEnchantments_vanillaGuiEnchantment_drawScreen_upgrading(
+            int experienceLevel,
+            @Local(argsOnly = true, ordinal = 0) int mouseX,
+            @Local(argsOnly = true, ordinal = 1) int mouseY,
+            @Local(name = "j") int button,
+            @Local(name = "list") List<String> list,
+            @Cancellable CallbackInfo ci
+    ){
+        int xpCost = this.container.enchantLevels[button];
+        if(experienceLevel < xpCost) return experienceLevel; //default handling if too few lvls
+
+        ItemStack upgradeToken = ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getUpgradeTokenCost(button);
+        boolean isUpgrade = !upgradeToken.isEmpty();
+
+        if(!isUpgrade) return experienceLevel; //will end up in enchanting code
+
+        int upgradeTokenCost = upgradeToken.getCount();
+        boolean tokenEnoughAndCorrect = ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getIsValidAndEnoughToken(button);
+
+        String s;
+
+        if(upgradeTokenCost > 0) {
+            s = upgradeTokenCost + " " + upgradeToken.getItem().getItemStackDisplayName(upgradeToken);
+
+            TextFormatting textformatting = tokenEnoughAndCorrect ? TextFormatting.GRAY : TextFormatting.RED;
+            list.add(textformatting + "" + s);
+        }
+
+        if(ModConfig.upgrade.bookshelvesNeeded > 0) {
+            s = ModConfig.upgrade.bookshelvesNeeded + " " + I18n.format("enchantment.gui.bookshelfpower");
+
+            TextFormatting textformatting = ((IContainerEnchantmentMixin)this.container).soManyEnchantments$getBookshelfPower() >= ModConfig.upgrade.bookshelvesNeeded ? TextFormatting.GRAY : TextFormatting.RED;
+            list.add(textformatting + "" + s);
+        }
+
+        if(xpCost == 1) s = I18n.format("container.enchant.level.one");
+        else s = I18n.format("container.enchant.level.many", xpCost);
+        list.add(TextFormatting.GRAY + "" + s);
+
+        this.drawHoveringText(list, mouseX, mouseY);
+
+        ci.cancel(); //don't run enchanting code
+        return experienceLevel;
+    }
+
+    /**-------------------------------- drawUpgradeSlots (from GuiContainer) --------------------------------**/
 
     @Override
     public void soManyEnchantments$drawUpgradeSlots() {

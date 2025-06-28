@@ -1,4 +1,4 @@
-package com.shultrea.rin.mixin.vanilla.upgrading;
+package com.shultrea.rin.mixin.vanilla;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

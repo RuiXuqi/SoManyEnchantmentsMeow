@@ -7,13 +7,13 @@ import com.llamalad7.mixinextras.sugar.Cancellable;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
+import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.util.IContainerEnchantmentMixin;
 import com.shultrea.rin.util.UpgradeRecipe;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -32,6 +32,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -143,6 +144,8 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
         }
     }
 
+    /**---------------------- onCraftMatrixChanged ----------------------**/
+
     @Inject(
             method = "onCraftMatrixChanged",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/inventory/IInventory;getStackInSlot(I)Lnet/minecraft/item/ItemStack;")
@@ -193,6 +196,17 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
         return original;
     }
 
+    @ModifyVariable(
+            method = "onCraftMatrixChanged",
+            at = @At("STORE"),
+            name = "power"
+    )
+    private float soManyEnchantments_vanillaContainerEnchantment_onCraftMatrixChanged_saveBookshelfPower(float original, @Share("bookshelfPower") LocalFloatRef bookshelfPower){
+        //absolutely unnecessary, this is only to appease the intellij linter (not even the compiler)
+        bookshelfPower.set(original);
+        return original;
+    }
+
     @Inject(
             method = "onCraftMatrixChanged",
             at = @At(value = "FIELD", target = "Lnet/minecraft/inventory/ContainerEnchantment;rand:Ljava/util/Random;", ordinal = 0),
@@ -201,12 +215,14 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
     private void soManyEnchantments_vanillaContainerEnchantment_onCraftMatrixChanged_upgrading(
             IInventory inventoryIn,
             CallbackInfo ci,
-            @Local(ordinal = 0) float bookshelfPower, //idk why intellij complains, debug log shows it finds the local
+            //@Local(ordinal = 0) float bookshelfPower, //idk why intellij complains, debug log shows it finds the local, using Share instead now
+            @Share("bookshelfPower") LocalFloatRef bookshelfPower,
             @Share("itemIsEnchantable") LocalBooleanRef itemIsEnchantable,
             @Share("itemIsUpgradeable") LocalBooleanRef itemIsUpgradeable,
-            @Local(ordinal = 0) ItemStack targetItem, //idk why intellij complains, debug log shows it finds the local
             @Share("tokenItem") LocalRef<ItemStack> tokenItem
     ){
+        ItemStack targetItem = inventoryIn.getStackInSlot(0); //could easily @Local it but intellij complains for no reason
+
         if(itemIsEnchantable.get()) return; //Default handling
 
         if(!itemIsUpgradeable.get()) { //Technically not needed
@@ -251,7 +267,7 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
 
             //Determine which possible upgrade to pick
             int randomIndex = this.rand.nextInt(upgradeRecipes.size());
-            //TODO: weighted roll
+            //TODO: weighted roll?
             UpgradeRecipe pickedRecipe = upgradeRecipes.get(randomIndex);
             int pickedLevel = upgradeLevels.get(randomIndex);
             //Remove picked potential so multiple buttons don't get duplicates
@@ -279,7 +295,7 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
             this.soManyEnchantments$setUpgradeToken(pickedRecipe.getTokenCost(),i);
         }
 
-        this.soManyEnchantments$bookshelfPower = (int)bookshelfPower;
+        this.soManyEnchantments$bookshelfPower = (int)bookshelfPower.get();
 
         this.detectAndSendChanges();
 
@@ -298,6 +314,8 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
         }
         this.soManyEnchantments$bookshelfPower = 0;
     }
+
+    /**---------------------- enchantItem ----------------------**/
 
     @Inject(
             method = "enchantItem",
@@ -419,6 +437,7 @@ public abstract class ContainerEnchantmentMixin extends Container implements ICo
         cir.setReturnValue(true);
         return true;
     }
+
 
     @Inject(
             method = "transferStackInSlot",
