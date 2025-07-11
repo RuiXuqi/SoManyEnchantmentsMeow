@@ -1,5 +1,5 @@
 package com.shultrea.rin.util.compat;
-
+/*
 import net.minecraft.util.text.TextFormatting;
 import socketed.common.config.DefaultJsonConfig;
 import socketed.common.socket.gem.GemType;
@@ -17,3 +17,4 @@ public class SocketedCompat {
                 Collections.singletonList(new OreFilter("gemLapis", true))));
     }
 }
+*/

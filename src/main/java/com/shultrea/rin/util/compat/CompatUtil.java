@@ -11,8 +11,7 @@ public class CompatUtil {
 	private static final String LYCANITESMOBS_MODID = "lycanitesmobs";
 	private static final String SPARTANWEAPONRY_MODID = "spartanweaponry";
 	private static final String SPAWNERCONTROL_MODID = "spawnercontrol";
-	private static final String SOCKETED_MODID = "socketed";
-	private static final String BETTERSURVIVAL_MODID = "mujmajnkraftsbettersurvival";
+	//private static final String SOCKETED_MODID = "socketed";
 	
 	private static Boolean isRLCombatLoaded = null;
 	private static Boolean isSwitchbowLoaded = null;
@@ -21,7 +20,7 @@ public class CompatUtil {
 	private static Boolean isLycanitesMobsLoaded = null;
 	private static Boolean isSpartanWeaponryLoaded = null;
 	private static Boolean isSpawnerControlLoaded = null;
-	private static Boolean isSocketedLoaded = null;
+	//private static Boolean isSocketedLoaded = null;
 	
 	public static boolean isRLCombatLoaded() {
 		if(isRLCombatLoaded == null) isRLCombatLoaded = Loader.isModLoaded(RLCOMBAT_MODID) && isRLCombatCorrectVersion();
@@ -57,45 +56,19 @@ public class CompatUtil {
 		if(isSpawnerControlLoaded == null) isSpawnerControlLoaded = Loader.isModLoaded(SPAWNERCONTROL_MODID);
 		return isSpawnerControlLoaded;
 	}
-
+	
+	/*
 	public static boolean isSocketedLoaded() {
 		if(isSocketedLoaded == null) isSocketedLoaded = Loader.isModLoaded(SOCKETED_MODID);
 		return isSocketedLoaded;
 	}
+	*/
 	
 	private static boolean isRLCombatCorrectVersion() {
 		String[] arrOfStr = Loader.instance().getIndexedModList().get(RLCOMBAT_MODID).getVersion().split("\\.");
 		try {
 			int i = Integer.parseInt(String.valueOf(arrOfStr[0]));
 			if(i == 2) return true;
-		}
-		catch(Exception ignored) { }
-		return false;
-	}
-
-	public static boolean isBetterSurvivalCorrectVersion() {
-		String[] arrOfStr = Loader.instance().getIndexedModList().get(BETTERSURVIVAL_MODID).getVersion().split("\\.");
-		try {
-			int major = Integer.parseInt(arrOfStr[0]);
-			int minor = Integer.parseInt(arrOfStr[1]);
-			int patch = Integer.parseInt(arrOfStr[2]);
-			if(major < 1) return true;
-			if(major == 1 && minor < 5) return true;
-			if(major == 1 && minor == 5 && patch <= 4) return true; //until 1.5.4
-		}
-		catch(Exception ignored) { }
-		return false;
-	}
-
-	public static boolean isSpartanWeaponryCorrectVersion() {
-		String[] arrOfStr = Loader.instance().getIndexedModList().get(SPARTANWEAPONRY_MODID).getVersion().split("\\.");
-		try {
-			int major = Integer.parseInt(arrOfStr[0]);
-			int minor = Integer.parseInt(arrOfStr[1]);
-			int patch = Integer.parseInt(arrOfStr[2]);
-			if(major < 1) return true;
-			if(major == 1 && minor < 6) return true;
-			if(major == 1 && minor == 6 && patch <= 0) return true;
 		}
 		catch(Exception ignored) { }
 		return false;
