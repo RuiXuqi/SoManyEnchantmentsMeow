@@ -73,10 +73,10 @@ public class EnchantmentAdept extends EnchantmentBase {
 		if(level > 0) {
 			boolean isBoss = !victim.isNonBoss() || (CompatUtil.isScalingHealthLoaded() && ScalingHealthCompat.isEntityBlight(victim));
 			if(isBoss) {
-				event.setDroppedExperience(2 + level + (int)((float)event.getDroppedExperience() * (1.0F + 0.5F * (float)level)));
+				event.setDroppedExperience((int)((float)event.getDroppedExperience() * (1.0F + 0.5F * (float)level)));
 			}
 			else {
-				event.setDroppedExperience(2 + level + (int)((float)event.getDroppedExperience() * (1.0F + 0.15F * (float)level)));
+				event.setDroppedExperience((int)((float)event.getDroppedExperience() * (1.0F + 0.15F * (float)level)));
 			}
 		}
 	}
