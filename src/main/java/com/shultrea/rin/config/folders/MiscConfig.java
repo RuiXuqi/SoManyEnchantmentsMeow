@@ -7,12 +7,6 @@ import net.minecraftforge.common.config.Config;
 @MixinConfig(name = SoManyEnchantments.MODID)
 public class MiscConfig {
     
-    @Config.Comment("Makes zombie villagers keep their trades during infection and conversion")
-    @Config.Name("Zombified Villagers keep trades")
-    @Config.RequiresMcRestart
-    @MixinConfig.MixinToggle(earlyMixin = "mixins.somanyenchantments.zombietrades.json", defaultValue = true)
-    public boolean zombieVillagersKeepTrades = true;
-    
     @Config.Comment("Overwrites outdated BetterSurvival handling meant for older versions of SME" + "\n" +
             "If BetterSurvival updates or you are not using BetterSurvival, disable this option")
     @Config.Name("BetterSurvival Forced Compatibility")
