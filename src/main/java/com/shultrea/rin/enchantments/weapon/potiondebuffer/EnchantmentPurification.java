@@ -4,7 +4,7 @@ import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.config.folders.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
-import com.shultrea.rin.util.IEntityVillagerMixin;
+import com.shultrea.rin.mixin.vanilla.EntityZombieVillagerAccessor;
 import com.shultrea.rin.util.compat.CompatUtil;
 import com.shultrea.rin.util.compat.RLCombatCompat;
 import com.shultrea.rin.util.compat.SpawnerControlCompat;
@@ -15,7 +15,6 @@ import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.monster.EntityZombieVillager;
 import net.minecraft.entity.passive.EntityPig;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -92,33 +91,8 @@ public class EnchantmentPurification extends EnchantmentBase {
 	
 	private static void convert(EntityLivingBase entity) {
 		if(entity instanceof EntityZombieVillager) {
-			EntityVillager villager = new EntityVillager(entity.world);
-			villager.copyLocationAndAnglesFrom(entity);
-			villager.setProfession(((EntityZombieVillager)entity).getForgeProfession());
-			villager.finalizeMobSpawn(entity.world.getDifficultyForLocation(new BlockPos(villager)), null, false);
-
-			setVillagerTradesFromZombieVillager((EntityZombieVillager) entity, villager);
-
-			villager.setLookingForHome();
-			if(entity.isChild()) villager.setGrowingAge(-24000);
-			
-			if(CompatUtil.isSpawnerControlLoaded()) SpawnerControlCompat.increaseSpawnerCount(entity);
-			
 			entity.setSilent(true);
-			entity.world.removeEntity(entity);
-			villager.setNoAI(((EntityLiving)entity).isAIDisabled());
-			
-			if(entity.hasCustomName()) {
-				villager.setCustomNameTag(entity.getCustomNameTag());
-				villager.setAlwaysRenderNameTag(entity.getAlwaysRenderNameTag());
-			}
-			
-			entity.world.spawnEntity(villager);
-			
-			villager.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 200, 0));
-			villager.addPotionEffect(new PotionEffect(MobEffects.INSTANT_HEALTH, 1, 1));
-			entity.world.playEvent(null, 1027, new BlockPos((int)villager.posX, (int)villager.posY, (int)villager.posZ), 0);
-			villager.hurtResistantTime = villager.maxHurtResistantTime;
+			((EntityZombieVillagerAccessor) entity).invokeFinishConversion();
 		}
 		else if(entity instanceof EntityPigZombie) {
 			EntityPig pig = new EntityPig(entity.world);
@@ -169,16 +143,6 @@ public class EnchantmentPurification extends EnchantmentBase {
 			slime.addPotionEffect(new PotionEffect(MobEffects.INSTANT_HEALTH, 1, 1));
 			entity.world.playEvent(null, 1027, new BlockPos((int)slime.posX, (int)slime.posY, (int)slime.posZ), 0);
 			slime.hurtResistantTime = slime.maxHurtResistantTime;
-		}
-	}
-
-	//Also used in mixin.vanilla.EntityZombieVillagerMixin
-	public static void setVillagerTradesFromZombieVillager(EntityZombieVillager deadZombieVill, EntityVillager villager){
-		if(ModConfig.miscellaneous.zombieVillagersKeepTrades) {
-			if (deadZombieVill.getEntityData().hasKey("villagerTags")) {
-				NBTTagCompound villagerTags = (NBTTagCompound) deadZombieVill.getEntityData().getTag("villagerTags");
-				((IEntityVillagerMixin) villager).soManyEnchantments$setTradesFromNBT(villagerTags);
-			}
 		}
 	}
 }
