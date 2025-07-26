@@ -247,7 +247,7 @@ public class TreasureConfig {
 	public boolean inefficient = true;
 	@Config.Name("Instability")
 	@Config.RequiresMcRestart
-	public boolean instability = true;
+	public boolean instability = false;
 	@Config.Name("Pandora's Curse")
 	@Config.RequiresMcRestart
 	public boolean pandorasCurse = true;
@@ -259,7 +259,7 @@ public class TreasureConfig {
 	public boolean rusted = true;
 	@Config.Name("Unpredictable")
 	@Config.RequiresMcRestart
-	public boolean unpredictable = true;
+	public boolean unpredictable = false;
 	@Config.Name("Ascetic")
 	@Config.RequiresMcRestart
 	public boolean ascetic = true;

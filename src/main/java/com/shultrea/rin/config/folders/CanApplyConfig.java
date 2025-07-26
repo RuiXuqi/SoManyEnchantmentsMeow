@@ -253,7 +253,7 @@ public class CanApplyConfig {
 	public String[] curseOfVulnerability = {"ARMOR"};
 	@Config.Name("Heavy Weight")
 	@Config.RequiresMcRestart
-	public String[] heavyWeight = {"ALL_ITEMS"};
+	public String[] heavyWeight = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT", "ARMOR"};
 	@Config.Name("Inefficient")
 	@Config.RequiresMcRestart
 	public String[] inefficient = {"TOOL", "LYCANITES_EQUIPMENT"};

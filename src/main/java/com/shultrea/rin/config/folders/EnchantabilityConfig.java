@@ -82,7 +82,7 @@ public class EnchantabilityConfig {
 	public int[] envenomed = {16, 12, 30, SUPER};
 	@Config.Name("Evasion")
 	@Config.RequiresMcRestart
-	public int[] evasion = {25, 15, 26, MIN};
+	public int[] evasion = {25, 15, 26, SUPER};
 	@Config.Name("Fiery Edge")
 	@Config.RequiresMcRestart
 	public int[] fieryEdge = {25, 15, 40, SUPER};
@@ -130,7 +130,7 @@ public class EnchantabilityConfig {
 	public int[] meltdown = {20, 20, 40, MIN};
 	@Config.Name("Moisturized")
 	@Config.RequiresMcRestart
-	public int[] moisturized = {20, 0, 21, MIN};
+	public int[] moisturized = {20, 0, 21, SUPER};
 	@Config.Name("Mortalitas")
 	@Config.RequiresMcRestart
 	public int[] mortalitas = {18, 9, 40, MIN};
@@ -205,7 +205,7 @@ public class EnchantabilityConfig {
 	public int[] unsheathing = {30, 15, 30, MIN};
 	@Config.Name("Upgraded Potentials")
 	@Config.RequiresMcRestart
-	public int[] upgradedPotentials = {35, 0, 21, MIN};
+	public int[] upgradedPotentials = {35, 0, 21, SUPER};
 	@Config.Name("Viper")
 	@Config.RequiresMcRestart
 	public int[] viper = {18, 10, 35, MIN};
@@ -254,7 +254,7 @@ public class EnchantabilityConfig {
 	public int[] instability = {30, 15, 30, MIN};
 	@Config.Name("Pandora's Curse")
 	@Config.RequiresMcRestart
-	public int[] pandorasCurse = {100, 50, 11, MIN};
+	public int[] pandorasCurse = {100, 50, 11, SUPER};
 	@Config.Name("Powerless")
 	@Config.RequiresMcRestart
 	public int[] powerless = {12, 12, 30, MIN};
