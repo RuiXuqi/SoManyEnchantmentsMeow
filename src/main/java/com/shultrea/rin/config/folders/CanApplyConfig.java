@@ -10,7 +10,7 @@ public class CanApplyConfig {
 			"BATTLEAXE;(mujmajnkraftsbettersurvival\\:item.*battleaxe)|(spartan(defiled|fire|weaponry)\\:battleaxe.*)",
 			"BS_WEAPON;mujmajnkraftsbettersurvival\\:item.*(dagger|nunchaku|hammer|battleaxe)",
 			"LYCANITES_EQUIPMENT;lycanitesmobs:equipment",
-			"NOT_GOLD;.*gold.*;NOT",
+			"NOT_GOLD;\\w+\\:.*gold.*;NOT",
 			"SW_CROSSBOW;spartan(defiled|fire|weaponry)\\:crossbow.*",
 			"WOLFARMOR;wolfarmor\\:\\w+\\_wolf\\_armor"
 	};
