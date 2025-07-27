@@ -14,6 +14,12 @@ public class CanApplyConfig {
 			"SW_CROSSBOW; spartan(defiled|fire|weaponry)\\:crossbow.*"
 	};
 
+	@Config.Comment("Some modded items only pretend to be a specific item type without actually being them (wolf armor being SWORD and ARMOR_FEET, better survival items being SWORD etc).\n" +
+			"Enabling this toggle will make the given item type match those too.\n" +
+			"Disabling will instead only look at the actual checks of each EnumEnchantmentType (like SWORD = has to be instanceof ItemSword) to match.")
+	@Config.Name("-Allow Custom Items")
+	public boolean allowCustomItems = true;
+
 	@Config.Name("Adept")
 	public String[] adept = {"SWORD", "AXE", "BOW", "BATTLEAXE", "SW_CROSSBOW"};
 	@Config.Name("Ancient Sealed Curses")

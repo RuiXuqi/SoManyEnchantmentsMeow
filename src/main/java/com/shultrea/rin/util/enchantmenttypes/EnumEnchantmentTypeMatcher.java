@@ -1,5 +1,6 @@
 package com.shultrea.rin.util.enchantmenttypes;
 
+import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.util.Types;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -21,10 +22,13 @@ public class EnumEnchantmentTypeMatcher implements ITypeMatcher {
 
         // The main issue why we cant use the normal system is that vanilla only allows one type per enchant
         // but some SME enchants just go on multiple item types
-        enchantment.type = this.type;
-        boolean doesMatch = item.canApplyAtEnchantingTable(stack, enchantment);
-        enchantment.type = Types.NONE; //could paste in an earlier copy but in EnchantmentBase.init its always set to NONE and should be NONE
+        if(ModConfig.canApply.allowCustomItems) {
+            enchantment.type = this.type;
+            boolean doesMatch = item.canApplyAtEnchantingTable(stack, enchantment);
+            enchantment.type = Types.NONE; //could paste in an earlier copy but in EnchantmentBase.init its always set to NONE and should be NONE
 
-        return doesMatch;
+            return doesMatch;
+        }
+        else return type.canEnchantItem(item);
     }
 }
