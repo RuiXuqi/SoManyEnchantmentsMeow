@@ -38,11 +38,17 @@ public class ModConfig {
 	@Config.Name("Rarity")
 	public static RarityConfig rarity = new RarityConfig();
 	
-	@Config.Comment("Types of items each enchantment can apply on at enchantment table and anvil. Available types: ALL_TYPES (=any of the following types), ARMOR, ARMOR_HEAD, ARMOR_CHEST, ARMOR_LEGS, ARMOR_FEET, SWORD, TOOL, FISHING_ROD, BREAKABLE, BOW, WEARABLE, ALL_ITEMS (=any Item), AXE, PICKAXE, HOE, SHOVEL, GAPPLE, SHIELD, NONE")
+	@Config.Comment({"Types of items each enchantment can apply on at enchantment table and anvil. \n" +
+			"This is using the vanilla EnumEnchantmentType system where an item is checked against various conditions to decide whether it can get an enchant.\n" +
+			"For example to get SWORD enchants an item needs to inherit the vanilla ItemSword class. This means modded swords can also fit to SWORD, if their classes do inherit ItemSword.\n" +
+			"Available types: ALL_TYPES (=any of the following types), ARMOR, ARMOR_HEAD, ARMOR_CHEST, ARMOR_LEGS, ARMOR_FEET, SWORD, TOOL, FISHING_ROD, BREAKABLE, BOW, WEARABLE, ALL_ITEMS (=any Item), AXE, PICKAXE, HOE, SHOVEL, SHIELD, NONE\n" +
+			"To remove a subset of an item type (like all gold swords) from an enchant, use ! in front of a (custom) type.\n" +
+			"Blacklisting like this will always be stronger than whitelisting, so an item that fits a listed type but also fits a listed type with ! will not be able to get the enchant."})
 	@Config.Name("Can apply on enchantment table and anvil")
 	public static CanApplyConfig canApply = new CanApplyConfig();
 	
-	@Config.Comment("Additional types of items each enchantment can apply on at the anvil. Works like vanilla sharpness only being applicable on axes via anvil.")
+	@Config.Comment("Additional types of items each enchantment can apply on at the anvil. Works like vanilla sharpness only being applicable on axes via anvil.\n" +
+			"For an explanation on how to use this config system, check the comment on the other CanApply config section.")
 	@Config.Name("Can apply additionally on anvil")
 	public static CanApplyAnvilConfig canApplyAnvil = new CanApplyAnvilConfig();
 
@@ -63,6 +69,8 @@ public class ModConfig {
 			if(event.getModID().equals(SoManyEnchantments.MODID)) {
 				ConfigManager.sync(SoManyEnchantments.MODID, Config.Type.INSTANCE);
 				ConfigProvider.resetBlacklists();
+				ConfigProvider.resetCanApply();
+
 				ConfigProvider.resetDefaultUpgradeTokens();
 				UpgradeRecipe.resetUpgradeRecipes();
 				UpgradeRecipe.initUpgradeRecipes();

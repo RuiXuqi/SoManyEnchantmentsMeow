@@ -1,7 +1,11 @@
 package com.shultrea.rin.config;
 
 import com.shultrea.rin.SoManyEnchantments;
+import com.shultrea.rin.enchantments.base.EnchantmentBase;
 import com.shultrea.rin.util.Types;
+import com.shultrea.rin.util.enchantmenttypes.EnumEnchantmentTypeMatcher;
+import com.shultrea.rin.util.enchantmenttypes.CustomTypeMatcher;
+import com.shultrea.rin.util.enchantmenttypes.ITypeMatcher;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.init.Items;
@@ -12,123 +16,111 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import org.apache.logging.log4j.Level;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class ConfigProvider {
 
     // -------------------- Incompatible --------------------
 
-    public static ArrayList<Enchantment> getIncompatibleEnchantmentsString(Enchantment thisEnch) {
-        ArrayList<Enchantment> incompatEnchs = new ArrayList<>();
+    public static Set<Enchantment> getIncompatibleEnchantmentsFromConfig(Enchantment thisEnch) {
+        Set<Enchantment> incompatEnchs = new HashSet<>();
 
         ResourceLocation regName = thisEnch.getRegistryName();
         if(regName == null) return incompatEnchs;
 
-        for(String s : ModConfig.incompatible.incompatibleGroups) {
-            if(s.contains(regName.getPath())) {
+        for(String configLine : ModConfig.incompatible.incompatibleGroups) {
+            if(configLine.contains(regName.getPath())) {
                 //Assumes that config lines are enchantments separated by comma
-                String[] enchsInList = s.split(",");
-                for(String s1 : enchsInList) {
-                    s1 = s1.trim();
-                    if(s1.isEmpty()) continue;
+                String[] enchsInList = configLine.split(",");
+                for(String lineEntry : enchsInList) {
+                    lineEntry = lineEntry.trim();
+                    if(lineEntry.isEmpty()) continue;
                     //assumes that the config uses modid:enchantment if its not an SME enchant
-                    if(!s1.contains(":")) s1 = SoManyEnchantments.MODID + ":" + s1;
-                    Enchantment incompatEnch = Enchantment.getEnchantmentByLocation(s1);
-                    if(incompatEnch == null) SoManyEnchantments.LOGGER.info("SME: could not find incompatible enchantment {}", s1);
+                    if(!lineEntry.contains(":")) lineEntry = SoManyEnchantments.MODID + ":" + lineEntry;
+                    Enchantment incompatEnch = Enchantment.getEnchantmentByLocation(lineEntry);
+                    if(incompatEnch == null) SoManyEnchantments.LOGGER.warn("SME: could not find incompatible enchantment {}", lineEntry);
                     else incompatEnchs.add(incompatEnch);
                 }
             }
         }
-        // remove duplicates of the calling enchant
-        // every enchantment is incompatible with itself, this is handled by Enchantment.java though
-        // and thus doesnt need to be in this list
-        while(incompatEnchs.contains(thisEnch)) {
-            incompatEnchs.remove(thisEnch);
-        }
+        // remove the calling enchant
+        // every enchantment is incompatible with itself, this is handled by Enchantment class directly though
+        // and thus doesn't need to be in this list
+        incompatEnchs.remove(thisEnch);
 
         return incompatEnchs;
     }
 
     // -------------------- Can Apply --------------------
 
-    private static final HashMap<String, EnumEnchantmentType> itemTypes = new HashMap<>();
-    private static final HashMap<String, CustomType> customTypeMap = new HashMap<>();
+    private static final HashMap<String, ITypeMatcher> typeMatchers = new HashMap<>();
 
-    private static class CustomType {
-        String name = "";
-        String regex = "";
-        boolean inverted = false;
+    public static void resetCanApply(){
+        typeMatchers.clear();
+        initCanApply();
+    }
 
-        CustomType(String in){
-            String[] split = in.split(";");
-            if(split.length>=2) {
-                name = split[0];
-                regex = split[1];
-            }
-            if(split.length>=3)
-                inverted = "NOT".equals(split[2]);
+    public static void initCanApply() {
+        //These do have an associated fake enchant
+        typeMatchers.put("ALL_TYPES", new EnumEnchantmentTypeMatcher(EnumEnchantmentType.ALL));
+        typeMatchers.put("ARMOR", new EnumEnchantmentTypeMatcher(EnumEnchantmentType.ARMOR));
+        typeMatchers.put("ARMOR_HEAD", new EnumEnchantmentTypeMatcher(EnumEnchantmentType.ARMOR_HEAD));
+        typeMatchers.put("ARMOR_CHEST", new EnumEnchantmentTypeMatcher(EnumEnchantmentType.ARMOR_CHEST));
+        typeMatchers.put("ARMOR_LEGS", new EnumEnchantmentTypeMatcher(EnumEnchantmentType.ARMOR_LEGS));
+        typeMatchers.put("ARMOR_FEET", new EnumEnchantmentTypeMatcher(EnumEnchantmentType.ARMOR_FEET));
+        typeMatchers.put("SWORD", new EnumEnchantmentTypeMatcher(EnumEnchantmentType.WEAPON));
+        typeMatchers.put("TOOL", new EnumEnchantmentTypeMatcher(EnumEnchantmentType.DIGGER));
+        typeMatchers.put("FISHING_ROD", new EnumEnchantmentTypeMatcher(EnumEnchantmentType.FISHING_ROD));
+        typeMatchers.put("BREAKABLE", new EnumEnchantmentTypeMatcher(EnumEnchantmentType.BREAKABLE));
+        typeMatchers.put("BOW", new EnumEnchantmentTypeMatcher(EnumEnchantmentType.BOW));
+        typeMatchers.put("WEARABLE", new EnumEnchantmentTypeMatcher(EnumEnchantmentType.WEARABLE));
+
+        //These don't have an associated fake enchant
+        typeMatchers.put("ALL_ITEMS", new EnumEnchantmentTypeMatcher(Types.ALL));
+        typeMatchers.put("AXE", new EnumEnchantmentTypeMatcher(Types.AXE));
+        typeMatchers.put("PICKAXE", new EnumEnchantmentTypeMatcher(Types.PICKAXE));
+        typeMatchers.put("HOE", new EnumEnchantmentTypeMatcher(Types.HOE));
+        typeMatchers.put("SHOVEL", new EnumEnchantmentTypeMatcher(Types.SPADE));
+        typeMatchers.put("SHIELD", new EnumEnchantmentTypeMatcher(Types.SHIELD));
+        typeMatchers.put("NONE", new EnumEnchantmentTypeMatcher(Types.NONE));
+
+        for (String s : ModConfig.canApply.customTypes) {
+            CustomTypeMatcher c = new CustomTypeMatcher(s);
+            if (c.isValid()) typeMatchers.put(c.getName(), c);
         }
     }
 
-    public static void initCanApply(){
-        itemTypes.put("ALL_TYPES",EnumEnchantmentType.ALL);
-        itemTypes.put("ARMOR",EnumEnchantmentType.ARMOR);
-        itemTypes.put("ARMOR_HEAD",EnumEnchantmentType.ARMOR_HEAD);
-        itemTypes.put("ARMOR_CHEST",EnumEnchantmentType.ARMOR_CHEST);
-        itemTypes.put("ARMOR_LEGS",EnumEnchantmentType.ARMOR_LEGS);
-        itemTypes.put("ARMOR_FEET",EnumEnchantmentType.ARMOR_FEET);
-        itemTypes.put("SWORD",EnumEnchantmentType.WEAPON);
-        itemTypes.put("TOOL",EnumEnchantmentType.DIGGER);
-        itemTypes.put("FISHING_ROD",EnumEnchantmentType.FISHING_ROD);
-        itemTypes.put("BREAKABLE",EnumEnchantmentType.BREAKABLE);
-        itemTypes.put("BOW",EnumEnchantmentType.BOW);
-        itemTypes.put("WEARABLE",EnumEnchantmentType.WEARABLE);
-
-        itemTypes.put("ALL_ITEMS", Types.ALL);
-        itemTypes.put("AXE", Types.AXE);
-        itemTypes.put("PICKAXE", Types.PICKAXE);
-        itemTypes.put("HOE", Types.HOE);
-        itemTypes.put("SHOVEL", Types.SPADE);
-        itemTypes.put("SHIELD", Types.SHIELD);
-        itemTypes.put("NONE", Types.NONE);
-
-        for(String s: ModConfig.canApply.customTypes){
-            CustomType c = new CustomType(s);
-            if(!"".equals(c.name) && !"".equals(c.regex))
-                customTypeMap.put(c.name,c);
-        }
-    }
-
-    public static boolean canItemApply(String[] enchantConfig, ItemStack stack){
+    public static boolean canItemApply(EnchantmentBase enchantment, String[] enchantConfig, ItemStack stack){
         Item item = stack.getItem();
         boolean isValid = false;
         boolean invertedMatches = false;
         String itemName = null;
+
         for(String s: enchantConfig){
-            if(itemTypes.containsKey(s)){
-                //Normal Types via Predicates
-                EnumEnchantmentType enumEnchantmentType = itemTypes.get(s);
-                isValid = isValid || enumEnchantmentType.canEnchantItem(item);
-                //can't early return bc custom types can also exclude certain types
-            } else if(customTypeMap.containsKey(s)) {
-                //Custom Types via Regex Matching
-                CustomType c = customTypeMap.get(s);
-                if(itemName == null) {
-                    ResourceLocation loc = item.getRegistryName();
-                    if (loc != null) itemName = loc.toString(); //only need to toString once if there's multiple custom types
-                    else itemName = ""; //Shouldn't match anything in this edge case
-                }
-                boolean matches = itemName.matches(c.regex);
-                if(!c.inverted)
-                    isValid = isValid || matches;
-                else
-                    invertedMatches = invertedMatches || matches;
-            } else {
-                SoManyEnchantments.LOGGER.info("SME: Could not find given item type {}", s);
+            //Configs can list types starting with ! to disable those
+            boolean inverted = false;
+            if(s.startsWith("!")){
+                inverted = true;
+                s = s.substring(1);
             }
+
+            ITypeMatcher typeMatcher = typeMatchers.getOrDefault(s, null);
+            if(typeMatcher == null) {
+                SoManyEnchantments.LOGGER.info("SME: Could not find given item type {}", s);
+                continue;
+            }
+
+            //First time check of a custom type: get item name
+            if(typeMatcher instanceof CustomTypeMatcher && itemName == null) {
+                ResourceLocation loc = item.getRegistryName();
+                if (loc != null) itemName = loc.toString();
+                else itemName = ""; //edge case shouldn't match anything
+            }
+
+            boolean matches = typeMatcher.matches(enchantment, stack, item, itemName);
+
+            if(!inverted) isValid = isValid || matches;
+            else invertedMatches = invertedMatches || matches;
         }
         return isValid && !invertedMatches;
     }

@@ -4,409 +4,280 @@ import net.minecraftforge.common.config.Config;
 
 public class CanApplyConfig {
 
-	@Config.Name("Custom Item Types")
-	@Config.Comment("Pattern: Name to use;Regex to match item ids to find the item;optional: 'NOT' to invert. If you use the inversion, canApply will use this type as an AND connection instead of an OR connection. So 'NOTGOLD','TOOL','SWORD' will be any sword or tool that is not gold. The custom types can also be used in canApplyAnvil config")
+	@Config.Name("-Custom Item Types")
+	@Config.Comment("Pattern: \n" +
+			"    Name to use; Regex to match against item ids\n" +
+			"Custom types can also be used in canApplyAnvil config")
 	public String[] customTypes = {
-			"BATTLEAXE;(mujmajnkraftsbettersurvival\\:item.*battleaxe)|(spartan(defiled|fire|weaponry)\\:battleaxe.*)",
-			"BS_WEAPON;mujmajnkraftsbettersurvival\\:item.*(dagger|nunchaku|hammer|battleaxe)",
-			"LYCANITES_EQUIPMENT;lycanitesmobs:equipment",
-			"NOT_GOLD;\\w+\\:.*gold.*;NOT",
-			"SW_CROSSBOW;spartan(defiled|fire|weaponry)\\:crossbow.*",
-			"WOLFARMOR;wolfarmor\\:\\w+\\_wolf\\_armor"
+			"BATTLEAXE; (mujmajnkraftsbettersurvival\\:item.*battleaxe)|(spartan(defiled|fire|weaponry)\\:battleaxe.*)",
+			"LYCANITES_EQUIPMENT; lycanitesmobs:equipment",
+			"SW_CROSSBOW; spartan(defiled|fire|weaponry)\\:crossbow.*"
 	};
 
 	@Config.Name("Adept")
-	@Config.RequiresMcRestart
-	public String[] adept = {"SWORD", "WOLFARMOR", "AXE", "BOW", "BATTLEAXE", "BS_WEAPON", "LYCANITES_EQUIPMENT", "SW_CROSSBOW"};
+	public String[] adept = {"SWORD", "AXE", "BOW", "BATTLEAXE", "SW_CROSSBOW"};
 	@Config.Name("Ancient Sealed Curses")
-	@Config.RequiresMcRestart
-	public String[] ancientSealedCurses = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] ancientSealedCurses = {"SWORD"};
 	@Config.Name("Ancient Sword Mastery")
-	@Config.RequiresMcRestart
-	public String[] ancientSwordMastery = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] ancientSwordMastery = {"SWORD"};
 	@Config.Name("Arc Slash")
-	@Config.RequiresMcRestart
-	public String[] arcSlash = {"SWORD", "WOLFARMOR", "BS_WEAPON"};
+	public String[] arcSlash = {"SWORD", "!LYCANITES_EQUIPMENT"};
 	@Config.Name("Ash Destroyer")
-	@Config.RequiresMcRestart
-	public String[] ashDestroyer = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] ashDestroyer = {"SWORD"};
 	@Config.Name("Atomic Deconstructor")
-	@Config.RequiresMcRestart
-	public String[] atomicDeconstructor = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] atomicDeconstructor = {"SWORD"};
 	@Config.Name("Blessed Edge")
-	@Config.RequiresMcRestart
-	public String[] blessedEdge = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] blessedEdge = {"SWORD"};
 	@Config.Name("Brutality")
-	@Config.RequiresMcRestart
 	public String[] brutality = {"AXE", "BATTLEAXE"};
 	@Config.Name("Burning Shield")
-	@Config.RequiresMcRestart
 	public String[] burningShield = {"SHIELD"};
 	@Config.Name("Burning Thorns")
-	@Config.RequiresMcRestart
 	public String[] burningThorns = {"ARMOR_CHEST"};
 	@Config.Name("Butchering")
-	@Config.RequiresMcRestart
-	public String[] butchering = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] butchering = {"SWORD"};
 	@Config.Name("Clearskies' Favor")
-	@Config.RequiresMcRestart
-	public String[] clearskiesFavor = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] clearskiesFavor = {"SWORD"};
 	@Config.Name("Combat Medic")
-	@Config.RequiresMcRestart
 	public String[] combatMedic = {"ARMOR_HEAD"};
 	@Config.Name("Counter Attack")
-	@Config.RequiresMcRestart
-	public String[] counterAttack = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] counterAttack = {"SWORD"};
 	@Config.Name("Critical Strike")
-	@Config.RequiresMcRestart
-	public String[] criticalStrike = {"SWORD","AXE", "BATTLEAXE", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] criticalStrike = {"SWORD", "AXE", "BATTLEAXE"};
 	@Config.Name("Culling")
-	@Config.RequiresMcRestart
 	public String[] culling = {"AXE", "BATTLEAXE"};
 	@Config.Name("Dark Shadows")
-	@Config.RequiresMcRestart
-	public String[] darkShadows = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] darkShadows = {"SWORD"};
 	@Config.Name("Defusing Edge")
-	@Config.RequiresMcRestart
-	public String[] defusingEdge = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] defusingEdge = {"SWORD"};
 	@Config.Name("Desolator")
-	@Config.RequiresMcRestart
 	public String[] desolator = {"AXE", "BATTLEAXE"};
 	@Config.Name("Difficulty's Endowment")
-	@Config.RequiresMcRestart
-	public String[] difficultysEndowment = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] difficultysEndowment = {"SWORD"};
 	@Config.Name("Disarmament")
-	@Config.RequiresMcRestart
 	public String[] disarmament = {"AXE", "BATTLEAXE"};
 	@Config.Name("Disorientating Blade")
-	@Config.RequiresMcRestart
-	public String[] disorientatingBlade = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] disorientatingBlade = {"SWORD"};
 	@Config.Name("Empowered Defence")
-	@Config.RequiresMcRestart
 	public String[] empoweredDefence = {"SHIELD"};
 	@Config.Name("Envenomed")
-	@Config.RequiresMcRestart
-	public String[] envenomed = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] envenomed = {"SWORD"};
 	@Config.Name("Evasion")
-	@Config.RequiresMcRestart
 	public String[] evasion = {"ARMOR_LEGS"};
 	@Config.Name("Fiery Edge")
-	@Config.RequiresMcRestart
-	public String[] fieryEdge = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] fieryEdge = {"SWORD"};
 	@Config.Name("Flinging")
-	@Config.RequiresMcRestart
-	public String[] flinging = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] flinging = {"SWORD"};
 	@Config.Name("Cryogenic")
-	@Config.RequiresMcRestart
-	public String[] cryogenic = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] cryogenic = {"SWORD"};
 	@Config.Name("Hors De Combat")
-	@Config.RequiresMcRestart
-	public String[] horsDeCombat = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] horsDeCombat = {"SWORD"};
 	@Config.Name("Inhumane")
-	@Config.RequiresMcRestart
-	public String[] inhumane = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] inhumane = {"SWORD"};
 	@Config.Name("Inner Berserk")
-	@Config.RequiresMcRestart
 	public String[] innerBerserk = {"ARMOR_CHEST"};
 	@Config.Name("Jagged Rake")
-	@Config.RequiresMcRestart
 	public String[] jaggedRake = {"HOE"};
 	@Config.Name("Levitator")
-	@Config.RequiresMcRestart
-	public String[] levitator = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] levitator = {"SWORD"};
 	@Config.Name("Lifesteal")
-	@Config.RequiresMcRestart
-	public String[] lifesteal = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] lifesteal = {"SWORD"};
 	@Config.Name("Light Weight")
-	@Config.RequiresMcRestart
-	public String[] lightWeight = {"ARMOR_FEET", "WOLFARMOR"};
+	public String[] lightWeight = {"ARMOR_FEET"};
 	@Config.Name("Luck Magnification")
-	@Config.RequiresMcRestart
-	public String[] luckMagnification = {"SWORD","AXE", "BATTLEAXE", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] luckMagnification = {"SWORD", "AXE", "BATTLEAXE"};
 	@Config.Name("Lunas Blessing")
-	@Config.RequiresMcRestart
-	public String[] lunasBlessing = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] lunasBlessing = {"SWORD"};
 	@Config.Name("Magic Protection")
-	@Config.RequiresMcRestart
 	public String[] magicProtection = {"ARMOR"};
 	@Config.Name("Magma Walker")
-	@Config.RequiresMcRestart
-	public String[] magmaWalker = {"ARMOR_FEET", "WOLFARMOR"};
+	public String[] magmaWalker = {"ARMOR_FEET"};
 	@Config.Name("Meltdown")
-	@Config.RequiresMcRestart
 	public String[] meltdown = {"ARMOR_CHEST"};
 	@Config.Name("Moisturized")
-	@Config.RequiresMcRestart
 	public String[] moisturized = {"HOE"};
 	@Config.Name("Mortalitas")
-	@Config.RequiresMcRestart
-	public String[] mortalitas = {"SWORD","AXE", "BATTLEAXE", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] mortalitas = {"SWORD", "AXE", "BATTLEAXE"};
 	@Config.Name("Natural Blocking")
-	@Config.RequiresMcRestart
 	public String[] naturalBlocking = {"SHIELD"};
 	@Config.Name("Parry")
-	@Config.RequiresMcRestart
-	public String[] parry = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] parry = {"SWORD"};
 	@Config.Name("Penetrating Edge")
-	@Config.RequiresMcRestart
 	public String[] penetratingEdge = {"AXE", "BATTLEAXE"};
 	@Config.Name("Physical Protection")
-	@Config.RequiresMcRestart
 	public String[] physicalProtection = {"ARMOR"};
 	@Config.Name("Dragging")
-	@Config.RequiresMcRestart
 	public String[] dragging = {"BOW","SW_CROSSBOW"};
 	@Config.Name("Purging Blade")
-	@Config.RequiresMcRestart
-	public String[] purgingBlade = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] purgingBlade = {"SWORD"};
 	@Config.Name("Purification")
-	@Config.RequiresMcRestart
 	public String[] purification = {"AXE", "BATTLEAXE"};
 	@Config.Name("Pushing")
-	@Config.RequiresMcRestart
 	public String[] pushing = {"BOW"};
 	@Config.Name("Rain's Bestowment")
-	@Config.RequiresMcRestart
-	public String[] rainsBestowment = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] rainsBestowment = {"SWORD"};
 	@Config.Name("Reviled Blade")
-	@Config.RequiresMcRestart
-	public String[] reviledBlade = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] reviledBlade = {"SWORD"};
 	@Config.Name("Reinforced Sharpness")
-	@Config.RequiresMcRestart
 	public String[] reinforcedsharpness = {"TOOL", "LYCANITES_EQUIPMENT"};
 	@Config.Name("Smelter")
-	@Config.RequiresMcRestart
 	public String[] smelter = {"TOOL"};
 	@Config.Name("Sol's Blessing")
-	@Config.RequiresMcRestart
-	public String[] solsBlessing = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] solsBlessing = {"SWORD"};
 	@Config.Name("Spell Breaker")
-	@Config.RequiresMcRestart
-	public String[] spellBreaker = {"SWORD","AXE", "BATTLEAXE", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] spellBreaker = {"SWORD", "AXE", "BATTLEAXE"};
 	@Config.Name("Splitshot")
-	@Config.RequiresMcRestart
 	public String[] splitShot = {"BOW"};
 	@Config.Name("Strafe")
-	@Config.RequiresMcRestart
 	public String[] strafe = {"BOW"};
 	@Config.Name("Strengthened Vitality")
-	@Config.RequiresMcRestart
 	public String[] strengthenedVitality = {"ARMOR_CHEST"};
 	@Config.Name("Swifter Slashes")
-	@Config.RequiresMcRestart
-	public String[] swifterSlashes = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] swifterSlashes = {"SWORD"};
 	@Config.Name("Thunderstorm's Bestowment")
-	@Config.RequiresMcRestart
-	public String[] thunderstormsBestowment = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] thunderstormsBestowment = {"SWORD"};
 	@Config.Name("True Strike")
-	@Config.RequiresMcRestart
-	public String[] trueStrike = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] trueStrike = {"SWORD"};
 	@Config.Name("Swift Swimming")
-	@Config.RequiresMcRestart
-	public String[] swiftSwimming = {"ARMOR_FEET", "WOLFARMOR"};
+	public String[] swiftSwimming = {"ARMOR_FEET"};
 	@Config.Name("Unreasonable")
-	@Config.RequiresMcRestart
-	public String[] unreasonable = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] unreasonable = {"SWORD"};
 	@Config.Name("Unsheathing")
-	@Config.RequiresMcRestart
-	public String[] unsheathing = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] unsheathing = {"SWORD"};
 	@Config.Name("Upgraded Potentials")
-	@Config.RequiresMcRestart
 	public String[] upgradedPotentials = {"NONE"};
 	@Config.Name("Viper")
-	@Config.RequiresMcRestart
-	public String[] viper = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] viper = {"SWORD"};
 	@Config.Name("Water Aspect")
-	@Config.RequiresMcRestart
-	public String[] waterAspect = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] waterAspect = {"SWORD"};
 	@Config.Name("Plowing")
-	@Config.RequiresMcRestart
 	public String[] plowing = {"HOE"};
 	@Config.Name("Winter's Grace")
-	@Config.RequiresMcRestart
-	public String[] wintersGrace = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] wintersGrace = {"SWORD"};
 
 	//Curses
 	@Config.Name("Bluntness")
-	@Config.RequiresMcRestart
-	public String[] bluntness = {"SWORD","AXE", "BATTLEAXE", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] bluntness = {"SWORD", "BATTLEAXE"};
 	@Config.Name("Breached Plating")
-	@Config.RequiresMcRestart
 	public String[] breachedPlating = {"ARMOR"};
 	@Config.Name("Cursed Edge")
-	@Config.RequiresMcRestart
-	public String[] cursedEdge = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] cursedEdge = {"SWORD"};
 	@Config.Name("Curse of Decay")
-	@Config.RequiresMcRestart
 	public String[] curseOfDecay = {"ALL_ITEMS"};
 	@Config.Name("Curse of Holding")
-	@Config.RequiresMcRestart
 	public String[] curseOfHolding = {"ALL_ITEMS"};
 	@Config.Name("Curse of Inaccuracy")
-	@Config.RequiresMcRestart
-	public String[] curseOfInaccuracy = {"SWORD","AXE","BOW", "BATTLEAXE", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] curseOfInaccuracy = {"SWORD", "AXE","BOW", "BATTLEAXE"};
 	@Config.Name("Curse of Possession")
-	@Config.RequiresMcRestart
 	public String[] curseOfPossession = {"ALL_TYPES"};
 	@Config.Name("Curse of Vulnerability")
-	@Config.RequiresMcRestart
 	public String[] curseOfVulnerability = {"ARMOR"};
 	@Config.Name("Heavy Weight")
-	@Config.RequiresMcRestart
-	public String[] heavyWeight = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT", "ARMOR"};
+	public String[] heavyWeight = {"SWORD", "ARMOR"};
 	@Config.Name("Inefficient")
-	@Config.RequiresMcRestart
 	public String[] inefficient = {"TOOL", "LYCANITES_EQUIPMENT"};
 	@Config.Name("Instability")
-	@Config.RequiresMcRestart
-	public String[] instability = {"SWORD","TOOL", "BS_WEAPON"};
+	public String[] instability = {"SWORD", "TOOL"};
 	@Config.Name("Pandora's Curse")
-	@Config.RequiresMcRestart
 	public String[] pandorasCurse = {"ALL_ITEMS"};
 	@Config.Name("Powerless")
-	@Config.RequiresMcRestart
 	public String[] powerless = {"BOW", "SW_CROSSBOW"};
 	@Config.Name("Rusted")
-	@Config.RequiresMcRestart
-	public String[] rusted = {"BREAKABLE","NOT_GOLD"};
+	public String[] rusted = {"BREAKABLE"};
 	@Config.Name("Unpredictable")
-	@Config.RequiresMcRestart
-	public String[] unpredictable = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] unpredictable = {"SWORD"};
 	@Config.Name("Ascetic")
-	@Config.RequiresMcRestart
-	public String[] ascetic = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT", "AXE", "FISHING_ROD"};
+	public String[] ascetic = {"SWORD", "AXE", "FISHING_ROD"};
 	@Config.Name("Extinguish")
-	@Config.RequiresMcRestart
-	public String[] extinguish = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT", "AXE","BOW", "SW_CROSSBOW"};
+	public String[] extinguish = {"SWORD", "AXE","BOW", "SW_CROSSBOW"};
 
 	//Rune
 	@Config.Name("Rune: Arrow Piercing")
-	@Config.RequiresMcRestart
 	public String[] runeArrowPiercing = {"BOW", "SW_CROSSBOW"};
 	@Config.Name("Rune: Magical Blessing")
-	@Config.RequiresMcRestart
-	public String[] runeMagicalBlessing = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] runeMagicalBlessing = {"SWORD"};
 	@Config.Name("Rune: Piercing Capabilities")
-	@Config.RequiresMcRestart
-	public String[] runePiercingCapabilities = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] runePiercingCapabilities = {"SWORD"};
 	@Config.Name("Rune: Resurrection")
-	@Config.RequiresMcRestart
 	public String[] runeResurrection = {"SHIELD"};
 	@Config.Name("Rune: Revival")
-	@Config.RequiresMcRestart
 	public String[] runeRevival = {"BREAKABLE"};
 	
 	//Subject
 	@Config.Name("Subject Biology")
-	@Config.RequiresMcRestart
-	public String[] subjectBiology = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] subjectBiology = {"SWORD"};
 	@Config.Name("Subject Chemistry")
-	@Config.RequiresMcRestart
-	public String[] subjectChemistry = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] subjectChemistry = {"SWORD"};
 	@Config.Name("Subject English")
-	@Config.RequiresMcRestart
-	public String[] subjectEnglish = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] subjectEnglish = {"SWORD"};
 	@Config.Name("Subject History")
-	@Config.RequiresMcRestart
-	public String[] subjectHistory = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] subjectHistory = {"SWORD"};
 	@Config.Name("Subject Mathematics")
-	@Config.RequiresMcRestart
-	public String[] subjectMathematics = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] subjectMathematics = {"SWORD"};
 	@Config.Name("Subject P.E.")
-	@Config.RequiresMcRestart
-	public String[] subjectPE = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] subjectPE = {"SWORD"};
 	@Config.Name("Subject Physics")
-	@Config.RequiresMcRestart
-	public String[] subjectPhysics = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] subjectPhysics = {"SWORD"};
 	//Lesser
 	@Config.Name("Lesser Bane of Arthropods")
-	@Config.RequiresMcRestart
-	public String[] lesserBaneOfArthropods = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] lesserBaneOfArthropods = {"SWORD"};
 	@Config.Name("Lesser Fire Aspect")
-	@Config.RequiresMcRestart
-	public String[] lesserFireAspect = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] lesserFireAspect = {"SWORD"};
 	@Config.Name("Lesser Flame")
-	@Config.RequiresMcRestart
 	public String[] lesserFlame = {"BOW", "SW_CROSSBOW"};
 	@Config.Name("Lesser Sharpness")
-	@Config.RequiresMcRestart
-	public String[] lesserSharpness = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] lesserSharpness = {"SWORD"};
 	@Config.Name("Lesser Smite")
-	@Config.RequiresMcRestart
-	public String[] lesserSmite = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] lesserSmite = {"SWORD"};
 	
 	//Advanced
 	@Config.Name("Advanced Bane of Arthropods")
-	@Config.RequiresMcRestart
-	public String[] advancedBaneOfArthropods = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] advancedBaneOfArthropods = {"SWORD"};
 	@Config.Name("Advanced Blast Protection")
-	@Config.RequiresMcRestart
 	public String[] advancedBlastProtection = {"ARMOR"};
 	@Config.Name("Advanced Efficiency")
-	@Config.RequiresMcRestart
 	public String[] advancedEfficiency = {"TOOL", "LYCANITES_EQUIPMENT"};
 	@Config.Name("Advanced Feather Falling")
-	@Config.RequiresMcRestart
-	public String[] advancedFeatherFalling = {"ARMOR_FEET", "WOLFARMOR"};
+	public String[] advancedFeatherFalling = {"ARMOR_FEET"};
 	@Config.Name("Advanced Fire Aspect")
-	@Config.RequiresMcRestart
-	public String[] advancedFireAspect = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] advancedFireAspect = {"SWORD"};
 	@Config.Name("Advanced Fire Protection")
-	@Config.RequiresMcRestart
 	public String[] advancedFireProtection = {"ARMOR"};
 	@Config.Name("Advanced Flame")
-	@Config.RequiresMcRestart
 	public String[] advancedFlame = {"BOW", "SW_CROSSBOW"};
 	@Config.Name("Advanced Knockback")
-	@Config.RequiresMcRestart
-	public String[] advancedKnockback = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] advancedKnockback = {"SWORD"};
 	@Config.Name("Advanced Looting")
-	@Config.RequiresMcRestart
-	public String[] advancedLooting = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] advancedLooting = {"SWORD"};
 	@Config.Name("Advanced Luck of the Sea")
-	@Config.RequiresMcRestart
 	public String[] advancedLuckOfTheSea = {"FISHING_ROD"};
 	@Config.Name("Advanced Lure")
-	@Config.RequiresMcRestart
 	public String[] advancedLure = {"FISHING_ROD"};
 	@Config.Name("Advanced Mending")
-	@Config.RequiresMcRestart
 	public String[] advancedMending = {"BREAKABLE"};
 	@Config.Name("Advanced Power")
-	@Config.RequiresMcRestart
 	public String[] advancedPower = {"BOW", "SW_CROSSBOW"};
 	@Config.Name("Advanced Projectile Protection")
-	@Config.RequiresMcRestart
 	public String[] advancedProjectileProtection = {"ARMOR"};
 	@Config.Name("Advanced Protection")
-	@Config.RequiresMcRestart
 	public String[] advancedProtection = {"ARMOR"};
 	@Config.Name("Advanced Punch")
-	@Config.RequiresMcRestart
 	public String[] advancedPunch = {"BOW", "SW_CROSSBOW"};
 	@Config.Name("Advanced Sharpness")
-	@Config.RequiresMcRestart
-	public String[] advancedSharpness = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] advancedSharpness = {"SWORD"};
 	@Config.Name("Advanced Smite")
-	@Config.RequiresMcRestart
-	public String[] advancedSmite = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] advancedSmite = {"SWORD"};
 	@Config.Name("Advanced Thorns")
-	@Config.RequiresMcRestart
 	public String[] advancedThorns = {"ARMOR_CHEST"};
 	//Supreme
 	@Config.Name("Supreme Bane of Arthropods")
-	@Config.RequiresMcRestart
-	public String[] supremeBaneOfArthropods = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] supremeBaneOfArthropods = {"SWORD"};
 	@Config.Name("Supreme Fire Aspect")
-	@Config.RequiresMcRestart
-	public String[] supremeFireAspect = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] supremeFireAspect = {"SWORD"};
 	@Config.Name("Supreme Flame")
-	@Config.RequiresMcRestart
 	public String[] supremeFlame = {"BOW", "SW_CROSSBOW"};
 	@Config.Name("Supreme Sharpness")
-	@Config.RequiresMcRestart
-	public String[] supremeSharpness = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] supremeSharpness = {"SWORD"};
 	@Config.Name("Supreme Smite")
-	@Config.RequiresMcRestart
-	public String[] supremeSmite = {"SWORD", "WOLFARMOR", "BS_WEAPON", "LYCANITES_EQUIPMENT"};
+	public String[] supremeSmite = {"SWORD"};
 }

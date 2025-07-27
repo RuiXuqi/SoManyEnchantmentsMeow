@@ -48,12 +48,12 @@ public class EnchantmentUnsheathing extends EnchantmentBase {
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack) {
-		return ConfigProvider.canItemApply(ModConfig.canApply.unsheathing, stack) && super.canApplyAtEnchantingTable(stack);
+		return ConfigProvider.canItemApply(this, ModConfig.canApply.unsheathing, stack) && super.canApplyAtEnchantingTable(stack);
 	}
 
 	@Override
 	public boolean canApply(ItemStack stack) {
-		return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.unsheathing, stack) || super.canApply(stack);
+		return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.unsheathing, stack) || super.canApply(stack);
 	}
 	
 	@Override

@@ -3,6 +3,7 @@ package com.shultrea.rin.enchantments.base;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.util.Types;
 import com.shultrea.rin.SoManyEnchantments;
+import net.minecraft.client.util.SearchTree;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,12 +15,15 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public abstract class EnchantmentBase extends Enchantment {
-	public ArrayList<Enchantment> incompatibleEnchantments = new ArrayList<>();
+	public Set<Enchantment> incompatibleEnchantments = new HashSet<>();
 
 	public EnchantmentBase(String name, Rarity rarity, EntityEquipmentSlot... slots) {
-		super(rarity, Types.ALL, slots);
+		super(rarity, Types.NONE, slots);
 		this.name = name;
 		this.setRegistryName(SoManyEnchantments.MODID, name);
 	}
@@ -82,7 +86,7 @@ public abstract class EnchantmentBase extends Enchantment {
 	 */
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack) {
-		return this.isEnabled() && super.canApplyAtEnchantingTable(stack);
+		return this.isEnabled();
 	}
 	
 	/**
@@ -96,7 +100,7 @@ public abstract class EnchantmentBase extends Enchantment {
 	@Override
 	public boolean canApplyTogether(Enchantment ench)
 	{
-		return !incompatibleEnchantments.contains(ench) && super.canApplyTogether(ench);
+		return !this.incompatibleEnchantments.contains(ench) && super.canApplyTogether(ench);
 	}
 
 	/**

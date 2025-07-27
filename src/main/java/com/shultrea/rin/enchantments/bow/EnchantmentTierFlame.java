@@ -65,9 +65,9 @@ public class EnchantmentTierFlame extends EnchantmentBase {
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack) {
 		switch(this.damageType) {
-			case 0: return ConfigProvider.canItemApply(ModConfig.canApply.lesserFlame, stack) && super.canApplyAtEnchantingTable(stack);
-			case 1: return ConfigProvider.canItemApply(ModConfig.canApply.advancedFlame, stack) && super.canApplyAtEnchantingTable(stack);
-			case 2: return ConfigProvider.canItemApply(ModConfig.canApply.supremeFlame, stack) && super.canApplyAtEnchantingTable(stack);
+			case 0: return ConfigProvider.canItemApply(this, ModConfig.canApply.lesserFlame, stack) && super.canApplyAtEnchantingTable(stack);
+			case 1: return ConfigProvider.canItemApply(this, ModConfig.canApply.advancedFlame, stack) && super.canApplyAtEnchantingTable(stack);
+			case 2: return ConfigProvider.canItemApply(this, ModConfig.canApply.supremeFlame, stack) && super.canApplyAtEnchantingTable(stack);
 			default: return false;
 		}
 	}
@@ -75,9 +75,9 @@ public class EnchantmentTierFlame extends EnchantmentBase {
 	@Override
 	public boolean canApply(ItemStack stack) {
 		switch(this.damageType) {
-			case 0: return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.lesserFlame, stack) || super.canApply(stack);
-			case 1: return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.advancedFlame, stack) || super.canApply(stack);
-			case 2: return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.supremeFlame, stack) || super.canApply(stack);
+			case 0: return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.lesserFlame, stack) || super.canApply(stack);
+			case 1: return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.advancedFlame, stack) || super.canApply(stack);
+			case 2: return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.supremeFlame, stack) || super.canApply(stack);
 			default: return false;
 		}
 	}
