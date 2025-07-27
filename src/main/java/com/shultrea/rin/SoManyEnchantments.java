@@ -60,7 +60,6 @@ public class SoManyEnchantments {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent fEvent) {
 		PotionUtil.initializePotionLists();
-		Types.initEnchantmentTabs();
 		EnchantmentRegistry.initIncompatLists();
 		if(Loader.isModLoaded("crafttweaker"))
 			CraftTweakerCompat.applyActions();

@@ -88,7 +88,7 @@ public class ConfigProvider {
         itemTypes.put("WEARABLE",EnumEnchantmentType.WEARABLE);
 
         itemTypes.put("ALL_ITEMS", Types.ALL);
-        itemTypes.put("AXE", Types.COMBAT_AXE);
+        itemTypes.put("AXE", Types.AXE);
         itemTypes.put("PICKAXE", Types.PICKAXE);
         itemTypes.put("HOE", Types.HOE);
         itemTypes.put("SHOVEL", Types.SPADE);
