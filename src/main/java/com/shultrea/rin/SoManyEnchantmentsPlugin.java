@@ -1,20 +1,20 @@
 package com.shultrea.rin;
 
-import com.llamalad7.mixinextras.MixinExtrasBootstrap;
-import fermiumbooter.FermiumRegistryAPI;
+import com.shultrea.rin.config.EarlyConfigReader;
+import com.shultrea.rin.config.ModConfig;
+import com.shultrea.rin.util.compat.CompatUtil;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
-import org.spongepowered.asm.launch.MixinBootstrap;
+import zone.rong.mixinbooter.ILateMixinLoader;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @IFMLLoadingPlugin.MCVersion("1.12.2")
-public class SoManyEnchantmentsPlugin implements IFMLLoadingPlugin {
+public class SoManyEnchantmentsPlugin implements IFMLLoadingPlugin, ILateMixinLoader {
 	
 	public SoManyEnchantmentsPlugin() {
-		MixinBootstrap.init();
-		MixinExtrasBootstrap.init();
-		
-		FermiumRegistryAPI.enqueueMixin(false,"mixins.somanyenchantments.vanilla.json");
 	}
 	
 	@Override
@@ -38,5 +38,28 @@ public class SoManyEnchantmentsPlugin implements IFMLLoadingPlugin {
 	@Override
 	public String getAccessTransformerClass() {
 		return null;
+	}
+
+	@Override
+	public List<String> getMixinConfigs() {
+		List<String> mixins = new ArrayList<>();
+		mixins.add("mixins.somanyenchantments.vanilla.json");
+
+
+		if (EarlyConfigReader.getBoolean("Zombified Villagers keep trades", ModConfig.miscellaneous.zombieVillagersKeepTrades)) {
+			mixins.add("mixins.somanyenchantments.zombietrades.json");
+		}
+		if (EarlyConfigReader.getBoolean(".Enable Upgrading Mechanic", ModConfig.upgrade.enableUpgrading)) {
+			mixins.add("mixins.somanyenchantments.upgrading.json");
+		}
+
+		if (Loader.isModLoaded("mujmajnkraftsbettersurvival") && !Loader.isModLoaded("rlmixins") && CompatUtil.isBetterSurvivalCorrectVersion()) {
+			mixins.add("mixins.somanyenchantments.compatcancel_bs.json");
+		}
+		if (Loader.isModLoaded("spartanweaponry") && !Loader.isModLoaded("rlmixins") && CompatUtil.isSpartanWeaponryCorrectVersion()) {
+			mixins.add("mixins.somanyenchantments.compatcancel_sw.json");
+		}
+
+		return mixins;
 	}
 }

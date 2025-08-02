@@ -21,6 +21,7 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 repositories {
     flatDir { dirs 'libs' }
     maven { url = 'https://www.cursemaven.com' }
+    maven { url = 'https://maven.cleanroommc.com' }
 }
 
 dependencies {
@@ -31,9 +32,14 @@ dependencies {
     shadow "io.github.llamalad7:mixinextras-common:${mixin_extras_version}"
     annotationProcessor "io.github.llamalad7:mixinextras-common:${mixin_extras_version}"
 
-    implementation fg.deobf("curse.maven:fermiumbooter-${fermiumbooter_version}")
+    implementation ("zone.rong:mixinbooter:10.6") {
+        transitive = false
+    }
+    annotationProcessor ("zone.rong:mixinbooter:10.6") {
+        transitive = false
+    }
 
-    implementation fg.deobf("curse.maven:rlcombat-${rlcombat_version}")
+    implementation fg.deobf(files("libs/RLCombatMeow-${rlcombat_version}.jar"))
     implementation fg.deobf("curse.maven:switchbow-${switchbow_version}")
     implementation fg.deobf("curse.maven:inf-${inf_version}")
     implementation fg.deobf("curse.maven:scalinghealth-${scalinghealth_version}")
@@ -58,7 +64,8 @@ processResources {
             'version': mod_version,
             'mcversion': minecraft_version,
             'mod_description': mod_description,
-            'mod_author': mod_author
+            'mod_author': mod_author,
+            'mod_url': mod_url
     ]
 
     inputs.properties replaceProperties

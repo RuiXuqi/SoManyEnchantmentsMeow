@@ -1,33 +1,12 @@
 package com.shultrea.rin.config.folders;
 
-import com.shultrea.rin.SoManyEnchantments;
-import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 
-@MixinConfig(name = SoManyEnchantments.MODID)
 public class MiscConfig {
-    
-    @Config.Comment("Overwrites outdated BetterSurvival handling meant for older versions of SME" + "\n" +
-            "If BetterSurvival updates or you are not using BetterSurvival, disable this option")
-    @Config.Name("BetterSurvival Forced Compatibility")
-    @MixinConfig.MixinToggle(lateMixin = "mixins.somanyenchantments.compatcancel_bs.json", defaultValue = true)
-    @MixinConfig.CompatHandling(
-            modid = "mujmajnkraftsbettersurvival",
-            desired = true,
-            reason = "Mod required for option function"
-    )
-    public boolean betterSurvivalCompatibility = true;
-    
-    @Config.Comment("Overwrites outdated SpartanWeaponry handling meant for older versions of SME" + "\n" +
-            "If SpartanWeaponry updates or you are not using SpartanWeaponry, disable this option")
-    @Config.Name("SpartanWeaponry Forced Compatibility")
-    @MixinConfig.MixinToggle(lateMixin = "mixins.somanyenchantments.compatcancel_sw.json", defaultValue = true)
-    @MixinConfig.CompatHandling(
-            modid = "spartanweaponry",
-            desired = true,
-            reason = "Mod required for option function"
-    )
-    public boolean spartanWeaponryForcedCompatibility = true;
+    @Config.Comment("Makes zombie villagers keep their trades during infection and conversion")
+    @Config.Name("Zombified Villagers keep trades")
+    @Config.RequiresMcRestart
+    public boolean zombieVillagersKeepTrades = true;
 
     @Config.Comment("Allow enchantments to change the weather")
     @Config.Name("Allow Weather Changing Effects")

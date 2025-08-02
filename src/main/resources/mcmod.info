@@ -6,7 +6,7 @@
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "https://legacy.curseforge.com/minecraft/mc-mods/so-many-enchantments",
-  "updateUrl": "",
+  "updateUrl": "${mod_url}",
   "authorList": ${mod_author},
   "credits": "Other mod creators who shared their source codes...",
   "logoFile": "",
