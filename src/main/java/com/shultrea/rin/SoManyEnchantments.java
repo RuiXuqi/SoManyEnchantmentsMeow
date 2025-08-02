@@ -23,13 +23,13 @@ import org.apache.logging.log4j.Logger;
 		modid = SoManyEnchantments.MODID,
 		name = SoManyEnchantments.NAME,
 		version = SoManyEnchantments.VERSION,
-		dependencies = "required-after:fermiumbooter",
+		dependencies = "required-after:mixinbooter",
 	 	acceptedMinecraftVersions = "[1.12.0, 1.12.2]"
 )
 public class SoManyEnchantments {
 	
 	public static final String MODID = "somanyenchantments";
-	public static final String NAME = "Rin's So Many Enchantments?";
+	public static final String NAME = "Rin's So Many Enchantments!";
 	public static final String VERSION = "1.0.4";
 	public static final Logger LOGGER = LogManager.getLogger(SoManyEnchantments.MODID);
 
