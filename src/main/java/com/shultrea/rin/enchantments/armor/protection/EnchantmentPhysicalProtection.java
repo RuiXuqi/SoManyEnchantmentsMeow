@@ -36,12 +36,12 @@ public class EnchantmentPhysicalProtection extends EnchantmentBase {
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
-		return ConfigProvider.canItemApply(ModConfig.canApply.physicalProtection, stack) && super.canApplyAtEnchantingTable(stack);
+		return ConfigProvider.canItemApply(this, ModConfig.canApply.physicalProtection, stack) && super.canApplyAtEnchantingTable(stack);
 	}
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.physicalProtection, stack) || super.canApply(stack);
+		return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.physicalProtection, stack) || super.canApply(stack);
 	}
 	
 	@Override

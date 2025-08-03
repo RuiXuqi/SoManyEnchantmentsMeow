@@ -45,12 +45,12 @@ public class EnchantmentAdvancedProtection extends EnchantmentBase {
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
-		return ConfigProvider.canItemApply(ModConfig.canApply.advancedProtection, stack) && super.canApplyAtEnchantingTable(stack);
+		return ConfigProvider.canItemApply(this, ModConfig.canApply.advancedProtection, stack) && super.canApplyAtEnchantingTable(stack);
 	}
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.advancedProtection, stack) || super.canApply(stack);
+		return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.advancedProtection, stack) || super.canApply(stack);
 	}
 	
 	@Override

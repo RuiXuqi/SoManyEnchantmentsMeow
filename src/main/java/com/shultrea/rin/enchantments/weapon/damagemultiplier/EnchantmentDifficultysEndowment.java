@@ -46,12 +46,12 @@ public class EnchantmentDifficultysEndowment extends EnchantmentBase {
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
-		return ConfigProvider.canItemApply(ModConfig.canApply.difficultysEndowment, stack) && super.canApplyAtEnchantingTable(stack);
+		return ConfigProvider.canItemApply(this, ModConfig.canApply.difficultysEndowment, stack) && super.canApplyAtEnchantingTable(stack);
 	}
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.difficultysEndowment, stack) || super.canApply(stack);
+		return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.difficultysEndowment, stack) || super.canApply(stack);
 	}
 
 	@Override

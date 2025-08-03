@@ -201,7 +201,7 @@ public class EnchantmentRegistry {
 
 	public static void initIncompatLists() {
 		for(EnchantmentBase enchantment: enchantmentSet) {
-			enchantment.incompatibleEnchantments = ConfigProvider.getIncompatibleEnchantmentsString(enchantment);
+			enchantment.incompatibleEnchantments = ConfigProvider.getIncompatibleEnchantmentsFromConfig(enchantment);
 		}
 	}
 

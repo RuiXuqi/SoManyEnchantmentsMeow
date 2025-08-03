@@ -45,12 +45,12 @@ public class EnchantmentAdvancedProjectileProtection extends EnchantmentBase {
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
-		return ConfigProvider.canItemApply(ModConfig.canApply.advancedProjectileProtection, stack) && super.canApplyAtEnchantingTable(stack);
+		return ConfigProvider.canItemApply(this, ModConfig.canApply.advancedProjectileProtection, stack) && super.canApplyAtEnchantingTable(stack);
 	}
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.advancedProjectileProtection, stack) || super.canApply(stack);
+		return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.advancedProjectileProtection, stack) || super.canApply(stack);
 	}
 	
 	@Override

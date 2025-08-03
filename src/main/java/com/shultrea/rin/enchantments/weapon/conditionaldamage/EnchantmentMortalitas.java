@@ -50,12 +50,12 @@ public class EnchantmentMortalitas extends EnchantmentBase {
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
-		return ConfigProvider.canItemApply(ModConfig.canApply.mortalitas, stack) && super.canApplyAtEnchantingTable(stack);
+		return ConfigProvider.canItemApply(this, ModConfig.canApply.mortalitas, stack) && super.canApplyAtEnchantingTable(stack);
 	}
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.mortalitas, stack) || super.canApply(stack);
+		return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.mortalitas, stack) || super.canApply(stack);
 	}
 	
 	@Override

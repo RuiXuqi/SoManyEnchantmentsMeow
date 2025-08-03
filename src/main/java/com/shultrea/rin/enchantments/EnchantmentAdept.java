@@ -47,12 +47,12 @@ public class EnchantmentAdept extends EnchantmentBase {
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
-		return ConfigProvider.canItemApply(ModConfig.canApply.adept, stack) && super.canApplyAtEnchantingTable(stack);
+		return ConfigProvider.canItemApply(this, ModConfig.canApply.adept, stack) && super.canApplyAtEnchantingTable(stack);
 	}
 
 	@Override
 	public boolean canApply(ItemStack stack){
-		return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.adept, stack) || super.canApply(stack);
+		return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.adept, stack) || super.canApply(stack);
 	}
 	
 	@Override
@@ -73,10 +73,10 @@ public class EnchantmentAdept extends EnchantmentBase {
 		if(level > 0) {
 			boolean isBoss = !victim.isNonBoss() || (CompatUtil.isScalingHealthLoaded() && ScalingHealthCompat.isEntityBlight(victim));
 			if(isBoss) {
-				event.setDroppedExperience(2 + level + (int)((float)event.getDroppedExperience() * (1.0F + 0.5F * (float)level)));
+				event.setDroppedExperience((int)((float)event.getDroppedExperience() * (1.0F + 0.5F * (float)level)));
 			}
 			else {
-				event.setDroppedExperience(2 + level + (int)((float)event.getDroppedExperience() * (1.0F + 0.15F * (float)level)));
+				event.setDroppedExperience((int)((float)event.getDroppedExperience() * (1.0F + 0.15F * (float)level)));
 			}
 		}
 	}

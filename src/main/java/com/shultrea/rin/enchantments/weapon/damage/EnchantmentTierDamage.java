@@ -98,15 +98,15 @@ public class EnchantmentTierDamage extends EnchantmentBase {
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
 		switch(this.damageType){
-			case LESSSHARP: return ConfigProvider.canItemApply(ModConfig.canApply.lesserSharpness, stack) && super.canApplyAtEnchantingTable(stack);
-			case ADVSHARP: return ConfigProvider.canItemApply(ModConfig.canApply.advancedSharpness, stack) && super.canApplyAtEnchantingTable(stack);
-			case SUPSHARP: return ConfigProvider.canItemApply(ModConfig.canApply.supremeSharpness, stack) && super.canApplyAtEnchantingTable(stack);
-			case LESSSMITE: return ConfigProvider.canItemApply(ModConfig.canApply.lesserSmite, stack) && super.canApplyAtEnchantingTable(stack);
-			case ADVSMITE: return ConfigProvider.canItemApply(ModConfig.canApply.advancedSmite, stack) && super.canApplyAtEnchantingTable(stack);
-			case SUPSMITE: return ConfigProvider.canItemApply(ModConfig.canApply.supremeSmite, stack) && super.canApplyAtEnchantingTable(stack);
-			case LESSBOA: return ConfigProvider.canItemApply(ModConfig.canApply.lesserBaneOfArthropods, stack) && super.canApplyAtEnchantingTable(stack);
-			case ADVBOA: return ConfigProvider.canItemApply(ModConfig.canApply.advancedBaneOfArthropods, stack) && super.canApplyAtEnchantingTable(stack);
-			case SUPBOA: return ConfigProvider.canItemApply(ModConfig.canApply.supremeBaneOfArthropods, stack) && super.canApplyAtEnchantingTable(stack);
+			case LESSSHARP: return ConfigProvider.canItemApply(this, ModConfig.canApply.lesserSharpness, stack) && super.canApplyAtEnchantingTable(stack);
+			case ADVSHARP: return ConfigProvider.canItemApply(this, ModConfig.canApply.advancedSharpness, stack) && super.canApplyAtEnchantingTable(stack);
+			case SUPSHARP: return ConfigProvider.canItemApply(this, ModConfig.canApply.supremeSharpness, stack) && super.canApplyAtEnchantingTable(stack);
+			case LESSSMITE: return ConfigProvider.canItemApply(this, ModConfig.canApply.lesserSmite, stack) && super.canApplyAtEnchantingTable(stack);
+			case ADVSMITE: return ConfigProvider.canItemApply(this, ModConfig.canApply.advancedSmite, stack) && super.canApplyAtEnchantingTable(stack);
+			case SUPSMITE: return ConfigProvider.canItemApply(this, ModConfig.canApply.supremeSmite, stack) && super.canApplyAtEnchantingTable(stack);
+			case LESSBOA: return ConfigProvider.canItemApply(this, ModConfig.canApply.lesserBaneOfArthropods, stack) && super.canApplyAtEnchantingTable(stack);
+			case ADVBOA: return ConfigProvider.canItemApply(this, ModConfig.canApply.advancedBaneOfArthropods, stack) && super.canApplyAtEnchantingTable(stack);
+			case SUPBOA: return ConfigProvider.canItemApply(this, ModConfig.canApply.supremeBaneOfArthropods, stack) && super.canApplyAtEnchantingTable(stack);
 			default: return false;
 		}
 	}
@@ -114,15 +114,15 @@ public class EnchantmentTierDamage extends EnchantmentBase {
 	@Override
 	public boolean canApply(ItemStack stack){
 		switch(this.damageType){
-			case LESSSHARP: return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.lesserSharpness, stack) || super.canApply(stack);
-			case ADVSHARP: return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.advancedSharpness, stack) || super.canApply(stack);
-			case SUPSHARP: return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.supremeSharpness, stack) || super.canApply(stack);
-			case LESSSMITE: return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.lesserSmite, stack) || super.canApply(stack);
-			case ADVSMITE: return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.advancedSmite, stack) || super.canApply(stack);
-			case SUPSMITE: return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.supremeSmite, stack) || super.canApply(stack);
-			case LESSBOA: return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.lesserBaneOfArthropods, stack) || super.canApply(stack);
-			case ADVBOA: return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.advancedBaneOfArthropods, stack) || super.canApply(stack);
-			case SUPBOA: return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.supremeBaneOfArthropods, stack) || super.canApply(stack);
+			case LESSSHARP: return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.lesserSharpness, stack) || super.canApply(stack);
+			case ADVSHARP: return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.advancedSharpness, stack) || super.canApply(stack);
+			case SUPSHARP: return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.supremeSharpness, stack) || super.canApply(stack);
+			case LESSSMITE: return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.lesserSmite, stack) || super.canApply(stack);
+			case ADVSMITE: return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.advancedSmite, stack) || super.canApply(stack);
+			case SUPSMITE: return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.supremeSmite, stack) || super.canApply(stack);
+			case LESSBOA: return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.lesserBaneOfArthropods, stack) || super.canApply(stack);
+			case ADVBOA: return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.advancedBaneOfArthropods, stack) || super.canApply(stack);
+			case SUPBOA: return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.supremeBaneOfArthropods, stack) || super.canApply(stack);
 			default: return false;
 		}
 	}

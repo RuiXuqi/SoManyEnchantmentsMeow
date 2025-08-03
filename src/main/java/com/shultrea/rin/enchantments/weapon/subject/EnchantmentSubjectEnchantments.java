@@ -135,19 +135,19 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 	public boolean canApplyAtEnchantingTable(ItemStack stack) {
 		switch (this.damageType) {
 			case BIOLOGY:
-				return ConfigProvider.canItemApply(ModConfig.canApply.subjectBiology, stack) && super.canApplyAtEnchantingTable(stack);
+				return ConfigProvider.canItemApply(this, ModConfig.canApply.subjectBiology, stack) && super.canApplyAtEnchantingTable(stack);
 			case CHEMISTRY:
-				return ConfigProvider.canItemApply(ModConfig.canApply.subjectChemistry, stack) && super.canApplyAtEnchantingTable(stack);
+				return ConfigProvider.canItemApply(this, ModConfig.canApply.subjectChemistry, stack) && super.canApplyAtEnchantingTable(stack);
 			case ENGLISH:
-				return ConfigProvider.canItemApply(ModConfig.canApply.subjectEnglish, stack) && super.canApplyAtEnchantingTable(stack);
+				return ConfigProvider.canItemApply(this, ModConfig.canApply.subjectEnglish, stack) && super.canApplyAtEnchantingTable(stack);
 			case HISTORY:
-				return ConfigProvider.canItemApply(ModConfig.canApply.subjectHistory, stack) && super.canApplyAtEnchantingTable(stack);
+				return ConfigProvider.canItemApply(this, ModConfig.canApply.subjectHistory, stack) && super.canApplyAtEnchantingTable(stack);
 			case MATHEMATICS:
-				return ConfigProvider.canItemApply(ModConfig.canApply.subjectMathematics, stack) && super.canApplyAtEnchantingTable(stack);
+				return ConfigProvider.canItemApply(this, ModConfig.canApply.subjectMathematics, stack) && super.canApplyAtEnchantingTable(stack);
 			case PE:
-				return ConfigProvider.canItemApply(ModConfig.canApply.subjectPE, stack) && super.canApplyAtEnchantingTable(stack);
+				return ConfigProvider.canItemApply(this, ModConfig.canApply.subjectPE, stack) && super.canApplyAtEnchantingTable(stack);
 			case PHYSICS:
-				return ConfigProvider.canItemApply(ModConfig.canApply.subjectPhysics, stack) && super.canApplyAtEnchantingTable(stack);
+				return ConfigProvider.canItemApply(this, ModConfig.canApply.subjectPhysics, stack) && super.canApplyAtEnchantingTable(stack);
 			default:
 				return false;
 		}
@@ -157,19 +157,19 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 	public boolean canApply(ItemStack stack) {
 		switch (this.damageType) {
 			case BIOLOGY:
-				return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.subjectBiology, stack) || super.canApply(stack);
+				return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.subjectBiology, stack) || super.canApply(stack);
 			case CHEMISTRY:
-				return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.subjectChemistry, stack) || super.canApply(stack);
+				return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.subjectChemistry, stack) || super.canApply(stack);
 			case ENGLISH:
-				return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.subjectEnglish, stack) || super.canApply(stack);
+				return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.subjectEnglish, stack) || super.canApply(stack);
 			case HISTORY:
-				return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.subjectHistory, stack) || super.canApply(stack);
+				return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.subjectHistory, stack) || super.canApply(stack);
 			case MATHEMATICS:
-				return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.subjectMathematics, stack) || super.canApply(stack);
+				return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.subjectMathematics, stack) || super.canApply(stack);
 			case PE:
-				return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.subjectPE, stack) || super.canApply(stack);
+				return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.subjectPE, stack) || super.canApply(stack);
 			case PHYSICS:
-				return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.subjectPhysics, stack) || super.canApply(stack);
+				return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.subjectPhysics, stack) || super.canApply(stack);
 			default:
 				return false;
 		}

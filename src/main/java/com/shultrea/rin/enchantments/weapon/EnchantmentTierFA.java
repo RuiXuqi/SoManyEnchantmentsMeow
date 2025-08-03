@@ -101,9 +101,9 @@ public class EnchantmentTierFA extends EnchantmentBase {
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack){
 		switch(this.damageType){
-			case LESSFIRE: return ConfigProvider.canItemApply(ModConfig.canApply.lesserFireAspect, stack) && super.canApplyAtEnchantingTable(stack);
-			case ADVFIRE: return ConfigProvider.canItemApply(ModConfig.canApply.advancedFireAspect, stack) && super.canApplyAtEnchantingTable(stack);
-			case SUPFIRE: return ConfigProvider.canItemApply(ModConfig.canApply.supremeFireAspect, stack) && super.canApplyAtEnchantingTable(stack);
+			case LESSFIRE: return ConfigProvider.canItemApply(this, ModConfig.canApply.lesserFireAspect, stack) && super.canApplyAtEnchantingTable(stack);
+			case ADVFIRE: return ConfigProvider.canItemApply(this, ModConfig.canApply.advancedFireAspect, stack) && super.canApplyAtEnchantingTable(stack);
+			case SUPFIRE: return ConfigProvider.canItemApply(this, ModConfig.canApply.supremeFireAspect, stack) && super.canApplyAtEnchantingTable(stack);
 			default: return false;
 		}
 	}
@@ -111,9 +111,9 @@ public class EnchantmentTierFA extends EnchantmentBase {
 	@Override
 	public boolean canApply(ItemStack stack){
 		switch(this.damageType){
-			case LESSFIRE: return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.lesserFireAspect, stack) || super.canApply(stack);
-			case ADVFIRE: return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.advancedFireAspect, stack) || super.canApply(stack);
-			case SUPFIRE: return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.supremeFireAspect, stack) || super.canApply(stack);
+			case LESSFIRE: return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.lesserFireAspect, stack) || super.canApply(stack);
+			case ADVFIRE: return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.advancedFireAspect, stack) || super.canApply(stack);
+			case SUPFIRE: return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.supremeFireAspect, stack) || super.canApply(stack);
 			default: return false;
 		}
 	}

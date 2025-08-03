@@ -3,10 +3,6 @@ package com.shultrea.rin.config.folders;
 import net.minecraftforge.common.config.Config;
 
 public class MiscConfig {
-    @Config.Comment("Makes zombie villagers keep their trades during infection and conversion")
-    @Config.Name("Zombified Villagers keep trades")
-    @Config.RequiresMcRestart
-    public boolean zombieVillagersKeepTrades = true;
 
     @Config.Comment("Allow enchantments to change the weather")
     @Config.Name("Allow Weather Changing Effects")

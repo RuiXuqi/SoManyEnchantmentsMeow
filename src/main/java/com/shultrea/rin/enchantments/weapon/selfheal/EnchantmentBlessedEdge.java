@@ -51,12 +51,12 @@ public class EnchantmentBlessedEdge extends EnchantmentBase {
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack) {
-		return ConfigProvider.canItemApply(ModConfig.canApply.blessedEdge, stack) && super.canApplyAtEnchantingTable(stack);
+		return ConfigProvider.canItemApply(this, ModConfig.canApply.blessedEdge, stack) && super.canApplyAtEnchantingTable(stack);
 	}
 
 	@Override
 	public boolean canApply(ItemStack stack) {
-		return ConfigProvider.canItemApply(ModConfig.canApplyAnvil.blessedEdge, stack) || super.canApply(stack);
+		return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.blessedEdge, stack) || super.canApply(stack);
 	}
 
 	@Override
