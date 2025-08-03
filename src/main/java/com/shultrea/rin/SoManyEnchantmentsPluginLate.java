@@ -8,7 +8,6 @@ import zone.rong.mixinbooter.ILateMixinLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-@IFMLLoadingPlugin.MCVersion("1.12.2")
 public class SoManyEnchantmentsPluginLate implements ILateMixinLoader {
 
 	@Override
