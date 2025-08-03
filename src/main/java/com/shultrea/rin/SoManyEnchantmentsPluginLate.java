@@ -2,13 +2,11 @@ package com.shultrea.rin;
 
 import com.shultrea.rin.util.compat.CompatUtil;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import zone.rong.mixinbooter.ILateMixinLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@IFMLLoadingPlugin.MCVersion("1.12.2")
 public class SoManyEnchantmentsPluginLate implements ILateMixinLoader {
 
 	@Override
