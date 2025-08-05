@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "com.shultrea.rin.mixin.infernalmobs",
+  "refmap": "mixins.somanyenchantments.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "InfernalMobsCoreMixin"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}

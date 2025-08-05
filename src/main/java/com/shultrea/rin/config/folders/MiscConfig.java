@@ -167,6 +167,17 @@ public class MiscConfig {
     @Config.Name("Random Enchantment Whitelist Toggle")
     public boolean blacklistedRandomEnchantsIsWhitelist = false;
 
+    @Config.Comment("Make infernalmobs random enchanted book drops follow the \"Random Enchantment Blacklist\" set here (by making it use the vanilla EnchantRandomly system)")
+    @Config.Name("InfernalMobs Random Enchants Compatibility")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.somanyenchantments.infernalmobs_randomenchants.json", defaultValue = true)
+    @MixinConfig.CompatHandling(
+            modid = "infernalmobs",
+            desired = true,
+            reason = "Mod required for option function",
+            warnIngame = false
+    )
+    public boolean infernalMobsCompatibility_randomEnchants = true;
+
     @Config.Comment("Enchants in this list will be prevented from being registered in the game. There will be no way to access them at all.")
     @Config.Name("Registered Enchantment Blacklist")
     @Config.RequiresMcRestart
