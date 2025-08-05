@@ -1,7 +1,6 @@
 package com.shultrea.rin;
 
 import com.shultrea.rin.config.ConfigProvider;
-import com.shultrea.rin.util.Types;
 import com.shultrea.rin.properties.*;
 import com.shultrea.rin.util.*;
 import com.shultrea.rin.registry.EnchantmentRegistry;
@@ -23,7 +22,7 @@ import org.apache.logging.log4j.Logger;
 		modid = SoManyEnchantments.MODID,
 		name = SoManyEnchantments.NAME,
 		version = SoManyEnchantments.VERSION,
-		dependencies = "required-after:fermiumbooter",
+		dependencies = "required-after:fermiumbooter@[1.3.2,)",
 	 	acceptedMinecraftVersions = "[1.12.0, 1.12.2]"
 )
 public class SoManyEnchantments {

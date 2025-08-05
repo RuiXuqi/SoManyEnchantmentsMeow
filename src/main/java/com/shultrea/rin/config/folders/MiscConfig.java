@@ -14,20 +14,10 @@ public class MiscConfig {
     @MixinConfig.CompatHandling(
             modid = "mujmajnkraftsbettersurvival",
             desired = true,
-            reason = "Mod required for option function"
+            reason = "Mod required for option function",
+            warnIngame = false
     )
     public boolean betterSurvivalCompatibility = true;
-    
-    @Config.Comment("Overwrites outdated SpartanWeaponry handling meant for older versions of SME" + "\n" +
-            "If SpartanWeaponry updates or you are not using SpartanWeaponry, disable this option")
-    @Config.Name("SpartanWeaponry Forced Compatibility")
-    @MixinConfig.MixinToggle(lateMixin = "mixins.somanyenchantments.compatcancel_sw.json", defaultValue = true)
-    @MixinConfig.CompatHandling(
-            modid = "spartanweaponry",
-            desired = true,
-            reason = "Mod required for option function"
-    )
-    public boolean spartanWeaponryForcedCompatibility = true;
 
     @Config.Comment("Allow enchantments to change the weather")
     @Config.Name("Allow Weather Changing Effects")
