@@ -105,11 +105,11 @@ public class EnchantmentLuckMagnification extends EnchantmentBase {
 		if(!this.isEnabled()) return;
 		if(!EnchantmentBase.isDamageSourceAllowed(event.getDamageSource())) return;
 		EntityLivingBase attacker = (EntityLivingBase)event.getDamageSource().getTrueSource();
-		if(attacker == null) return;
+		if(!(attacker instanceof EntityPlayer)) return;
 		
 		int level = EnchantmentHelper.getMaxEnchantmentLevel(this, attacker);
 		if(level > 0) {
-			IAttributeInstance luck = attacker.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.LUCK);
+			IAttributeInstance luck = attacker.getEntityAttribute(SharedMonsterAttributes.LUCK);
 			event.setLootingLevel(event.getLootingLevel() + (int)(luck.getAttributeValue() * (double)level / 2.0D));
 		}
 	}
