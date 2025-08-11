@@ -74,7 +74,7 @@ public class EnchantmentLuckMagnification extends EnchantmentBase {
 		if(!this.isEnabled()) return;
 		if(CompatUtil.isRLCombatLoaded() && !RLCombatCompat.isCriticalHitEventStrong(event)) return;
 		EntityLivingBase attacker = event.getEntityLiving();
-		if(attacker == null) return;
+		if(!(attacker instanceof EntityPlayer)) return;
 		if(!(event.getTarget() instanceof EntityLivingBase)) return;
 		ItemStack stack = attacker.getHeldItemMainhand();
 		if(CompatUtil.isRLCombatLoaded()) stack = RLCombatCompat.getCriticalHitEventStack(event, attacker);
@@ -83,7 +83,7 @@ public class EnchantmentLuckMagnification extends EnchantmentBase {
 		int level = EnchantmentHelper.getEnchantmentLevel(this, stack);
 		if(level > 0) {
 			if(event.getResult() == Event.Result.DENY) return;
-			IAttributeInstance luck = attacker.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.LUCK);
+			IAttributeInstance luck = attacker.getEntityAttribute(SharedMonsterAttributes.LUCK);
 			float amount = (float)luck.getAttributeValue();
 			if(amount <= 0) return;
 			
