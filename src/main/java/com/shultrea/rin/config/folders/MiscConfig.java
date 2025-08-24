@@ -1,22 +1,12 @@
 package com.shultrea.rin.config.folders;
 
-import com.shultrea.rin.SoManyEnchantments;
-import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 
-@MixinConfig(name = SoManyEnchantments.MODID)
 public class MiscConfig {
     
     @Config.Comment("Overwrites outdated BetterSurvival handling meant for older versions of SME" + "\n" +
             "If BetterSurvival updates or you are not using BetterSurvival, disable this option")
     @Config.Name("BetterSurvival Forced Compatibility")
-    @MixinConfig.MixinToggle(lateMixin = "mixins.somanyenchantments.compatcancel_bs.json", defaultValue = true)
-    @MixinConfig.CompatHandling(
-            modid = "mujmajnkraftsbettersurvival",
-            desired = true,
-            reason = "Mod required for option function",
-            warnIngame = false
-    )
     public boolean betterSurvivalCompatibility = true;
 
     @Config.Comment("Allow enchantments to change the weather")
@@ -169,13 +159,6 @@ public class MiscConfig {
 
     @Config.Comment("Make infernalmobs random enchanted book drops follow the \"Random Enchantment Blacklist\" set here (by making it use the vanilla EnchantRandomly system)")
     @Config.Name("InfernalMobs Random Enchants Compatibility")
-    @MixinConfig.MixinToggle(lateMixin = "mixins.somanyenchantments.infernalmobs_randomenchants.json", defaultValue = true)
-    @MixinConfig.CompatHandling(
-            modid = "infernalmobs",
-            desired = true,
-            reason = "Mod required for option function",
-            warnIngame = false
-    )
     public boolean infernalMobsCompatibility_randomEnchants = true;
 
     @Config.Comment("Enchants in this list will be prevented from being registered in the game. There will be no way to access them at all.")

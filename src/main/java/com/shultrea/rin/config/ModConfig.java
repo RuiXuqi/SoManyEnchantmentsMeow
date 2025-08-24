@@ -1,5 +1,6 @@
 package com.shultrea.rin.config;
 
+import com.cleanroommc.configanytime.ConfigAnytime;
 import com.shultrea.rin.SoManyEnchantments;
 import com.shultrea.rin.config.folders.*;
 import com.shultrea.rin.util.UpgradeRecipe;
@@ -59,6 +60,10 @@ public class ModConfig {
 	@Config.Comment("Miscellaneous")
 	@Config.Name("Miscellaneous")
 	public static MiscConfig miscellaneous = new MiscConfig();
+
+	static {
+		ConfigAnytime.register(ModConfig.class);
+	}
 	
 	@Mod.EventBusSubscriber(modid = SoManyEnchantments.MODID)
 	private static class EventHandler {
