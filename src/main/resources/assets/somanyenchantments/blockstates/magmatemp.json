@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "age=0": { "model": "magma" },
+        "age=1": { "model": "somanyenchantments:magma_temp_1" },
+        "age=2": { "model": "somanyenchantments:magma_temp_2" },
+        "age=3": { "model": "somanyenchantments:magma_temp_3" }
+    }
+}

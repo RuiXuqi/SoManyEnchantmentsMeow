@@ -4,15 +4,13 @@ import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.config.folders.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.registry.BlockRegistry;
 import com.shultrea.rin.util.compat.CompatUtil;
-import com.shultrea.rin.util.compat.LycanitesMobsCompat;
 import com.shultrea.rin.util.compat.RLCombatCompat;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -81,19 +79,15 @@ public class EnchantmentCryogenic extends EnchantmentBase {
 		if(weapon.isEmpty()) return;
 		
 		if(!attacker.world.isRemote) {
-			if(attacker.getRNG().nextFloat() <= 0.2F * (float)level) {
+			if(attacker.getRNG().nextFloat() <= 0.15F + 0.15F * (float)level) {
 				PotionEffect slowness = victim.getActivePotionEffect(MobEffects.SLOWNESS);
 				PotionEffect fatigue = victim.getActivePotionEffect(MobEffects.MINING_FATIGUE);
+
+				int slownessAmp = slowness != null ? Math.min(slowness.getAmplifier() + 1, 3) : 0;
+				int fatigueAmp = fatigue != null ? Math.min(fatigue.getAmplifier() + 1, 3) : 0;
 				
-				int slownessAmp = -1;
-				int fatigueAmp = -1;
-				if(slowness != null) slownessAmp = slowness.getAmplifier();
-				if(fatigue != null) fatigueAmp = fatigue.getAmplifier();
-				slownessAmp = Math.min(3, slownessAmp + 1);
-				fatigueAmp = Math.min(3, fatigueAmp + 1);
-				
-				victim.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 40 + (10 * level), slownessAmp));
-				victim.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 40 + (10 * level), fatigueAmp));
+				victim.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 80, slownessAmp));
+				victim.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 80, fatigueAmp));
 			}
 		}
 	}
@@ -122,15 +116,16 @@ public class EnchantmentCryogenic extends EnchantmentBase {
 					event.setAmount(event.getAmount() * (1.0F + 0.2F * (float)level));
 					
 					BlockPos pos = new BlockPos(victim.posX, victim.posY, victim.posZ);
-					for(BlockPos.MutableBlockPos mutablePos1 : BlockPos.getAllInBoxMutable(pos.add(-1, -1, -1), pos.add(1, 2, 1))) {
+					Iterable<BlockPos.MutableBlockPos> blocksToFreeze;
+					switch (level) {
+						case 1: blocksToFreeze = BlockPos.getAllInBoxMutable(pos, pos.add(0, 1, 0)); break;
+						case 2: blocksToFreeze = BlockPos.getAllInBoxMutable(pos.add(0, -1, 0), pos.add(1, 1, 1)); break;
+						case 3: default: blocksToFreeze = BlockPos.getAllInBoxMutable(pos.add(-1, -1, -1), pos.add(1, 2, 1));
+					}
+					for(BlockPos.MutableBlockPos mutablePos1 : blocksToFreeze) {
 						if(attacker.world.getBlockState(mutablePos1).getMaterial() == Material.AIR) {
-							Block freezeBlock = null;
-							if(CompatUtil.isLycanitesMobsLoaded()) freezeBlock = LycanitesMobsCompat.getFrostCloud();
-							if(freezeBlock == null) freezeBlock = Blocks.FROSTED_ICE;
-							attacker.world.setBlockState(mutablePos1, freezeBlock.getDefaultState());
-							if(freezeBlock == Blocks.FROSTED_ICE) {
-								attacker.world.scheduleUpdate(mutablePos1.toImmutable(), Blocks.FROSTED_ICE, MathHelper.getInt(attacker.getRNG(), 60, 120));
-							}
+							attacker.world.setBlockState(mutablePos1, BlockRegistry.tempIce.getDefaultState());
+							attacker.world.scheduleUpdate(mutablePos1.toImmutable(), BlockRegistry.tempIce, MathHelper.getInt(attacker.getRNG(), 60, 120));
 						}
 					}
 					attacker.world.playSound(null, victim.posX, victim.posY, victim.posZ, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 0.8f, -1f);
