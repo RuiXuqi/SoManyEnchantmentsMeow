@@ -24,6 +24,6 @@ public class InfernalMobsCoreMixin {
     private ItemStack soManyEnchantments_infernalMobsCore_dropRandomEnchantedItems(EnchantmentData p_92111_0_, Operation<ItemStack> original, @Local(argsOnly = true) EntityLivingBase mob) {
         //this could easily just be null. this only exists for any possible mixin into EnchantRandomly that assumes it's not null
         LootContext context = new LootContext.Builder((WorldServer) mob.world).withLootedEntity(mob).build();
-        return new EnchantRandomly(new LootCondition[0], null).apply(new ItemStack(Items.ENCHANTED_BOOK), mob.getRNG(), context);
+        return new EnchantRandomly(new LootCondition[0], null).apply(new ItemStack(Items.BOOK), mob.getRNG(), context);
     }
 }
