@@ -4,6 +4,7 @@ import com.shultrea.rin.config.ConfigProvider;
 import com.shultrea.rin.config.folders.EnchantabilityConfig;
 import com.shultrea.rin.config.ModConfig;
 import com.shultrea.rin.enchantments.base.EnchantmentBase;
+import com.shultrea.rin.registry.BlockRegistry;
 import com.shultrea.rin.registry.EnchantmentRegistry;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
@@ -16,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -29,27 +31,31 @@ public class EnchantmentMagmaWalker extends EnchantmentBase {
 	public EnchantmentMagmaWalker(String name, Rarity rarity, EntityEquipmentSlot... slots) {
 		super(name, rarity, slots);
 	}
-	
-	//TODO replace Magma with temporary version?
+
 	public static void walkOnMagma(EntityLivingBase living, World worldIn, BlockPos pos, int level) {
-		if(!EnchantmentRegistry.magmaWalker.isEnabled()) return;
-		if(living.onGround) {
-			float f = (float)Math.min(16, 2 + level);
-			BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(0, 0, 0);
-			for(BlockPos.MutableBlockPos blockpos$mutableblockpos1 : BlockPos.getAllInBoxMutable(pos.add(-f, -1.0D, -f), pos.add(f, -1.0D, f))) {
-				if(blockpos$mutableblockpos1.distanceSqToCenter(living.posX, living.posY, living.posZ) <= (double)(f * f)) {
-					blockpos$mutableblockpos.setPos(blockpos$mutableblockpos1.getX(), blockpos$mutableblockpos1.getY() + 1, blockpos$mutableblockpos1.getZ());
-					IBlockState iblockstate = worldIn.getBlockState(blockpos$mutableblockpos);
-					if(iblockstate.getMaterial() == Material.AIR) {
-						IBlockState iblockstate1 = worldIn.getBlockState(blockpos$mutableblockpos1);
-						if(iblockstate1.getMaterial() == Material.LAVA && (iblockstate1.getBlock() == net.minecraft.init.Blocks.LAVA || iblockstate1.getBlock() == net.minecraft.init.Blocks.FLOWING_LAVA) && iblockstate1.getValue(BlockLiquid.LEVEL).intValue() == 0 && worldIn.mayPlace(Blocks.MAGMA, blockpos$mutableblockpos1, false, EnumFacing.DOWN, null)) {
-							worldIn.setBlockState(blockpos$mutableblockpos1, Blocks.MAGMA.getDefaultState());
-						}
+		if (!EnchantmentRegistry.magmaWalker.isEnabled()) return;
+		if (!living.onGround) return;
+		float range = (float) Math.min(16, 2 + level);
+		BlockPos.MutableBlockPos posAbove = new BlockPos.MutableBlockPos(0, 0, 0);
+		for (BlockPos.MutableBlockPos mutable : BlockPos.getAllInBoxMutable(pos.add(-range, -1, -range), pos.add(range, -1, range))) {
+			if (mutable.distanceSqToCenter(living.posX, living.posY, living.posZ) <= (double) (range * range)) {
+				posAbove.setPos(mutable.getX(), mutable.getY() + 1, mutable.getZ());
+				IBlockState stateAbove = worldIn.getBlockState(posAbove);
+				if (stateAbove.getMaterial() == Material.AIR) {
+					IBlockState state = worldIn.getBlockState(mutable);
+					if (	state.getMaterial() == Material.LAVA &&
+							(state.getBlock() == Blocks.LAVA || state.getBlock() == Blocks.FLOWING_LAVA) &&
+							state.getValue(BlockLiquid.LEVEL) == 0 &&
+							worldIn.mayPlace(BlockRegistry.tempMagma, mutable, false, EnumFacing.DOWN, null)
+					) {
+						worldIn.setBlockState(mutable, BlockRegistry.tempMagma.getDefaultState());
+						worldIn.scheduleUpdate(mutable.toImmutable(), BlockRegistry.tempMagma, MathHelper.getInt(living.getRNG(), 60, 120));
 					}
 				}
 			}
 		}
 	}
+	
 	
 	@Override
 	public boolean isEnabled() {
