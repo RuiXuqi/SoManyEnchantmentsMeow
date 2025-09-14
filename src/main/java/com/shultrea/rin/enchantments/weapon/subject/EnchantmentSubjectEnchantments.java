@@ -16,6 +16,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -266,6 +267,12 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 					//+1.5 per active potion effect, +6 with 9 effects
 					float dmg = Math.min(0.3F * (float) level * (float) count, 6.0F);
 					event.setAmount(event.getAmount() + dmg * strengthMulti);
+
+					if(attacker.getRNG().nextFloat() < 0.04 * level) { //up to 20% chance
+						BlockPos explosionPos = victim.getPosition();
+						//Explosion strength max 4 (= TNT)
+						attacker.world.createExplosion(attacker, explosionPos.getX(), explosionPos.getY(), explosionPos.getZ(), dmg * strengthMulti * 2F / 3F, false);
+					}
 				}
 			} else if (this.damageType == ENGLISH) {
 				int count = victim.getName().length();

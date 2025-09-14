@@ -15,6 +15,7 @@ public class LegacyRemapHandler {
     public static void onMissingMappings(RegistryEvent.MissingMappings<Enchantment> event) {
             /*OLD, NEW*/
         Map<String, String> sme_legacy_aliases = new HashMap<>();
+        sme_legacy_aliases.put("science", "subjectchemistry");
         sme_legacy_aliases.put("english", "subjectenglish");
         sme_legacy_aliases.put("mathematics", "subjectmathematics");
         sme_legacy_aliases.put("pe", "subjectpe");
