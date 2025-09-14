@@ -28,23 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = EnchantmentHelper.class, priority = 2000)
 public abstract class EnchantmentHelperMixin {
-	
-	/**
-	 * Handling for Ancient Sword Mastery
-	 */
-	@ModifyReturnValue(
-			method = "getModifierForCreature",
-			at = @At("RETURN")
-	)
-	private static float soManyEnchantments_vanillaEnchantmentHelper_getModifierForCreature(float original, ItemStack stack, EnumCreatureAttribute creatureAttribute) {
-		if(stack.isEmpty() || original < 0.0F || !EnchantmentRegistry.ancientSwordMastery.isEnabled()) return original;
-		int level = EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.ancientSwordMastery, stack);
-		if(level > 0) {
-			return original * (1.0F + 0.25F * (float)level);
-		}
-		return original;
-	}
-	
+
 	/**
 	 * Handling for onEntityDamagedAlt
 	 */
