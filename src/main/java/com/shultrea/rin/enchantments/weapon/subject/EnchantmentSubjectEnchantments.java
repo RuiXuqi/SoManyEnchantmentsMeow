@@ -30,6 +30,7 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 	private static final int MATHEMATICS = 4;
 	private static final int PE = 5;
 	private static final int PHYSICS = 6;
+	private static final int GEOGRAPHY = 7;
 
 	private final int damageType;
 
@@ -55,6 +56,8 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 				return ModConfig.enabled.subjectPE;
 			case PHYSICS:
 				return ModConfig.enabled.subjectPhysics;
+			case GEOGRAPHY:
+				return ModConfig.enabled.subjectGeography;
 			default:
 				return false;
 		}
@@ -82,8 +85,10 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 				return ModConfig.level.subjectPE;
 			case PHYSICS:
 				return ModConfig.level.subjectPhysics;
+			case GEOGRAPHY:
+				return ModConfig.level.subjectGeography;
 			default:
-				return 4;
+				return 5;
 		}
 	}
 
@@ -104,6 +109,8 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.subjectPE, level);
 			case PHYSICS:
 				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.subjectPhysics, level);
+			case GEOGRAPHY:
+				return EnchantabilityConfig.getMinEnchantability(ModConfig.enchantability.subjectGeography, level);
 			default:
 				return 0;
 		}
@@ -126,6 +133,8 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.subjectPE, level);
 			case PHYSICS:
 				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.subjectPhysics, level);
+			case GEOGRAPHY:
+				return EnchantabilityConfig.getMaxEnchantability(ModConfig.enchantability.subjectGeography, level);
 			default:
 				return 0;
 		}
@@ -148,6 +157,8 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 				return ConfigProvider.canItemApply(this, ModConfig.canApply.subjectPE, stack) && super.canApplyAtEnchantingTable(stack);
 			case PHYSICS:
 				return ConfigProvider.canItemApply(this, ModConfig.canApply.subjectPhysics, stack) && super.canApplyAtEnchantingTable(stack);
+			case GEOGRAPHY:
+				return ConfigProvider.canItemApply(this, ModConfig.canApply.subjectGeography, stack) && super.canApplyAtEnchantingTable(stack);
 			default:
 				return false;
 		}
@@ -170,6 +181,8 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 				return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.subjectPE, stack) || super.canApply(stack);
 			case PHYSICS:
 				return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.subjectPhysics, stack) || super.canApply(stack);
+			case GEOGRAPHY:
+				return ConfigProvider.canItemApply(this, ModConfig.canApplyAnvil.subjectGeography, stack) || super.canApply(stack);
 			default:
 				return false;
 		}
@@ -192,6 +205,8 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 				return ModConfig.treasure.subjectPE;
 			case PHYSICS:
 				return ModConfig.treasure.subjectPhysics;
+			case GEOGRAPHY:
+				return ModConfig.treasure.subjectGeography;
 			default:
 				return true;
 		}
@@ -293,6 +308,12 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 					float dmg = Math.min(0.3F * (float) level * perc, 7.5F);
 					event.setAmount(event.getAmount() + dmg * strengthMulti);
 				}
+			} else if(this.damageType == GEOGRAPHY) {
+				int height = attacker.getPosition().getY();
+				//+7.5 dmg at y height 63 + 80 = 143 if not flying
+				float dmg = MathHelper.clamp((height - attacker.world.getSeaLevel()) / 80F * 7.5F, 0, 7.5F);
+				if(!attacker.onGround) dmg /= 2F;
+				event.setAmount(event.getAmount() + dmg * strengthMulti);
 			}
 		}
 	}

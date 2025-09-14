@@ -208,6 +208,8 @@ public class CanApplyAnvilConfig {
 	public String[] subjectPE = {"AXE"};
 	@Config.Name("Subject Physics")
 	public String[] subjectPhysics = {"AXE"};
+	@Config.Name("Subject Geography")
+	public String[] subjectGeography = {"AXE"};
 	//Lesser
 	@Config.Name("Lesser Bane of Arthropods")
 	public String[] lesserBaneOfArthropods = {"AXE"};

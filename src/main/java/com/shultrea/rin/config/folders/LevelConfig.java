@@ -404,6 +404,10 @@ public class LevelConfig {
 	@Config.RequiresMcRestart
 	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
 	public int subjectPhysics = 5;
+	@Config.Name("Subject Geography")
+	@Config.RequiresMcRestart
+	@Config.RangeInt(min = minimumLevel, max = maximumLevel)
+	public int subjectGeography = 5;
 	//Lesser
 	@Config.Name("Lesser Bane of Arthropods")
 	@Config.RequiresMcRestart

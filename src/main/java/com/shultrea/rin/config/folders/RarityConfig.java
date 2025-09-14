@@ -311,6 +311,9 @@ public class RarityConfig {
 	@Config.Name("Subject Physics")
 	@Config.RequiresMcRestart
 	public String subjectPhysics = RARE;
+	@Config.Name("Subject Geography")
+	@Config.RequiresMcRestart
+	public String subjectGeography = RARE;
 	//Lesser
 	@Config.Name("Lesser Bane of Arthropods")
 	@Config.RequiresMcRestart
