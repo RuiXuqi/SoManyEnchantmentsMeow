@@ -304,6 +304,9 @@ public class EnabledConfig {
 	@Config.Name("Subject Physics")
 	@Config.RequiresMcRestart
 	public boolean subjectPhysics = true;
+	@Config.Name("Subject Geography")
+	@Config.RequiresMcRestart
+	public boolean subjectGeography = true;
 	//Lesser
 	@Config.Name("Lesser Bane of Arthropods")
 	@Config.RequiresMcRestart

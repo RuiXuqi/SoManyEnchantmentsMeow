@@ -147,6 +147,7 @@ public class EnchantmentRegistry {
 	public static EnchantmentBase subjectMathematics = register(new EnchantmentSubjectEnchantments("subjectmathematics", Enchantment.Rarity.valueOf(ModConfig.rarity.subjectMathematics),4, Slots.HAND));
 	public static EnchantmentBase subjectPE = register(new EnchantmentSubjectEnchantments("subjectpe", Enchantment.Rarity.valueOf(ModConfig.rarity.subjectPE),5, Slots.HAND));
 	public static EnchantmentBase subjectPhysics = register(new EnchantmentSubjectEnchantments("subjectphysics", Enchantment.Rarity.valueOf(ModConfig.rarity.subjectPhysics),6, Slots.HAND));
+	public static EnchantmentBase subjectGeography = register(new EnchantmentSubjectEnchantments("subjectgeography", Enchantment.Rarity.valueOf(ModConfig.rarity.subjectGeography),7, Slots.HAND));
 
 	//Lesser
 	public static EnchantmentBase lesserBaneOfArthropods = register(new EnchantmentTierDamage("lesserbaneofarthropods", Enchantment.Rarity.valueOf(ModConfig.rarity.lesserBaneOfArthropods),6, Slots.HAND));

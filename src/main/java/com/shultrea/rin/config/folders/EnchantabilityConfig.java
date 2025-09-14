@@ -308,6 +308,9 @@ public class EnchantabilityConfig {
 	@Config.Name("Subject Physics")
 	@Config.RequiresMcRestart
 	public int[] subjectPhysics = {8, 14, 22, MIN};
+	@Config.Name("Subject Geography")
+	@Config.RequiresMcRestart
+	public int[] subjectGeography = {8, 14, 22, MIN};
 	//Lesser
 	@Config.Name("Lesser Bane of Arthropods")
 	@Config.RequiresMcRestart

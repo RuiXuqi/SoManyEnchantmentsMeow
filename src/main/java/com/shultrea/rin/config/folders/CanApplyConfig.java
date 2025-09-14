@@ -224,6 +224,8 @@ public class CanApplyConfig {
 	public String[] subjectPE = {"SWORD"};
 	@Config.Name("Subject Physics")
 	public String[] subjectPhysics = {"SWORD"};
+	@Config.Name("Subject Geography")
+	public String[] subjectGeography = {"SWORD"};
 	//Lesser
 	@Config.Name("Lesser Bane of Arthropods")
 	public String[] lesserBaneOfArthropods = {"SWORD"};
