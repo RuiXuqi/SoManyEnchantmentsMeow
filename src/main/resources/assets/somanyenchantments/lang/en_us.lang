@@ -305,6 +305,9 @@ enchantment.somanyenchantments.subjectpe.desc=Attacks have a chance to give the 
 enchantment.subjectphysics=Subject Physics
 enchantment.somanyenchantments.subjectphysics.desc=Increases damage depending on the size difference between user and target.
 
+enchantment.subjectgeography=Subject Geography
+enchantment.somanyenchantments.subjectgeography.desc=Increases damage the higher up the user is in the world.
+
 #Lesser
 
 enchantment.lesserbaneofarthropods=Lesser Bane of Arthropods
