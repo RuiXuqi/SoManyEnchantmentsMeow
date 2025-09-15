@@ -309,7 +309,7 @@ enchantment.subjectphysics=Subject Physics
 enchantment.somanyenchantments.subjectphysics.desc=Increases damage depending on the size difference between user and target.
 
 enchantment.subjectgeography=Subject Geography
-enchantment.somanyenchantments.subjectgeography.desc=Increases damage the higher up the user is in the world.
+enchantment.somanyenchantments.subjectgeography.desc=Applies potion effects depending on the biome the user is in.
 
 #Lesser
 
