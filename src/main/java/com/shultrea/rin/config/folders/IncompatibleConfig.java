@@ -71,7 +71,7 @@ public class IncompatibleConfig {
 			//Potion debuff tiers
 			"cryogenic, desolator, disorientatingblade, envenomed, horsdecombat, levitator, purification",
 			//Subject tiers
-			"subjectbiology, subjectchemistry, subjectenglish, subjecthistory, subjectmathematics, subjectpe, subjectphysics",
+			"subjectbiology, subjectchemistry, subjectenglish, subjecthistory, subjectmathematics, subjectpe, subjectphysics, subjectgeography",
 			//Weather/time/temp tiers
 			"clearskiesfavor, lunasblessing, rainsbestowment, solsblessing, thunderstormsbestowment, wintersgrace",
 			//Knockback tiers, knockback vs dragging
