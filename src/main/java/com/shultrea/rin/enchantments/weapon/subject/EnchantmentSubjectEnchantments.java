@@ -18,9 +18,13 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.silentchaos512.scalinghealth.config.Config;
+
+import java.util.Set;
 
 public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 
@@ -221,8 +225,8 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 		if (!(target instanceof EntityLivingBase)) return;
 		if (weapon.isEmpty()) return;
 
+		if(CompatUtil.isRLCombatLoaded() && attacker.getRNG().nextFloat() > RLCombatCompat.getOnEntityDamagedAltStrength()) return;
 		if (this.damageType == PE) {
-			if(CompatUtil.isRLCombatLoaded() && attacker.getRNG().nextFloat() > RLCombatCompat.getOnEntityDamagedAltStrength()) return;
 			if (attacker.getRNG().nextFloat() < 0.05F * (float) level) {
 				attacker.addPotionEffect(new PotionEffect(MobEffects.HASTE, 120 + (level * 20), Math.min(3, level - 1)));
 				attacker.addPotionEffect(new PotionEffect(MobEffects.SPEED, 80 + (level * 20), Math.min(3, level - 1)));
@@ -233,6 +237,26 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 				if (level > 4) {
 					attacker.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 20 + (level * 20), level - 5));
 				}
+			}
+		} else if(this.damageType == GEOGRAPHY) {
+			if (attacker.getRNG().nextFloat() < 0.1F + 0.02F * level) { //up to 20% chance
+			EntityLivingBase victim = (EntityLivingBase) target;
+			Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(attacker.world.getBiome(attacker.getPosition()));
+			int amp = 1; //lvl II
+			int dur = (400 * level) / getMaxLevel(); //up to 20 seconds of the effects
+			if (types.contains(BiomeDictionary.Type.HOT) || types.contains(BiomeDictionary.Type.NETHER)) {
+				target.setFire(level * 2); //up to 10 secs of fire
+			} else if (types.contains(BiomeDictionary.Type.COLD) || types.contains(BiomeDictionary.Type.SNOWY)) {
+				victim.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, dur, amp));
+				victim.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, dur, amp));
+			} else if (types.contains(BiomeDictionary.Type.SWAMP))
+				victim.addPotionEffect(new PotionEffect(MobEffects.POISON, dur * 2, 2));
+			else if (types.contains(BiomeDictionary.Type.WASTELAND))
+				victim.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, dur, 0));
+			else if (types.contains(BiomeDictionary.Type.SPOOKY) || types.contains(BiomeDictionary.Type.DEAD))
+				victim.addPotionEffect(new PotionEffect(MobEffects.WITHER, dur, amp));
+			else if (types.contains(BiomeDictionary.Type.MAGICAL))
+				attacker.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, dur / 2, 0));
 			}
 		}
 	}
@@ -315,12 +339,6 @@ public class EnchantmentSubjectEnchantments extends EnchantmentBase {
 					float dmg = Math.min(0.3F * (float) level * perc, 7.5F);
 					event.setAmount(event.getAmount() + dmg * strengthMulti);
 				}
-			} else if(this.damageType == GEOGRAPHY) {
-				int height = attacker.getPosition().getY();
-				//+7.5 dmg at y height 63 + 80 = 143 if not flying
-				float dmg = MathHelper.clamp((height - attacker.world.getSeaLevel()) / 80F * 7.5F, 0, 7.5F);
-				if(!attacker.onGround) dmg /= 2F;
-				event.setAmount(event.getAmount() + dmg * strengthMulti);
 			}
 		}
 	}
